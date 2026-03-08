@@ -176,7 +176,6 @@
             color: var(--text-color);
         }
 
-        /* Effet de survol sur la carte entière */
         .project-card:hover {
             transform: translate(-10px, -10px);
             box-shadow: 15px 15px 0px var(--text-color);
@@ -188,8 +187,18 @@
             font-family: 'Anton', sans-serif;
             font-size: 2.5rem;
             line-height: 1.1;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             text-transform: uppercase;
+        }
+
+        /* NOUVEAU : Style de la phrase d'accroche */
+        .project-catchphrase {
+            font-family: 'Inter', sans-serif;
+            font-style: italic;
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
+            opacity: 0.85;
         }
 
         .project-card p {
@@ -232,7 +241,6 @@
             font-size: 1.2rem;
         }
 
-        /* Style des boutons dans les cartes */
         .action-buttons {
             display: flex;
             gap: 0.8rem;
@@ -253,12 +261,10 @@
             cursor: pointer;
         }
 
-        /* Inversion des couleurs au survol global de la carte pour que le bouton reste visible */
         .project-card:hover .project-link-btn {
             border-color: var(--bg-color);
         }
 
-        /* Effet au survol direct du bouton */
         .project-link-btn:hover {
             background-color: var(--bg-color);
             color: var(--text-color) !important;
@@ -346,7 +352,27 @@
             
             <div class="project-card fade-in-section">
                 <div>
+                    <h3 data-i18n="ds4-title">Prédiction de Durée</h3>
+                    <div class="project-catchphrase" data-i18n="ds4-catch">"Une machine peut-elle deviner quand le générique de fin va défiler ?"</div>
+                    <p data-i18n="ds4-desc">Analyse des données cinématographiques pour développer un modèle de régression capable d'estimer la durée d'un long-métrage à l'aide d'algorithmes d'apprentissage automatique.</p>
+                    <div class="project-tags">
+                        <span class="tag">Machine Learning</span>
+                        <span class="tag">Régression</span>
+                        <span class="tag">Python</span>
+                    </div>
+                </div>
+                <div class="project-footer">
+                    <span class="project-date" data-i18n="date-dec25">Déc. 2025</span>
+                    <div class="action-buttons">
+                        <a href="#" class="project-link-btn" data-i18n="btn-details">En savoir plus</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card fade-in-section">
+                <div>
                     <h3 data-i18n="ds1-title">Colorimétrie du Cinéma</h3>
+                    <div class="project-catchphrase" data-i18n="ds1-catch">"Un ordinateur peut-il ressentir la couleur d'un film ?"</div>
                     <p data-i18n="ds1-desc">Modélisation et prédiction de la palette de couleurs d'une affiche de film en fonction de ses caractéristiques (genre, année, réalisateur) via des méthodes de Machine Learning.</p>
                     <div class="project-tags">
                         <span class="tag">Machine Learning</span>
@@ -364,7 +390,27 @@
 
             <div class="project-card fade-in-section">
                 <div>
+                    <h3 data-i18n="ds5-title">Régimes Politiques</h3>
+                    <div class="project-catchphrase" data-i18n="ds5-catch">"En cours de réalisation..."</div>
+                    <p data-i18n="ds5-desc">Étude statistique comparative mondiale (2023) analysant le poids des budgets et de l'importance accordée à l'armée et à la santé selon le degré d'autoritarisme des États.</p>
+                    <div class="project-tags">
+                        <span class="tag">Géopolitique</span>
+                        <span class="tag">Statistiques</span>
+                        <span class="tag">Analyse</span>
+                    </div>
+                </div>
+                <div class="project-footer">
+                    <span class="project-date" data-i18n="date-avr26">Avr. 2026</span>
+                    <div class="action-buttons">
+                        <a href="#" class="project-link-btn" data-i18n="btn-details">En savoir plus</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card fade-in-section">
+                <div>
                     <h3 data-i18n="ds2-title">Violence & Animation</h3>
+                    <div class="project-catchphrase" data-i18n="ds2-catch">"Les animés les mieux notés sont-ils les plus violents ?"</div>
                     <p data-i18n="ds2-desc">Analyse statistique poussée : les animés (Japonais) les mieux notés par le public sont-ils statistiquement les plus violents ? Web scraping et visualisation de données.</p>
                     <div class="project-tags">
                         <span class="tag">Web Scraping</span>
@@ -383,6 +429,7 @@
             <div class="project-card fade-in-section">
                 <div>
                     <h3 data-i18n="ds3-title">Générations & Voyages</h3>
+                    <div class="project-catchphrase" data-i18n="ds3-catch">"Les jeunes ont-ils un plus grand désir d'explorer le monde ?"</div>
                     <p data-i18n="ds3-desc">Étude sociologique appuyée par la donnée : analyse du désir de voyager selon les tranches d'âge. Récolte manuelle, régressions et modélisations des résultats.</p>
                     <div class="project-tags">
                         <span class="tag">Statistiques</span>
@@ -392,42 +439,6 @@
                 </div>
                 <div class="project-footer">
                     <span class="project-date" data-i18n="date-fev25">Fév. 2025</span>
-                    <div class="action-buttons">
-                        <a href="#" class="project-link-btn" data-i18n="btn-details">En savoir plus</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="project-card fade-in-section">
-                <div>
-                    <h3 data-i18n="ds4-title">Prédiction de Durée de Films</h3>
-                    <p data-i18n="ds4-desc">Analyse des données cinématographiques pour développer un modèle de régression capable d'estimer la durée d'un long-métrage à l'aide d'algorithmes d'apprentissage automatique.</p>
-                    <div class="project-tags">
-                        <span class="tag">Machine Learning</span>
-                        <span class="tag">Régression</span>
-                        <span class="tag">Python</span>
-                    </div>
-                </div>
-                <div class="project-footer">
-                    <span class="project-date" data-i18n="date-dec25">Déc. 2025</span>
-                    <div class="action-buttons">
-                        <a href="#" class="project-link-btn" data-i18n="btn-details">En savoir plus</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="project-card fade-in-section">
-                <div>
-                    <h3 data-i18n="ds5-title">Régimes Politiques : Armée & Santé</h3>
-                    <p data-i18n="ds5-desc">Étude statistique comparative mondiale (2023) analysant le poids des budgets et de l'importance accordée à l'armée et à la santé selon le degré d'autoritarisme des États.</p>
-                    <div class="project-tags">
-                        <span class="tag">Géopolitique</span>
-                        <span class="tag">Statistiques</span>
-                        <span class="tag">Analyse</span>
-                    </div>
-                </div>
-                <div class="project-footer">
-                    <span class="project-date" data-i18n="date-avr26">Avr. 2026</span>
                     <div class="action-buttons">
                         <a href="#" class="project-link-btn" data-i18n="btn-details">En savoir plus</a>
                     </div>
@@ -528,14 +539,19 @@
                 "title-projects": "Mes Travaux",
                 "section-ds": "01. Sciences des Données & Analyse",
                 "ds1-title": "Colorimétrie du Cinéma",
+                "ds1-catch": "\"Un ordinateur peut-il ressentir la couleur d'un film ?\"",
                 "ds1-desc": "Modélisation et prédiction de la palette de couleurs d'une affiche de film en fonction de ses caractéristiques (genre, année, réalisateur) via des méthodes de Machine Learning.",
                 "ds2-title": "Violence & Animation",
+                "ds2-catch": "\"Les animés les mieux notés sont-ils les plus violents ?\"",
                 "ds2-desc": "Analyse statistique poussée : les animés (Japonais) les mieux notés par le public sont-ils statistiquement les plus violents ? Web scraping et visualisation de données.",
                 "ds3-title": "Générations & Voyages",
+                "ds3-catch": "\"Les jeunes ont-ils un plus grand désir d'explorer le monde ?\"",
                 "ds3-desc": "Étude sociologique appuyée par la donnée : analyse du désir de voyager selon les tranches d'âge. Récolte manuelle, régressions et modélisations des résultats.",
-                "ds4-title": "Prédiction de Durée de Films",
+                "ds4-title": "Prédiction de Durée",
+                "ds4-catch": "\"Une machine peut-elle deviner quand le générique de fin va défiler ?\"",
                 "ds4-desc": "Analyse des données cinématographiques pour développer un modèle de régression capable d'estimer la durée d'un long-métrage à l'aide d'algorithmes d'apprentissage automatique.",
-                "ds5-title": "Régimes Politiques : Armée & Santé",
+                "ds5-title": "Régimes Politiques",
+                "ds5-catch": "\"En cours de réalisation...\"",
                 "ds5-desc": "Étude statistique comparative mondiale (2023) analysant le poids des budgets et de l'importance accordée à l'armée et à la santé selon le degré d'autoritarisme des États.",
                 "ds6-title": "Analyse Littéraire (ENS)",
                 "ds6-desc": "Collecte de données et analyse statistique sur la littérature japonaise classique (jusqu'à 1850). Extraction de modèles historiques via les Humanités Numériques.",
@@ -565,14 +581,19 @@
                 "title-projects": "My Work",
                 "section-ds": "01. Data Science & Analysis",
                 "ds1-title": "Cinema Colorimetry",
+                "ds1-catch": "\"Can a Computer Feel the Color of Cinema?\"",
                 "ds1-desc": "Modeling and predicting the color palette of a movie poster based on its characteristics (genre, year, director) using Machine Learning methods.",
                 "ds2-title": "Violence & Animation",
+                "ds2-catch": "\"Are the highest rated anime the most violent?\"",
                 "ds2-desc": "Advanced statistical analysis: are the highest-rated (Japanese) anime statistically the most violent? Web scraping and data visualization.",
                 "ds3-title": "Generations & Travel",
+                "ds3-catch": "\"Do younger people have a greater desire to travel?\"",
                 "ds3-desc": "Data-driven sociological study: analyzing the desire to travel across age groups. Manual data collection, regressions, and results modeling.",
-                "ds4-title": "Movie Runtime Prediction",
+                "ds4-title": "Runtime Prediction",
+                "ds4-catch": "\"Can a computer guess when the credits will roll?\"",
                 "ds4-desc": "Analysis of cinematic data to develop a regression model capable of estimating a feature film's runtime using machine learning algorithms.",
-                "ds5-title": "Political Regimes: Military & Health",
+                "ds5-title": "Political Regimes",
+                "ds5-catch": "\"Under construction...\"",
                 "ds5-desc": "Global comparative statistical study (2023) analyzing the weight of budgets and importance given to the military and healthcare based on the states' level of authoritarianism.",
                 "ds6-title": "Literary Analysis (ENS)",
                 "ds6-desc": "Data collection and statistical analysis on classical Japanese literature (up to 1850). Extracting historical patterns using Digital Humanities.",
