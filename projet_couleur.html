@@ -141,7 +141,7 @@
             margin-bottom: 1.5rem;
         }
 
-        /* --- NOUVEAU : GRILLE DES GRAPHIQUES --- */
+        /* --- GRILLE DES GRAPHIQUES (Mise à jour plus élégante) --- */
         .viz-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -150,9 +150,10 @@
         }
 
         .viz-card {
-            border: 4px solid var(--text-color);
-            background-color: var(--text-color);
-            padding: 0; /* L'image touche les bords du cadre noir */
+            border: 3px solid var(--text-color);
+            background-color: transparent; /* Fond rouge naturel */
+            display: flex;
+            flex-direction: column;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
@@ -166,17 +167,26 @@
             height: auto;
             display: block;
             border-bottom: 3px solid var(--text-color);
-            background-color: #fff; /* Fond blanc derrière les graphiques */
+            background-color: #fff; /* Conserve le fond blanc pour la netteté du graphique */
         }
 
         .viz-caption {
             font-family: 'Inter', sans-serif;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            font-style: italic; /* Style légende scientifique */
             font-weight: 600;
-            color: var(--bg-color); /* Texte rouge sur fond noir */
-            padding: 1rem;
+            color: var(--text-color); /* Texte noir par défaut */
+            padding: 1.2rem;
             text-align: center;
             margin: 0;
+            line-height: 1.4;
+            transition: all 0.3s ease;
+        }
+
+        /* Effet au survol : la légende s'inverse subtilement */
+        .viz-card:hover .viz-caption {
+            background-color: var(--text-color);
+            color: var(--bg-color);
         }
 
         /* --- GRILLE DE FICHIERS --- */
@@ -227,7 +237,7 @@
             .main-title { font-size: 3.5rem; }
             .project-catchphrase { font-size: 1.2rem; }
             .content-title { font-size: 2rem; }
-            .viz-grid { grid-template-columns: 1fr; } /* Les graphiques s'empilent sur mobile */
+            .viz-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -305,7 +315,7 @@
         <div class="content-section fade-in-section">
             <h2 class="content-title" data-i18n="h-results">[4] Les Résultats</h2>
             <p class="content-text" data-i18n="p-results">
-                Le modèle de régression Ridge s'est révélé être le plus performant, atteignant une précision de <strong>34.78%</strong> sur les données de test (largement au-dessus de la probabilité aléatoire qui est d'environ 16%). Bien que modéré, ce résultat est fascinant : il démontre que l'ordinateur est capable de deviner correctement la couleur dominante d'une affiche 1 fois sur 3, sans jamais regarder l'image, prouvant que les caractéristiques invisibles d'un film dictent en partie son identité visuelle.
+                Le modèle de régression Ridge s'est révélé être le plus performant, atteignant une précision de <strong>34.78%</strong> sur les données de test (largement au-dessus de la probabilité aléatoire qui est d'environ 16%). Bien que modéré, ce résultat est fascinant : <strong>il démontre que l'ordinateur est capable de deviner correctement la couleur dominante d'une affiche 1 fois sur 3, sans jamais regarder l'image, prouvant que les caractéristiques invisibles d'un film dictent en partie son identité visuelle.</strong>
             </p>
         </div>
 
@@ -382,7 +392,7 @@
                 "cap-viz1": "Fig 1. Distribution de la variable cible (Couleur principale de l'affiche)",
                 "cap-viz2": "Fig 2. Matrice de confusion évaluant les prédictions du modèle de Régression Ridge",
                 "h-results": "[4] Les Résultats",
-                "p-results": "Le modèle de régression Ridge s'est révélé être le plus performant, atteignant une précision de <strong>34.78%</strong> sur les données de test (largement au-dessus de la probabilité aléatoire qui est d'environ 16%). Bien que modéré, ce résultat est fascinant : il démontre que l'ordinateur est capable de deviner correctement la couleur dominante d'une affiche 1 fois sur 3, sans jamais regarder l'image, prouvant que les caractéristiques invisibles d'un film dictent en partie son identité visuelle.",
+                "p-results": "Le modèle de régression Ridge s'est révélé être le plus performant, atteignant une précision de <strong>34.78%</strong> sur les données de test (largement au-dessus de la probabilité aléatoire qui est d'environ 16%). Bien que modéré, ce résultat est fascinant : <strong>il démontre que l'ordinateur est capable de deviner correctement la couleur dominante d'une affiche 1 fois sur 3, sans jamais regarder l'image, prouvant que les caractéristiques invisibles d'un film dictent en partie son identité visuelle.</strong>",
                 "h-files": "[5] Fichiers & Code",
                 "p-files": "Consultez mon rapport scientifique, explorez mes données ou lisez mon code Python directement via les liens ci-dessous :",
                 "file-report": "Rapport d'Étude",
@@ -410,7 +420,7 @@
                 "cap-viz1": "Fig 1. Distribution of the target variable (Main poster color)",
                 "cap-viz2": "Fig 2. Confusion matrix evaluating the Ridge Regression model predictions",
                 "h-results": "[4] Results",
-                "p-results": "The Ridge regression model performed best, reaching an accuracy of <strong>34.78%</strong> on the test dataset (well above the random probability of about 16%). While moderate, this result is fascinating: it demonstrates that a computer can correctly guess the dominant color of a poster 1 out of 3 times without ever looking at the image, proving that non-visual features partially dictate a movie's visual identity.",
+                "p-results": "The Ridge regression model performed best, reaching an accuracy of <strong>34.78%</strong> on the test dataset (well above the random probability of about 16%). While moderate, this result is fascinating: <strong>it demonstrates that a computer can correctly guess the dominant color of a poster 1 out of 3 times without ever looking at the image, proving that non-visual features partially dictate a movie's visual identity.</strong>",
                 "h-files": "[5] Files & Code",
                 "p-files": "Read my scientific report, explore my data, or view my Python code directly via the links below:",
                 "file-report": "Scientific Report",
