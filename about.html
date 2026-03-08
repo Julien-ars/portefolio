@@ -281,33 +281,34 @@
             font-weight: 800;
         }
 
-        /* --- NOUVEAUX STYLES POUR LES LANGUES (La bande grise) --- */
+ /* --- NOUVEAUX STYLES POUR LES LANGUES (La bande grise) --- */
         .lang-list {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 1.2rem; /* Un peu plus d'espace entre les langues */
         }
 
         .lang-item {
             display: flex;
-            justify-content: space-between;
+            justify-content: space-between; /* Force l'alignement nom à gauche / jauge à droite */
             align-items: center;
-            flex-wrap: wrap;
-            gap: 0.5rem;
+            width: 100%; /* S'assure que ça prend toute la largeur de la carte */
         }
 
         .lang-name {
             font-weight: 800;
             font-size: 0.95rem;
+            white-space: nowrap; /* Empêche le nom de la langue de se couper sur deux lignes */
         }
 
         .lang-dots {
             display: flex;
             gap: 6px;
-            background-color: var(--track-color); /* La petite bande derrière */
+            background-color: var(--track-color); 
             padding: 6px 10px;
             border-radius: 20px;
             border: 1px solid var(--text-color);
+            flex-shrink: 0; /* Empêche la jauge de s'écraser si le texte est long */
         }
 
         .dot {
@@ -340,7 +341,7 @@
         /* Tablettes (moins de 900px) */
         @media (max-width: 900px) {
             .profile-section {
-                grid-template-columns: 1fr; /* L'image passe au-dessus du texte */
+                grid-template-columns: 1fr; 
                 gap: 2rem;
             }
             .profile-image {
@@ -374,7 +375,7 @@
             }
             
             .main-title {
-                font-size: 3.5rem; /* Titre plus petit */
+                font-size: 3.5rem; 
             }
             
             .section-title {
@@ -382,7 +383,7 @@
             }
             
             .wide-card {
-                grid-template-columns: 1fr; /* La date passe au-dessus du texte */
+                grid-template-columns: 1fr; 
                 gap: 0.5rem;
                 padding: 1.5rem;
             }
@@ -392,6 +393,15 @@
                 border-bottom: 2px solid var(--text-color);
                 padding-bottom: 0.5rem;
                 margin-bottom: 0.5rem;
+            }
+            
+            /* Sur de très petits écrans, on empile les jauges sous le nom de la langue si ça ne rentre plus */
+            @media (max-width: 400px) {
+                .lang-item {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 0.5rem;
+                }
             }
         }
     </style>
