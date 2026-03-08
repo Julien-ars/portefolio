@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Julien Arsena</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #e60023; 
+            --text-color: #0a0a0a; 
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif; 
+            overflow-x: hidden;
+            
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- HEADER --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            border-bottom: 2px solid var(--text-color);
+            font-family: 'Anton', sans-serif;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .main-nav {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .main-nav a {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--text-color);
+            padding: 0.5rem 1rem;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .main-nav a.active, .main-nav a:hover {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            border: 2px solid var(--text-color);
+        }
+
+        .lang-switch {
+            display: flex;
+            gap: 0.5rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .lang-switch span {
+            opacity: 0.4;
+            transition: opacity 0.3s;
+            cursor: pointer;
+        }
+
+        .lang-switch span.active, .lang-switch span:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        /* --- CONTENU --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            flex-grow: 1;
+        }
+
+        .page-header {
+            margin-bottom: 4rem;
+        }
+
+        .subtitle {
+            font-family: 'Inter', sans-serif;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .main-title {
+            font-family: 'Anton', sans-serif;
+            font-size: 6rem;
+            line-height: 1;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        /* ANIMATION SCROLL */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, visibility;
+        }
+
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* GRILLE DE CONTACT */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        /* --- COLONNE GAUCHE : FORMULAIRE --- */
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-family: 'Anton', sans-serif;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 3px solid var(--text-color);
+            background-color: transparent;
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            background-color: rgba(0, 0, 0, 0.05);
+            box-shadow: 6px 6px 0px var(--text-color);
+            transform: translate(-2px, -2px);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .btn-submit {
+            font-family: 'Anton', sans-serif;
+            font-size: 2rem;
+            text-transform: uppercase;
+            color: var(--text-color);
+            background-color: transparent;
+            border: 3px solid var(--text-color);
+            padding: 1rem 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .btn-submit:hover {
+            transform: translate(-5px, -5px);
+            box-shadow: 10px 10px 0px var(--text-color);
+            background-color: var(--text-color);
+            color: var(--bg-color);
+        }
+
+        /* --- COLONNE DROITE : INFOS --- */
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .info-card {
+            border: 3px solid var(--text-color);
+            padding: 2rem;
+            transition: all 0.3s ease;
+            background-color: transparent;
+            text-decoration: none;
+            color: var(--text-color);
+            display: block;
+        }
+
+        .info-card:hover {
+            transform: translate(-8px, -8px);
+            box-shadow: 12px 12px 0px var(--text-color);
+            background-color: var(--text-color);
+            color: var(--bg-color);
+        }
+
+        .info-card h3 {
+            font-family: 'Anton', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .info-card p {
+            font-weight: 600;
+            font-size: 1.1rem;
+            word-break: break-all;
+        }
+
+        .info-card .label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            font-weight: 800;
+            opacity: 0.7;
+            margin-bottom: 0.2rem;
+            display: block;
+        }
+
+        /* Un petit bandeau défilant en bas pour dynamiser */
+        .marquee-footer {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            padding: 1rem 0;
+            overflow: hidden;
+            white-space: nowrap;
+            display: flex;
+            border-top: 2px solid var(--text-color);
+            margin-top: 4rem;
+        }
+
+        .marquee-text {
+            font-family: 'Anton', sans-serif;
+            font-size: 2.5rem;
+            animation: scroll-left 15s linear infinite;
+        }
+
+        @keyframes scroll-left {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* --- RESPONSIVE DESIGN --- */
+        @media (max-width: 900px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 1.5rem;
+                padding: 1.5rem 1rem;
+            }
+            .header-left {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            .main-nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .container {
+                padding: 2rem 1rem;
+            }
+            .main-title {
+                font-size: 4rem; 
+            }
+            .contact-grid {
+                gap: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-left">
+            <div class="logo">/// Julien Arsena</div>
+            
+            <nav class="main-nav">
+                <a href="index.html" data-i18n="nav-home">Accueil</a>
+                <a href="projects.html" data-i18n="nav-projects">Projets</a>
+                <a href="about.html" data-i18n="nav-about">À Propos</a>
+                <a href="contact.html" class="active" data-i18n="nav-contact">Contact</a>
+            </nav>
+        </div>
+        
+        <div class="lang-switch">
+            <span id="btn-fr" class="active" onclick="setLanguage('fr')">FR</span> / 
+            <span id="btn-en" onclick="setLanguage('en')">EN</span>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <div class="page-header fade-in-section">
+            <div class="subtitle" data-i18n="subtitle-contact">Contact</div>
+            <h1 class="main-title" data-i18n="title-contact">Travaillons<br>Ensemble</h1>
+        </div>
+
+        <div class="contact-grid">
+            
+            <div class="contact-form fade-in-section">
+                <div class="form-group">
+                    <label for="name" data-i18n="form-name">Nom Complet</label>
+                    <input type="text" id="name" placeholder="John Doe">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email" data-i18n="form-email">Adresse Email</label>
+                    <input type="email" id="email" placeholder="john@example.com">
+                </div>
+                
+                <div class="form-group">
+                    <label for="message" data-i18n="form-msg">Votre Message</label>
+                    <textarea id="message" placeholder="Bonjour Julien..."></textarea>
+                </div>
+                
+                <button type="submit" class="btn-submit" data-i18n="form-btn">Envoyer -></button>
+            </div>
+
+            <div class="contact-info">
+                
+                <a href="tel:+33647391864" class="info-card fade-in-section">
+                    <h3 data-i18n="info-phone">Téléphone</h3>
+                    <p>+33 6 47 39 18 64</p>
+                </a>
+
+                <a href="mailto:julien.arsena@psl.eu" class="info-card fade-in-section" style="transition-delay: 0.1s;">
+                    <h3 data-i18n="info-email">Emails</h3>
+                    <span class="label" data-i18n="label-pro">Professionnel</span>
+                    <p style="margin-bottom: 1rem;">julien.arsena@psl.eu</p>
+                    <span class="label" data-i18n="label-perso">Personnel</span>
+                    <p>julien.arsena@gmail.com</p> 
+                </a>
+
+                <div class="info-card fade-in-section" style="transition-delay: 0.2s;">
+                    <h3 data-i18n="info-socials">Réseaux</h3>
+                    <span class="label">LinkedIn</span>
+                    <p style="margin-bottom: 1rem;"><a href="#" style="color: inherit;">linkedin.com/in/julienarsena</a></p>
+                    <span class="label">GitHub</span>
+                    <p><a href="#" style="color: inherit;">github.com/julienarsena</a></p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="marquee-footer">
+        <div class="marquee-text" id="marquee-text">
+            DISPONIBLE POUR UN STAGE • EN RECHERCHE D'OPPORTUNITÉS • DISPONIBLE POUR UN STAGE • EN RECHERCHE D'OPPORTUNITÉS • DISPONIBLE POUR UN STAGE • EN RECHERCHE D'OPPORTUNITÉS • 
+        </div>
+    </div>
+
+    <script>
+        // --- 1. ANIMATION SCROLL ---
+        document.addEventListener("DOMContentLoaded", function() {
+            const options = { root: null, rootMargin: '0px', threshold: 0.15 };
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, options);
+
+            document.querySelectorAll('.fade-in-section').forEach(section => {
+                observer.observe(section);
+            });
+        });
+
+        // --- 2. SYSTÈME DE TRADUCTION ---
+        const translations = {
+            "fr": {
+                "nav-home": "Accueil",
+                "nav-projects": "Projets",
+                "nav-about": "À Propos",
+                "nav-contact": "Contact",
+                "subtitle-contact": "Contact",
+                "title-contact": "Travaillons<br>Ensemble",
+                "form-name": "Nom Complet",
+                "form-email": "Adresse Email",
+                "form-msg": "Votre Message",
+                "form-btn": "Envoyer ->",
+                "info-phone": "Téléphone",
+                "info-email": "Emails",
+                "label-pro": "Professionnel",
+                "label-perso": "Personnel",
+                "info-socials": "Réseaux",
+                "marquee": "DISPONIBLE POUR UN STAGE • EN RECHERCHE D'OPPORTUNITÉS • DISPONIBLE POUR UN STAGE • EN RECHERCHE D'OPPORTUNITÉS • DISPONIBLE POUR UN STAGE • EN RECHERCHE D'OPPORTUNITÉS • "
+            },
+            "en": {
+                "nav-home": "Home",
+                "nav-projects": "Projects",
+                "nav-about": "About",
+                "nav-contact": "Contact",
+                "subtitle-contact": "Contact",
+                "title-contact": "Let's Work<br>Together",
+                "form-name": "Full Name",
+                "form-email": "Email Address",
+                "form-msg": "Your Message",
+                "form-btn": "Send ->",
+                "info-phone": "Phone",
+                "info-email": "Emails",
+                "label-pro": "Professional",
+                "label-perso": "Personal",
+                "info-socials": "Socials",
+                "marquee": "AVAILABLE FOR AN INTERNSHIP • OPEN TO OPPORTUNITIES • AVAILABLE FOR AN INTERNSHIP • OPEN TO OPPORTUNITIES • AVAILABLE FOR AN INTERNSHIP • OPEN TO OPPORTUNITIES • "
+            }
+        };
+
+        function setLanguage(lang) {
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    element.innerHTML = translations[lang][key];
+                }
+            });
+
+            // Gérer le cas particulier du bandeau défilant qui n'utilise pas data-i18n pour éviter de casser l'animation
+            document.getElementById('marquee-text').innerHTML = translations[lang]["marquee"];
+
+            if (lang === 'fr') {
+                document.getElementById('btn-fr').classList.add('active');
+                document.getElementById('btn-en').classList.remove('active');
+            } else {
+                document.getElementById('btn-en').classList.add('active');
+                document.getElementById('btn-fr').classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>
