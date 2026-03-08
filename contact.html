@@ -161,7 +161,6 @@
             justify-content: center;
         }
 
-        /* Effet visuel au survol sur les cartes contenant des liens */
         a.info-card:hover {
             transform: translate(-8px, -8px);
             box-shadow: 12px 12px 0px var(--text-color);
@@ -196,7 +195,6 @@
             margin-top: 0;
         }
 
-        /* Section des logos réseaux sociaux */
         .social-links {
             display: flex;
             gap: 1.5rem;
@@ -304,24 +302,31 @@
             color: var(--bg-color);
         }
 
-        /* --- BANDEAU DÉFILANT --- */
+        /* --- BANDEAU DÉFILANT (CORRECTION DE LA FLUIDITÉ) --- */
         .marquee-footer {
             background-color: var(--text-color);
             color: var(--bg-color);
             padding: 1rem 0;
             overflow: hidden;
-            white-space: nowrap;
             display: flex;
             border-top: 2px solid var(--text-color);
             margin-top: 4rem;
         }
 
+        /* Le conteneur interne qui va s'animer */
+        .marquee-inner {
+            display: flex;
+            width: fit-content;
+            animation: scroll-left 25s linear infinite;
+        }
+
         .marquee-text {
             font-family: 'Anton', sans-serif;
             font-size: 2.5rem;
-            animation: scroll-left 15s linear infinite;
+            white-space: nowrap;
         }
 
+        /* L'animation va de 0 à -50%, comme le texte est dupliqué, la boucle est invisible */
         @keyframes scroll-left {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
@@ -397,7 +402,7 @@
                 <span class="label" data-i18n="label-pro">Institutionnel</span>
                 <p style="margin-bottom: 1rem;">julien.arsena@psl.eu</p>
                 <span class="label" data-i18n="label-perso">Personnel</span>
-                <p>julien.arsena@gmail.com</p> 
+                <p>arsenajulien2@gmail.com</p> 
             </a>
 
             <div class="info-card fade-in-section" style="transition-delay: 0.2s;">
@@ -444,8 +449,13 @@
     </div>
 
     <div class="marquee-footer">
-        <div class="marquee-text" id="marquee-text">
-            DISPONIBLE POUR UN STAGE • EN RECHERCHE D'OPPORTUNITÉS • DISPONIBLE POUR UN STAGE • EN RECHERCHE D'OPPORTUNITÉS • DISPONIBLE POUR UN STAGE • EN RECHERCHE D'OPPORTUNITÉS • 
+        <div class="marquee-inner" id="marquee-inner">
+            <div class="marquee-text">
+                SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • INTELLIGENCE ARTIFICIELLE • ANALYSE CULTURELLE • MACHINE LEARNING • SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • INTELLIGENCE ARTIFICIELLE • ANALYSE CULTURELLE • MACHINE LEARNING •&nbsp;
+            </div>
+            <div class="marquee-text">
+                SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • INTELLIGENCE ARTIFICIELLE • ANALYSE CULTURELLE • MACHINE LEARNING • SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • INTELLIGENCE ARTIFICIELLE • ANALYSE CULTURELLE • MACHINE LEARNING •&nbsp;
+            </div>
         </div>
     </div>
 
@@ -484,7 +494,8 @@
                 "form-email": "Adresse Email",
                 "form-msg": "Votre Message",
                 "form-btn": "Envoyer ->",
-                "marquee": "DISPONIBLE POUR UN STAGE • EN RECHERCHE D'OPPORTUNITÉS • DISPONIBLE POUR UN STAGE • EN RECHERCHE D'OPPORTUNITÉS • DISPONIBLE POUR UN STAGE • EN RECHERCHE D'OPPORTUNITÉS • "
+                // Le texte est dupliqué deux fois dans la chaîne pour la boucle infinie CSS
+                "marquee": "<div class='marquee-text'>SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • INTELLIGENCE ARTIFICIELLE • ANALYSE CULTURELLE • MACHINE LEARNING • SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • INTELLIGENCE ARTIFICIELLE • ANALYSE CULTURELLE • MACHINE LEARNING •&nbsp;</div><div class='marquee-text'>SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • INTELLIGENCE ARTIFICIELLE • ANALYSE CULTURELLE • MACHINE LEARNING • SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • INTELLIGENCE ARTIFICIELLE • ANALYSE CULTURELLE • MACHINE LEARNING •&nbsp;</div>"
             },
             "en": {
                 "nav-home": "Home",
@@ -503,7 +514,7 @@
                 "form-email": "Email Address",
                 "form-msg": "Your Message",
                 "form-btn": "Send ->",
-                "marquee": "AVAILABLE FOR AN INTERNSHIP • OPEN TO OPPORTUNITIES • AVAILABLE FOR AN INTERNSHIP • OPEN TO OPPORTUNITIES • AVAILABLE FOR AN INTERNSHIP • OPEN TO OPPORTUNITIES • "
+                "marquee": "<div class='marquee-text'>DATA SCIENCE & ARTS • DIGITAL HUMANITIES • ARTIFICIAL INTELLIGENCE • CULTURAL ANALYSIS • MACHINE LEARNING • DATA SCIENCE & ARTS • DIGITAL HUMANITIES • ARTIFICIAL INTELLIGENCE • CULTURAL ANALYSIS • MACHINE LEARNING •&nbsp;</div><div class='marquee-text'>DATA SCIENCE & ARTS • DIGITAL HUMANITIES • ARTIFICIAL INTELLIGENCE • CULTURAL ANALYSIS • MACHINE LEARNING • DATA SCIENCE & ARTS • DIGITAL HUMANITIES • ARTIFICIAL INTELLIGENCE • CULTURAL ANALYSIS • MACHINE LEARNING •&nbsp;</div>"
             }
         };
 
@@ -515,7 +526,8 @@
                 }
             });
 
-            document.getElementById('marquee-text').innerHTML = translations[lang]["marquee"];
+            // Mise à jour de la bannière défilante
+            document.getElementById('marquee-inner').innerHTML = translations[lang]["marquee"];
 
             if (lang === 'fr') {
                 document.getElementById('btn-fr').classList.add('active');
