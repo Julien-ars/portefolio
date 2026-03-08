@@ -289,16 +289,15 @@
         }
 
         .lang-item {
-            display: flex;
-            justify-content: space-between; /* Force l'alignement nom à gauche / jauge à droite */
+            display: grid;
+            grid-template-columns: 1fr auto; /* Le texte prend la place libre (1fr), la jauge s'aligne à droite (auto) */
             align-items: center;
-            width: 100%; /* S'assure que ça prend toute la largeur de la carte */
+            width: 100%;
         }
 
         .lang-name {
             font-weight: 800;
             font-size: 0.95rem;
-            white-space: nowrap; /* Empêche le nom de la langue de se couper sur deux lignes */
         }
 
         .lang-dots {
