@@ -10,8 +10,8 @@
         :root {
             --bg-color: #e60023; 
             --text-color: #0a0a0a; 
-            --green-color: #00e676; /* Vert éclatant pour les jauges */
-            --gray-color: #555555;  /* Gris pour les niveaux vides */
+            --green-color: #00e676; 
+            --gray-color: #555555;  
         }
 
         * {
@@ -80,7 +80,6 @@
         .lang-switch {
             display: flex;
             gap: 0.5rem;
-            cursor: pointer;
             font-family: 'Inter', sans-serif;
             font-weight: 600;
             font-size: 1rem;
@@ -89,6 +88,7 @@
         .lang-switch span {
             opacity: 0.4;
             transition: opacity 0.3s;
+            cursor: pointer;
         }
 
         .lang-switch span.active, .lang-switch span:hover {
@@ -96,7 +96,7 @@
             text-decoration: underline;
         }
 
-        /* --- CONTENU DE LA PAGE --- */
+        /* --- CONTENU --- */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -123,7 +123,6 @@
             text-transform: uppercase;
         }
 
-        /* --- ANIMATIONS SCROLL --- */
         .fade-in-section {
             opacity: 0;
             transform: translateY(40px);
@@ -136,7 +135,6 @@
             transform: none;
         }
 
-        /* Section Profil */
         .profile-section {
             display: grid;
             grid-template-columns: 1fr 2fr;
@@ -175,7 +173,6 @@
             font-weight: 600;
         }
 
-        /* Sections Expériences, Parcours */
         .section-block {
             margin-bottom: 4rem;
         }
@@ -226,7 +223,6 @@
             margin-bottom: 1rem;
         }
 
-        /* Liens dans les cartes de parcours */
         .card-link {
             display: inline-block;
             font-family: 'Anton', sans-serif;
@@ -242,7 +238,6 @@
             opacity: 0.6;
         }
 
-        /* Compétences */
         .skills-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -285,7 +280,6 @@
             font-weight: 800;
         }
 
-        /* --- STYLES SPECIFIQUES POUR LES LANGUES --- */
         .lang-list {
             display: flex;
             flex-direction: column;
@@ -316,7 +310,7 @@
 
         .dot.filled {
             background-color: var(--green-color);
-            border: 1px solid var(--text-color); /* Contour noir pour faire ressortir */
+            border: 1px solid var(--text-color); 
         }
 
         .dot.empty {
@@ -324,7 +318,6 @@
             border: 1px solid var(--text-color);
         }
 
-        /* Modification au survol de la carte pour garder les bordures propres */
         .skill-card:hover .dot.filled,
         .skill-card:hover .dot.empty {
             border-color: var(--bg-color);
@@ -339,91 +332,91 @@
             <div class="logo">/// Julien Arsena</div>
             
             <nav class="main-nav">
-                <a href="index.html">Accueil</a>
-                <a href="projects.html">Projets</a>
-                <a href="about.html" class="active">À Propos</a>
-                <a href="contact.html">Contact</a>
+                <a href="index.html" data-i18n="nav-home">Accueil</a>
+                <a href="projects.html" data-i18n="nav-projects">Projets</a>
+                <a href="about.html" class="active" data-i18n="nav-about">À Propos</a>
+                <a href="contact.html" data-i18n="nav-contact">Contact</a>
             </nav>
         </div>
         
         <div class="lang-switch">
-            <span class="active">FR</span> / <span>EN</span>
+            <span id="btn-fr" class="active" onclick="setLanguage('fr')">FR</span> / 
+            <span id="btn-en" onclick="setLanguage('en')">EN</span>
         </div>
     </header>
 
     <div class="container">
         
         <div class="page-header fade-in-section">
-            <div class="subtitle">À Propos</div>
-            <h1 class="main-title">Mon Parcours</h1>
+            <div class="subtitle" data-i18n="subtitle-about">À Propos</div>
+            <h1 class="main-title" data-i18n="title-journey">Mon Parcours</h1>
         </div>
 
         <div class="profile-section fade-in-section">
             <img src="JA.pnj" alt="Julien Arsena" class="profile-image">
 
             <div class="profile-desc">
-                <h2>Étudiant en Sciences des Données & Arts</h2>
-                <p>Passionné par l'intersection entre l'intelligence artificielle et la culture, je suis actuellement étudiant en L2 au sein du Cycle Pluridisciplinaire d'Études Supérieures (CPES) à l'Université PSL et au Lycée Louis Le Grand.</p>
-                <p>Mon profil hybride me permet d'allier une grande rigueur dans les sciences formelles (algorithmique, statistiques, programmation) à une solide compréhension des sciences humaines (histoire des arts, approches cognitives de la fiction).</p>
-                <p>Je me spécialise dans la récolte et l'analyse de données pour transformer des informations complexes en insights clairs, avec un intérêt particulier pour les applications culturelles (cinéma, musées, littérature).</p>
+                <h2 data-i18n="profile-title">Étudiant en Sciences des Données & Arts</h2>
+                <p data-i18n="profile-p1">Passionné par l'intersection entre l'intelligence artificielle et la culture, je suis actuellement étudiant en L2 au sein du Cycle Pluridisciplinaire d'Études Supérieures (CPES) à l'Université PSL et au Lycée Louis Le Grand.</p>
+                <p data-i18n="profile-p2">Mon profil hybride me permet d'allier une grande rigueur dans les sciences formelles (algorithmique, statistiques, programmation) à une solide compréhension des sciences humaines (histoire des arts, approches cognitives de la fiction).</p>
+                <p data-i18n="profile-p3">Je me spécialise dans la récolte et l'analyse de données pour transformer des informations complexes en insights clairs, avec un intérêt particulier pour les applications culturelles (cinéma, musées, littérature).</p>
             </div>
         </div>
 
         <div class="section-block fade-in-section">
-            <h2 class="section-title">[+] Expériences Professionnelles</h2>
+            <h2 class="section-title" data-i18n="exp-title">[+] Expériences Professionnelles</h2>
             
             <div class="wide-card">
-                <div class="date">Aujourd'hui</div>
+                <div class="date" data-i18n="exp-date-1">Aujourd'hui</div>
                 <div class="content">
-                    <h3>Stagiaire en Sciences des Données</h3>
-                    <p><strong>École Normale Supérieure (ENS)</strong><br>
-                    Collecte de données et analyse statistique portant sur la littérature japonaise jusqu'à 1850. Application des méthodes de data science aux humanités numériques pour en extraire des modèles historiques et culturels.</p>
+                    <h3 data-i18n="exp-role-1">Stagiaire en Sciences des Données</h3>
+                    <p><strong data-i18n="exp-company-1">École Normale Supérieure (ENS)</strong><br>
+                    <span data-i18n="exp-desc-1">Collecte de données et analyse statistique portant sur la littérature japonaise jusqu'à 1850. Application des méthodes de data science aux humanités numériques pour en extraire des modèles historiques et culturels.</span></p>
                 </div>
             </div>
         </div>
 
         <div class="section-block fade-in-section">
-            <h2 class="section-title">[+] Parcours & Formations</h2>
+            <h2 class="section-title" data-i18n="edu-title">[+] Parcours & Formations</h2>
             
             <div class="wide-card">
                 <div class="date">2024 - Présent</div>
                 <div class="content">
-                    <h3>CPES Sciences des données, Arts et Cultures</h3>
+                    <h3 data-i18n="edu-role-1">CPES Sciences des données, Arts et Cultures</h3>
                     <p><strong>Université PSL & Lycée Louis Le Grand</strong><br>
-                    Sciences formelles : Algorithmique, Analyse, Statistiques, Programmation.<br>
-                    Sciences humaines : Littérature mondiale, Histoire des Arts, NLP.</p>
-                    <a href="https://psl.eu/formation/cpes-psl-louis-le-grand" target="_blank" class="card-link">[+] En savoir plus</a>
+                    <span data-i18n="edu-desc-1">Sciences formelles : Algorithmique, Analyse, Statistiques, Programmation.<br>Sciences humaines : Littérature mondiale, Histoire des Arts, NLP.</span></p>
+                    <a href="https://psl.eu/formation/cpes-psl-louis-le-grand" target="_blank" class="card-link" data-i18n="btn-more">[+] En savoir plus</a>
                 </div>
             </div>
 
             <div class="wide-card">
                 <div class="date">2023 - 2024</div>
                 <div class="content">
-                    <h3>CPGE MPSI (Option Informatique)</h3>
+                    <h3 data-i18n="edu-role-2">CPGE MPSI (Option Informatique)</h3>
                     <p><strong>Lycée Thuillier</strong><br>
-                    Niveau validé : L1 Mathématiques, L1 Physique.</p>
-                    <a href="https://www.enseignementsup-recherche.gouv.fr/fr/classes-preparatoires-aux-grandes-ecoles-cpge-46496" target="_blank" class="card-link">[+] En savoir plus</a>
+                    <span data-i18n="edu-desc-2">Niveau validé : L1 Mathématiques, L1 Physique.</span></p>
+                    <a href="https://www.enseignementsup-recherche.gouv.fr/fr/classes-preparatoires-aux-grandes-ecoles-cpge-46496" target="_blank" class="card-link" data-i18n="btn-more">[+] En savoir plus</a>
                 </div>
             </div>
 
             <div class="wide-card">
                 <div class="date">2023</div>
                 <div class="content">
-                    <h3>Double Baccalauréat (Général & Esabac Italien)</h3>
+                    <h3 data-i18n="edu-role-3">Double Baccalauréat (Général & Esabac Italien)</h3>
                     <p><strong>Lycée Michelis</strong><br>
-                    Spécialités Mathématiques, Physique & SES. Option Mathématiques expertes. <strong>Mention Très Bien.</strong></p>
-                    <a href="https://www.education.gouv.fr/reussir-au-lycee/l-esabac-double-delivrance-du-baccalaureat-francais-et-de-l-esame-di-stato-italien-12413" target="_blank" class="card-link">[+] En savoir plus</a>
+                    <span data-i18n="edu-desc-3">Spécialités Mathématiques, Physique & SES. Option Mathématiques expertes. <strong>Mention Très Bien.</strong></span></p>
+                    <a href="https://www.education.gouv.fr/reussir-au-lycee/l-esabac-double-delivrance-du-baccalaureat-francais-et-de-l-esame-di-stato-italien-12413" target="_blank" class="card-link" data-i18n="btn-more">[+] En savoir plus</a>
                 </div>
             </div>
         </div>
 
         <div class="section-block fade-in-section">
-            <h2 class="section-title">[+] Compétences Détaillées</h2>
+            <h2 class="section-title" data-i18n="skills-title">[+] Compétences Détaillées</h2>
             
             <div class="skills-grid">
                 
                 <div class="skill-card">
-                    <h4>Programmation</h4>
+                    <h4 data-i18n="skill-prog">Programmation</h4>
                     <div class="tags-container">
                         <span class="skill-tag">Python</span>
                         <span class="skill-tag">Scikit-Learn</span>
@@ -434,38 +427,38 @@
                 </div>
 
                 <div class="skill-card">
-                    <h4>Data & Science</h4>
+                    <h4 data-i18n="skill-data">Data & Science</h4>
                     <div class="tags-container">
                         <span class="skill-tag">Web Scraping</span>
-                        <span class="skill-tag">Statistiques</span>
-                        <span class="skill-tag">Régression Linéaire</span>
+                        <span class="skill-tag" data-i18n="tag-stats">Statistiques</span>
+                        <span class="skill-tag" data-i18n="tag-reg">Régression Linéaire</span>
                         <span class="skill-tag">Data Viz</span>
                     </div>
                 </div>
 
                 <div class="skill-card">
-                    <h4>Langues</h4>
+                    <h4 data-i18n="skill-lang">Langues</h4>
                     <div class="lang-list">
                         <div class="lang-item">
-                            <span class="lang-name">Français (Natif)</span>
+                            <span class="lang-name" data-i18n="lang-fr">Français (Natif)</span>
                             <div class="lang-dots">
                                 <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span>
                             </div>
                         </div>
                         <div class="lang-item">
-                            <span class="lang-name">Anglais (C1)</span>
+                            <span class="lang-name" data-i18n="lang-en">Anglais (C1)</span>
                             <div class="lang-dots">
                                 <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot empty"></span>
                             </div>
                         </div>
                         <div class="lang-item">
-                            <span class="lang-name">Italien (B2)</span>
+                            <span class="lang-name" data-i18n="lang-it">Italien (B2)</span>
                             <div class="lang-dots">
                                 <span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot empty"></span><span class="dot empty"></span>
                             </div>
                         </div>
                         <div class="lang-item">
-                            <span class="lang-name">Japonais (A2)</span>
+                            <span class="lang-name" data-i18n="lang-jp">Japonais (A2)</span>
                             <div class="lang-dots">
                                 <span class="dot filled"></span><span class="dot filled"></span><span class="dot empty"></span><span class="dot empty"></span><span class="dot empty"></span>
                             </div>
@@ -474,12 +467,12 @@
                 </div>
 
                 <div class="skill-card">
-                    <h4>Centres d'intérêt</h4>
+                    <h4 data-i18n="skill-int">Centres d'intérêt</h4>
                     <div class="tags-container">
-                        <span class="skill-tag">Cinéma & Animation</span>
-                        <span class="skill-tag">Musées & Expos</span>
-                        <span class="skill-tag">Littérature</span>
-                        <span class="skill-tag">Géopolitique</span>
+                        <span class="skill-tag" data-i18n="int-1">Cinéma & Animation</span>
+                        <span class="skill-tag" data-i18n="int-2">Musées & Expos</span>
+                        <span class="skill-tag" data-i18n="int-3">Littérature</span>
+                        <span class="skill-tag" data-i18n="int-4">Géopolitique</span>
                     </div>
                 </div>
 
@@ -489,13 +482,9 @@
     </div>
 
     <script>
+        // --- 1. ANIMATION SCROLL ---
         document.addEventListener("DOMContentLoaded", function() {
-            const options = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.15
-            };
-
+            const options = { root: null, rootMargin: '0px', threshold: 0.15 };
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -509,6 +498,109 @@
                 observer.observe(section);
             });
         });
+
+        // --- 2. SYSTÈME DE TRADUCTION ---
+        const translations = {
+            "fr": {
+                "nav-home": "Accueil",
+                "nav-projects": "Projets",
+                "nav-about": "À Propos",
+                "nav-contact": "Contact",
+                "subtitle-about": "À Propos",
+                "title-journey": "Mon Parcours",
+                "profile-title": "Étudiant en Sciences des Données & Arts",
+                "profile-p1": "Passionné par l'intersection entre l'intelligence artificielle et la culture, je suis actuellement étudiant en L2 au sein du Cycle Pluridisciplinaire d'Études Supérieures (CPES) à l'Université PSL et au Lycée Louis Le Grand.",
+                "profile-p2": "Mon profil hybride me permet d'allier une grande rigueur dans les sciences formelles (algorithmique, statistiques, programmation) à une solide compréhension des sciences humaines (histoire des arts, approches cognitives de la fiction).",
+                "profile-p3": "Je me spécialise dans la récolte et l'analyse de données pour transformer des informations complexes en insights clairs, avec un intérêt particulier pour les applications culturelles (cinéma, musées, littérature).",
+                "exp-title": "[+] Expériences Professionnelles",
+                "exp-date-1": "Aujourd'hui",
+                "exp-role-1": "Stagiaire en Sciences des Données",
+                "exp-company-1": "École Normale Supérieure (ENS)",
+                "exp-desc-1": "Collecte de données et analyse statistique portant sur la littérature japonaise jusqu'à 1850. Application des méthodes de data science aux humanités numériques pour en extraire des modèles historiques et culturels.",
+                "edu-title": "[+] Parcours & Formations",
+                "edu-role-1": "CPES Sciences des données, Arts et Cultures",
+                "edu-desc-1": "Sciences formelles : Algorithmique, Analyse, Statistiques, Programmation.<br>Sciences humaines : Littérature mondiale, Histoire des Arts, NLP.",
+                "edu-role-2": "CPGE MPSI (Option Informatique)",
+                "edu-desc-2": "Niveau validé : L1 Mathématiques, L1 Physique.",
+                "edu-role-3": "Double Baccalauréat (Général & Esabac Italien)",
+                "edu-desc-3": "Spécialités Mathématiques, Physique & SES. Option Mathématiques expertes. <strong>Mention Très Bien.</strong>",
+                "btn-more": "[+] En savoir plus",
+                "skills-title": "[+] Compétences Détaillées",
+                "skill-prog": "Programmation",
+                "skill-data": "Data & Science",
+                "tag-stats": "Statistiques",
+                "tag-reg": "Régression Linéaire",
+                "skill-lang": "Langues",
+                "lang-fr": "Français (Natif)",
+                "lang-en": "Anglais (C1)",
+                "lang-it": "Italien (B2)",
+                "lang-jp": "Japonais (A2)",
+                "skill-int": "Centres d'intérêt",
+                "int-1": "Cinéma & Animation",
+                "int-2": "Musées & Expos",
+                "int-3": "Littérature",
+                "int-4": "Géopolitique"
+            },
+            "en": {
+                "nav-home": "Home",
+                "nav-projects": "Projects",
+                "nav-about": "About",
+                "nav-contact": "Contact",
+                "subtitle-about": "About",
+                "title-journey": "My Background",
+                "profile-title": "Data Science & Arts Student",
+                "profile-p1": "Passionate about the intersection of artificial intelligence and culture, I am currently a sophomore in the Multidisciplinary Undergraduate Degree (CPES) at PSL University and Lycée Louis Le Grand.",
+                "profile-p2": "My hybrid profile allows me to combine strict rigor in formal sciences (algorithms, statistics, programming) with a solid understanding of the humanities (art history, cognitive approaches to fiction).",
+                "profile-p3": "I specialize in data collection and analysis to transform complex information into clear insights, with a particular interest in cultural applications (cinema, museums, literature).",
+                "exp-title": "[+] Professional Experience",
+                "exp-date-1": "Present",
+                "exp-role-1": "Data Science Intern",
+                "exp-company-1": "École Normale Supérieure (ENS)",
+                "exp-desc-1": "Data collection and statistical analysis focusing on Japanese literature up to 1850. Applying data science methods to digital humanities to extract historical and cultural models.",
+                "edu-title": "[+] Education & Background",
+                "edu-role-1": "CPES Data Science, Arts and Culture",
+                "edu-desc-1": "Formal sciences: Algorithms, Analysis, Statistics, Programming.<br>Humanities: World Literature, Art History, NLP.",
+                "edu-role-2": "CPGE MPSI (Maths & Physics Prep School)",
+                "edu-desc-2": "Validated level: L1 Mathematics, L1 Physics.",
+                "edu-role-3": "Double High School Diploma (General & Italian Esabac)",
+                "edu-desc-3": "Majors in Math, Physics & Economics. Advanced Math option. <strong>Highest Honors.</strong>",
+                "btn-more": "[+] Learn more",
+                "skills-title": "[+] Detailed Skills",
+                "skill-prog": "Programming",
+                "skill-data": "Data & Science",
+                "tag-stats": "Statistics",
+                "tag-reg": "Linear Regression",
+                "skill-lang": "Languages",
+                "lang-fr": "French (Native)",
+                "lang-en": "English (C1)",
+                "lang-it": "Italian (B2)",
+                "lang-jp": "Japanese (A2)",
+                "skill-int": "Interests",
+                "int-1": "Cinema & Animation",
+                "int-2": "Museums & Exhibitions",
+                "int-3": "Literature",
+                "int-4": "Geopolitics"
+            }
+        };
+
+        function setLanguage(lang) {
+            // 1. Mettre à jour les textes
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    element.innerHTML = translations[lang][key]; // innerHTML pour garder les balises <strong> et <br>
+                }
+            });
+
+            // 2. Mettre à jour le style visuel des boutons FR/EN
+            if (lang === 'fr') {
+                document.getElementById('btn-fr').classList.add('active');
+                document.getElementById('btn-en').classList.remove('active');
+            } else {
+                document.getElementById('btn-en').classList.add('active');
+                document.getElementById('btn-fr').classList.remove('active');
+            }
+        }
     </script>
 </body>
 </html>
