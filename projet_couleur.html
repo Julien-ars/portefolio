@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colorimétrie du Cinéma | Julien Arsena</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #e60023; 
+            --text-color: #0a0a0a; 
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif; 
+            overflow-x: hidden;
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- HEADER --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            border-bottom: 2px solid var(--text-color);
+            font-family: 'Anton', sans-serif;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .logo { font-size: 1.5rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        .main-nav { display: flex; gap: 0.5rem; }
+        .main-nav a {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600; font-size: 1rem; text-transform: uppercase;
+            text-decoration: none; color: var(--text-color);
+            padding: 0.5rem 1rem; border: 2px solid transparent; transition: all 0.3s ease;
+        }
+        .main-nav a.active, .main-nav a:hover {
+            background-color: var(--text-color); color: var(--bg-color); border: 2px solid var(--text-color);
+        }
+
+        .lang-switch {
+            display: flex; gap: 0.5rem; font-family: 'Inter', sans-serif;
+            font-weight: 600; font-size: 1rem;
+        }
+        .lang-switch span { opacity: 0.4; transition: opacity 0.3s; cursor: pointer; }
+        .lang-switch span.active, .lang-switch span:hover { opacity: 1; text-decoration: underline; }
+
+        /* --- CONTENU --- */
+        .container {
+            max-width: 1000px; /* Un peu plus étroit pour la lecture d'un article */
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            flex-grow: 1;
+            width: 100%;
+        }
+
+        .back-btn {
+            font-family: 'Anton', sans-serif;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--text-color);
+            display: inline-block;
+            margin-bottom: 2rem;
+            transition: transform 0.2s;
+        }
+        .back-btn:hover { transform: translateX(-5px); }
+
+        .project-header {
+            margin-bottom: 4rem;
+            border-bottom: 4px solid var(--text-color);
+            padding-bottom: 2rem;
+        }
+
+        .main-title {
+            font-family: 'Anton', sans-serif;
+            font-size: 5rem;
+            line-height: 1;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .project-catchphrase {
+            font-family: 'Inter', sans-serif;
+            font-style: italic;
+            font-weight: 800;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.85;
+        }
+
+        .project-tags {
+            display: flex; gap: 0.5rem; flex-wrap: wrap;
+        }
+
+        .tag {
+            border: 2px solid currentColor; padding: 0.3rem 0.8rem;
+            font-size: 0.85rem; border-radius: 50px; text-transform: uppercase; font-weight: 800;
+        }
+
+        /* --- SECTIONS TEXTUELLES --- */
+        .content-section { margin-bottom: 3rem; }
+        
+        .content-title {
+            font-family: 'Anton', sans-serif;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .content-text {
+            font-size: 1.15rem;
+            line-height: 1.7;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        /* --- GRILLE DE FICHIERS (RESSOURCES) --- */
+        .files-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .file-card {
+            border: 3px solid var(--text-color);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+            background-color: transparent;
+        }
+
+        .file-card:hover {
+            transform: translate(-5px, -5px);
+            box-shadow: 8px 8px 0px var(--text-color);
+            background-color: var(--text-color);
+            color: var(--bg-color);
+        }
+
+        .file-icon {
+            font-family: 'Anton', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .file-name {
+            font-weight: 800;
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+
+        .file-type {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-top: 0.5rem;
+        }
+
+        /* ANIMATION SCROLL */
+        .fade-in-section {
+            opacity: 0; transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, visibility;
+        }
+        .fade-in-section.is-visible { opacity: 1; transform: none; }
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; gap: 1.5rem; padding: 1.5rem 1rem; }
+            .header-left { flex-direction: column; gap: 1rem; text-align: center; }
+            .main-nav { flex-wrap: wrap; justify-content: center; }
+            .main-title { font-size: 3.5rem; }
+            .project-catchphrase { font-size: 1.2rem; }
+            .content-title { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-left">
+            <div class="logo">/// Julien Arsena</div>
+            <nav class="main-nav">
+                <a href="index.html" data-i18n="nav-home">Accueil</a>
+                <a href="projects.html" class="active" data-i18n="nav-projects">Projets</a>
+                <a href="about.html" data-i18n="nav-about">À Propos</a>
+                <a href="contact.html" data-i18n="nav-contact">Contact</a>
+            </nav>
+        </div>
+        <div class="lang-switch">
+            <span id="btn-fr" class="active" onclick="setLanguage('fr')">FR</span> / 
+            <span id="btn-en" onclick="setLanguage('en')">EN</span>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <a href="projects.html" class="back-btn" data-i18n="btn-back"><- Retour aux projets</a>
+
+        <div class="project-header fade-in-section">
+            <h1 class="main-title" data-i18n="title-proj">Colorimétrie du Cinéma</h1>
+            <div class="project-catchphrase" data-i18n="catch-proj">"Un ordinateur peut-il ressentir la couleur d'un film ?"</div>
+            
+            <div class="project-tags">
+                <span class="tag">Machine Learning</span>
+                <span class="tag">Web Scraping</span>
+                <span class="tag">Python</span>
+                <span class="tag">Octobre 2025</span>
+            </div>
+        </div>
+
+        <div class="content-section fade-in-section">
+            <h2 class="content-title" data-i18n="h-context">[1] Le Contexte</h2>
+            <p class="content-text" data-i18n="p-context">
+                Les affiches de films jouent un rôle crucial dans le marketing cinématographique, façonnant souvent les attentes du public. Ce projet a pour but de prédire la couleur dominante d'une affiche de film en se basant uniquement sur ses métadonnées (le genre, le budget, la langue d'origine, la longueur du titre et l'année de sortie). L'enjeu est de découvrir si des données purement factuelles influencent l'identité visuelle (la couleur) choisie par les studios.
+            </p>
+        </div>
+
+        <div class="content-section fade-in-section">
+            <h2 class="content-title" data-i18n="h-method">[2] La Méthodologie</h2>
+            <p class="content-text" data-i18n="p-method1">
+                <strong>1. Récolte des données :</strong> J'ai développé un script de web scraping pour extraire les données de 3000 films depuis la plateforme Hugging Face. Ces données incluent les caractéristiques classiques du film ainsi que l'extraction automatique des codes hexadécimaux des palettes de couleurs des affiches.
+            </p>
+            <p class="content-text" data-i18n="p-method2">
+                <strong>2. Traitement (Feature Engineering) :</strong> Plusieurs variables ont été transformées, notamment le passage au logarithme pour le budget (afin de réduire l'écrasement entre petites et énormes productions) et l'encodage des genres en variables exploitables par l'algorithme.
+            </p>
+            <p class="content-text" data-i18n="p-method3">
+                <strong>3. Modélisation :</strong> S'agissant d'un problème de classification multiclasse, j'ai testé plusieurs modèles algorithmiques en Python, dont la régression logistique Ridge.
+            </p>
+        </div>
+
+        <div class="content-section fade-in-section">
+            <h2 class="content-title" data-i18n="h-results">[3] Les Résultats</h2>
+            <p class="content-text" data-i18n="p-results">
+                Le modèle de régression Ridge s'est révélé être le plus performant, atteignant une précision de <strong>34.78%</strong> sur les données de test (largement au-dessus de la probabilité aléatoire qui est d'environ 16%). Bien que modéré, ce résultat est fascinant : il démontre que l'ordinateur est capable de deviner correctement la couleur dominante d'une affiche 1 fois sur 3, sans jamais regarder l'image, prouvant que les caractéristiques invisibles d'un film dictent en partie son identité visuelle.
+            </p>
+        </div>
+
+        <div class="content-section fade-in-section">
+            <h2 class="content-title" data-i18n="h-files">[4] Fichiers & Code</h2>
+            <p class="content-text" data-i18n="p-files">Consultez mon rapport scientifique, explorez mes données ou lisez mon code Python directement via les liens ci-dessous :</p>
+            
+            <div class="files-grid">
+                <a href="rapport_projet_n1_Arsena_Julien.pdf" target="_blank" class="file-card">
+                    <div class="file-icon">PDF</div>
+                    <div class="file-name" data-i18n="file-report">Rapport d'Étude</div>
+                    <div class="file-type">Document Scientifique</div>
+                </a>
+
+                <a href="Projet_n1_machine_learning_Arsena_Julien.ipynb" target="_blank" class="file-card">
+                    <div class="file-icon">ML</div>
+                    <div class="file-name" data-i18n="file-ml">Modèle de Prédiction</div>
+                    <div class="file-type">Jupyter Notebook</div>
+                </a>
+
+                <a href="Projet_n1_partie_scrapping_Arsena_Julien.ipynb" target="_blank" class="file-card">
+                    <div class="file-icon">WEB</div>
+                    <div class="file-name" data-i18n="file-scrap">Script de Scraping</div>
+                    <div class="file-type">Jupyter Notebook</div>
+                </a>
+
+                <a href="movie_posters_subset_with_palettes.csv" target="_blank" class="file-card">
+                    <div class="file-icon">CSV</div>
+                    <div class="file-name" data-i18n="file-data">Base de Données</div>
+                    <div class="file-type">3000 entrées</div>
+                </a>
+
+                <a href="Codebook_Project1.txt" target="_blank" class="file-card">
+                    <div class="file-icon">TXT</div>
+                    <div class="file-name" data-i18n="file-codebook">Dictionnaire des Variables</div>
+                    <div class="file-type">Codebook</div>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const options = { root: null, rootMargin: '0px', threshold: 0.15 };
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, options);
+            document.querySelectorAll('.fade-in-section').forEach(section => { observer.observe(section); });
+        });
+
+        const translations = {
+            "fr": {
+                "nav-home": "Accueil",
+                "nav-projects": "Projets",
+                "nav-about": "À Propos",
+                "nav-contact": "Contact",
+                "btn-back": "<- Retour aux projets",
+                "title-proj": "Colorimétrie du Cinéma",
+                "catch-proj": "\"Un ordinateur peut-il ressentir la couleur d'un film ?\"",
+                "h-context": "[1] Le Contexte",
+                "p-context": "Les affiches de films jouent un rôle crucial dans le marketing cinématographique, façonnant souvent les attentes du public. Ce projet a pour but de prédire la couleur dominante d'une affiche de film en se basant uniquement sur ses métadonnées (le genre, le budget, la langue d'origine, la longueur du titre et l'année de sortie). L'enjeu est de découvrir si des données purement factuelles influencent l'identité visuelle (la couleur) choisie par les studios.",
+                "h-method": "[2] La Méthodologie",
+                "p-method1": "<strong>1. Récolte des données :</strong> J'ai développé un script de web scraping pour extraire les données de 3000 films depuis la plateforme Hugging Face. Ces données incluent les caractéristiques classiques du film ainsi que l'extraction automatique des codes hexadécimaux des palettes de couleurs des affiches.",
+                "p-method2": "<strong>2. Traitement (Feature Engineering) :</strong> Plusieurs variables ont été transformées, notamment le passage au logarithme pour le budget (afin de réduire l'écrasement entre petites et énormes productions) et l'encodage des genres en variables exploitables par l'algorithme.",
+                "p-method3": "<strong>3. Modélisation :</strong> S'agissant d'un problème de classification multiclasse, j'ai testé plusieurs modèles algorithmiques en Python, dont la régression logistique Ridge.",
+                "h-results": "[3] Les Résultats",
+                "p-results": "Le modèle de régression Ridge s'est révélé être le plus performant, atteignant une précision de <strong>34.78%</strong> sur les données de test (largement au-dessus de la probabilité aléatoire qui est d'environ 16%). Bien que modéré, ce résultat est fascinant : il démontre que l'ordinateur est capable de deviner correctement la couleur dominante d'une affiche 1 fois sur 3, sans jamais regarder l'image, prouvant que les caractéristiques invisibles d'un film dictent en partie son identité visuelle.",
+                "h-files": "[4] Fichiers & Code",
+                "p-files": "Consultez mon rapport scientifique, explorez mes données ou lisez mon code Python directement via les liens ci-dessous :",
+                "file-report": "Rapport d'Étude",
+                "file-ml": "Modèle de Prédiction",
+                "file-scrap": "Script de Scraping",
+                "file-data": "Base de Données",
+                "file-codebook": "Dictionnaire des Variables"
+            },
+            "en": {
+                "nav-home": "Home",
+                "nav-projects": "Projects",
+                "nav-about": "About",
+                "nav-contact": "Contact",
+                "btn-back": "<- Back to projects",
+                "title-proj": "Cinema Colorimetry",
+                "catch-proj": "\"Can a Computer Feel the Color of Cinema?\"",
+                "h-context": "[1] Context",
+                "p-context": "Movie posters play a crucial role in film marketing, often shaping audience expectations. The goal of this project is to predict the dominant color of a movie poster based solely on its metadata (genre, budget, original language, title length, and release year). The challenge is to discover if purely factual data influences the visual identity (color) chosen by studios.",
+                "h-method": "[2] Methodology",
+                "p-method1": "<strong>1. Data Collection:</strong> I developed a web scraping script to extract data from 3000 movies on Hugging Face. This data includes classic movie features as well as the automatic extraction of hex codes from the poster color palettes.",
+                "p-method2": "<strong>2. Feature Engineering:</strong> Several variables were transformed, including a logarithmic scale for the budget (to reduce the gap between indie and blockbuster productions) and one-hot encoding for genres.",
+                "p-method3": "<strong>3. Modeling:</strong> As this is a multiclass classification problem, I tested several algorithmic models in Python, including Ridge logistic regression.",
+                "h-results": "[3] Results",
+                "p-results": "The Ridge regression model performed best, reaching an accuracy of <strong>34.78%</strong> on the test dataset (well above the random probability of about 16%). While moderate, this result is fascinating: it demonstrates that a computer can correctly guess the dominant color of a poster 1 out of 3 times without ever looking at the image, proving that non-visual features partially dictate a movie's visual identity.",
+                "h-files": "[4] Files & Code",
+                "p-files": "Read my scientific report, explore my data, or view my Python code directly via the links below:",
+                "file-report": "Scientific Report",
+                "file-ml": "Prediction Model",
+                "file-scrap": "Scraping Script",
+                "file-data": "Database",
+                "file-codebook": "Variables Codebook"
+            }
+        };
+
+        function setLanguage(lang) {
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    element.innerHTML = translations[lang][key];
+                }
+            });
+
+            if (lang === 'fr') {
+                document.getElementById('btn-fr').classList.add('active');
+                document.getElementById('btn-en').classList.remove('active');
+            } else {
+                document.getElementById('btn-en').classList.add('active');
+                document.getElementById('btn-fr').classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>
