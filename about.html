@@ -10,8 +10,9 @@
         :root {
             --bg-color: #e60023; 
             --text-color: #0a0a0a; 
-            --green-color: #00e676; 
-            --gray-color: #555555;  
+            --green-color: #1ed760; /* Vert adouci et plus reposant */
+            --track-color: rgba(0, 0, 0, 0.15); /* Bande de fond pour les jauges */
+            --gray-color: rgba(10, 10, 10, 0.3);  
         }
 
         * {
@@ -280,6 +281,7 @@
             font-weight: 800;
         }
 
+        /* --- NOUVEAUX STYLES POUR LES LANGUES (La bande grise) --- */
         .lang-list {
             display: flex;
             flex-direction: column;
@@ -290,6 +292,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
 
         .lang-name {
@@ -300,6 +304,10 @@
         .lang-dots {
             display: flex;
             gap: 6px;
+            background-color: var(--track-color); /* La petite bande derrière */
+            padding: 6px 10px;
+            border-radius: 20px;
+            border: 1px solid var(--text-color);
         }
 
         .dot {
@@ -315,14 +323,77 @@
 
         .dot.empty {
             background-color: var(--gray-color);
-            border: 1px solid var(--text-color);
+            border: 1px solid transparent;
         }
 
-        .skill-card:hover .dot.filled,
-        .skill-card:hover .dot.empty {
+        /* Inversion des couleurs au survol de la carte */
+        .skill-card:hover .lang-dots {
+            border-color: var(--bg-color);
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        .skill-card:hover .dot.filled {
             border-color: var(--bg-color);
         }
 
+        /* --- ADAPTATION MOBILE (RESPONSIVE DESIGN) --- */
+        
+        /* Tablettes (moins de 900px) */
+        @media (max-width: 900px) {
+            .profile-section {
+                grid-template-columns: 1fr; /* L'image passe au-dessus du texte */
+                gap: 2rem;
+            }
+            .profile-image {
+                max-height: 350px;
+                width: 100%;
+                object-position: center top;
+            }
+        }
+
+        /* Téléphones (moins de 768px) */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 1.5rem;
+                padding: 1.5rem 1rem;
+            }
+            
+            .header-left {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .main-nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .container {
+                padding: 2rem 1rem;
+            }
+            
+            .main-title {
+                font-size: 3.5rem; /* Titre plus petit */
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .wide-card {
+                grid-template-columns: 1fr; /* La date passe au-dessus du texte */
+                gap: 0.5rem;
+                padding: 1.5rem;
+            }
+            
+            .wide-card .date {
+                font-size: 1.2rem;
+                border-bottom: 2px solid var(--text-color);
+                padding-bottom: 0.5rem;
+                margin-bottom: 0.5rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -584,15 +655,13 @@
         };
 
         function setLanguage(lang) {
-            // 1. Mettre à jour les textes
             document.querySelectorAll('[data-i18n]').forEach(element => {
                 const key = element.getAttribute('data-i18n');
                 if (translations[lang][key]) {
-                    element.innerHTML = translations[lang][key]; // innerHTML pour garder les balises <strong> et <br>
+                    element.innerHTML = translations[lang][key];
                 }
             });
 
-            // 2. Mettre à jour le style visuel des boutons FR/EN
             if (lang === 'fr') {
                 document.getElementById('btn-fr').classList.add('active');
                 document.getElementById('btn-en').classList.remove('active');
