@@ -4,16 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio | Data Scientist</title>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     
     <style>
-        /* Variables de couleurs */
         :root {
-            --bg-color: #e60023; /* Le rouge vif */
-            --text-color: #0a0a0a; /* Le noir profond */
+            --bg-color: #e60023; 
+            --text-color: #0a0a0a; 
         }
 
-        /* Réinitialisation de base */
         * {
             margin: 0;
             padding: 0;
@@ -23,20 +21,20 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            font-family: 'Anton', sans-serif; /* Police style affiche */
+            font-family: 'Anton', sans-serif; 
             overflow-x: hidden;
             
-            /* Effet de quadrillage léger en fond */
             background-image: 
                 linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
             background-size: 40px 40px;
         }
 
-        /* En-tête style navigation minimaliste */
+        /* En-tête avec le sélecteur de langue */
         header {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             padding: 1.5rem 2rem;
             border-bottom: 2px solid var(--text-color);
             text-transform: uppercase;
@@ -44,7 +42,26 @@
             letter-spacing: 1px;
         }
 
-        /* Section principale (Hero) */
+        .lang-switch {
+            display: flex;
+            gap: 0.5rem;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif; /* Police plus lisible pour l'UI */
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .lang-switch span {
+            opacity: 0.4;
+            transition: opacity 0.3s;
+        }
+
+        .lang-switch span.active, .lang-switch span:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        /* Section Hero */
         .hero {
             height: 80vh;
             display: flex;
@@ -56,13 +73,13 @@
         }
 
         .hero h1 {
-            font-size: 12vw; /* Taille responsive énorme */
+            font-size: 12vw; 
             line-height: 0.9;
             text-transform: uppercase;
             letter-spacing: -2px;
         }
 
-        /* Bandeau défilant (Marquee) comme dans la vidéo */
+        /* Bandeau défilant */
         .marquee-container {
             background-color: var(--text-color);
             color: var(--bg-color);
@@ -70,6 +87,7 @@
             overflow: hidden;
             white-space: nowrap;
             display: flex;
+            border-bottom: 2px solid var(--text-color);
         }
 
         .marquee-text {
@@ -82,35 +100,84 @@
             100% { transform: translateX(-50%); }
         }
 
-        /* Section Projets */
+        /* Section Projets - Inspiration Base44 (Grille moderne) */
         .projects {
             padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
         .projects h2 {
-            font-size: 6rem;
-            margin-bottom: 2rem;
+            font-size: 5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
         }
 
         .project-card {
-            border: 2px solid var(--text-color);
+            border: 3px solid var(--text-color);
             padding: 2rem;
-            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
             transition: all 0.3s ease;
             cursor: pointer;
+            background-color: transparent;
+            min-height: 250px;
         }
 
+        /* Effet "pop" au survol */
         .project-card:hover {
+            transform: translate(-10px, -10px);
+            box-shadow: 12px 12px 0px var(--text-color);
             background-color: var(--text-color);
             color: var(--bg-color);
+        }
+
+        .project-card h3 {
+            font-size: 2.5rem;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        .project-card p {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+
+        /* Tags des technos */
+        .project-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .tag {
+            border: 1px solid currentColor;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.8rem;
+            border-radius: 50px;
+            text-transform: uppercase;
+            font-weight: 600;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div>/// Julien Arsena</div>
-        <div>Contact</div>
+        <div>/// Ton Nom</div>
+        
+        <div class="lang-switch">
+            <span class="active">FR</span> / <span>EN</span>
+        </div>
     </header>
 
     <section class="hero">
@@ -119,21 +186,49 @@
 
     <div class="marquee-container">
         <div class="marquee-text">
-            WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK 
+            WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK 
         </div>
     </div>
 
     <section class="projects">
         <h2>MES PROJETS</h2>
         
-        <div class="project-card">
-            <h3>01. Prédiction d'attrition (Churn)</h3>
-            <p>Modèle de Machine Learning pour anticiper le départ des clients.</p>
-        </div>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div>
+                    <h3>01. Prédiction Churn</h3>
+                    <p>Modèle de Machine Learning pour anticiper le départ des clients avec une précision de 92%.</p>
+                </div>
+                <div class="project-tags">
+                    <span class="tag">Python</span>
+                    <span class="tag">XGBoost</span>
+                    <span class="tag">Scikit-Learn</span>
+                </div>
+            </div>
 
-        <div class="project-card">
-            <h3>02. Analyse NLP sur des tweets</h3>
-            <p>Analyse de sentiment utilisant des modèles Transformers.</p>
+            <div class="project-card">
+                <div>
+                    <h3>02. Analyse NLP Tweets</h3>
+                    <p>Analyse de sentiment en temps réel utilisant des modèles Transformers pré-entraînés.</p>
+                </div>
+                <div class="project-tags">
+                    <span class="tag">Hugging Face</span>
+                    <span class="tag">PyTorch</span>
+                    <span class="tag">API</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div>
+                    <h3>03. Dashboard Ventes</h3>
+                    <p>Visualisation interactive des performances commerciales à l'aide de données complexes.</p>
+                </div>
+                <div class="project-tags">
+                    <span class="tag">SQL</span>
+                    <span class="tag">Tableau</span>
+                    <span class="tag">Streamlit</span>
+                </div>
+            </div>
         </div>
     </section>
 
