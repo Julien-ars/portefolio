@@ -103,10 +103,12 @@
             margin: 0 auto;
             padding: 4rem 2rem;
             flex-grow: 1;
+            width: 100%;
         }
 
         .page-header {
             margin-bottom: 4rem;
+            text-align: center;
         }
 
         .subtitle {
@@ -120,10 +122,10 @@
 
         .main-title {
             font-family: 'Anton', sans-serif;
-            font-size: 6rem;
-            line-height: 1;
+            font-size: 5rem;
+            line-height: 1.1;
             text-transform: uppercase;
-            letter-spacing: -1px;
+            letter-spacing: 1px;
         }
 
         /* ANIMATION SCROLL */
@@ -139,18 +141,108 @@
             transform: none;
         }
 
-        /* GRILLE DE CONTACT */
-        .contact-grid {
+        /* --- CARTES D'INFORMATIONS (EN HAUT) --- */
+        .info-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 5rem;
         }
 
-        /* --- COLONNE GAUCHE : FORMULAIRE --- */
+        .info-card {
+            border: 3px solid var(--text-color);
+            padding: 2rem;
+            transition: all 0.3s ease;
+            background-color: transparent;
+            text-decoration: none;
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Effet visuel au survol sur les cartes contenant des liens */
+        a.info-card:hover {
+            transform: translate(-8px, -8px);
+            box-shadow: 12px 12px 0px var(--text-color);
+            background-color: var(--text-color);
+            color: var(--bg-color);
+        }
+
+        .info-card h3 {
+            font-family: 'Anton', sans-serif;
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .info-card p {
+            font-weight: 600;
+            font-size: 1.1rem;
+            word-break: break-all;
+        }
+
+        .info-card .label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            font-weight: 800;
+            opacity: 0.7;
+            margin-bottom: 0.2rem;
+            display: block;
+            margin-top: 1rem;
+        }
+        
+        .info-card .label:first-of-type {
+            margin-top: 0;
+        }
+
+        /* Section des logos réseaux sociaux */
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            border: 3px solid var(--text-color);
+            border-radius: 50%;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .social-icon svg {
+            width: 30px;
+            height: 30px;
+            fill: currentColor;
+        }
+
+        .social-icon:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 6px 6px 0px var(--text-color);
+            background-color: var(--text-color);
+            color: var(--bg-color);
+        }
+
+        /* --- FORMULAIRE (EN BAS) --- */
+        .form-section-title {
+            font-family: 'Anton', sans-serif;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
         .contact-form {
             display: flex;
             flex-direction: column;
             gap: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .form-group {
@@ -202,6 +294,7 @@
             transition: all 0.3s ease;
             margin-top: 1rem;
             text-align: center;
+            width: 100%;
         }
 
         .btn-submit:hover {
@@ -211,53 +304,7 @@
             color: var(--bg-color);
         }
 
-        /* --- COLONNE DROITE : INFOS --- */
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
-        .info-card {
-            border: 3px solid var(--text-color);
-            padding: 2rem;
-            transition: all 0.3s ease;
-            background-color: transparent;
-            text-decoration: none;
-            color: var(--text-color);
-            display: block;
-        }
-
-        .info-card:hover {
-            transform: translate(-8px, -8px);
-            box-shadow: 12px 12px 0px var(--text-color);
-            background-color: var(--text-color);
-            color: var(--bg-color);
-        }
-
-        .info-card h3 {
-            font-family: 'Anton', sans-serif;
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-        }
-
-        .info-card p {
-            font-weight: 600;
-            font-size: 1.1rem;
-            word-break: break-all;
-        }
-
-        .info-card .label {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            font-weight: 800;
-            opacity: 0.7;
-            margin-bottom: 0.2rem;
-            display: block;
-        }
-
-        /* Un petit bandeau défilant en bas pour dynamiser */
+        /* --- BANDEAU DÉFILANT --- */
         .marquee-footer {
             background-color: var(--text-color);
             color: var(--bg-color);
@@ -281,12 +328,6 @@
         }
 
         /* --- RESPONSIVE DESIGN --- */
-        @media (max-width: 900px) {
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
         @media (max-width: 768px) {
             header {
                 flex-direction: column;
@@ -306,10 +347,13 @@
                 padding: 2rem 1rem;
             }
             .main-title {
-                font-size: 4rem; 
+                font-size: 3.5rem; 
             }
-            .contact-grid {
-                gap: 3rem;
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            .form-section-title {
+                font-size: 2rem;
             }
         }
     </style>
@@ -338,56 +382,64 @@
         
         <div class="page-header fade-in-section">
             <div class="subtitle" data-i18n="subtitle-contact">Contact</div>
-            <h1 class="main-title" data-i18n="title-contact">Travaillons<br>Ensemble</h1>
+            <h1 class="main-title" data-i18n="title-contact">Restons en<br>Contact</h1>
         </div>
 
-        <div class="contact-grid">
+        <div class="info-grid">
             
-            <div class="contact-form fade-in-section">
-                <div class="form-group">
-                    <label for="name" data-i18n="form-name">Nom Complet</label>
-                    <input type="text" id="name" placeholder="John Doe">
-                </div>
-                
-                <div class="form-group">
-                    <label for="email" data-i18n="form-email">Adresse Email</label>
-                    <input type="email" id="email" placeholder="john@example.com">
-                </div>
-                
-                <div class="form-group">
-                    <label for="message" data-i18n="form-msg">Votre Message</label>
-                    <textarea id="message" placeholder="Bonjour Julien..."></textarea>
-                </div>
-                
-                <button type="submit" class="btn-submit" data-i18n="form-btn">Envoyer -></button>
-            </div>
+            <a href="tel:+33647391864" class="info-card fade-in-section">
+                <h3 data-i18n="info-phone">Téléphone</h3>
+                <p>+33 6 47 39 18 64</p>
+            </a>
 
-            <div class="contact-info">
+            <a href="mailto:julien.arsena@psl.eu" class="info-card fade-in-section" style="transition-delay: 0.1s;">
+                <h3 data-i18n="info-email">Emails</h3>
+                <span class="label" data-i18n="label-pro">Institutionnel</span>
+                <p style="margin-bottom: 1rem;">julien.arsena@psl.eu</p>
+                <span class="label" data-i18n="label-perso">Personnel</span>
+                <p>julien.arsena@gmail.com</p> 
+            </a>
+
+            <div class="info-card fade-in-section" style="transition-delay: 0.2s;">
+                <h3 data-i18n="info-socials">Réseaux</h3>
                 
-                <a href="tel:+33647391864" class="info-card fade-in-section">
-                    <h3 data-i18n="info-phone">Téléphone</h3>
-                    <p>+33 6 47 39 18 64</p>
-                </a>
-
-                <a href="mailto:julien.arsena@psl.eu" class="info-card fade-in-section" style="transition-delay: 0.1s;">
-                    <h3 data-i18n="info-email">Emails</h3>
-                    <span class="label" data-i18n="label-pro">Professionnel</span>
-                    <p style="margin-bottom: 1rem;">julien.arsena@psl.eu</p>
-                    <span class="label" data-i18n="label-perso">Personnel</span>
-                    <p>julien.arsena@gmail.com</p> 
-                </a>
-
-                <div class="info-card fade-in-section" style="transition-delay: 0.2s;">
-                    <h3 data-i18n="info-socials">Réseaux</h3>
-                    <span class="label">LinkedIn</span>
-                    <p style="margin-bottom: 1rem;"><a href="#" style="color: inherit;">linkedin.com/in/julienarsena</a></p>
-                    <span class="label">GitHub</span>
-                    <p><a href="#" style="color: inherit;">github.com/julienarsena</a></p>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/julien-arsena/" target="_blank" class="social-icon" aria-label="LinkedIn">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                        </svg>
+                    </a>
+                    
+                    <a href="https://github.com/Julien-ars" target="_blank" class="social-icon" aria-label="GitHub">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
                 </div>
-
             </div>
 
         </div>
+
+        <h2 class="form-section-title fade-in-section" data-i18n="or-contact-here">Ou m'écrire directement ici ↓</h2>
+        
+        <form class="contact-form fade-in-section" action="https://formspree.io/f/VOTRE_CODE_FORMSPREE" method="POST">
+            <div class="form-group">
+                <label for="name" data-i18n="form-name">Nom Complet</label>
+                <input type="text" id="name" name="nom" placeholder="John Doe" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email" data-i18n="form-email">Adresse Email</label>
+                <input type="email" id="email" name="email" placeholder="john@example.com" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="message" data-i18n="form-msg">Votre Message</label>
+                <textarea id="message" name="message" placeholder="Bonjour Julien..." required></textarea>
+            </div>
+            
+            <button type="submit" class="btn-submit" data-i18n="form-btn">Envoyer -></button>
+        </form>
 
     </div>
 
@@ -398,7 +450,6 @@
     </div>
 
     <script>
-        // --- 1. ANIMATION SCROLL ---
         document.addEventListener("DOMContentLoaded", function() {
             const options = { root: null, rootMargin: '0px', threshold: 0.15 };
             const observer = new IntersectionObserver((entries, observer) => {
@@ -415,7 +466,6 @@
             });
         });
 
-        // --- 2. SYSTÈME DE TRADUCTION ---
         const translations = {
             "fr": {
                 "nav-home": "Accueil",
@@ -423,16 +473,17 @@
                 "nav-about": "À Propos",
                 "nav-contact": "Contact",
                 "subtitle-contact": "Contact",
-                "title-contact": "Travaillons<br>Ensemble",
+                "title-contact": "Restons en<br>Contact",
+                "info-phone": "Téléphone",
+                "info-email": "Emails",
+                "label-pro": "Institutionnel",
+                "label-perso": "Personnel",
+                "info-socials": "Réseaux",
+                "or-contact-here": "Ou m'écrire directement ici ↓",
                 "form-name": "Nom Complet",
                 "form-email": "Adresse Email",
                 "form-msg": "Votre Message",
                 "form-btn": "Envoyer ->",
-                "info-phone": "Téléphone",
-                "info-email": "Emails",
-                "label-pro": "Professionnel",
-                "label-perso": "Personnel",
-                "info-socials": "Réseaux",
                 "marquee": "DISPONIBLE POUR UN STAGE • EN RECHERCHE D'OPPORTUNITÉS • DISPONIBLE POUR UN STAGE • EN RECHERCHE D'OPPORTUNITÉS • DISPONIBLE POUR UN STAGE • EN RECHERCHE D'OPPORTUNITÉS • "
             },
             "en": {
@@ -441,16 +492,17 @@
                 "nav-about": "About",
                 "nav-contact": "Contact",
                 "subtitle-contact": "Contact",
-                "title-contact": "Let's Work<br>Together",
+                "title-contact": "Get In<br>Touch",
+                "info-phone": "Phone",
+                "info-email": "Emails",
+                "label-pro": "Institutional",
+                "label-perso": "Personal",
+                "info-socials": "Socials",
+                "or-contact-here": "Or write to me directly here ↓",
                 "form-name": "Full Name",
                 "form-email": "Email Address",
                 "form-msg": "Your Message",
                 "form-btn": "Send ->",
-                "info-phone": "Phone",
-                "info-email": "Emails",
-                "label-pro": "Professional",
-                "label-perso": "Personal",
-                "info-socials": "Socials",
                 "marquee": "AVAILABLE FOR AN INTERNSHIP • OPEN TO OPPORTUNITIES • AVAILABLE FOR AN INTERNSHIP • OPEN TO OPPORTUNITIES • AVAILABLE FOR AN INTERNSHIP • OPEN TO OPPORTUNITIES • "
             }
         };
@@ -463,7 +515,6 @@
                 }
             });
 
-            // Gérer le cas particulier du bandeau défilant qui n'utilise pas data-i18n pour éviter de casser l'animation
             document.getElementById('marquee-text').innerHTML = translations[lang]["marquee"];
 
             if (lang === 'fr') {
