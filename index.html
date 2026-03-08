@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Data Scientist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Variables de couleurs */
+        :root {
+            --bg-color: #e60023; /* Le rouge vif */
+            --text-color: #0a0a0a; /* Le noir profond */
+        }
+
+        /* Réinitialisation de base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Anton', sans-serif; /* Police style affiche */
+            overflow-x: hidden;
+            
+            /* Effet de quadrillage léger en fond */
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* En-tête style navigation minimaliste */
+        header {
+            display: flex;
+            justify-content: space-between;
+            padding: 1.5rem 2rem;
+            border-bottom: 2px solid var(--text-color);
+            text-transform: uppercase;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+
+        /* Section principale (Hero) */
+        .hero {
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-bottom: 2px solid var(--text-color);
+        }
+
+        .hero h1 {
+            font-size: 12vw; /* Taille responsive énorme */
+            line-height: 0.9;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+        }
+
+        /* Bandeau défilant (Marquee) comme dans la vidéo */
+        .marquee-container {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            padding: 1rem 0;
+            overflow: hidden;
+            white-space: nowrap;
+            display: flex;
+        }
+
+        .marquee-text {
+            font-size: 4rem;
+            animation: scroll-left 15s linear infinite;
+        }
+
+        @keyframes scroll-left {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Section Projets */
+        .projects {
+            padding: 4rem 2rem;
+        }
+
+        .projects h2 {
+            font-size: 6rem;
+            margin-bottom: 2rem;
+        }
+
+        .project-card {
+            border: 2px solid var(--text-color);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .project-card:hover {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div>/// Ton Nom</div>
+        <div>Contact</div>
+    </header>
+
+    <section class="hero">
+        <h1>DATA +<br>SCIENTIST</h1>
+    </section>
+
+    <div class="marquee-container">
+        <div class="marquee-text">
+            WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK 
+        </div>
+    </div>
+
+    <section class="projects">
+        <h2>MES PROJETS</h2>
+        
+        <div class="project-card">
+            <h3>01. Prédiction d'attrition (Churn)</h3>
+            <p>Modèle de Machine Learning pour anticiper le départ des clients.</p>
+        </div>
+
+        <div class="project-card">
+            <h3>02. Analyse NLP sur des tweets</h3>
+            <p>Analyse de sentiment utilisant des modèles Transformers.</p>
+        </div>
+    </section>
+
+</body>
+</html>
