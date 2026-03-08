@@ -351,7 +351,7 @@
             }
         }
 
-        /* Téléphones (moins de 768px) */
+       /* Téléphones (moins de 768px) */
         @media (max-width: 768px) {
             header {
                 flex-direction: column;
@@ -375,7 +375,7 @@
             }
             
             .main-title {
-                font-size: 3.5rem; 
+                font-size: 3.5rem; /* Titre plus petit */
             }
             
             .section-title {
@@ -383,7 +383,7 @@
             }
             
             .wide-card {
-                grid-template-columns: 1fr; 
+                grid-template-columns: 1fr; /* La date passe au-dessus du texte */
                 gap: 0.5rem;
                 padding: 1.5rem;
             }
@@ -393,15 +393,6 @@
                 border-bottom: 2px solid var(--text-color);
                 padding-bottom: 0.5rem;
                 margin-bottom: 0.5rem;
-            }
-            
-            /* Sur de très petits écrans, on empile les jauges sous le nom de la langue si ça ne rentre plus */
-            @media (max-width: 400px) {
-                .lang-item {
-                    flex-direction: column;
-                    align-items: flex-start;
-                    gap: 0.5rem;
-                }
             }
         }
     </style>
