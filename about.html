@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>À Propos | Julien Arsena</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #e60023; 
+            --text-color: #0a0a0a; 
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif; /* Police principale plus lisible pour cette page */
+            overflow-x: hidden;
+            
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* --- HEADER (Identique à l'accueil) --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            border-bottom: 2px solid var(--text-color);
+            font-family: 'Anton', sans-serif;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .main-nav {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .main-nav a {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--text-color);
+            padding: 0.5rem 1rem;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        /* La page "À Propos" est active ici */
+        .main-nav a.active, .main-nav a:hover {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            border: 2px solid var(--text-color);
+        }
+
+        .lang-switch {
+            display: flex;
+            gap: 0.5rem;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .lang-switch span {
+            opacity: 0.4;
+            transition: opacity 0.3s;
+        }
+
+        .lang-switch span.active, .lang-switch span:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        /* --- CONTENU DE LA PAGE --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .page-header {
+            margin-bottom: 3rem;
+        }
+
+        .subtitle {
+            font-family: 'Inter', sans-serif;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .main-title {
+            font-family: 'Anton', sans-serif;
+            font-size: 5rem;
+            line-height: 1;
+            text-transform: uppercase;
+        }
+
+        /* Section Profil (Inspiration Base44) */
+        .profile-section {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 3rem;
+            margin-bottom: 5rem;
+        }
+
+        .profile-image-placeholder {
+            border: 4px solid var(--text-color);
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            height: 350px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Anton', sans-serif;
+            font-size: 6rem;
+            transition: all 0.3s ease;
+            box-shadow: 12px 12px 0px var(--text-color);
+        }
+
+        .profile-image-placeholder:hover {
+            transform: translate(-5px, -5px);
+            box-shadow: 17px 17px 0px var(--text-color);
+        }
+
+        .profile-desc h2 {
+            font-family: 'Anton', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            line-height: 1.1;
+        }
+
+        .profile-desc p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        /* Sections Parcours & Compétences (Inspiration Base44) */
+        .section-block {
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-family: 'Anton', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Cartes larges pour le parcours */
+        .wide-card {
+            border: 3px solid var(--text-color);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            background-color: transparent;
+            transition: all 0.3s ease;
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 2rem;
+        }
+
+        .wide-card:hover {
+            transform: translate(-8px, -8px);
+            box-shadow: 12px 12px 0px var(--text-color);
+            background-color: var(--text-color);
+            color: var(--bg-color);
+        }
+
+        .wide-card .date {
+            font-family: 'Anton', sans-serif;
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+        }
+
+        .wide-card .content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 800;
+        }
+
+        .wide-card .content p {
+            line-height: 1.5;
+            font-weight: 600;
+        }
+
+        /* Grille pour les compétences */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .skill-card {
+            border: 3px solid var(--text-color);
+            padding: 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .skill-card:hover {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+        }
+
+        .skill-card h4 {
+            font-family: 'Anton', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            border: 2px solid currentColor;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.9rem;
+            border-radius: 50px;
+            font-weight: 800;
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-left">
+            <div class="logo">/// Julien Arsena</div>
+            
+            <nav class="main-nav">
+                <a href="index.html">Accueil</a>
+                <a href="projects.html">Projets</a>
+                <a href="about.html" class="active">À Propos</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+        </div>
+        
+        <div class="lang-switch">
+            <span class="active">FR</span> / <span>EN</span>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <div class="page-header">
+            <div class="subtitle">À Propos</div>
+            <h1 class="main-title">Mon Parcours</h1>
+        </div>
+
+        <div class="profile-section">
+            <div class="profile-image-placeholder">
+                JA
+            </div>
+
+            <div class="profile-desc">
+                <h2>Étudiant en Sciences des Données & Arts</h2>
+                <p>Passionné par l'intersection entre l'intelligence artificielle et la culture, je suis actuellement étudiant en L2 au sein du Cycle Pluridisciplinaire d'Études Supérieures (CPES) à l'Université PSL et au Lycée Louis Le Grand.</p>
+                <p>Mon profil hybride me permet d'allier une grande rigueur dans les sciences formelles (algorithmique, statistiques, programmation) à une solide compréhension des sciences humaines (histoire des arts, approches cognitives de la fiction).</p>
+                <p>Je me spécialise dans la récolte et l'analyse de données pour transformer des informations complexes en insights clairs, avec un intérêt particulier pour les applications culturelles (cinéma, musées, littérature).</p>
+            </div>
+        </div>
+
+        <div class="section-block">
+            <h2 class="section-title">[+] Parcours & Formations</h2>
+            
+            <div class="wide-card">
+                <div class="date">2024 - Présent</div>
+                <div class="content">
+                    <h3>L2 CPES Sciences des données, Arts et Cultures</h3>
+                    <p>Université Paris Sciences et Lettres (PSL) & Lycée Louis Le Grand.<br>
+                    Sciences formelles : Algorithmique, Statistiques, Programmation.<br>
+                    Sciences humaines : Littérature mondiale, Histoire des Arts, NLP.</p>
+                </div>
+            </div>
+
+            <div class="wide-card">
+                <div class="date">2023 - 2024</div>
+                <div class="content">
+                    <h3>CPGE MPSI (Option Informatique)</h3>
+                    <p>Lycée Thuillier. Niveau validé : L1 Mathématiques, L1 Physique.</p>
+                </div>
+            </div>
+
+            <div class="wide-card">
+                <div class="date">2023</div>
+                <div class="content">
+                    <h3>Double Baccalauréat (Général & Esabac Italien)</h3>
+                    <p>Lycée Michelis. Spécialités Mathématiques, Physique & SES. Option Mathématiques expertes et Théâtre. <strong>Mention Très Bien.</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-block">
+            <h2 class="section-title">[+] Compétences Détaillées</h2>
+            
+            <div class="skills-grid">
+                
+                <div class="skill-card">
+                    <h4>Programmation</h4>
+                    <div class="tags-container">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Scikit-Learn</span>
+                        <span class="skill-tag">Pandas</span>
+                        <span class="skill-tag">Numpy</span>
+                        <span class="skill-tag">HTML</span>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <h4>Data & Science</h4>
+                    <div class="tags-container">
+                        <span class="skill-tag">Web Scraping</span>
+                        <span class="skill-tag">Statistiques</span>
+                        <span class="skill-tag">Régression Linéaire</span>
+                        <span class="skill-tag">Data Viz</span>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <h4>Langues</h4>
+                    <div class="tags-container">
+                        <span class="skill-tag">Anglais (C1)</span>
+                        <span class="skill-tag">Italien (B2)</span>
+                        <span class="skill-tag">Japonais (A1)</span>
+                        <span class="skill-tag">Français (Natif)</span>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <h4>Centres d'intérêt</h4>
+                    <div class="tags-container">
+                        <span class="skill-tag">Cinéma & Animation</span>
+                        <span class="skill-tag">Musées & Expos</span>
+                        <span class="skill-tag">Langues</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
