@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projets | Julien Arsena</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #e60023; 
+            --text-color: #0a0a0a; 
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif; 
+            overflow-x: hidden;
+            
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- HEADER --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            border-bottom: 2px solid var(--text-color);
+            font-family: 'Anton', sans-serif;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .main-nav {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .main-nav a {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--text-color);
+            padding: 0.5rem 1rem;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .main-nav a.active, .main-nav a:hover {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            border: 2px solid var(--text-color);
+        }
+
+        .lang-switch {
+            display: flex;
+            gap: 0.5rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .lang-switch span {
+            opacity: 0.4;
+            transition: opacity 0.3s;
+            cursor: pointer;
+        }
+
+        .lang-switch span.active, .lang-switch span:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        /* --- CONTENU --- */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            flex-grow: 1;
+            width: 100%;
+        }
+
+        .page-header {
+            margin-bottom: 4rem;
+            text-align: center;
+        }
+
+        .subtitle {
+            font-family: 'Inter', sans-serif;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .main-title {
+            font-family: 'Anton', sans-serif;
+            font-size: 6rem;
+            line-height: 1;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        /* ANIMATION SCROLL */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, visibility;
+        }
+
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* --- SECTIONS PROJETS --- */
+        .section-title {
+            font-family: 'Anton', sans-serif;
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            border-bottom: 4px solid var(--text-color);
+            padding-bottom: 1rem;
+            margin-top: 4rem;
+        }
+
+        /* Grille pour les 5 projets Data Science */
+        .ds-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+        }
+
+        /* Grille pour les 2 projets Web (plus larges) */
+        .web-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .project-card {
+            border: 3px solid var(--text-color);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background-color: transparent;
+            min-height: 280px;
+            text-decoration: none;
+            color: var(--text-color);
+        }
+
+        .project-card:hover {
+            transform: translate(-10px, -10px);
+            box-shadow: 15px 15px 0px var(--text-color);
+            background-color: var(--text-color);
+            color: var(--bg-color);
+        }
+
+        /* Inverser la couleur du bouton au survol */
+        .project-card:hover .project-link-btn {
+            border-color: var(--bg-color);
+            color: var(--bg-color);
+        }
+
+        .project-card h3 {
+            font-family: 'Anton', sans-serif;
+            font-size: 2.5rem;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .project-card p {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            line-height: 1.5;
+            font-weight: 600;
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .tag {
+            border: 2px solid currentColor;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.85rem;
+            border-radius: 50px;
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+
+        .project-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            border-top: 2px solid currentColor;
+            padding-top: 1rem;
+        }
+
+        .project-date {
+            font-family: 'Anton', sans-serif;
+            font-size: 1.2rem;
+        }
+
+        .project-link-btn {
+            font-family: 'Inter', sans-serif;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            border: 2px solid var(--text-color);
+            padding: 0.5rem 1rem;
+            transition: all 0.3s;
+        }
+
+        /* --- RESPONSIVE DESIGN --- */
+        @media (max-width: 900px) {
+            .web-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 1.5rem;
+                padding: 1.5rem 1rem;
+            }
+            .header-left {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            .main-nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .container {
+                padding: 2rem 1rem;
+            }
+            .main-title {
+                font-size: 4rem; 
+            }
+            .section-title {
+                font-size: 2.5rem;
+            }
+            .project-card h3 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-left">
+            <div class="logo">/// Julien Arsena</div>
+            
+            <nav class="main-nav">
+                <a href="index.html" data-i18n="nav-home">Accueil</a>
+                <a href="projects.html" class="active" data-i18n="nav-projects">Projets</a>
+                <a href="about.html" data-i18n="nav-about">À Propos</a>
+                <a href="contact.html" data-i18n="nav-contact">Contact</a>
+            </nav>
+        </div>
+        
+        <div class="lang-switch">
+            <span id="btn-fr" class="active" onclick="setLanguage('fr')">FR</span> / 
+            <span id="btn-en" onclick="setLanguage('en')">EN</span>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <div class="page-header fade-in-section">
+            <div class="subtitle" data-i18n="subtitle-projects">Portfolio</div>
+            <h1 class="main-title" data-i18n="title-projects">Mes Travaux</h1>
+        </div>
+
+        <h2 class="section-title fade-in-section" data-i18n="section-ds">01. Sciences des Données & Analyse</h2>
+        
+        <div class="ds-grid">
+            
+            <a href="#" class="project-card fade-in-section">
+                <div>
+                    <h3 data-i18n="ds1-title">Colorimetrie du Cinéma</h3>
+                    <p data-i18n="ds1-desc">Modélisation et prédiction de la palette de couleurs d'une affiche de film en fonction de ses caractéristiques (genre, année, réalisateur) via des méthodes de Machine Learning.</p>
+                    <div class="project-tags">
+                        <span class="tag">Machine Learning</span>
+                        <span class="tag">Python</span>
+                        <span class="tag">Scikit-Learn</span>
+                    </div>
+                </div>
+                <div class="project-footer">
+                    <span class="project-date" data-i18n="date-oct25">Oct. 2025</span>
+                    <span class="project-link-btn" data-i18n="btn-details">En savoir plus</span>
+                </div>
+            </a>
+
+            <a href="#" class="project-card fade-in-section">
+                <div>
+                    <h3 data-i18n="ds2-title">Violence & Animation</h3>
+                    <p data-i18n="ds2-desc">Analyse statistique poussée : les animés (Japonais) les mieux notés par le public sont-ils statistiquement les plus violents ? Web scraping et visualisation de données.</p>
+                    <div class="project-tags">
+                        <span class="tag">Web Scraping</span>
+                        <span class="tag">Pandas</span>
+                        <span class="tag">Data Viz</span>
+                    </div>
+                </div>
+                <div class="project-footer">
+                    <span class="project-date" data-i18n="date-mai25">Mai 2025</span>
+                    <span class="project-link-btn" data-i18n="btn-details">En savoir plus</span>
+                </div>
+            </a>
+
+            <a href="#" class="project-card fade-in-section">
+                <div>
+                    <h3 data-i18n="ds3-title">Générations & Voyages</h3>
+                    <p data-i18n="ds3-desc">Étude sociologique appuyée par la donnée : analyse du désir de voyager selon les tranches d'âge. Récolte manuelle, régressions et modélisations des résultats.</p>
+                    <div class="project-tags">
+                        <span class="tag">Statistiques</span>
+                        <span class="tag">Régression</span>
+                        <span class="tag">Enquêtes</span>
+                    </div>
+                </div>
+                <div class="project-footer">
+                    <span class="project-date" data-i18n="date-fev25">Fév. 2025</span>
+                    <span class="project-link-btn" data-i18n="btn-details">En savoir plus</span>
+                </div>
+            </a>
+
+            <a href="#" class="project-card fade-in-section">
+                <div>
+                    <h3 data-i18n="ds4-title">Galerie Virtuelle 3D</h3>
+                    <p data-i18n="ds4-desc">Commissariat et scénographie d'une exposition virtuelle sur le thème du Paysage. Modélisation 3D d'œuvres provenant de musées de Tokyo.</p>
+                    <div class="project-tags">
+                        <span class="tag">Modélisation 3D</span>
+                        <span class="tag">Art History</span>
+                        <span class="tag">Curation</span>
+                    </div>
+                </div>
+                <div class="project-footer">
+                    <span class="project-date" data-i18n="date-oct25">Oct. 2025</span>
+                    <span class="project-link-btn" data-i18n="btn-details">En savoir plus</span>
+                </div>
+            </a>
+
+            <a href="#" class="project-card fade-in-section">
+                <div>
+                    <h3 data-i18n="ds5-title">Analyse Littéraire (ENS)</h3>
+                    <p data-i18n="ds5-desc">Collecte de données et analyse statistique sur la littérature japonaise classique (jusqu'à 1850). Extraction de modèles historiques via les Humanités Numériques.</p>
+                    <div class="project-tags">
+                        <span class="tag">NLP</span>
+                        <span class="tag">Recherche</span>
+                        <span class="tag">Humanités</span>
+                    </div>
+                </div>
+                <div class="project-footer">
+                    <span class="project-date" data-i18n="date-ens">Stage ENS</span>
+                    <span class="project-link-btn" data-i18n="btn-details">En savoir plus</span>
+                </div>
+            </a>
+
+        </div>
+
+        <h2 class="section-title fade-in-section" data-i18n="section-web">02. Projets Web & Créatifs</h2>
+
+        <div class="web-grid">
+            
+            <a href="https://hunt-it.github.io" target="_blank" class="project-card fade-in-section">
+                <div>
+                    <h3 data-i18n="web1-title">Hunt-It : Chasse au Trésor</h3>
+                    <p data-i18n="web1-desc">Création d'un site web interactif simulant une "chasse au trésor" dans Paris. Conception des énigmes, développement de mini-jeux interactifs en code natif et hébergement sur GitHub Pages dans le cadre d'un projet interdisciplinaire.</p>
+                    <div class="project-tags">
+                        <span class="tag">HTML/CSS</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">Game Design</span>
+                    </div>
+                </div>
+                <div class="project-footer">
+                    <span class="project-date" data-i18n="date-juin25">Juin 2025</span>
+                    <span class="project-link-btn" data-i18n="btn-visit">Visiter le site -></span>
+                </div>
+            </a>
+
+            <a href="https://julien-ars.github.io/article-paradoxe-littoral/" target="_blank" class="project-card fade-in-section">
+                <div>
+                    <h3 data-i18n="web2-title">Le Paradoxe du Littoral</h3>
+                    <p data-i18n="web2-desc">Site web réalisé pour illustrer un article scientifique sur les paradoxes mathématiques, et plus particulièrement le paradoxe du littoral (fractales de Mandelbrot). Mise en forme vulgarisée et conception UI/UX pour la médiation scientifique.</p>
+                    <div class="project-tags">
+                        <span class="tag">Mathématiques</span>
+                        <span class="tag">Fractales</span>
+                        <span class="tag">Web Design</span>
+                    </div>
+                </div>
+                <div class="project-footer">
+                    <span class="project-date">2024</span>
+                    <span class="project-link-btn" data-i18n="btn-visit">Visiter le site -></span>
+                </div>
+            </a>
+
+        </div>
+
+    </div>
+
+    <script>
+        // --- ANIMATION SCROLL ---
+        document.addEventListener("DOMContentLoaded", function() {
+            const options = { root: null, rootMargin: '0px', threshold: 0.15 };
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, options);
+
+            document.querySelectorAll('.fade-in-section').forEach(section => {
+                observer.observe(section);
+            });
+        });
+
+        // --- SYSTÈME DE TRADUCTION ---
+        const translations = {
+            "fr": {
+                "nav-home": "Accueil",
+                "nav-projects": "Projets",
+                "nav-about": "À Propos",
+                "nav-contact": "Contact",
+                "subtitle-projects": "Portfolio",
+                "title-projects": "Mes Travaux",
+                "section-ds": "01. Sciences des Données & Analyse",
+                "ds1-title": "Colorimetrie du Cinéma",
+                "ds1-desc": "Modélisation et prédiction de la palette de couleurs d'une affiche de film en fonction de ses caractéristiques (genre, année, réalisateur) via des méthodes de Machine Learning.",
+                "ds2-title": "Violence & Animation",
+                "ds2-desc": "Analyse statistique poussée : les animés (Japonais) les mieux notés par le public sont-ils statistiquement les plus violents ? Web scraping et visualisation de données.",
+                "ds3-title": "Générations & Voyages",
+                "ds3-desc": "Étude sociologique appuyée par la donnée : analyse du désir de voyager selon les tranches d'âge. Récolte manuelle, régressions et modélisations des résultats.",
+                "ds4-title": "Galerie Virtuelle 3D",
+                "ds4-desc": "Commissariat et scénographie d'une exposition virtuelle sur le thème du Paysage. Modélisation 3D d'œuvres provenant de musées de Tokyo.",
+                "ds5-title": "Analyse Littéraire (ENS)",
+                "ds5-desc": "Collecte de données et analyse statistique sur la littérature japonaise classique (jusqu'à 1850). Extraction de modèles historiques via les Humanités Numériques.",
+                "section-web": "02. Projets Web & Créatifs",
+                "web1-title": "Hunt-It : Chasse au Trésor",
+                "web1-desc": "Création d'un site web interactif simulant une \"chasse au trésor\" dans Paris. Conception des énigmes, développement de mini-jeux interactifs en code natif et hébergement sur GitHub Pages dans le cadre d'un projet interdisciplinaire.",
+                "web2-title": "Le Paradoxe du Littoral",
+                "web2-desc": "Site web réalisé pour illustrer un article scientifique sur les paradoxes mathématiques, et plus particulièrement le paradoxe du littoral (fractales de Mandelbrot). Mise en forme vulgarisée et conception UI/UX pour la médiation scientifique.",
+                "date-oct25": "Oct. 2025",
+                "date-mai25": "Mai 2025",
+                "date-fev25": "Fév. 2025",
+                "date-juin25": "Juin 2025",
+                "date-ens": "Stage ENS",
+                "btn-details": "En savoir plus",
+                "btn-visit": "Visiter le site ->"
+            },
+            "en": {
+                "nav-home": "Home",
+                "nav-projects": "Projects",
+                "nav-about": "About",
+                "nav-contact": "Contact",
+                "subtitle-projects": "Portfolio",
+                "title-projects": "My Work",
+                "section-ds": "01. Data Science & Analysis",
+                "ds1-title": "Cinema Colorimetry",
+                "ds1-desc": "Modeling and predicting the color palette of a movie poster based on its characteristics (genre, year, director) using Machine Learning methods.",
+                "ds2-title": "Violence & Animation",
+                "ds2-desc": "Advanced statistical analysis: are the highest-rated (Japanese) anime statistically the most violent? Web scraping and data visualization.",
+                "ds3-title": "Generations & Travel",
+                "ds3-desc": "Data-driven sociological study: analyzing the desire to travel across age groups. Manual data collection, regressions, and results modeling.",
+                "ds4-title": "Virtual 3D Gallery",
+                "ds4-desc": "Curation and scenography of a virtual exhibition on the theme of Landscapes. 3D modeling of artworks from Tokyo museums.",
+                "ds5-title": "Literary Analysis (ENS)",
+                "ds5-desc": "Data collection and statistical analysis on classical Japanese literature (up to 1850). Extracting historical patterns using Digital Humanities.",
+                "section-web": "02. Web & Creative Projects",
+                "web1-title": "Hunt-It: Treasure Hunt",
+                "web1-desc": "Creation of an interactive website simulating a \"treasure hunt\" in Paris. Riddle design, interactive mini-games development in native code, hosted on GitHub Pages for an interdisciplinary project.",
+                "web2-title": "The Coastline Paradox",
+                "web2-desc": "Website created to illustrate a scientific article on mathematical paradoxes, specifically the coastline paradox (Mandelbrot fractals). Simplified formatting and UI/UX design for scientific outreach.",
+                "date-oct25": "Oct. 2025",
+                "date-mai25": "May 2025",
+                "date-fev25": "Feb. 2025",
+                "date-juin25": "June 2025",
+                "date-ens": "ENS Intern",
+                "btn-details": "Learn more",
+                "btn-visit": "Visit website ->"
+            }
+        };
+
+        function setLanguage(lang) {
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    element.innerHTML = translations[lang][key];
+                }
+            });
+
+            if (lang === 'fr') {
+                document.getElementById('btn-fr').classList.add('active');
+                document.getElementById('btn-en').classList.remove('active');
+            } else {
+                document.getElementById('btn-en').classList.add('active');
+                document.getElementById('btn-fr').classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>
