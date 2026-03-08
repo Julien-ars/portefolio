@@ -1,0 +1,75 @@
+📘 CODEBOOK — Project : Predicting Dominant Colors of Movie Posters
+
+───────────────────────────────────────────────────────────────
+A. GENERAL DESCRIPTION OF THE DATASET
+───────────────────────────────────────────────────────────────
+
+This dataset contains information about the first 3000 films collected from HuggingFace (https://huggingface.co/datasets/stzhao/movie_posters_100k_controlnet).
+This dataset gathers descriptive information about movies (title, release year, language, genre, estimated budget, etc.) as well as the three main dominant colors automatically extracted from their posters.
+
+File format: CSV (UTF-8)
+
+───────────────────────────────────────────────────────────────
+B. DESCRIPTION OF VARIABLES
+───────────────────────────────────────────────────────────────
+
+1) title
+   - Type: String (Text)
+   - Description: Full title of the movie
+   - Exemple: Sound of Freedom
+
+2) image_url
+   - Type: String (URL)
+   - Description: Link to the poster image
+
+3) year
+   - Type: Number (int)
+   - Description: Release year of the movie
+   - Exemple: 2023
+
+4) genre
+   - Type: String (list)
+   - Description: list of genres
+   - Exemple: {'id': 12, 'name': 'Adventure'}|{'id': 28, 'name': 'Action'}|{'id': 18, 'name': 'Drama'}
+
+5) budget
+   - Type: Number (float)
+   - Description: Estimated movie budget (in dollars)
+   - Exemple: 60000000
+
+6) original_language
+   - Type: String (Text)
+   - Description: original language (ISO-2)
+   - Exemple: en
+
+7) couleur_1, couleur_2, couleur_3
+   - Type: String (Text)
+   - Description: Names of the 3 dominant colors
+   - Exemple: rose, gris, blanc
+
+
+8) hex_1, hex_2, hex_3 : string — corresponding hexadecimal color codes
+   - Type: String
+   - Description: Corresponding hexadecimal color codes
+   - Exemple: #316487, #702543, #e6514a
+
+
+───────────────────────────────────────────────────────────────
+C. METHODOLOGY
+───────────────────────────────────────────────────────────────
+
+
+- Data was collected through web scraping using Python libraries:
+  "requests" for HTTP requests and "BeautifulSoup" for parsing HTML.
+- The script navigates through the paginated top anime list on HuggingFace (using the 'limit' parameter) to extract the list of movie to retrieve specific information.
+
+
+
+───────────────────────────────────────────────────────────────
+D. AUTHOR & SUPERVISION
+───────────────────────────────────────────────────────────────
+
+Author: Arsena Julien
+Program: CPES (Université PSL – Lycée Louis-le-Grand)
+Machine Learning Project, Academic Year 2024–2025
+Date : 22/10/2025
