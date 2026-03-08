@@ -70,7 +70,7 @@
 
         /* --- CONTENU --- */
         .container {
-            max-width: 1000px; /* Un peu plus étroit pour la lecture d'un article */
+            max-width: 1000px; 
             margin: 0 auto;
             padding: 4rem 2rem;
             flex-grow: 1;
@@ -122,7 +122,7 @@
         }
 
         /* --- SECTIONS TEXTUELLES --- */
-        .content-section { margin-bottom: 3rem; }
+        .content-section { margin-bottom: 4rem; }
         
         .content-title {
             font-family: 'Anton', sans-serif;
@@ -141,7 +141,45 @@
             margin-bottom: 1.5rem;
         }
 
-        /* --- GRILLE DE FICHIERS (RESSOURCES) --- */
+        /* --- NOUVEAU : GRILLE DES GRAPHIQUES --- */
+        .viz-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .viz-card {
+            border: 4px solid var(--text-color);
+            background-color: var(--text-color);
+            padding: 0; /* L'image touche les bords du cadre noir */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .viz-card:hover {
+            transform: translate(-5px, -5px);
+            box-shadow: 12px 12px 0px var(--text-color);
+        }
+
+        .viz-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-bottom: 3px solid var(--text-color);
+            background-color: #fff; /* Fond blanc derrière les graphiques */
+        }
+
+        .viz-caption {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--bg-color); /* Texte rouge sur fond noir */
+            padding: 1rem;
+            text-align: center;
+            margin: 0;
+        }
+
+        /* --- GRILLE DE FICHIERS --- */
         .files-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -170,23 +208,9 @@
             color: var(--bg-color);
         }
 
-        .file-icon {
-            font-family: 'Anton', sans-serif;
-            font-size: 3rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .file-name {
-            font-weight: 800;
-            font-size: 1rem;
-            text-transform: uppercase;
-        }
-
-        .file-type {
-            font-size: 0.8rem;
-            opacity: 0.8;
-            margin-top: 0.5rem;
-        }
+        .file-icon { font-family: 'Anton', sans-serif; font-size: 3rem; margin-bottom: 0.5rem; }
+        .file-name { font-weight: 800; font-size: 1rem; text-transform: uppercase; }
+        .file-type { font-size: 0.8rem; opacity: 0.8; margin-top: 0.5rem; }
 
         /* ANIMATION SCROLL */
         .fade-in-section {
@@ -203,6 +227,7 @@
             .main-title { font-size: 3.5rem; }
             .project-catchphrase { font-size: 1.2rem; }
             .content-title { font-size: 2rem; }
+            .viz-grid { grid-template-columns: 1fr; } /* Les graphiques s'empilent sur mobile */
         }
     </style>
 </head>
@@ -261,14 +286,31 @@
         </div>
 
         <div class="content-section fade-in-section">
-            <h2 class="content-title" data-i18n="h-results">[3] Les Résultats</h2>
+            <h2 class="content-title" data-i18n="h-viz">[3] Aperçu Visuel</h2>
+            <p class="content-text" data-i18n="p-viz">Visualisation de la distribution initiale des données et des performances du modèle prédictif :</p>
+            
+            <div class="viz-grid">
+                <div class="viz-card">
+                    <img src="graphique_1.png" alt="Distribution des couleurs" class="viz-img">
+                    <p class="viz-caption" data-i18n="cap-viz1">Fig 1. Distribution de la variable cible (Couleur principale de l'affiche)</p>
+                </div>
+                
+                <div class="viz-card">
+                    <img src="graphique_2.png" alt="Matrice de confusion" class="viz-img">
+                    <p class="viz-caption" data-i18n="cap-viz2">Fig 2. Matrice de confusion évaluant les prédictions du modèle de Régression Ridge</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section fade-in-section">
+            <h2 class="content-title" data-i18n="h-results">[4] Les Résultats</h2>
             <p class="content-text" data-i18n="p-results">
                 Le modèle de régression Ridge s'est révélé être le plus performant, atteignant une précision de <strong>34.78%</strong> sur les données de test (largement au-dessus de la probabilité aléatoire qui est d'environ 16%). Bien que modéré, ce résultat est fascinant : il démontre que l'ordinateur est capable de deviner correctement la couleur dominante d'une affiche 1 fois sur 3, sans jamais regarder l'image, prouvant que les caractéristiques invisibles d'un film dictent en partie son identité visuelle.
             </p>
         </div>
 
         <div class="content-section fade-in-section">
-            <h2 class="content-title" data-i18n="h-files">[4] Fichiers & Code</h2>
+            <h2 class="content-title" data-i18n="h-files">[5] Fichiers & Code</h2>
             <p class="content-text" data-i18n="p-files">Consultez mon rapport scientifique, explorez mes données ou lisez mon code Python directement via les liens ci-dessous :</p>
             
             <div class="files-grid">
@@ -298,7 +340,7 @@
 
                 <a href="Codebook_Project1.txt" target="_blank" class="file-card">
                     <div class="file-icon">TXT</div>
-                    <div class="file-name" data-i18n="file-codebook">Dictionnaire des Variables</div>
+                    <div class="file-name" data-i18n="file-codebook">Dictionnaire de Variables</div>
                     <div class="file-type">Codebook</div>
                 </a>
             </div>
@@ -335,15 +377,19 @@
                 "p-method1": "<strong>1. Récolte des données :</strong> J'ai développé un script de web scraping pour extraire les données de 3000 films depuis la plateforme Hugging Face. Ces données incluent les caractéristiques classiques du film ainsi que l'extraction automatique des codes hexadécimaux des palettes de couleurs des affiches.",
                 "p-method2": "<strong>2. Traitement (Feature Engineering) :</strong> Plusieurs variables ont été transformées, notamment le passage au logarithme pour le budget (afin de réduire l'écrasement entre petites et énormes productions) et l'encodage des genres en variables exploitables par l'algorithme.",
                 "p-method3": "<strong>3. Modélisation :</strong> S'agissant d'un problème de classification multiclasse, j'ai testé plusieurs modèles algorithmiques en Python, dont la régression logistique Ridge.",
-                "h-results": "[3] Les Résultats",
+                "h-viz": "[3] Aperçu Visuel",
+                "p-viz": "Visualisation de la distribution initiale des données et des performances du modèle prédictif :",
+                "cap-viz1": "Fig 1. Distribution de la variable cible (Couleur principale de l'affiche)",
+                "cap-viz2": "Fig 2. Matrice de confusion évaluant les prédictions du modèle de Régression Ridge",
+                "h-results": "[4] Les Résultats",
                 "p-results": "Le modèle de régression Ridge s'est révélé être le plus performant, atteignant une précision de <strong>34.78%</strong> sur les données de test (largement au-dessus de la probabilité aléatoire qui est d'environ 16%). Bien que modéré, ce résultat est fascinant : il démontre que l'ordinateur est capable de deviner correctement la couleur dominante d'une affiche 1 fois sur 3, sans jamais regarder l'image, prouvant que les caractéristiques invisibles d'un film dictent en partie son identité visuelle.",
-                "h-files": "[4] Fichiers & Code",
+                "h-files": "[5] Fichiers & Code",
                 "p-files": "Consultez mon rapport scientifique, explorez mes données ou lisez mon code Python directement via les liens ci-dessous :",
                 "file-report": "Rapport d'Étude",
                 "file-ml": "Modèle de Prédiction",
                 "file-scrap": "Script de Scraping",
                 "file-data": "Base de Données",
-                "file-codebook": "Dictionnaire des Variables"
+                "file-codebook": "Dictionnaire de Variables"
             },
             "en": {
                 "nav-home": "Home",
@@ -359,9 +405,13 @@
                 "p-method1": "<strong>1. Data Collection:</strong> I developed a web scraping script to extract data from 3000 movies on Hugging Face. This data includes classic movie features as well as the automatic extraction of hex codes from the poster color palettes.",
                 "p-method2": "<strong>2. Feature Engineering:</strong> Several variables were transformed, including a logarithmic scale for the budget (to reduce the gap between indie and blockbuster productions) and one-hot encoding for genres.",
                 "p-method3": "<strong>3. Modeling:</strong> As this is a multiclass classification problem, I tested several algorithmic models in Python, including Ridge logistic regression.",
-                "h-results": "[3] Results",
+                "h-viz": "[3] Visual Overview",
+                "p-viz": "Visualization of the initial data distribution and the predictive model's performance:",
+                "cap-viz1": "Fig 1. Distribution of the target variable (Main poster color)",
+                "cap-viz2": "Fig 2. Confusion matrix evaluating the Ridge Regression model predictions",
+                "h-results": "[4] Results",
                 "p-results": "The Ridge regression model performed best, reaching an accuracy of <strong>34.78%</strong> on the test dataset (well above the random probability of about 16%). While moderate, this result is fascinating: it demonstrates that a computer can correctly guess the dominant color of a poster 1 out of 3 times without ever looking at the image, proving that non-visual features partially dictate a movie's visual identity.",
-                "h-files": "[4] Files & Code",
+                "h-files": "[5] Files & Code",
                 "p-files": "Read my scientific report, explore my data, or view my Python code directly via the links below:",
                 "file-report": "Scientific Report",
                 "file-ml": "Prediction Model",
