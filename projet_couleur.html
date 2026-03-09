@@ -29,7 +29,7 @@
             background-size: 40px 40px;
             display: flex;
             flex-direction: column;
-            min-height: 100vh; /* Permet au footer de rester en bas */
+            min-height: 100vh;
         }
 
         /* --- HEADER --- */
@@ -141,7 +141,7 @@
             margin-bottom: 1.5rem;
         }
 
-        /* --- GRILLE DES GRAPHIQUES (Design fluide et élégant) --- */
+        /* --- GRILLE DES GRAPHIQUES --- */
         .viz-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -155,11 +155,10 @@
             gap: 1rem;
         }
 
-        /* Le conteneur de l'image réagit au survol, pas le texte */
         .viz-img-container {
             border: 3px solid var(--text-color);
             background-color: #fff;
-            padding: 1rem; /* Ajoute un peu d'espace blanc autour du graphique pour la netteté */
+            padding: 1rem; 
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
@@ -174,14 +173,13 @@
             display: block;
         }
 
-        /* La légende en dessous, très sobre, style article scientifique */
         .viz-caption {
             font-family: 'Inter', sans-serif;
             font-size: 0.95rem;
             font-style: italic;
             font-weight: 600;
             color: var(--text-color);
-            opacity: 0.8; /* Légèrement transparent pour ne pas alourdir la lecture */
+            opacity: 0.8; 
             text-align: center;
             margin: 0;
             line-height: 1.5;
@@ -220,6 +218,33 @@
         .file-name { font-weight: 800; font-size: 1rem; text-transform: uppercase; }
         .file-type { font-size: 0.8rem; opacity: 0.8; margin-top: 0.5rem; }
 
+        /* --- BOUTON DÉCOUVRIR --- */
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 5rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn-primary {
+            font-family: 'Anton', sans-serif;
+            font-size: 2rem;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--text-color);
+            border: 3px solid var(--text-color);
+            padding: 1rem 2rem;
+            transition: all 0.3s ease;
+            background-color: transparent;
+        }
+
+        .btn-primary:hover {
+            transform: translate(-5px, -5px);
+            box-shadow: 8px 8px 0px var(--text-color);
+            background-color: var(--text-color);
+            color: var(--bg-color);
+        }
+
         /* --- FOOTER --- */
         .site-footer {
             border-top: 2px solid var(--text-color);
@@ -249,6 +274,7 @@
             .project-catchphrase { font-size: 1.2rem; }
             .content-title { font-size: 2rem; }
             .viz-grid { grid-template-columns: 1fr; }
+            .btn-primary { font-size: 1.5rem; text-align: center; }
         }
     </style>
 </head>
@@ -371,6 +397,10 @@
             </div>
         </div>
 
+        <div class="btn-container fade-in-section">
+            <a href="projects.html" class="btn-primary" data-i18n="btn-discover">Découvrir d'autres projets -></a>
+        </div>
+
     </div>
 
     <footer class="site-footer">
@@ -419,6 +449,7 @@
                 "file-scrap": "Script de Scraping",
                 "file-data": "Base de Données",
                 "file-codebook": "Dictionnaire de Variables",
+                "btn-discover": "Découvrir d'autres projets ->",
                 "footer-text": "© 2026 Julien Arsena. Tout le contenu (code, données, rapports) est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite."
             },
             "en": {
@@ -448,6 +479,7 @@
                 "file-scrap": "Scraping Script",
                 "file-data": "Database",
                 "file-codebook": "Variables Codebook",
+                "btn-discover": "Discover other projects ->",
                 "footer-text": "© 2026 Julien Arsena. All content (code, data, reports) is provided for review purposes. Any reuse requires explicit attribution."
             }
         };
