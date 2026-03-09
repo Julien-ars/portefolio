@@ -141,7 +141,7 @@
             margin-bottom: 1.5rem;
         }
 
-        /* --- GRILLE DES GRAPHIQUES --- */
+        /* --- GRILLE DES GRAPHIQUES ET TABLEAU --- */
         .viz-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -160,6 +160,10 @@
             background-color: #fff;
             padding: 1rem; 
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .viz-img-container:hover {
@@ -183,6 +187,38 @@
             text-align: center;
             margin: 0;
             line-height: 1.5;
+        }
+
+        /* --- TABLEAU HTML SUR MESURE --- */
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+
+        .styled-table th, .styled-table td {
+            border: 2px solid var(--text-color);
+            padding: 0.8rem;
+            text-align: center;
+        }
+
+        .styled-table th {
+            font-family: 'Anton', sans-serif;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background-color: var(--text-color);
+            color: var(--bg-color);
+        }
+
+        .styled-table td:first-child {
+            text-align: left;
+            font-weight: 800;
+        }
+
+        .styled-table tr:hover td {
+            background-color: rgba(0, 0, 0, 0.05);
         }
 
         /* --- GRILLE DE FICHIERS --- */
@@ -275,6 +311,11 @@
             .content-title { font-size: 2rem; }
             .viz-grid { grid-template-columns: 1fr; }
             .btn-primary { font-size: 1.5rem; text-align: center; }
+            
+            .styled-table th, .styled-table td {
+                padding: 0.5rem;
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
@@ -315,40 +356,79 @@
         <div class="content-section fade-in-section">
             <h2 class="content-title" data-i18n="h-context">[1] Le Contexte</h2>
             <p class="content-text" data-i18n="p-context">
-                La durée d'un film est un facteur clé de sa production et de sa distribution, influençant directement la programmation des salles de cinéma et l'engagement du public. L'objectif de ce projet est de prédire la durée d'un film (une variable continue) en se basant sur ses métadonnées techniques et économiques : le budget, les revenus, les genres, l'année de sortie, la langue ou encore les notes du public.
+                La durée d'un film est un facteur clé de sa production et de sa distribution, influençant directement la programmation des salles de cinéma et l'engagement du public. L'objectif de ce projet est d'explorer la prédiction de la durée d'un film (une variable continue) en se basant sur ses métadonnées cinématographiques : le budget, les revenus, les genres, l'année de sortie, la langue ou encore les notes du public.
             </p>
         </div>
 
         <div class="content-section fade-in-section">
             <h2 class="content-title" data-i18n="h-method">[2] La Méthodologie</h2>
             <p class="content-text" data-i18n="p-method1">
-                <strong>1. Préparation des données :</strong> J'ai utilisé le dataset "The Movie Dataset" (TMDB) provenant de Kaggle, filtré pour obtenir 5 369 films exploitables. Les distributions très asymétriques du budget et des revenus ont été normalisées à l'aide d'une transformation logarithmique.
+                <strong>1. Préparation des données :</strong> J'ai utilisé la base de données "The Movie Dataset" (TMDB) provenant de Kaggle, filtrée pour obtenir 5 369 films exploitables. Les distributions très asymétriques du budget et des revenus ont été normalisées à l'aide d'une transformation logarithmique.
             </p>
             <p class="content-text" data-i18n="p-method2">
-                <strong>2. Encodage (Feature Engineering) :</strong> Les variables qualitatives complexes, telles que les genres multiples d'un film ou les pays de production, ont été transformées en variables binaires distinctes grâce à la méthode du One-Hot Encoding.
+                <strong>2. Encodage et ingénierie des caractéristiques :</strong> De nouvelles variables ont été créées en calculant le carré de chaque caractéristique quantitative pour capturer de potentielles relations non linéaires. Les variables catégorielles complexes (genres multiples, pays) ont été transformées en colonnes binaires (One-Hot Encoding).
             </p>
             <p class="content-text" data-i18n="p-method3">
-                <strong>3. Modélisation :</strong> S'agissant d'un problème de régression, j'ai implémenté et comparé trois algorithmes distincts : une Régression Linéaire classique, une Régression LASSO (pour pénaliser et sélectionner les variables les plus pertinentes) et un Réseau de Neurones artificiels (MLPRegressor) pour capter d'éventuelles relations non-linéaires.
+                <strong>3. Modélisation :</strong> S'agissant d'un problème de régression, j'ai implémenté et comparé trois algorithmes (standardisés et évalués via une validation croisée à 5 plis) : une Régression Linéaire classique, une Régression LASSO (avec pénalisation L1), et un Réseau de Neurones artificiels (MLPRegressor).
             </p>
         </div>
 
         <div class="content-section fade-in-section">
             <h2 class="content-title" data-i18n="h-viz">[3] Aperçu Visuel</h2>
-            <p class="content-text" data-i18n="p-viz">Extraits des visualisations issues de la présentation du projet :</p>
+            <p class="content-text" data-i18n="p-viz">Visualisation de la distribution, des performances et des erreurs des différents modèles prédictifs :</p>
             
             <div class="viz-grid">
                 <div class="viz-card">
                     <div class="viz-img-container">
                         <img src="graphique_duree_1.png" alt="Distribution de la durée" class="viz-img">
                     </div>
-                    <p class="viz-caption" data-i18n="cap-viz1">Fig 1. Analyse de la distribution de la variable cible (Durée des films)</p>
+                    <p class="viz-caption" data-i18n="cap-viz1">Fig 1. Distribution de la variable cible (Durée des films en minutes)</p>
                 </div>
                 
                 <div class="viz-card">
                     <div class="viz-img-container">
+                        <table class="styled-table">
+                            <thead>
+                                <tr>
+                                    <th data-i18n="th-model">Modèle</th>
+                                    <th>Train RMSE</th>
+                                    <th>Test RMSE</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td data-i18n="td-lin">Régression Linéaire</td>
+                                    <td>14.62</td>
+                                    <td>16.33</td>
+                                </tr>
+                                <tr>
+                                    <td data-i18n="td-lasso">Régression LASSO</td>
+                                    <td>14.68</td>
+                                    <td><strong>16.29</strong></td>
+                                </tr>
+                                <tr>
+                                    <td data-i18n="td-nn">Réseau de Neurones</td>
+                                    <td>14.84</td>
+                                    <td>16.71</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="viz-caption" data-i18n="cap-table1">Tab 1. Résumé des erreurs quadratiques moyennes (RMSE) pour l'entraînement et le test</p>
+                </div>
+
+                <div class="viz-card">
+                    <div class="viz-img-container">
                         <img src="graphique_duree_2.png" alt="Comparaison des modèles" class="viz-img">
                     </div>
-                    <p class="viz-caption" data-i18n="cap-viz2">Fig 2. Comparaison des erreurs (RMSE) et performances des modèles testés</p>
+                    <p class="viz-caption" data-i18n="cap-viz2">Fig 2. Nuages de points des valeurs prédites par rapport aux valeurs réelles (Linéaire, LASSO, NN)</p>
+                </div>
+
+                <div class="viz-card">
+                    <div class="viz-img-container">
+                        <img src="graphique_duree_3.png" alt="Courbe d'erreur" class="viz-img">
+                    </div>
+                    <p class="viz-caption" data-i18n="cap-viz3">Fig 3. Courbe d'apprentissage et d'erreur (RMSE) du réseau de neurones</p>
                 </div>
             </div>
         </div>
@@ -356,7 +436,7 @@
         <div class="content-section fade-in-section">
             <h2 class="content-title" data-i18n="h-results">[4] Les Résultats</h2>
             <p class="content-text" data-i18n="p-results">
-                De manière intéressante, la Régression LASSO a offert les meilleures performances avec une erreur moyenne (RMSE) de 16.29 sur l'ensemble de test, surpassant légèrement le réseau de neurones, ce qui suggère une relation principalement linéaire entre les variables. <strong>Bien que le budget, le genre et l'époque de sortie fournissent un signal prédictif indéniable (l'ordinateur se trompe d'environ 16 minutes en moyenne), ils ne suffisent pas à modéliser parfaitement la durée : celle-ci reste fondamentalement dictée par des choix artistiques et créatifs intrinsèquement humains.</strong>
+                De manière intéressante, la Régression LASSO a offert les meilleures performances avec une erreur moyenne (RMSE) de 16.29 sur l'ensemble de test, surpassant légèrement le réseau de neurones. L'ajout de complexité via un modèle non-linéaire n'a pas amélioré la prédiction. <strong>Bien que le budget, le genre et l'époque de sortie fournissent un signal prédictif indéniable (le modèle prédit la longueur du film avec une marge d'erreur d'environ 16 minutes), ils ne suffisent pas à capturer toute la complexité de la durée : celle-ci reste fondamentalement influencée par des choix artistiques et des spécificités de production intrinsèquement humains.</strong>
             </p>
         </div>
 
@@ -373,19 +453,19 @@
 
                 <a href="Projet_n2_Arsena_Julien.ipynb" target="_blank" class="file-card">
                     <div class="file-icon">ML</div>
-                    <div class="file-name" data-i18n="file-ml">Code Source</div>
+                    <div class="file-name" data-i18n="file-ml">Code Source Python</div>
                     <div class="file-type">Jupyter Notebook</div>
                 </a>
 
                 <a href="movie_metadata.csv" target="_blank" class="file-card">
                     <div class="file-icon">CSV</div>
                     <div class="file-name" data-i18n="file-data">Base de Données</div>
-                    <div class="file-type">TMDB (Kaggle)</div>
+                    <div class="file-type">Dataset TMDB (Kaggle)</div>
                 </a>
 
                 <a href="CODEBOOK_projet_n2_Arsena_Julien.txt" target="_blank" class="file-card">
                     <div class="file-icon">TXT</div>
-                    <div class="file-name" data-i18n="file-codebook">Dictionnaire de Variables</div>
+                    <div class="file-name" data-i18n="file-codebook">Dictionnaire des Variables</div>
                     <div class="file-type">Codebook</div>
                 </a>
             </div>
@@ -425,23 +505,29 @@
                 "title-proj": "Prédiction de Durée",
                 "catch-proj": "\"Une machine peut-elle deviner quand le générique de fin va défiler ?\"",
                 "h-context": "[1] Le Contexte",
-                "p-context": "La durée d'un film est un facteur clé de sa production et de sa distribution, influençant directement la programmation des salles de cinéma et l'engagement du public. L'objectif de ce projet est de prédire la durée d'un film (une variable continue) en se basant sur ses métadonnées techniques et économiques : le budget, les revenus, les genres, l'année de sortie, la langue ou encore les notes du public.",
+                "p-context": "La durée d'un film est un facteur clé de sa production et de sa distribution, influençant directement la programmation des salles de cinéma et l'engagement du public. L'objectif de ce projet est d'explorer la prédiction de la durée d'un film (une variable continue) en se basant sur ses métadonnées cinématographiques : le budget, les revenus, les genres, l'année de sortie, la langue ou encore les notes du public.",
                 "h-method": "[2] La Méthodologie",
-                "p-method1": "<strong>1. Préparation des données :</strong> J'ai utilisé le dataset \"The Movie Dataset\" (TMDB) provenant de Kaggle, filtré pour obtenir 5 369 films exploitables. Les distributions très asymétriques du budget et des revenus ont été normalisées à l'aide d'une transformation logarithmique.",
-                "p-method2": "<strong>2. Encodage (Feature Engineering) :</strong> Les variables qualitatives complexes, telles que les genres multiples d'un film ou les pays de production, ont été transformées en variables binaires distinctes grâce à la méthode du One-Hot Encoding.",
-                "p-method3": "<strong>3. Modélisation :</strong> S'agissant d'un problème de régression, j'ai implémenté et comparé trois algorithmes distincts : une Régression Linéaire classique, une Régression LASSO (pour pénaliser et sélectionner les variables les plus pertinentes) et un Réseau de Neurones artificiels (MLPRegressor) pour capter d'éventuelles relations non-linéaires.",
+                "p-method1": "<strong>1. Préparation des données :</strong> J'ai utilisé la base de données \"The Movie Dataset\" (TMDB) provenant de Kaggle, filtrée pour obtenir 5 369 films exploitables. Les distributions très asymétriques du budget et des revenus ont été normalisées à l'aide d'une transformation logarithmique.",
+                "p-method2": "<strong>2. Encodage et ingénierie des caractéristiques :</strong> De nouvelles variables ont été créées en calculant le carré de chaque caractéristique quantitative pour capturer de potentielles relations non linéaires. Les variables catégorielles complexes (genres multiples, pays) ont été transformées en colonnes binaires (One-Hot Encoding).",
+                "p-method3": "<strong>3. Modélisation :</strong> S'agissant d'un problème de régression, j'ai implémenté et comparé trois algorithmes (standardisés et évalués via une validation croisée à 5 plis) : une Régression Linéaire classique, une Régression LASSO (avec pénalisation L1), et un Réseau de Neurones artificiels (MLPRegressor).",
                 "h-viz": "[3] Aperçu Visuel",
-                "p-viz": "Extraits des visualisations issues de la présentation du projet :",
-                "cap-viz1": "Fig 1. Analyse de la distribution de la variable cible (Durée des films)",
-                "cap-viz2": "Fig 2. Comparaison des erreurs (RMSE) et performances des modèles testés",
+                "p-viz": "Visualisation de la distribution, des performances et des erreurs des différents modèles prédictifs :",
+                "cap-viz1": "Fig 1. Distribution de la variable cible (Durée des films en minutes)",
+                "th-model": "Modèle",
+                "td-lin": "Régression Linéaire",
+                "td-lasso": "Régression LASSO",
+                "td-nn": "Réseau de Neurones",
+                "cap-table1": "Tab 1. Résumé des erreurs quadratiques moyennes (RMSE) pour l'entraînement et le test",
+                "cap-viz2": "Fig 2. Nuages de points des valeurs prédites par rapport aux valeurs réelles (Linéaire, LASSO, NN)",
+                "cap-viz3": "Fig 3. Courbe d'apprentissage et d'erreur (RMSE) du réseau de neurones",
                 "h-results": "[4] Les Résultats",
-                "p-results": "De manière intéressante, la Régression LASSO a offert les meilleures performances avec une erreur moyenne (RMSE) de 16.29 sur l'ensemble de test, surpassant légèrement le réseau de neurones, ce qui suggère une relation principalement linéaire entre les variables. <strong>Bien que le budget, le genre et l'époque de sortie fournissent un signal prédictif indéniable (l'ordinateur se trompe d'environ 16 minutes en moyenne), ils ne suffisent pas à modéliser parfaitement la durée : celle-ci reste fondamentalement dictée par des choix artistiques et créatifs intrinsèquement humains.</strong>",
+                "p-results": "De manière intéressante, la Régression LASSO a offert les meilleures performances avec une erreur moyenne (RMSE) de 16.29 sur l'ensemble de test, surpassant légèrement le réseau de neurones. L'ajout de complexité via un modèle non-linéaire n'a pas amélioré la prédiction. <strong>Bien que le budget, le genre et l'époque de sortie fournissent un signal prédictif indéniable (le modèle prédit la longueur du film avec une marge d'erreur d'environ 16 minutes), ils ne suffisent pas à capturer toute la complexité de la durée : celle-ci reste fondamentalement influencée par des choix artistiques et des spécificités de production intrinsèquement humains.</strong>",
                 "h-files": "[5] Fichiers & Code",
                 "p-files": "Consultez mon rapport scientifique, explorez mes données ou lisez mon code Python directement via les liens ci-dessous :",
                 "file-report": "Rapport d'Étude",
-                "file-ml": "Code Source",
+                "file-ml": "Code Source Python",
                 "file-data": "Base de Données",
-                "file-codebook": "Dictionnaire de Variables",
+                "file-codebook": "Dictionnaire des Variables",
                 "btn-discover": "Découvrir d'autres projets ->",
                 "footer-text": "© 2026 Julien Arsena. Tout le contenu (code, données, rapports) est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite."
             },
@@ -454,21 +540,27 @@
                 "title-proj": "Runtime Prediction",
                 "catch-proj": "\"Can a computer guess when the credits will roll?\"",
                 "h-context": "[1] Context",
-                "p-context": "The duration of a film is a key factor in its production and distribution, directly influencing theater schedules and audience engagement. The objective of this project is to predict a movie's runtime (a continuous variable) based on its technical and economic metadata: budget, revenue, genres, release year, language, and audience ratings.",
+                "p-context": "The duration of a film is a key factor in its production and distribution, directly influencing theater schedules and audience engagement. The objective of this project is to explore the prediction of a movie's runtime (a continuous variable) based on its cinematic metadata: budget, revenue, genres, release year, language, and audience ratings.",
                 "h-method": "[2] Methodology",
                 "p-method1": "<strong>1. Data Preparation:</strong> I used \"The Movie Dataset\" (TMDB) from Kaggle, filtered down to 5,369 usable films. The highly skewed distributions of budget and revenue were normalized using a logarithmic transformation.",
-                "p-method2": "<strong>2. Feature Engineering:</strong> Complex categorical variables, such as multiple genres or production countries, were transformed into distinct binary variables using One-Hot Encoding.",
-                "p-method3": "<strong>3. Modeling:</strong> As a regression problem, I implemented and compared three distinct algorithms: a standard Linear Regression, a LASSO Regression (to penalize and select the most relevant features), and an Artificial Neural Network (MLPRegressor) to capture potential non-linear relationships.",
+                "p-method2": "<strong>2. Feature Engineering:</strong> New variables were created by computing the square of every quantitative feature to capture potential non-linear relationships. Complex categorical variables (multiple genres, countries) were transformed into binary columns using One-Hot Encoding.",
+                "p-method3": "<strong>3. Modeling:</strong> As a regression problem, I implemented and compared three algorithms (standardized and evaluated via a 5-fold cross-validation): a standard Linear Regression, a LASSO Regression (with L1 penalty), and an Artificial Neural Network (MLPRegressor).",
                 "h-viz": "[3] Visual Overview",
-                "p-viz": "Excerpts of visualizations from the project presentation:",
-                "cap-viz1": "Fig 1. Distribution analysis of the target variable (Movie runtime)",
-                "cap-viz2": "Fig 2. Comparison of errors (RMSE) and performance of the tested models",
+                "p-viz": "Visualization of the distribution, performance, and errors of the various predictive models:",
+                "cap-viz1": "Fig 1. Distribution analysis of the target variable (Movie runtime in minutes)",
+                "th-model": "Model",
+                "td-lin": "Linear Regression",
+                "td-lasso": "LASSO Regression",
+                "td-nn": "Neural Network",
+                "cap-table1": "Tab 1. Summary of Train RMSE and Test RMSE",
+                "cap-viz2": "Fig 2. Scatterplot of predicted versus actual values (Linear, LASSO, NN)",
+                "cap-viz3": "Fig 3. Error curve (RMSE) of the neural network",
                 "h-results": "[4] Results",
-                "p-results": "Interestingly, the LASSO Regression offered the best performance with an average error (RMSE) of 16.29 on the test set, slightly outperforming the neural network. This suggests a primarily linear relationship between the features. <strong>While budget, genre, and release era provide an undeniable predictive signal (the computer is off by about 16 minutes on average), they are not enough to model runtime perfectly: it remains fundamentally dictated by intrinsically human artistic and creative choices.</strong>",
+                "p-results": "Interestingly, the LASSO Regression offered the best performance with an average error (RMSE) of 16.29 on the test set, slightly outperforming the neural network. The added complexity of a non-linear model did not translate into better predictive power. <strong>While factors such as budget, genre, and release year provide a significant predictive signal (the model predicts film length with an error margin of about 16 minutes), they are not sufficient to perfectly capture runtime complexity: it remains fundamentally influenced by intrinsically human artistic choices and production specificities.</strong>",
                 "h-files": "[5] Files & Code",
                 "p-files": "Read my scientific report, explore my data, or view my Python code directly via the links below:",
                 "file-report": "Scientific Report",
-                "file-ml": "Source Code",
+                "file-ml": "Python Source Code",
                 "file-data": "Database",
                 "file-codebook": "Variables Codebook",
                 "btn-discover": "Discover other projects ->",
