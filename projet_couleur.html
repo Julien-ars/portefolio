@@ -29,7 +29,7 @@
             background-size: 40px 40px;
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
+            min-height: 100vh; /* Permet au footer de rester en bas */
         }
 
         /* --- HEADER --- */
@@ -141,52 +141,50 @@
             margin-bottom: 1.5rem;
         }
 
-        /* --- GRILLE DES GRAPHIQUES (Mise à jour plus élégante) --- */
+        /* --- GRILLE DES GRAPHIQUES (Design fluide et élégant) --- */
         .viz-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 2rem;
+            gap: 2.5rem;
             margin-top: 2rem;
         }
 
         .viz-card {
-            border: 3px solid var(--text-color);
-            background-color: transparent; /* Fond rouge naturel */
             display: flex;
             flex-direction: column;
+            gap: 1rem;
+        }
+
+        /* Le conteneur de l'image réagit au survol, pas le texte */
+        .viz-img-container {
+            border: 3px solid var(--text-color);
+            background-color: #fff;
+            padding: 1rem; /* Ajoute un peu d'espace blanc autour du graphique pour la netteté */
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .viz-card:hover {
+        .viz-img-container:hover {
             transform: translate(-5px, -5px);
-            box-shadow: 12px 12px 0px var(--text-color);
+            box-shadow: 10px 10px 0px var(--text-color);
         }
 
         .viz-img {
             width: 100%;
             height: auto;
             display: block;
-            border-bottom: 3px solid var(--text-color);
-            background-color: #fff; /* Conserve le fond blanc pour la netteté du graphique */
         }
 
+        /* La légende en dessous, très sobre, style article scientifique */
         .viz-caption {
             font-family: 'Inter', sans-serif;
             font-size: 0.95rem;
-            font-style: italic; /* Style légende scientifique */
+            font-style: italic;
             font-weight: 600;
-            color: var(--text-color); /* Texte noir par défaut */
-            padding: 1.2rem;
+            color: var(--text-color);
+            opacity: 0.8; /* Légèrement transparent pour ne pas alourdir la lecture */
             text-align: center;
             margin: 0;
-            line-height: 1.4;
-            transition: all 0.3s ease;
-        }
-
-        /* Effet au survol : la légende s'inverse subtilement */
-        .viz-card:hover .viz-caption {
-            background-color: var(--text-color);
-            color: var(--bg-color);
+            line-height: 1.5;
         }
 
         /* --- GRILLE DE FICHIERS --- */
@@ -222,6 +220,18 @@
         .file-name { font-weight: 800; font-size: 1rem; text-transform: uppercase; }
         .file-type { font-size: 0.8rem; opacity: 0.8; margin-top: 0.5rem; }
 
+        /* --- FOOTER --- */
+        .site-footer {
+            border-top: 2px solid var(--text-color);
+            padding: 1.5rem 2rem;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            opacity: 0.8;
+            margin-top: auto; 
+        }
+
         /* ANIMATION SCROLL */
         .fade-in-section {
             opacity: 0; transform: translateY(40px);
@@ -230,6 +240,7 @@
         }
         .fade-in-section.is-visible { opacity: 1; transform: none; }
 
+        /* --- RESPONSIVE DESIGN --- */
         @media (max-width: 768px) {
             header { flex-direction: column; gap: 1.5rem; padding: 1.5rem 1rem; }
             .header-left { flex-direction: column; gap: 1rem; text-align: center; }
@@ -301,12 +312,16 @@
             
             <div class="viz-grid">
                 <div class="viz-card">
-                    <img src="graphique_1.png" alt="Distribution des couleurs" class="viz-img">
+                    <div class="viz-img-container">
+                        <img src="graphique_1.png" alt="Distribution des couleurs" class="viz-img">
+                    </div>
                     <p class="viz-caption" data-i18n="cap-viz1">Fig 1. Distribution de la variable cible (Couleur principale de l'affiche)</p>
                 </div>
                 
                 <div class="viz-card">
-                    <img src="graphique_2.png" alt="Matrice de confusion" class="viz-img">
+                    <div class="viz-img-container">
+                        <img src="graphique_2.png" alt="Matrice de confusion" class="viz-img">
+                    </div>
                     <p class="viz-caption" data-i18n="cap-viz2">Fig 2. Matrice de confusion évaluant les prédictions du modèle de Régression Ridge</p>
                 </div>
             </div>
@@ -315,28 +330,28 @@
         <div class="content-section fade-in-section">
             <h2 class="content-title" data-i18n="h-results">[4] Les Résultats</h2>
             <p class="content-text" data-i18n="p-results">
-                Le modèle de régression Ridge s'est révélé être le plus performant, atteignant une précision de <strong>34.78%</strong> sur les données de test (largement au-dessus de la probabilité aléatoire qui est d'environ 16%). Bien que modéré, ce résultat est fascinant : <strong>il démontre que l'ordinateur est capable de deviner correctement la couleur dominante d'une affiche 1 fois sur 3, sans jamais regarder l'image, prouvant que les caractéristiques invisibles d'un film dictent en partie son identité visuelle.</strong>
+                Le modèle de régression Ridge s'est révélé être le plus performant, atteignant une précision de 34.78% sur les données de test (largement au-dessus de la probabilité aléatoire qui est d'environ 16%). Bien que modéré, ce résultat est fascinant : <strong>il démontre que l'ordinateur est capable de deviner correctement la couleur dominante d'une affiche 1 fois sur 3, sans jamais regarder l'image, prouvant que les caractéristiques invisibles d'un film dictent en partie son identité visuelle.</strong>
             </p>
         </div>
 
         <div class="content-section fade-in-section">
             <h2 class="content-title" data-i18n="h-files">[5] Fichiers & Code</h2>
-            <p class="content-text" data-i18n="p-files">Consultez mon  scientifique, explorez mes données ou lisez mon code Python directement via les liens ci-dessous :</p>
+            <p class="content-text" data-i18n="p-files">Consultez mon rapport scientifique, explorez mes données ou lisez mon code Python directement via les liens ci-dessous :</p>
             
             <div class="files-grid">
-                <a href="rapport projet n1 Arsena Julien.pdf" target="_blank" class="file-card">
+                <a href="rapport_projet_n1_Arsena_Julien.pdf" target="_blank" class="file-card">
                     <div class="file-icon">PDF</div>
                     <div class="file-name" data-i18n="file-report">Rapport d'Étude</div>
                     <div class="file-type">Document Scientifique</div>
                 </a>
 
-                <a href="Projet n1 machine learning Arsena Julien.ipynb" target="_blank" class="file-card">
+                <a href="Projet_n1_machine_learning_Arsena_Julien.ipynb" target="_blank" class="file-card">
                     <div class="file-icon">ML</div>
                     <div class="file-name" data-i18n="file-ml">Modèle de Prédiction</div>
                     <div class="file-type">Jupyter Notebook</div>
                 </a>
 
-                <a href="Projet n1 partie scrapping Arsena Julien.ipynb" target="_blank" class="file-card">
+                <a href="Projet_n1_partie_scrapping_Arsena_Julien.ipynb" target="_blank" class="file-card">
                     <div class="file-icon">WEB</div>
                     <div class="file-name" data-i18n="file-scrap">Script de Scraping</div>
                     <div class="file-type">Jupyter Notebook</div>
@@ -357,6 +372,10 @@
         </div>
 
     </div>
+
+    <footer class="site-footer">
+        <span data-i18n="footer-text">© 2026 Julien Arsena. Tout le contenu (code, données, rapports) est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite.</span>
+    </footer>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -392,14 +411,15 @@
                 "cap-viz1": "Fig 1. Distribution de la variable cible (Couleur principale de l'affiche)",
                 "cap-viz2": "Fig 2. Matrice de confusion évaluant les prédictions du modèle de Régression Ridge",
                 "h-results": "[4] Les Résultats",
-                "p-results": "Le modèle de régression Ridge s'est révélé être le plus performant, atteignant une précision de <strong>34.78%</strong> sur les données de test (largement au-dessus de la probabilité aléatoire qui est d'environ 16%). Bien que modéré, ce résultat est fascinant : <strong>il démontre que l'ordinateur est capable de deviner correctement la couleur dominante d'une affiche 1 fois sur 3, sans jamais regarder l'image, prouvant que les caractéristiques invisibles d'un film dictent en partie son identité visuelle.</strong>",
+                "p-results": "Le modèle de régression Ridge s'est révélé être le plus performant, atteignant une précision de 34.78% sur les données de test (largement au-dessus de la probabilité aléatoire qui est d'environ 16%). Bien que modéré, ce résultat est fascinant : <strong>il démontre que l'ordinateur est capable de deviner correctement la couleur dominante d'une affiche 1 fois sur 3, sans jamais regarder l'image, prouvant que les caractéristiques invisibles d'un film dictent en partie son identité visuelle.</strong>",
                 "h-files": "[5] Fichiers & Code",
                 "p-files": "Consultez mon rapport scientifique, explorez mes données ou lisez mon code Python directement via les liens ci-dessous :",
                 "file-report": "Rapport d'Étude",
                 "file-ml": "Modèle de Prédiction",
                 "file-scrap": "Script de Scraping",
                 "file-data": "Base de Données",
-                "file-codebook": "Dictionnaire de Variables"
+                "file-codebook": "Dictionnaire de Variables",
+                "footer-text": "© 2026 Julien Arsena. Tout le contenu (code, données, rapports) est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite."
             },
             "en": {
                 "nav-home": "Home",
@@ -420,14 +440,15 @@
                 "cap-viz1": "Fig 1. Distribution of the target variable (Main poster color)",
                 "cap-viz2": "Fig 2. Confusion matrix evaluating the Ridge Regression model predictions",
                 "h-results": "[4] Results",
-                "p-results": "The Ridge regression model performed best, reaching an accuracy of <strong>34.78%</strong> on the test dataset (well above the random probability of about 16%). While moderate, this result is fascinating: <strong>it demonstrates that a computer can correctly guess the dominant color of a poster 1 out of 3 times without ever looking at the image, proving that non-visual features partially dictate a movie's visual identity.</strong>",
+                "p-results": "The Ridge regression model performed best, reaching an accuracy of 34.78% on the test dataset (well above the random probability of about 16%). While moderate, this result is fascinating: <strong>it demonstrates that a computer can correctly guess the dominant color of a poster 1 out of 3 times without ever looking at the image, proving that non-visual features partially dictate a movie's visual identity.</strong>",
                 "h-files": "[5] Files & Code",
                 "p-files": "Read my scientific report, explore my data, or view my Python code directly via the links below:",
                 "file-report": "Scientific Report",
                 "file-ml": "Prediction Model",
                 "file-scrap": "Scraping Script",
                 "file-data": "Database",
-                "file-codebook": "Variables Codebook"
+                "file-codebook": "Variables Codebook",
+                "footer-text": "© 2026 Julien Arsena. All content (code, data, reports) is provided for review purposes. Any reuse requires explicit attribution."
             }
         };
 
