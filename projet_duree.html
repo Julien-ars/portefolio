@@ -155,6 +155,7 @@
             gap: 1rem;
         }
 
+        /* Conteneur pour les images uniquement (fond blanc) */
         .viz-img-container {
             border: 3px solid var(--text-color);
             background-color: #fff;
@@ -189,36 +190,64 @@
             line-height: 1.5;
         }
 
-        /* --- TABLEAU HTML SUR MESURE --- */
-        .styled-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-family: 'Inter', sans-serif;
-            font-weight: 600;
+        /* --- NOUVEAU TABLEAU BRUTALISTE --- */
+        /* Le conteneur du tableau n'a pas de fond blanc, il laisse passer le rouge */
+        .table-wrapper {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .styled-table th, .styled-table td {
-            border: 2px solid var(--text-color);
-            padding: 0.8rem;
+        .table-wrapper:hover {
+            transform: translate(-5px, -5px);
+            box-shadow: 10px 10px 0px var(--text-color);
+        }
+
+        .styled-table-brutalist {
+            width: 100%;
+            border-collapse: collapse;
+            border: 4px solid var(--text-color);
+            background-color: transparent;
+        }
+
+        .styled-table-brutalist th, .styled-table-brutalist td {
+            border: 3px solid var(--text-color);
+            padding: 1rem 0.5rem;
             text-align: center;
         }
 
-        .styled-table th {
-            font-family: 'Anton', sans-serif;
-            font-size: 1.2rem;
+        .styled-table-brutalist th {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 1px;
             background-color: var(--text-color);
             color: var(--bg-color);
+            letter-spacing: 1px;
         }
 
-        .styled-table td:first-child {
-            text-align: left;
+        .styled-table-brutalist td {
+            font-family: 'Anton', sans-serif; /* Police très massive pour les données */
+            font-size: 1.5rem;
+            color: var(--text-color);
+            transition: all 0.2s ease;
+        }
+
+        .styled-table-brutalist td:first-child {
+            font-family: 'Inter', sans-serif; /* Reste lisible pour le nom du modèle */
             font-weight: 800;
+            font-size: 1.1rem;
+            text-align: left;
+            padding-left: 1rem;
+            text-transform: uppercase;
         }
 
-        .styled-table tr:hover td {
-            background-color: rgba(0, 0, 0, 0.05);
+        /* Effet d'inversion complet au survol de la ligne */
+        .styled-table-brutalist tr:hover td {
+            background-color: var(--text-color);
+            color: var(--bg-color);
         }
 
         /* --- GRILLE DE FICHIERS --- */
@@ -312,10 +341,10 @@
             .viz-grid { grid-template-columns: 1fr; }
             .btn-primary { font-size: 1.5rem; text-align: center; }
             
-            .styled-table th, .styled-table td {
-                padding: 0.5rem;
-                font-size: 0.9rem;
-            }
+            /* Réduction de la taille du tableau sur mobile */
+            .styled-table-brutalist th { font-size: 0.8rem; }
+            .styled-table-brutalist td { font-size: 1.2rem; }
+            .styled-table-brutalist td:first-child { font-size: 0.9rem; padding-left: 0.5rem; }
         }
     </style>
 </head>
@@ -386,8 +415,8 @@
                 </div>
                 
                 <div class="viz-card">
-                    <div class="viz-img-container">
-                        <table class="styled-table">
+                    <div class="table-wrapper">
+                        <table class="styled-table-brutalist">
                             <thead>
                                 <tr>
                                     <th data-i18n="th-model">Modèle</th>
@@ -397,17 +426,17 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td data-i18n="td-lin">Régression Linéaire</td>
+                                    <td data-i18n="td-lin">Rég. Linéaire</td>
                                     <td>14.62</td>
                                     <td>16.33</td>
                                 </tr>
                                 <tr>
-                                    <td data-i18n="td-lasso">Régression LASSO</td>
+                                    <td data-i18n="td-lasso">Rég. LASSO</td>
                                     <td>14.68</td>
-                                    <td><strong>16.29</strong></td>
+                                    <td style="text-decoration: underline;">16.29</td>
                                 </tr>
                                 <tr>
-                                    <td data-i18n="td-nn">Réseau de Neurones</td>
+                                    <td data-i18n="td-nn">Réseau Neurones</td>
                                     <td>14.84</td>
                                     <td>16.71</td>
                                 </tr>
@@ -465,7 +494,7 @@
 
                 <a href="CODEBOOK_projet_n2_Arsena_Julien.txt" target="_blank" class="file-card">
                     <div class="file-icon">TXT</div>
-                    <div class="file-name" data-i18n="file-codebook">Dictionnaire des Variables</div>
+                    <div class="file-name" data-i18n="file-codebook">Dictionnaire de Variables</div>
                     <div class="file-type">Codebook</div>
                 </a>
             </div>
@@ -514,9 +543,9 @@
                 "p-viz": "Visualisation de la distribution, des performances et des erreurs des différents modèles prédictifs :",
                 "cap-viz1": "Fig 1. Distribution de la variable cible (Durée des films en minutes)",
                 "th-model": "Modèle",
-                "td-lin": "Régression Linéaire",
-                "td-lasso": "Régression LASSO",
-                "td-nn": "Réseau de Neurones",
+                "td-lin": "Rég. Linéaire",
+                "td-lasso": "Rég. LASSO",
+                "td-nn": "Réseau Neurones",
                 "cap-table1": "Tab 1. Résumé des erreurs quadratiques moyennes (RMSE) pour l'entraînement et le test",
                 "cap-viz2": "Fig 2. Nuages de points des valeurs prédites par rapport aux valeurs réelles (Linéaire, LASSO, NN)",
                 "cap-viz3": "Fig 3. Courbe d'apprentissage et d'erreur (RMSE) du réseau de neurones",
@@ -527,7 +556,7 @@
                 "file-report": "Rapport d'Étude",
                 "file-ml": "Code Source Python",
                 "file-data": "Base de Données",
-                "file-codebook": "Dictionnaire des Variables",
+                "file-codebook": "Dictionnaire de Variables",
                 "btn-discover": "Découvrir d'autres projets ->",
                 "footer-text": "© 2026 Julien Arsena. Tout le contenu (code, données, rapports) est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite."
             },
@@ -549,8 +578,8 @@
                 "p-viz": "Visualization of the distribution, performance, and errors of the various predictive models:",
                 "cap-viz1": "Fig 1. Distribution analysis of the target variable (Movie runtime in minutes)",
                 "th-model": "Model",
-                "td-lin": "Linear Regression",
-                "td-lasso": "LASSO Regression",
+                "td-lin": "Linear Reg.",
+                "td-lasso": "LASSO Reg.",
                 "td-nn": "Neural Network",
                 "cap-table1": "Tab 1. Summary of Train RMSE and Test RMSE",
                 "cap-viz2": "Fig 2. Scatterplot of predicted versus actual values (Linear, LASSO, NN)",
