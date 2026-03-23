@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Julien Arsena | Data Scientist</title>
+    <title>Julien Arsena | Data Scientist & Arts</title>
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     
     <style>
@@ -123,18 +123,55 @@
             100% { transform: translateX(-50%); }
         }
 
-        /* --- SECTION PROJETS --- */
-        .projects {
-            padding: 5rem 2rem;
+        /* --- CONTENEUR GLOBAL DES SECTIONS --- */
+        .content-wrapper {
             max-width: 1400px;
             margin: 0 auto;
+            padding: 5rem 2rem;
             flex-grow: 1;
+            width: 100%;
         }
 
-        .projects h2 {
-            font-size: 5rem;
+        .section-heading {
+            font-size: 4rem;
             margin-bottom: 3rem;
-            text-align: center;
+            border-bottom: 4px solid var(--text-color);
+            padding-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        /* --- SECTION INTRO (À PROPOS) --- */
+        .intro-section {
+            margin-bottom: 6rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .intro-box {
+            border: 4px solid var(--text-color);
+            padding: 3rem;
+            background-color: transparent;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .intro-box:hover {
+            transform: translate(-5px, -5px);
+            box-shadow: 12px 12px 0px var(--text-color);
+        }
+
+        .intro-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.5rem;
+            line-height: 1.6;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            max-width: 900px;
+        }
+
+        /* --- SECTION PROJETS --- */
+        .projects-section {
+            margin-bottom: 6rem;
         }
 
         .projects-grid {
@@ -143,14 +180,14 @@
             gap: 2.5rem;
         }
 
-        /* Transformation de la carte en lien cliquable */
+        /* Cartes de projets avec animation ralentie et plus fluide (0.4s) */
         .project-card {
             border: 3px solid var(--text-color);
             padding: 2rem;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             background-color: transparent;
             min-height: 280px;
             text-decoration: none;
@@ -159,7 +196,7 @@
 
         .project-card:hover {
             transform: translate(-10px, -10px);
-            box-shadow: 12px 12px 0px var(--text-color);
+            box-shadow: 15px 15px 0px var(--text-color);
             background-color: var(--text-color);
             color: var(--bg-color);
         }
@@ -194,17 +231,45 @@
             font-weight: 800;
         }
 
-        /* --- BOUTON VOIR TOUS LES PROJETS --- */
+        /* --- SECTION CONTACT CALL-TO-ACTION (CTA) --- */
+        .cta-section {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            padding: 6rem 2rem;
+            text-align: center;
+            border-top: 4px solid var(--text-color);
+            border-bottom: 4px solid var(--text-color);
+            margin: 0 -2rem; /* Étend le fond noir au-delà du container */
+        }
+
+        .cta-section h2 {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            color: #fff; /* Titre en blanc sur fond noir */
+        }
+
+        .cta-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            max-width: 600px;
+            margin: 0 auto 3rem auto;
+            color: var(--bg-color);
+        }
+
+        /* --- BOUTONS --- */
         .btn-container {
             display: flex;
+            margin-top: 2rem;
+        }
+
+        .btn-container.center {
             justify-content: center;
-            margin-top: 5rem;
-            margin-bottom: 2rem;
         }
 
         .btn-primary {
             font-family: 'Anton', sans-serif;
-            font-size: 2rem;
+            font-size: 1.8rem;
             text-transform: uppercase;
             text-decoration: none;
             color: var(--text-color);
@@ -212,6 +277,7 @@
             padding: 1rem 2rem;
             transition: all 0.3s ease;
             background-color: transparent;
+            display: inline-block;
         }
 
         .btn-primary:hover {
@@ -221,9 +287,20 @@
             color: var(--bg-color);
         }
 
+        /* Style spécifique pour le bouton sur fond noir */
+        .btn-inverted {
+            color: var(--bg-color);
+            border-color: var(--bg-color);
+        }
+
+        .btn-inverted:hover {
+            box-shadow: 8px 8px 0px var(--bg-color);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
         /* --- FOOTER --- */
         .site-footer {
-            border-top: 2px solid var(--text-color);
             padding: 1.5rem 2rem;
             text-align: center;
             font-family: 'Inter', sans-serif;
@@ -246,8 +323,10 @@
             header { flex-direction: column; gap: 1.5rem; padding: 1.5rem 1rem; }
             .header-left { flex-direction: column; gap: 1rem; text-align: center; }
             .main-nav { flex-wrap: wrap; justify-content: center; }
-            .projects h2 { font-size: 3.5rem; }
-            .btn-primary { font-size: 1.5rem; text-align: center; }
+            .section-heading, .cta-section h2 { font-size: 3rem; }
+            .intro-text { font-size: 1.2rem; }
+            .intro-box { padding: 1.5rem; }
+            .btn-primary { font-size: 1.5rem; text-align: center; width: 100%; }
         }
     </style>
 </head>
@@ -275,56 +354,77 @@
 
     <div class="marquee-container">
         <div class="marquee-text">
-            WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK WORK
+            SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • MACHINE LEARNING • SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • MACHINE LEARNING •
         </div>
     </div>
 
-    <section class="projects">
-        <h2 class="fade-in-section" data-i18n="h-projects">MES PROJETS</h2>
+    <div class="content-wrapper">
         
-        <div class="projects-grid">
-            <!-- Projet 1 -->
-            <a href="projet_couleur.html" class="project-card fade-in-section">
-                <div>
-                    <h3 data-i18n="proj1-title">01. Colorimétrie du Cinéma</h3>
-                    <p data-i18n="proj1-desc">Prédiction de la couleur dominante d'une affiche à partir des métadonnées d'un film pour analyser les choix artistiques.</p>
+        <section class="intro-section fade-in-section">
+            <h2 class="section-heading" data-i18n="h-intro">01. Profil Hybride</h2>
+            <div class="intro-box">
+                <p class="intro-text" data-i18n="p-intro">
+                    Étudiant en Sciences des Données et Arts (Université PSL & Lycée Louis Le Grand), je combine la grande rigueur des mathématiques et de l'algorithmique avec une solide sensibilité aux humanités numériques et à l'analyse culturelle.
+                </p>
+                <div class="btn-container">
+                    <a href="about.html" class="btn-primary" data-i18n="btn-about">Découvrir mon parcours -></a>
                 </div>
-                <div class="project-tags">
-                    <span class="tag">Machine Learning</span>
-                    <span class="tag">Web Scraping</span>
-                    <span class="tag">Python</span>
-                </div>
-            </a>
+            </div>
+        </section>
 
-            <!-- Projet 2 -->
-            <a href="projet_duree.html" class="project-card fade-in-section">
-                <div>
-                    <h3 data-i18n="proj2-title">02. Prédiction de Durée</h3>
-                    <p data-i18n="proj2-desc">Régression LASSO et Réseau de Neurones (MLP) pour estimer la durée en minutes d'une production cinématographique.</p>
-                </div>
-                <div class="project-tags">
-                    <span class="tag">Régression L1</span>
-                    <span class="tag">Neural Network</span>
-                    <span class="tag">Scikit-Learn</span>
-                </div>
-            </a>
+        <section class="projects-section">
+            <h2 class="section-heading fade-in-section" data-i18n="h-projects">02. Travaux Récents</h2>
+            
+            <div class="projects-grid">
+                <a href="projet_duree.html" class="project-card fade-in-section">
+                    <div>
+                        <h3 data-i18n="proj1-title">Prédiction de Durée</h3>
+                        <p data-i18n="proj1-desc">Régression LASSO et Réseau de Neurones pour estimer la durée en minutes d'un film en fonction de son budget et de son genre.</p>
+                    </div>
+                    <div class="project-tags">
+                        <span class="tag">Régression L1</span>
+                        <span class="tag">Machine Learning</span>
+                        <span class="tag">Python</span>
+                    </div>
+                </a>
 
-            <!-- Projet 3 (Placeholder pour le projet sur la violence des animés) -->
-            <a href="projet_animes.html" class="project-card fade-in-section">
-                <div>
-                    <h3 data-i18n="proj3-title">03. Classification Animés</h3>
-                    <p data-i18n="proj3-desc">Classification de séries d'animation japonaises en fonction de leur niveau de violence et analyse de texte (NLP).</p>
-                </div>
-                <div class="project-tags">
-                    <span class="tag">Classification</span>
-                    <span class="tag">Data Viz</span>
-                    <span class="tag">Python</span>
-                </div>
-            </a>
-        </div>
+                <a href="projet_couleur.html" class="project-card fade-in-section">
+                    <div>
+                        <h3 data-i18n="proj2-title">Colorimétrie du Cinéma</h3>
+                        <p data-i18n="proj2-desc">Prédiction de la couleur dominante d'une affiche à partir des métadonnées d'un film pour analyser les choix artistiques des studios.</p>
+                    </div>
+                    <div class="project-tags">
+                        <span class="tag">Classification</span>
+                        <span class="tag">Web Scraping</span>
+                        <span class="tag">Python</span>
+                    </div>
+                </a>
 
-        <div class="btn-container fade-in-section">
-            <a href="projects.html" class="btn-primary" data-i18n="btn-all">Voir tous mes projets -></a>
+                <a href="projet_animes.html" class="project-card fade-in-section">
+                    <div>
+                        <h3 data-i18n="proj3-title">Violence & Animation</h3>
+                        <p data-i18n="proj3-desc">Analyse statistique : les séries d'animation japonaises les mieux notées par le public sont-elles statistiquement les plus violentes ?</p>
+                    </div>
+                    <div class="project-tags">
+                        <span class="tag">Statistiques</span>
+                        <span class="tag">Data Viz</span>
+                        <span class="tag">Pandas</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="btn-container center fade-in-section">
+                <a href="projects.html" class="btn-primary" data-i18n="btn-all">Voir tous les projets -></a>
+            </div>
+        </section>
+
+    </div>
+
+    <section class="cta-section fade-in-section">
+        <h2 data-i18n="h-contact">Prêt à collaborer ?</h2>
+        <p class="cta-text" data-i18n="p-contact">Je suis actuellement à la recherche d'un stage et ouvert à de nouvelles opportunités. Discutons ensemble de vos projets de données ou de recherche.</p>
+        <div class="btn-container center">
+            <a href="contact.html" class="btn-primary btn-inverted" data-i18n="btn-contact">Me contacter -></a>
         </div>
     </section>
 
@@ -354,14 +454,20 @@
                 "nav-projects": "Projets",
                 "nav-about": "À Propos",
                 "nav-contact": "Contact",
-                "h-projects": "MES PROJETS",
-                "proj1-title": "01. Colorimétrie du Cinéma",
-                "proj1-desc": "Prédiction de la couleur dominante d'une affiche à partir des métadonnées d'un film pour analyser les choix artistiques.",
-                "proj2-title": "02. Prédiction de Durée",
-                "proj2-desc": "Régression LASSO et Réseau de Neurones (MLP) pour estimer la durée en minutes d'une production cinématographique.",
-                "proj3-title": "03. Classification Animés",
-                "proj3-desc": "Classification de séries d'animation japonaises en fonction de leur niveau de violence et analyse de texte (NLP).",
-                "btn-all": "Voir tous mes projets ->",
+                "h-intro": "01. Profil Hybride",
+                "p-intro": "Étudiant en Sciences des Données et Arts (Université PSL & Lycée Louis Le Grand), je combine la grande rigueur des mathématiques et de l'algorithmique avec une solide sensibilité aux humanités numériques et à l'analyse culturelle.",
+                "btn-about": "Découvrir mon parcours ->",
+                "h-projects": "02. Travaux Récents",
+                "proj1-title": "Prédiction de Durée",
+                "proj1-desc": "Régression LASSO et Réseau de Neurones pour estimer la durée en minutes d'un film en fonction de son budget et de son genre.",
+                "proj2-title": "Colorimétrie du Cinéma",
+                "proj2-desc": "Prédiction de la couleur dominante d'une affiche à partir des métadonnées d'un film pour analyser les choix artistiques des studios.",
+                "proj3-title": "Violence & Animation",
+                "proj3-desc": "Analyse statistique : les séries d'animation japonaises les mieux notées par le public sont-elles statistiquement les plus violentes ?",
+                "btn-all": "Voir tous les projets ->",
+                "h-contact": "Prêt à collaborer ?",
+                "p-contact": "Je suis actuellement à la recherche d'un stage et ouvert à de nouvelles opportunités. Discutons ensemble de vos projets de données ou de recherche.",
+                "btn-contact": "Me contacter ->",
                 "footer-text": "© 2026 Julien Arsena. Tout le contenu (code, données, rapports) est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite."
             },
             "en": {
@@ -369,14 +475,20 @@
                 "nav-projects": "Projects",
                 "nav-about": "About",
                 "nav-contact": "Contact",
-                "h-projects": "MY PROJECTS",
-                "proj1-title": "01. Cinema Colorimetry",
-                "proj1-desc": "Predicting a movie poster's dominant color using its metadata to analyze studio artistic choices.",
-                "proj2-title": "02. Runtime Prediction",
-                "proj2-desc": "LASSO Regression and Neural Networks (MLP) to estimate the runtime in minutes of cinematic productions.",
-                "proj3-title": "03. Anime Classification",
-                "proj3-desc": "Classifying Japanese animated series based on violence levels and natural language processing (NLP).",
-                "btn-all": "View all my projects ->",
+                "h-intro": "01. Hybrid Profile",
+                "p-intro": "Data Science and Arts student (PSL University & Louis Le Grand), combining the strict rigor of mathematics and algorithms with a deep sensitivity for digital humanities and cultural analysis.",
+                "btn-about": "Discover my background ->",
+                "h-projects": "02. Recent Work",
+                "proj1-title": "Runtime Prediction",
+                "proj1-desc": "LASSO Regression and Neural Networks to estimate a movie's runtime in minutes based on its budget and genre.",
+                "proj2-title": "Cinema Colorimetry",
+                "proj2-desc": "Predicting a movie poster's dominant color using its metadata to analyze studio artistic choices.",
+                "proj3-title": "Violence & Animation",
+                "proj3-desc": "Statistical analysis: are the highest-rated Japanese animated series statistically the most violent?",
+                "btn-all": "View all projects ->",
+                "h-contact": "Ready to collaborate?",
+                "p-contact": "I am currently looking for an internship and open to new opportunities. Let's discuss your data or research projects together.",
+                "btn-contact": "Get in touch ->",
                 "footer-text": "© 2026 Julien Arsena. All content (code, data, reports) is provided for review purposes. Any reuse requires explicit attribution."
             }
         };
