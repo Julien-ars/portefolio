@@ -10,8 +10,8 @@
         :root {
             --bg-color: #e60023; 
             --text-color: #0a0a0a; 
-            /* Couleur du liquide : un rouge plus vif qui, une fois fusionné au fond, donne un effet mouillé */
-            --liquid-color: #ff2a46; 
+            /* Couleur du fluide : Un rouge foncé translucide pour l'effet "mouillé" */
+            --fluid-color: rgba(160, 0, 15, 0.8);
         }
 
         * {
@@ -29,7 +29,7 @@
             flex-direction: column;
             min-height: 100vh;
             
-            /* Le quadrillage de fond */
+            /* Quadrillage de fond */
             background-image: 
                 linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
@@ -100,40 +100,34 @@
             border-bottom: 2px solid var(--text-color);
             position: relative; 
             overflow: hidden; 
+            cursor: crosshair; 
         }
 
-        /* --- EFFET LIQUIDE VISQUEUX (TRAÎNÉE) --- */
-        .gooey-container {
+        /* --- LE FLUIDE VISQUEUX (Slime) --- */
+        .slime-container {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none; /* Laisse passer la souris */
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none; /* Laisse passer les clics */
             z-index: 1; /* Derrière le texte */
-            /* Le filtre SVG qui rend les gouttes liquides */
+            /* Le filtre SVG qui fusionne les ronds pour créer un liquide */
             filter: url(#gooey-effect);
-            /* LA MAGIE : Ce mode de fusion assombrit le fond et le quadrillage, créant un effet "mouillé" ! */
-            mix-blend-mode: multiply; 
+            /* L'illusion d'optique : brûle les couleurs en dessous (le quadrillage s'épaissit au passage du fluide) */
+            mix-blend-mode: color-burn;
         }
 
-        .liquid-drop {
+        /* Les bulles qui composent le fluide */
+        .blob {
             position: absolute;
-            width: 90px; /* Épaisseur de la traînée */
-            height: 90px;
-            background-color: var(--liquid-color);
+            width: 70px;
+            height: 70px;
+            background-color: var(--fluid-color);
             border-radius: 50%;
-            /* L'animation gère la disparition (séchage) du liquide en 1 seconde */
-            animation: dry-liquid 1s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+            /* Elles sont positionnées au centre au chargement */
+            transform: translate(-50%, -50%) scale(0); 
             will-change: transform;
         }
 
-        @keyframes dry-liquid {
-            0% { transform: translate(-50%, -50%) scale(1); }
-            100% { transform: translate(-50%, -50%) scale(0); }
-        }
-
-        /* --- TEXTE INDÉPENDANT (LETTRE PAR LETTRE) --- */
+        /* --- LE TEXTE INDÉPENDANT --- */
         .hero h1 {
             font-size: 10vw; 
             line-height: 0.9;
@@ -232,6 +226,7 @@
             gap: 2rem;
         }
 
+        /* CARTES DE PROJETS */
         .project-card {
             border: 3px solid var(--text-color);
             display: flex;
@@ -240,12 +235,14 @@
             text-decoration: none;
             color: var(--text-color);
             overflow: hidden; 
+            /* Mouvement de la carte vif (0.6s), changement de fond lent (1.2s) */
             transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), 
                         box-shadow 0.6s cubic-bezier(0.25, 0.8, 0.25, 1),
                         background-color 1.2s ease, 
                         color 1.2s ease;
         }
 
+        /* Force les éléments internes à changer de couleur en 1.2s */
         .project-card * {
             transition: color 1.2s ease, border-color 1.2s ease;
         }
@@ -262,13 +259,15 @@
             height: 180px; 
             object-fit: cover;
             display: block; 
+            /* C'est cette ligne qui gère la séparation. Au survol, elle deviendra noire comme le fond */
             border-bottom: 3px solid var(--text-color); 
             filter: grayscale(100%) contrast(120%);
-            transition: filter 1.2s ease; 
+            transition: filter 1.2s ease, border-color 1.2s ease; 
         }
 
         .project-card:hover .project-card-img {
             filter: grayscale(0%) contrast(100%);
+            border-color: var(--text-color); /* Fait disparaître la ligne rouge */
         }
 
         .project-card-content {
@@ -425,7 +424,7 @@
             .main-nav { flex-wrap: wrap; justify-content: center; }
             
             .hero { height: 60vh; } 
-            .gooey-container { display: none; } /* Désactivé sur mobile pour perf */
+            .slime-container { display: none; } /* Désactivé sur mobile pour la performance */
             .hero h1 { font-size: 18vw; letter-spacing: -1px; } 
             .marquee-text { font-size: 2rem; } 
             
@@ -446,8 +445,8 @@
     <svg style="display: none;">
         <defs>
             <filter id="gooey-effect">
-                <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
-                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="gooey" />
+                <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur" />
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -9" result="gooey" />
                 <feComposite in="SourceGraphic" in2="gooey" operator="atop" />
             </filter>
         </defs>
@@ -470,7 +469,16 @@
     </header>
 
     <section class="hero fade-in-section" id="hero-section">
-        <div class="gooey-container" id="gooey-container"></div>
+        
+        <div class="slime-container">
+            <div class="blob"></div>
+            <div class="blob"></div>
+            <div class="blob"></div>
+            <div class="blob"></div>
+            <div class="blob"></div>
+            <div class="blob"></div>
+            <div class="blob"></div>
+        </div>
         
         <h1 id="hero-text">
             <span class="letter">D</span><span class="letter">A</span><span class="letter">T</span><span class="letter">A</span><span class="letter">&nbsp;</span><span class="letter">+</span><br>
@@ -594,41 +602,30 @@
             document.querySelectorAll('.fade-in-section').forEach(section => { observer.observe(section); });
         });
 
-        // --- 2. TRAÎNÉE LIQUIDE INTERPOLÉE ET TEXTE RÉPULSIF ---
+        // --- 2. JAVASCRIPT : FLUIDE CONTINU LÉGÉ ET LETTRES RÉPULSIVES ---
         const heroSection = document.getElementById('hero-section');
-        const gooeyContainer = document.getElementById('gooey-container');
+        const blobs = document.querySelectorAll('.blob');
         const letters = document.querySelectorAll('.letter');
         
-        let lastMouseX = null;
-        let lastMouseY = null;
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let speed = 0;
+        let lastMouseX = mouseX;
+        let lastMouseY = mouseY;
+        let isMouseInHero = false;
+
+        // On crée un état physique pour chaque blob (la "queue" du fluide)
+        const blobData = Array.from({length: blobs.length}, () => ({
+            x: mouseX, y: mouseY, scale: 0
+        }));
 
         heroSection.addEventListener('mousemove', (e) => {
+            isMouseInHero = true;
             const rect = heroSection.getBoundingClientRect();
-            const currentX = e.clientX - rect.left;
-            const currentY = e.clientY - rect.top;
+            mouseX = e.clientX - rect.left;
+            mouseY = e.clientY - rect.top;
 
-            // Initialisation de la position
-            if (lastMouseX === null) {
-                lastMouseX = currentX;
-                lastMouseY = currentY;
-            }
-
-            // Calcul de la distance parcourue
-            const dist = Math.hypot(currentX - lastMouseX, currentY - lastMouseY);
-            
-            // Si la souris avance, on crée une traînée continue (Interpolation)
-            if (dist > 8) {
-                const steps = Math.floor(dist / 8); // Une goutte tous les 8 pixels
-                for(let i = 1; i <= steps; i++) {
-                    const interpX = lastMouseX + (currentX - lastMouseX) * (i / steps);
-                    const interpY = lastMouseY + (currentY - lastMouseY) * (i / steps);
-                    createLiquidDrop(interpX, interpY);
-                }
-                lastMouseX = currentX;
-                lastMouseY = currentY;
-            }
-
-            // Effet sur les lettres (Répulsion individuelle douce)
+            // Répulsion des lettres individuelles
             letters.forEach(letter => {
                 const letterRect = letter.getBoundingClientRect();
                 const centerX = letterRect.left + letterRect.width / 2;
@@ -638,13 +635,12 @@
                 const dy = e.clientY - centerY;
                 const distToLetter = Math.sqrt(dx * dx + dy * dy);
                 
-                const maxDist = 120; // La souris doit vraiment passer "sur" le texte
+                const maxDist = 120; // Plus c'est petit, plus il faut être près
                 
                 if (distToLetter < maxDist) {
                     const force = (maxDist - distToLetter) / maxDist;
                     const pushX = -(dx / distToLetter) * force * 15; 
                     const pushY = -(dy / distToLetter) * force * 15;
-                    
                     letter.style.transform = `translate(${pushX}px, ${pushY}px)`;
                 } else {
                     letter.style.transform = `translate(0, 0)`;
@@ -652,25 +648,47 @@
             });
         });
 
-        // Remise à zéro quand la souris quitte la zone
         heroSection.addEventListener('mouseleave', () => {
-            lastMouseX = null;
-            lastMouseY = null;
+            isMouseInHero = false;
             letters.forEach(letter => letter.style.transform = `translate(0, 0)`);
         });
 
-        // Fonction pour créer une goutte qui s'estompe
-        function createLiquidDrop(x, y) {
-            const drop = document.createElement('div');
-            drop.classList.add('liquid-drop');
-            drop.style.left = `${x}px`;
-            drop.style.top = `${y}px`;
+        // Boucle de rendu à 60fps pour la physique du liquide
+        function renderFluid() {
+            // Calcul de la vitesse de la souris
+            const dx = mouseX - lastMouseX;
+            const dy = mouseY - lastMouseY;
+            const currentSpeed = Math.sqrt(dx * dx + dy * dy);
             
-            gooeyContainer.appendChild(drop);
+            // Lissage de la vitesse
+            speed += (currentSpeed - speed) * 0.15;
             
-            // La durée correspond à l'animation CSS (1 seconde de séchage)
-            setTimeout(() => drop.remove(), 1000);
+            lastMouseX = mouseX;
+            lastMouseY = mouseY;
+
+            // L'échelle dépend de la vitesse. Si on s'arrête (speed < 0.5) ou qu'on quitte la zone, l'échelle tombe à 0
+            let targetScale = Math.min(speed * 0.1, 1.2); 
+            if (speed < 0.5 || !isMouseInHero) targetScale = 0;
+
+            // Le premier blob suit la souris
+            blobData[0].x += (mouseX - blobData[0].x) * 0.6;
+            blobData[0].y += (mouseY - blobData[0].y) * 0.6;
+            blobData[0].scale += (targetScale - blobData[0].scale) * 0.3;
+
+            blobs[0].style.transform = `translate(${blobData[0].x}px, ${blobData[0].y}px) scale(${blobData[0].scale})`;
+
+            // Les autres blobs suivent le précédent (effet de traînée "ressort")
+            for (let i = 1; i < blobs.length; i++) {
+                blobData[i].x += (blobData[i-1].x - blobData[i].x) * 0.4;
+                blobData[i].y += (blobData[i-1].y - blobData[i].y) * 0.4;
+                blobData[i].scale += (blobData[i-1].scale * 0.85 - blobData[i].scale) * 0.3;
+                
+                blobs[i].style.transform = `translate(${blobData[i].x}px, ${blobData[i].y}px) scale(${blobData[i].scale})`;
+            }
+
+            requestAnimationFrame(renderFluid);
         }
+        renderFluid();
 
         // --- 3. TRADUCTION ---
         const translations = {
