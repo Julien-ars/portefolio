@@ -86,7 +86,7 @@
         .lang-switch span { opacity: 0.4; transition: opacity 0.3s; cursor: pointer; }
         .lang-switch span.active, .lang-switch span:hover { opacity: 1; text-decoration: underline; }
 
-        /* --- HERO SECTION (Magnétique & Ondes) --- */
+        /* --- HERO SECTION (FILTRE SVG VISQUEUX) --- */
         .hero {
             height: 75vh;
             display: flex;
@@ -95,9 +95,12 @@
             align-items: center;
             text-align: center;
             border-bottom: 2px solid var(--text-color);
-            position: relative; /* Pour contenir les ondes de l'eau */
-            overflow: hidden; /* Les ondes ne débordent pas */
-            cursor: crosshair; /* Accentue le côté interactif */
+            position: relative; 
+            overflow: hidden; 
+            cursor: crosshair;
+            /* C'est ici qu'on applique le filtre SVG liquide défini plus bas */
+            filter: url(#viscous-liquid);
+            padding: 2rem;
         }
 
         .hero h1 {
@@ -106,26 +109,14 @@
             text-transform: uppercase;
             letter-spacing: -2px;
             position: relative;
-            z-index: 2; /* Reste au dessus de l'eau */
-            /* Transition très fluide pour la répulsion magnétique */
-            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+            z-index: 2;
+            /* Transition très fluide pour la répulsion douce */
+            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), text-shadow 0.4s ease;
             will-change: transform;
         }
 
-        /* Les ondes d'eau (créées en JS) */
-        .water-wave {
-            position: absolute;
-            border: 2px solid rgba(10, 10, 10, 0.3); /* Couleur de l'onde */
-            border-radius: 50%;
-            pointer-events: none;
-            transform: translate(-50%, -50%) scale(0);
-            animation: wave-expand 1.5s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
-            z-index: 1;
-        }
-
-        @keyframes wave-expand {
-            0% { transform: translate(-50%, -50%) scale(0); opacity: 1; border-width: 4px; }
-            100% { transform: translate(-50%, -50%) scale(15); opacity: 0; border-width: 0px; }
+        .hero h1:hover {
+            text-shadow: 15px 15px 0px rgba(10, 10, 10, 0.15);
         }
 
         /* --- BANDEAU DEFILEMENT --- */
@@ -212,7 +203,6 @@
             gap: 2rem;
         }
 
-        /* --- CARTES PROJETS RÉPARÉES --- */
         .project-card {
             border: 3px solid var(--text-color);
             display: flex;
@@ -221,7 +211,6 @@
             text-decoration: none;
             color: var(--text-color);
             overflow: hidden; 
-            /* Séparation des transitions : le mouvement est vif (0.6s), le changement de couleur est très lent (1.2s) */
             transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), 
                         box-shadow 0.6s cubic-bezier(0.25, 0.8, 0.25, 1),
                         background-color 1.2s ease, 
@@ -235,34 +224,31 @@
             color: var(--bg-color);
         }
 
-        /* L'image de couverture */
         .project-card-img {
             width: 100%;
             height: 180px; 
             object-fit: cover;
-            display: block; /* Supprime l'espace vide natif sous les images HTML */
+            display: block; 
             filter: grayscale(100%) contrast(120%);
-            transition: filter 1.2s ease; /* Le retour à la couleur prend 1.2s */
+            transition: filter 1.2s ease; 
         }
 
         .project-card:hover .project-card-img {
             filter: grayscale(0%) contrast(100%);
         }
 
-        /* Contenu textuel de la carte */
         .project-card-content {
             padding: 1.5rem;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             flex-grow: 1;
-            /* La bordure est ici et transitionne en 1.2s au survol */
             border-top: 3px solid var(--text-color);
             transition: border-color 1.2s ease;
         }
 
         .project-card:hover .project-card-content {
-            border-color: var(--bg-color); /* Se fond avec le nouveau fond noir en 1.2s */
+            border-color: var(--bg-color); 
         }
 
         .project-card h3 {
@@ -293,10 +279,10 @@
             border-radius: 50px;
             text-transform: uppercase;
             font-weight: 800;
-            transition: border-color 1.2s ease; /* Transition douce pour la bordure du tag aussi */
+            transition: border-color 1.2s ease; 
         }
 
-        /* --- SECTION CONTACT --- */
+        /* --- SECTION CONTACT (CTA) --- */
         .cta-section {
             background-color: var(--text-color);
             color: var(--bg-color);
@@ -411,7 +397,7 @@
             .header-left { flex-direction: column; gap: 1rem; text-align: center; }
             .main-nav { flex-wrap: wrap; justify-content: center; }
             
-            .hero { height: 60vh; overflow: hidden; } 
+            .hero { height: 60vh; overflow: hidden; filter: none; /* Désactive l'eau sur mobile pour perf */ } 
             .hero h1 { font-size: 20vw; letter-spacing: -1px; } 
             .marquee-text { font-size: 2rem; } 
             
@@ -428,6 +414,15 @@
     </style>
 </head>
 <body>
+
+    <svg style="display: none;">
+        <defs>
+            <filter id="viscous-liquid">
+                <feTurbulence type="fractalNoise" baseFrequency="0.005" numOctaves="2" result="noise" />
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G" id="viscous-disp" />
+            </filter>
+        </defs>
+    </svg>
 
     <header>
         <div class="header-left">
@@ -565,67 +560,71 @@
             document.querySelectorAll('.fade-in-section').forEach(section => { observer.observe(section); });
         });
 
-        // --- 2. EFFET EAU ET RÉPULSION MAGNÉTIQUE ---
+        // --- 2. EFFET VISQUEUX / LIQUIDE (HERO SECTION) ---
         const heroSection = document.getElementById('hero-section');
         const heroText = document.getElementById('hero-text');
-        let lastRipple = 0;
+        const viscousDisp = document.getElementById('viscous-disp');
+
+        let targetScale = 0;
+        let currentScale = 0;
+        let lastX = window.innerWidth / 2;
+        let lastY = window.innerHeight / 2;
 
         heroSection.addEventListener('mousemove', (e) => {
-            // A. Création des ondes (ripples) limitées dans le temps pour la performance
-            const now = Date.now();
-            if (now - lastRipple > 80) { // Crée une onde toutes les 80ms maximum
-                createRipple(e.clientX, e.clientY);
-                lastRipple = now;
-            }
+            // Calcul de la vitesse de la souris pour l'intensité du liquide
+            const dx = e.clientX - lastX;
+            const dy = e.clientY - lastY;
+            const mouseSpeed = Math.sqrt(dx * dx + dy * dy);
+            lastX = e.clientX;
+            lastY = e.clientY;
 
-            // B. Répulsion magnétique du texte (Esquive)
+            // Limiter la vitesse max
+            let speedCapped = mouseSpeed;
+            if (speedCapped > 40) speedCapped = 40;
+            
+            // Plus la souris va vite, plus le liquide se déforme (jusqu'à une échelle de 25)
+            targetScale = (speedCapped / 40) * 25;
+
+            // Répulsion "projection d'eau" sur le texte
             const rect = heroText.getBoundingClientRect();
-            // Centre du texte
             const textCenterX = rect.left + rect.width / 2;
             const textCenterY = rect.top + rect.height / 2;
             
-            // Calcul de la distance entre la souris et le centre du texte
-            const distX = e.clientX - textCenterX;
-            const distY = e.clientY - textCenterY;
-            const distance = Math.sqrt(distX * distX + distY * distY);
+            const distToTextX = e.clientX - textCenterX;
+            const distToTextY = e.clientY - textCenterY;
+            const distance = Math.sqrt(distToTextX * distToTextX + distToTextY * distToTextY);
             
-            const maxDistance = 250; // Zone d'influence de l'aimant (en pixels)
-            
-            if (distance < maxDistance) {
-                // Plus on est proche, plus la force de répulsion est grande
-                const force = (maxDistance - distance) / maxDistance;
-                // Déplace le texte dans la direction opposée à la souris
-                const pushX = -(distX / distance) * force * 40; // 40px de décalage max
-                const pushY = -(distY / distance) * force * 40;
+            const maxDist = 300; // Rayon de la flaque d'interaction
+            if (distance < maxDist) {
+                // Courbe quadratique pour un effet visqueux (démarre doucement)
+                const force = Math.pow((maxDist - distance) / maxDist, 2); 
+                // Déplace le texte dans le sens opposé de la souris
+                const pushX = -(distToTextX / distance) * force * 35; 
+                const pushY = -(distToTextY / distance) * force * 35;
                 
-                heroText.style.transform = `translate(${pushX}px, ${pushY}px)`;
+                heroText.style.transform = `translate(${pushX}px, ${pushY}px) scale(${1 + force * 0.03})`;
             } else {
-                heroText.style.transform = `translate(0px, 0px)`;
+                heroText.style.transform = `translate(0px, 0px) scale(1)`;
             }
         });
 
-        // Fonction pour générer l'onde visuelle
-        function createRipple(x, y) {
-            const rect = heroSection.getBoundingClientRect();
-            const ripple = document.createElement('div');
-            ripple.classList.add('water-wave');
-            
-            // Position relative par rapport au conteneur hero
-            ripple.style.left = `${x - rect.left}px`;
-            ripple.style.top = `${y - rect.top}px`;
-            
-            heroSection.appendChild(ripple);
-            
-            // Nettoyage de l'élément après l'animation (1.5s)
-            setTimeout(() => {
-                ripple.remove();
-            }, 1500);
-        }
-
-        // Remettre le texte à sa place quand la souris quitte la zone
         heroSection.addEventListener('mouseleave', () => {
-            heroText.style.transform = `translate(0px, 0px)`;
+            targetScale = 0;
+            heroText.style.transform = `translate(0px, 0px) scale(1)`;
         });
+
+        // Boucle d'animation fluide pour le filtre SVG
+        function animateLiquid() {
+            // Retour très doux au calme (effet gélatine/visqueux)
+            currentScale += (targetScale - currentScale) * 0.05;
+            targetScale *= 0.90; // La force se dissipe progressivement
+
+            if (viscousDisp) {
+                viscousDisp.setAttribute('scale', currentScale);
+            }
+            requestAnimationFrame(animateLiquid);
+        }
+        animateLiquid();
 
         // --- 3. TRADUCTION ---
         const translations = {
