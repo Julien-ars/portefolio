@@ -10,6 +10,8 @@
         :root {
             --bg-color: #e60023; 
             --text-color: #0a0a0a; 
+            /* Couleur du liquide visqueux (rouge plus sombre et élégant) */
+            --liquid-color: #b8001c; 
         }
 
         * {
@@ -27,7 +29,6 @@
             flex-direction: column;
             min-height: 100vh;
             
-            /* Quadrillage de fond */
             background-image: 
                 linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
@@ -98,51 +99,60 @@
             border-bottom: 2px solid var(--text-color);
             position: relative; 
             overflow: hidden; 
-            cursor: crosshair; 
         }
 
-        /* --- LE TEXTE INDÉPENDANT (Lettres qui esquivent) --- */
+        /* --- EFFET LIQUIDE VISQUEUX --- */
+        .gooey-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Ne bloque pas la souris */
+            z-index: 1; /* Derrière le texte */
+            /* Filtre SVG Gooey appliqué au conteneur */
+            filter: url(#gooey-effect);
+        }
+
+        .liquid-drop {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            background-color: var(--liquid-color);
+            border-radius: 50%;
+            /* L'animation gère la disparition du liquide (séchage) */
+            animation: dry-liquid 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+            will-change: transform;
+        }
+
+        @keyframes dry-liquid {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            100% { transform: translate(-50%, -50%) scale(0); }
+        }
+
+        /* --- TEXTE INDÉPENDANT --- */
         .hero h1 {
             font-size: 10vw; 
             line-height: 0.9;
             text-transform: uppercase;
             letter-spacing: -2px;
             position: relative;
-            z-index: 2; 
-            pointer-events: none; 
+            z-index: 2; /* Au dessus du liquide */
+            /* La souris peut interagir avec les lettres ! */
         }
 
+        /* Chaque lettre réagit individuellement au survol */
         .hero h1 span {
             display: inline-block;
-            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            will-change: transform;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            will-change: transform, color;
+            cursor: default;
         }
 
-        /* --- EFFET PARTICULES (TRIANGLES NÉONS NOIRS) --- */
-        .neon-triangle {
-            position: absolute;
-            width: 35px;
-            height: 35px;
-            /* Triangle filaire via SVG encodé */
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><polygon points="50,10 10,90 90,90" fill="none" stroke="%230a0a0a" stroke-width="8" stroke-linejoin="round"/></svg>');
-            background-size: cover;
-            pointer-events: none;
-            z-index: 1; /* Derrière le texte */
-            /* L'effet Néon Sombre : une ombre lumineuse discrète (blanche/grise) autour du trait noir */
-            filter: drop-shadow(0px 0px 6px rgba(255, 255, 255, 0.4)); 
-            /* L'animation est définie en JS pour varier la rotation */
-        }
-
-        @keyframes float-triangle {
-            0% { 
-                opacity: 1; 
-                transform: translate(-50%, -50%) scale(1) rotate(0deg); 
-            }
-            100% { 
-                opacity: 0; 
-                /* S'élève vers le haut, rétrécit et tourne aléatoirement */
-                transform: translate(-50%, -150px) scale(0) rotate(var(--rot)); 
-            }
+        .hero h1 span:hover {
+            transform: scale(1.15) translateY(-10px) rotate(4deg);
+            color: #ffffff;
+            text-shadow: -5px 10px 0px var(--text-color);
         }
 
         /* --- BANDEAU DEFILEMENT --- */
@@ -227,7 +237,6 @@
             gap: 2rem;
         }
 
-        /* CARTES DE PROJETS */
         .project-card {
             border: 3px solid var(--text-color);
             display: flex;
@@ -422,6 +431,7 @@
             .main-nav { flex-wrap: wrap; justify-content: center; }
             
             .hero { height: 60vh; } 
+            .gooey-container { display: none; } /* Désactivé sur mobile pour la performance */
             .hero h1 { font-size: 18vw; letter-spacing: -1px; } 
             .marquee-text { font-size: 2rem; } 
             
@@ -438,6 +448,16 @@
     </style>
 </head>
 <body>
+
+    <svg style="display: none;">
+        <defs>
+            <filter id="gooey-effect">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur" />
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -8" result="gooey" />
+                <feComposite in="SourceGraphic" in2="gooey" operator="atop" />
+            </filter>
+        </defs>
+    </svg>
 
     <header>
         <div class="header-left">
@@ -456,9 +476,11 @@
     </header>
 
     <section class="hero fade-in-section" id="hero-section">
+        <div class="gooey-container" id="gooey-container"></div>
+        
         <h1 id="hero-text">
-            <span class="letter">D</span><span class="letter">A</span><span class="letter">T</span><span class="letter">A</span><span class="letter">&nbsp;</span><span class="letter">+</span><br>
-            <span class="letter">S</span><span class="letter">C</span><span class="letter">I</span><span class="letter">E</span><span class="letter">N</span><span class="letter">T</span><span class="letter">I</span><span class="letter">S</span><span class="letter">T</span>
+            <span>D</span><span>A</span><span>T</span><span>A</span><span>&nbsp;</span><span>+</span><br>
+            <span>S</span><span>C</span><span>I</span><span>E</span><span>N</span><span>T</span><span>I</span><span>S</span><span>T</span>
         </h1>
     </section>
 
@@ -578,69 +600,56 @@
             document.querySelectorAll('.fade-in-section').forEach(section => { observer.observe(section); });
         });
 
-        // --- 2. GÉNÉRATEUR DE TRIANGLES NÉONS ET RÉPULSION DES LETTRES ---
+        // --- 2. TRAÎNÉE LIQUIDE INTERPOLÉE ---
         const heroSection = document.getElementById('hero-section');
-        const letters = document.querySelectorAll('.letter');
+        const gooeyContainer = document.getElementById('gooey-container');
         
-        // Contrôle de la cadence d'apparition des triangles
-        let lastTriangleTime = 0;
+        let lastMouseX = null;
+        let lastMouseY = null;
 
         heroSection.addEventListener('mousemove', (e) => {
-            const now = Date.now();
-            
-            // A. Création des triangles filaires avec effet de lueur
-            if (now - lastTriangleTime > 60) { // Un triangle toutes les 60ms maximum
-                const rect = heroSection.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const triangle = document.createElement('div');
-                triangle.classList.add('neon-triangle');
-                triangle.style.left = `${x}px`;
-                triangle.style.top = `${y}px`;
-                
-                // Définir une rotation aléatoire finale pour l'animation
-                const rot = Math.random() > 0.5 ? 1 : -1;
-                const randomAngle = rot * (90 + Math.random() * 180);
-                triangle.style.setProperty('--rot', `${randomAngle}deg`);
-                // Force l'animation à s'exécuter
-                triangle.style.animation = `float-triangle 1s ease-out forwards`;
-                
-                heroSection.appendChild(triangle);
-                
-                // Nettoyage
-                setTimeout(() => triangle.remove(), 1000);
-                lastTriangleTime = now;
+            const rect = heroSection.getBoundingClientRect();
+            const currentX = e.clientX - rect.left;
+            const currentY = e.clientY - rect.top;
+
+            if (lastMouseX === null) {
+                lastMouseX = currentX;
+                lastMouseY = currentY;
             }
 
-            // B. Répulsion douce des lettres
-            letters.forEach(letter => {
-                const letterRect = letter.getBoundingClientRect();
-                const centerX = letterRect.left + letterRect.width / 2;
-                const centerY = letterRect.top + letterRect.height / 2;
-                
-                const dx = e.clientX - centerX;
-                const dy = e.clientY - centerY;
-                const distToLetter = Math.sqrt(dx * dx + dy * dy);
-                
-                const maxDist = 120; // Rayon d'action
-                
-                if (distToLetter < maxDist) {
-                    const force = (maxDist - distToLetter) / maxDist;
-                    const pushX = -(dx / distToLetter) * force * 15; 
-                    const pushY = -(dy / distToLetter) * force * 15;
-                    
-                    letter.style.transform = `translate(${pushX}px, ${pushY}px)`;
-                } else {
-                    letter.style.transform = `translate(0, 0)`;
+            // Calcul de la distance parcourue
+            const dist = Math.hypot(currentX - lastMouseX, currentY - lastMouseY);
+            
+            // Si la souris bouge de plus de 5px, on crée des gouttes pour faire une traînée fluide
+            if (dist > 5) {
+                const steps = Math.floor(dist / 5); 
+                for(let i = 1; i <= steps; i++) {
+                    const interpX = lastMouseX + (currentX - lastMouseX) * (i / steps);
+                    const interpY = lastMouseY + (currentY - lastMouseY) * (i / steps);
+                    createLiquidDrop(interpX, interpY);
                 }
-            });
+                lastMouseX = currentX;
+                lastMouseY = currentY;
+            }
         });
 
-        // Remise à zéro quand la souris quitte la zone
         heroSection.addEventListener('mouseleave', () => {
-            letters.forEach(letter => letter.style.transform = `translate(0, 0)`);
+            lastMouseX = null;
+            lastMouseY = null;
         });
+
+        // Génère la goutte de liquide qui s'estompe
+        function createLiquidDrop(x, y) {
+            const drop = document.createElement('div');
+            drop.classList.add('liquid-drop');
+            drop.style.left = `${x}px`;
+            drop.style.top = `${y}px`;
+            
+            gooeyContainer.appendChild(drop);
+            
+            // Disparaît après l'animation CSS (0.8s)
+            setTimeout(() => drop.remove(), 800);
+        }
 
         // --- 3. TRADUCTION ---
         const translations = {
