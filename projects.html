@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projets | Julien Arsena</title>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -99,7 +99,7 @@
 
         /* --- CONTENU --- */
         .container {
-            max-width: 1400px;
+            max-width: 1200px; /* Dézoomé pour PC (était à 1400px) */
             margin: 0 auto;
             padding: 4rem 2rem;
             flex-grow: 1;
@@ -122,7 +122,7 @@
 
         .main-title {
             font-family: 'Anton', sans-serif;
-            font-size: 6rem;
+            font-size: 5.5rem; /* Légèrement réduit */
             line-height: 1;
             text-transform: uppercase;
             letter-spacing: -1px;
@@ -144,27 +144,27 @@
         /* --- SECTIONS PROJETS --- */
         .section-title {
             font-family: 'Anton', sans-serif;
-            font-size: 3.5rem;
+            font-size: 3rem; /* Légèrement réduit */
             margin-bottom: 2rem;
             text-transform: uppercase;
             border-bottom: 4px solid var(--text-color);
-            padding-bottom: 1rem;
-            margin-top: 4rem;
+            padding-bottom: 0.5rem;
+            margin-top: 3rem;
         }
 
         .ds-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Adapté pour PC */
+            gap: 2rem;
         }
 
         .web-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 2.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); /* Adapté pour PC */
+            gap: 2rem;
         }
 
-        /* --- CARTES UNIFIÉES AVEC L'ACCUEIL --- */
+        /* --- CARTES UNIFIÉES --- */
         .project-card {
             border: 3px solid var(--text-color);
             display: flex;
@@ -172,32 +172,33 @@
             background-color: transparent;
             color: var(--text-color);
             overflow: hidden;
-            /* Animation lente et harmonieuse */
+            text-decoration: none;
+            /* Transition plus rapide (0.6s) pour tout */
             transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), 
                         box-shadow 0.6s cubic-bezier(0.25, 0.8, 0.25, 1),
-                        background-color 1.2s ease, 
-                        color 1.2s ease;
+                        background-color 0.6s ease, 
+                        color 0.6s ease;
         }
 
         .project-card * {
-            transition: color 1.2s ease, border-color 1.2s ease;
+            transition: color 0.6s ease, border-color 0.6s ease;
         }
 
         .project-card:hover {
-            transform: translate(-10px, -10px);
-            box-shadow: 15px 15px 0px var(--text-color);
+            transform: translate(-8px, -8px);
+            box-shadow: 12px 12px 0px var(--text-color);
             background-color: var(--text-color);
             color: var(--bg-color);
         }
 
         .project-card-img {
             width: 100%;
-            height: 220px;
+            height: 180px; /* Plus compact */
             object-fit: cover;
             display: block;
             border-bottom: 3px solid var(--text-color);
             filter: grayscale(100%) contrast(120%);
-            transition: filter 1.2s ease, border-color 1.2s ease;
+            transition: filter 0.6s ease, border-color 0.6s ease;
         }
 
         .project-card:hover .project-card-img {
@@ -206,7 +207,7 @@
         }
 
         .project-card-content {
-            padding: 2rem;
+            padding: 1.5rem; /* Marges réduites */
             display: flex;
             flex-direction: column;
             flex-grow: 1;
@@ -214,42 +215,44 @@
 
         .project-card h3 {
             font-family: 'Anton', sans-serif;
-            font-size: 2.5rem;
+            font-size: 2rem; /* Réduit pour rentrer dans l'écran */
             line-height: 1.1;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             text-transform: uppercase;
         }
 
-        /* NOUVEAU : Le style éditorial pour les accroches */
+        /* L'accroche mise en valeur */
         .project-catchphrase {
             font-family: 'Inter', sans-serif;
             font-style: italic;
             font-weight: 800;
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
             padding-left: 1rem;
-            border-left: 4px solid currentColor; /* Ligne verticale dynamique */
+            border-left: 4px solid currentColor; 
         }
 
+        /* La description est maintenant plus discrète */
         .project-card p {
             font-family: 'Inter', sans-serif;
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
             line-height: 1.5;
-            font-weight: 600;
+            font-weight: 500; /* Moins gras */
+            opacity: 0.85; /* Légèrement transparent pour faire ressortir l'accroche */
         }
 
         .project-tags {
             display: flex;
             gap: 0.5rem;
             flex-wrap: wrap;
-            margin-bottom: 2.5rem;
+            margin-bottom: 1.5rem;
         }
 
         .tag {
             border: 2px solid currentColor;
-            padding: 0.3rem 0.8rem;
-            font-size: 0.85rem;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.8rem;
             border-radius: 50px;
             text-transform: uppercase;
             font-weight: 800;
@@ -261,7 +264,7 @@
             align-items: center;
             margin-top: auto;
             border-top: 3px solid currentColor;
-            padding-top: 1.5rem;
+            padding-top: 1rem;
             flex-wrap: wrap;
             gap: 1rem;
         }
@@ -281,9 +284,9 @@
             font-family: 'Inter', sans-serif;
             font-weight: 800;
             text-transform: uppercase;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             border: 2px solid currentColor;
-            padding: 0.5rem 1rem;
+            padding: 0.4rem 0.8rem;
             text-decoration: none;
             color: inherit;
             display: inline-block;
@@ -292,7 +295,6 @@
             transition: all 0.3s ease;
         }
 
-        /* Gestion fine du bouton au survol de la carte (sur fond noir) */
         .project-card:hover .project-link-btn {
             border-color: var(--bg-color);
         }
@@ -302,7 +304,6 @@
             color: var(--text-color) !important;
         }
 
-        /* Gestion du bouton sans survol de la carte (sur fond rouge) */
         .project-link-btn:hover {
             background-color: var(--text-color);
             color: var(--bg-color) !important;
@@ -335,7 +336,6 @@
             .container { padding: 2rem 1rem; }
             .main-title { font-size: 4rem; }
             .section-title { font-size: 2.5rem; }
-            .project-card h3 { font-size: 2rem; }
             
             .project-footer { flex-direction: column; align-items: flex-start; }
             .action-buttons { width: 100%; }
@@ -374,12 +374,12 @@
         
         <div class="ds-grid">
             
-            <div class="project-card fade-in-section">
+            <a href="projet_duree.html" class="project-card fade-in-section">
                 <img src="miniature_duree.jpg" alt="Prédiction de Durée" class="project-card-img">
                 <div class="project-card-content">
                     <div>
                         <h3 data-i18n="ds4-title">Prédiction de Durée</h3>
-                        <div class="project-catchphrase" data-i18n="ds4-catch">"Une machine peut-elle deviner quand le générique de fin va défiler ?"</div>
+                        <div class="project-catchphrase" data-i18n="ds4-catch">"Une machine peut-elle deviner quand le générique va défiler ?"</div>
                         <p data-i18n="ds4-desc">Analyse des données cinématographiques pour développer un modèle de régression capable d'estimer la durée d'un long-métrage à l'aide d'algorithmes d'apprentissage automatique.</p>
                         <div class="project-tags">
                             <span class="tag">Machine Learning</span>
@@ -390,13 +390,13 @@
                     <div class="project-footer">
                         <span class="project-date" data-i18n="date-dec25">Déc. 2025</span>
                         <div class="action-buttons">
-                            <a href="projet_duree.html" class="project-link-btn" data-i18n="btn-details">En savoir plus</a>
+                            <span class="project-link-btn" data-i18n="btn-details">Voir la page</span>
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
 
-            <div class="project-card fade-in-section">
+            <a href="projet_couleur.html" class="project-card fade-in-section">
                 <img src="miniature_couleur.jpg" alt="Colorimétrie du Cinéma" class="project-card-img">
                 <div class="project-card-content">
                     <div>
@@ -412,13 +412,13 @@
                     <div class="project-footer">
                         <span class="project-date" data-i18n="date-oct25">Oct. 2025</span>
                         <div class="action-buttons">
-                            <a href="projet_couleur.html" class="project-link-btn" data-i18n="btn-details">En savoir plus</a>
+                            <span class="project-link-btn" data-i18n="btn-details">Voir la page</span>
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
 
-            <div class="project-card fade-in-section">
+            <a href="projet_animes.html" class="project-card fade-in-section">
                 <img src="miniature_anime.jpg" alt="Violence & Animation" class="project-card-img">
                 <div class="project-card-content">
                     <div>
@@ -434,13 +434,13 @@
                     <div class="project-footer">
                         <span class="project-date" data-i18n="date-mai25">Mai 2025</span>
                         <div class="action-buttons">
-                            <a href="projet_animes.html" class="project-link-btn" data-i18n="btn-details">En savoir plus</a>
+                            <span class="project-link-btn" data-i18n="btn-details">Voir la page</span>
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
 
-            <div class="project-card fade-in-section">
+            <div class="project-card fade-in-section" style="cursor: default;">
                 <img src="miniature_voyage.jpg" alt="Générations & Voyages" class="project-card-img">
                 <div class="project-card-content">
                     <div>
@@ -456,18 +456,18 @@
                     <div class="project-footer">
                         <span class="project-date" data-i18n="date-fev25">Fév. 2025</span>
                         <div class="action-buttons">
-                            <a href="#" class="project-link-btn" data-i18n="btn-details">En savoir plus</a>
+                            <span class="project-link-btn" data-i18n="btn-details" style="opacity: 0.5;">Bientôt disponible</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="project-card fade-in-section">
+            <div class="project-card fade-in-section" style="cursor: default;">
                 <img src="miniature_ens.jpg" alt="Analyse Littéraire ENS" class="project-card-img">
                 <div class="project-card-content">
                     <div>
                         <h3 data-i18n="ds6-title">Analyse Littéraire (ENS)</h3>
-                        <div class="project-catchphrase" data-i18n="ds6-catch">"Les mathématiques peuvent-elles décoder les œuvres japonaises ?"</div>
+                        <div class="project-catchphrase" data-i18n="ds6-catch">"Les mathématiques pour décoder les œuvres japonaises ?"</div>
                         <p data-i18n="ds6-desc">Collecte de données et analyse statistique sur la littérature japonaise classique (jusqu'à 1850). Extraction de modèles historiques via les Humanités Numériques.</p>
                         <div class="project-tags">
                             <span class="tag">NLP</span>
@@ -478,13 +478,13 @@
                     <div class="project-footer">
                         <span class="project-date" data-i18n="date-ens">Stage ENS</span>
                         <div class="action-buttons">
-                            <a href="#" class="project-link-btn" data-i18n="btn-details">En savoir plus</a>
+                            <span class="project-link-btn" data-i18n="btn-details" style="opacity: 0.5;">Bientôt disponible</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="project-card fade-in-section">
+            <div class="project-card fade-in-section" style="cursor: default;">
                 <img src="miniature_linguistique.jpg" alt="Évolution Linguistique" class="project-card-img">
                 <div class="project-card-content">
                     <div>
@@ -500,13 +500,13 @@
                     <div class="project-footer">
                         <span class="project-date" data-i18n="date-tba">À venir</span>
                         <div class="action-buttons">
-                            <a href="#" class="project-link-btn" data-i18n="btn-details" style="opacity: 0.5; pointer-events: none;">Bientôt disponible</a>
+                            <span class="project-link-btn" data-i18n="btn-details" style="opacity: 0.5;">Bientôt disponible</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="project-card fade-in-section">
+            <div class="project-card fade-in-section" style="cursor: default;">
                 <img src="miniature_geopolitique.jpg" alt="Régimes Politiques" class="project-card-img">
                 <div class="project-card-content">
                     <div>
@@ -522,7 +522,7 @@
                     <div class="project-footer">
                         <span class="project-date" data-i18n="date-avr26">Avr. 2026</span>
                         <div class="action-buttons">
-                            <a href="#" class="project-link-btn" data-i18n="btn-details" style="opacity: 0.5; pointer-events: none;">Bientôt disponible</a>
+                            <span class="project-link-btn" data-i18n="btn-details" style="opacity: 0.5;">Bientôt disponible</span>
                         </div>
                     </div>
                 </div>
@@ -534,7 +534,7 @@
 
         <div class="web-grid">
             
-            <div class="project-card fade-in-section">
+            <a href="https://hunt-it.github.io/Accueil/?" target="_blank" class="project-card fade-in-section">
                 <img src="miniature_huntit.jpg" alt="Hunt-It Chasse au trésor" class="project-card-img">
                 <div class="project-card-content">
                     <div>
@@ -550,13 +550,13 @@
                     <div class="project-footer">
                         <span class="project-date" data-i18n="date-juin25">Juin 2025</span>
                         <div class="action-buttons">
-                            <a href="https://hunt-it.github.io/Accueil/?" target="_blank" class="project-link-btn" data-i18n="btn-visit">Visiter le site -></a>
+                            <span class="project-link-btn" data-i18n="btn-visit">Visiter le site -></span>
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
 
-            <div class="project-card fade-in-section">
+            <div class="project-card fade-in-section" style="cursor: default;">
                 <img src="miniature_paradoxe.jpg" alt="Le Paradoxe du Littoral" class="project-card-img">
                 <div class="project-card-content">
                     <div>
@@ -572,7 +572,7 @@
                     <div class="project-footer">
                         <span class="project-date" data-i18n="date-jan25">Janv. 2025</span>
                         <div class="action-buttons">
-                            <a href="Article_Paradoxe_Littoral.pdf" target="_blank" class="project-link-btn" data-i18n="btn-article">Lire l'article (PDF)</a>
+                            <a href="Article_Paradoxe_Littoral.pdf" target="_blank" class="project-link-btn" data-i18n="btn-article">Lire l'article</a>
                             <a href="https://julien-ars.github.io/article-paradoxe-littoral/" target="_blank" class="project-link-btn" data-i18n="btn-visit">Visiter le site -></a>
                         </div>
                     </div>
@@ -625,13 +625,13 @@
                 "ds3-catch": "\"Les jeunes ont-ils un plus grand désir d'explorer le monde ?\"",
                 "ds3-desc": "Étude sociologique appuyée par la donnée : analyse du désir de voyager selon les tranches d'âge. Récolte manuelle, régressions et modélisations des résultats.",
                 "ds4-title": "Prédiction de Durée",
-                "ds4-catch": "\"Une machine peut-elle deviner quand le générique de fin va défiler ?\"",
+                "ds4-catch": "\"Une machine peut-elle deviner quand le générique va défiler ?\"",
                 "ds4-desc": "Analyse des données cinématographiques pour développer un modèle de régression capable d'estimer la durée d'un long-métrage à l'aide d'algorithmes d'apprentissage automatique.",
                 "ds5-title": "Régimes Politiques",
                 "ds5-catch": "\"En cours de réalisation...\"",
                 "ds5-desc": "Étude statistique comparative mondiale (2023) analysant le poids des budgets et de l'importance accordée à l'armée et à la santé selon le degré d'autoritarisme des États.",
                 "ds6-title": "Analyse Littéraire (ENS)",
-                "ds6-catch": "\"Les mathématiques peuvent-elles décoder les œuvres japonaises ?\"",
+                "ds6-catch": "\"Les mathématiques pour décoder les œuvres japonaises ?\"",
                 "ds6-desc": "Collecte de données et analyse statistique sur la littérature japonaise classique (jusqu'à 1850). Extraction de modèles historiques via les Humanités Numériques.",
                 "ds7-title": "Évolution Linguistique",
                 "ds7-catch": "\"En cours de réalisation...\"",
@@ -652,9 +652,9 @@
                 "date-jan25": "Janv. 2025",
                 "date-ens": "Stage ENS",
                 "date-tba": "À venir",
-                "btn-details": "En savoir plus",
+                "btn-details": "Voir la page",
                 "btn-visit": "Visiter le site ->",
-                "btn-article": "Lire l'article (PDF)",
+                "btn-article": "Lire l'article",
                 "footer-text": "© 2026 Julien Arsena. Tout le contenu (code, données, rapports) est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite."
             },
             "en": {
@@ -702,9 +702,9 @@
                 "date-jan25": "Jan. 2025",
                 "date-ens": "ENS Intern",
                 "date-tba": "Upcoming",
-                "btn-details": "Learn more",
+                "btn-details": "View page",
                 "btn-visit": "Visit website ->",
-                "btn-article": "Read Article (PDF)",
+                "btn-article": "Read Article",
                 "footer-text": "© 2026 Julien Arsena. All content (code, data, reports) is provided for review purposes. Any reuse requires explicit attribution."
             }
         };
