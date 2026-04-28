@@ -180,18 +180,17 @@
             gap: 2.5rem;
         }
 
-        /* Cartes de projets avec animation très ralentie (0.6s) */
+        /* Cartes de projets (structure modifiée pour l'image) */
         .project-card {
             border: 3px solid var(--text-color);
-            padding: 2rem;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
             transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
             background-color: transparent;
-            min-height: 280px;
+            min-height: 350px;
             text-decoration: none;
             color: var(--text-color);
+            overflow: hidden; /* Important pour que l'image respecte les bords de la carte */
         }
 
         .project-card:hover {
@@ -199,6 +198,30 @@
             box-shadow: 15px 15px 0px var(--text-color);
             background-color: var(--text-color);
             color: var(--bg-color);
+        }
+
+        /* Image de couverture en N&B par défaut */
+        .project-card-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-bottom: 3px solid var(--text-color);
+            filter: grayscale(100%) contrast(120%);
+            transition: all 0.6s ease;
+        }
+
+        /* L'image reprend ses couleurs au survol */
+        .project-card:hover .project-card-img {
+            filter: grayscale(0%) contrast(100%);
+        }
+
+        /* Contenu textuel de la carte */
+        .project-card-content {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-grow: 1;
         }
 
         .project-card h3 {
@@ -239,13 +262,13 @@
             text-align: center;
             border-top: 4px solid var(--text-color);
             border-bottom: 4px solid var(--text-color);
-            margin: 0 -2rem; /* Étend le fond noir au-delà du container */
+            margin: 0 -2rem;
         }
 
         .cta-section h2 {
             font-size: 5rem;
             margin-bottom: 1.5rem;
-            color: #fff; /* Titre en blanc sur fond noir */
+            color: #fff;
         }
 
         .cta-text {
@@ -288,7 +311,6 @@
             color: var(--bg-color);
         }
 
-        /* Style spécifique pour le bouton sur fond noir */
         .btn-inverted {
             color: var(--bg-color);
             border-color: var(--bg-color);
@@ -377,41 +399,52 @@
             <h2 class="section-heading fade-in-section" data-i18n="h-projects">02. Travaux Récents</h2>
             
             <div class="projects-grid">
+                
                 <a href="projet_duree.html" class="project-card fade-in-section">
-                    <div>
-                        <h3 data-i18n="proj1-title">Prédiction de Durée</h3>
-                        <p data-i18n="proj1-desc">Régression LASSO et Réseau de Neurones pour estimer la durée en minutes d'un film en fonction de son budget et de son genre.</p>
-                    </div>
-                    <div class="project-tags">
-                        <span class="tag">Régression L1</span>
-                        <span class="tag">Machine Learning</span>
-                        <span class="tag">Python</span>
+                    <img src="miniature_duree.jpg" alt="Prédiction de Durée" class="project-card-img">
+                    <div class="project-card-content">
+                        <div>
+                            <h3 data-i18n="proj1-title">Prédiction de Durée</h3>
+                            <p data-i18n="proj1-desc">Régression LASSO et Réseau de Neurones pour estimer la durée en minutes d'un film en fonction de son budget et de son genre.</p>
+                        </div>
+                        <div class="project-tags">
+                            <span class="tag">Régression L1</span>
+                            <span class="tag">Machine Learning</span>
+                            <span class="tag">Python</span>
+                        </div>
                     </div>
                 </a>
 
                 <a href="projet_couleur.html" class="project-card fade-in-section">
-                    <div>
-                        <h3 data-i18n="proj2-title">Colorimétrie du Cinéma</h3>
-                        <p data-i18n="proj2-desc">Prédiction de la couleur dominante d'une affiche à partir des métadonnées d'un film pour analyser les choix artistiques des studios.</p>
-                    </div>
-                    <div class="project-tags">
-                        <span class="tag">Classification</span>
-                        <span class="tag">Web Scraping</span>
-                        <span class="tag">Python</span>
+                    <img src="miniature_couleur.jpg" alt="Colorimétrie du Cinéma" class="project-card-img">
+                    <div class="project-card-content">
+                        <div>
+                            <h3 data-i18n="proj2-title">Colorimétrie du Cinéma</h3>
+                            <p data-i18n="proj2-desc">Prédiction de la couleur dominante d'une affiche à partir des métadonnées d'un film pour analyser les choix artistiques des studios.</p>
+                        </div>
+                        <div class="project-tags">
+                            <span class="tag">Classification</span>
+                            <span class="tag">Web Scraping</span>
+                            <span class="tag">Python</span>
+                        </div>
                     </div>
                 </a>
 
                 <a href="projet_animes.html" class="project-card fade-in-section">
-                    <div>
-                        <h3 data-i18n="proj3-title">Violence & Animation</h3>
-                        <p data-i18n="proj3-desc">Analyse statistique : les séries d'animation japonaises les mieux notées par le public sont-elles statistiquement les plus violentes ?</p>
-                    </div>
-                    <div class="project-tags">
-                        <span class="tag">Statistiques</span>
-                        <span class="tag">Data Viz</span>
-                        <span class="tag">Pandas</span>
+                    <img src="miniature_anime.jpg" alt="Violence & Animation" class="project-card-img">
+                    <div class="project-card-content">
+                        <div>
+                            <h3 data-i18n="proj3-title">Violence & Animation</h3>
+                            <p data-i18n="proj3-desc">Analyse statistique : les séries d'animation japonaises les mieux notées par le public sont-elles statistiquement les plus violentes ?</p>
+                        </div>
+                        <div class="project-tags">
+                            <span class="tag">Statistiques</span>
+                            <span class="tag">Data Viz</span>
+                            <span class="tag">Pandas</span>
+                        </div>
                     </div>
                 </a>
+                
             </div>
 
             <div class="btn-container center fade-in-section">
