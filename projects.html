@@ -86,8 +86,16 @@
             font-size: 1rem;
         }
 
-        .lang-switch span { opacity: 0.4; transition: opacity 0.3s; cursor: pointer; }
-        .lang-switch span.active, .lang-switch span:hover { opacity: 1; text-decoration: underline; }
+        .lang-switch span {
+            opacity: 0.4;
+            transition: opacity 0.3s;
+            cursor: pointer;
+        }
+
+        .lang-switch span.active, .lang-switch span:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
 
         /* --- CONTENU --- */
         .container {
@@ -98,11 +106,12 @@
             width: 100%;
         }
 
+        /* --- HEADER DE LA PAGE --- */
         .page-header {
-            margin-bottom: 4rem;
+            margin-bottom: 3rem;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: center; 
             position: relative; 
         }
 
@@ -156,50 +165,69 @@
             box-shadow: 4px 4px 0px rgba(0,0,0,0.2);
         }
 
-        /* --- SYSTÈME DE FILTRES --- */
+        /* --- NOUVEAU SYSTÈME DE FILTRES MINIMALISTE --- */
         .filter-container {
             display: flex;
             justify-content: center;
+            align-items: center;
             flex-wrap: wrap;
-            gap: 1rem;
+            gap: 1.2rem;
             margin-bottom: 4rem;
             padding-bottom: 2rem;
-            border-bottom: 2px dashed var(--text-color);
+            border-bottom: 2px solid rgba(10, 10, 10, 0.1);
         }
 
         .filter-btn {
-            font-family: 'Anton', sans-serif;
-            font-size: 1.3rem;
-            text-transform: uppercase;
             background: transparent;
-            border: 3px solid var(--text-color);
+            border: none;
             color: var(--text-color);
-            padding: 0.5rem 1.5rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
             cursor: pointer;
+            opacity: 0.35;
             transition: all 0.3s ease;
+            padding: 0.2rem 0;
+            position: relative;
         }
 
-        .filter-btn.active, .filter-btn:hover {
-            background: var(--text-color);
-            color: var(--bg-color);
-            transform: translate(-3px, -3px);
-            box-shadow: 5px 5px 0px rgba(0,0,0,0.15);
+        .filter-btn:hover {
+            opacity: 0.7;
         }
 
-        /* Animation pour l'affichage filtré */
-        @keyframes popIn {
-            0% { opacity: 0; transform: scale(0.95); }
-            100% { opacity: 1; transform: scale(1); }
+        .filter-btn.active {
+            opacity: 1;
         }
 
-        /* --- ANIMATION SCROLL FLUIDE --- */
+        /* Ligne de soulignement pour le filtre actif */
+        .filter-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--text-color);
+        }
+
+        .filter-separator {
+            opacity: 0.2;
+            font-weight: 400;
+        }
+
+        /* --- ANIMATION SCROLL FLUIDE (1.5s) --- */
         .fade-in-section {
             opacity: 0;
             transform: translateY(40px);
             transition: opacity 1.5s ease-out, transform 1.5s ease-out; 
             will-change: opacity, visibility;
         }
-        .fade-in-section.is-visible { opacity: 1; transform: none; }
+
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: none;
+        }
 
         /* --- SECTIONS PROJETS --- */
         .section-group {
@@ -228,7 +256,7 @@
             height: 100%;
         }
 
-        /* --- CARTES --- */
+        /* --- CARTES : TOUJOURS SUR FOND NOIR --- */
         .project-card {
             border: 3px solid var(--text-color);
             display: flex;
@@ -238,7 +266,8 @@
             overflow: hidden;
             text-decoration: none;
             flex-grow: 1;
-            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                        box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         .project-card * {
@@ -247,14 +276,14 @@
 
         .project-card:hover {
             transform: translate(-8px, -8px);
-            box-shadow: 12px 12px 0px var(--text-color);
+            box-shadow: 12px 12px 0px var(--text-color); 
         }
 
-        /* Conteneur d'image pour pouvoir ajouter la bannière "EN COURS" */
+        /* Conteneur d'image pour la bannière WIP */
         .img-container {
             position: relative;
             overflow: hidden;
-            border-bottom: 3px solid var(--text-color);
+            border-bottom: 3px solid currentColor;
             transition: border-color 0.4s ease;
         }
 
@@ -264,7 +293,7 @@
             object-fit: cover;
             display: block;
             filter: grayscale(0%) contrast(100%);
-            transition: filter 0.6s ease;
+            transition: filter 0.4s ease;
         }
 
         .project-card-content {
@@ -366,12 +395,10 @@
             opacity: 0.9;
         }
         
-        /* L'image reste toujours en Noir & Blanc */
         .wip-card .project-card-img {
             filter: grayscale(100%) contrast(120%) !important;
         }
 
-        /* La grosse bannière de chantier en travers de l'image */
         .wip-banner {
             position: absolute;
             top: 50%;
@@ -392,8 +419,10 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
 
-        /* --- MODE TEXTE BLANC (VIA JS) --- */
-        body.white-text-mode .project-card { color: #ffffff; }
+        /* --- MODE TEXTE BLANC (VIA JAVASCRIPT) --- */
+        body.white-text-mode .project-card {
+            color: #ffffff; 
+        }
 
         /* --- FOOTER --- */
         .site-footer {
@@ -421,7 +450,8 @@
             .main-title { font-size: 3.5rem; }
             .section-title { font-size: 2.5rem; }
             .theme-toggle-btn { font-size: 0.7rem; padding: 0.5rem 1rem; }
-            .filter-btn { font-size: 1rem; padding: 0.4rem 1rem; }
+            .filter-container { gap: 0.8rem; }
+            .filter-btn { font-size: 0.9rem; }
             
             .project-footer { flex-direction: column; align-items: flex-start; }
             .action-buttons { width: 100%; }
@@ -434,6 +464,7 @@
     <header>
         <div class="header-left">
             <div class="logo">/// Julien Arsena</div>
+            
             <nav class="main-nav">
                 <a href="index.html" data-i18n="nav-home">Accueil</a>
                 <a href="projects.html" class="active" data-i18n="nav-projects">Projets</a>
@@ -441,6 +472,7 @@
                 <a href="contact.html" data-i18n="nav-contact">Contact</a>
             </nav>
         </div>
+        
         <div class="lang-switch">
             <span id="btn-fr" class="active" onclick="setLanguage('fr')">FR</span> / 
             <span id="btn-en" onclick="setLanguage('en')">EN</span>
@@ -451,9 +483,11 @@
         
         <div class="page-header fade-in-section" id="hero-section">
             <div class="subtitle" data-i18n="subtitle-projects">Portfolio</div>
+            
             <h1 class="main-title" id="hero-text" data-i18n="title-projects">
                 <span class="letter">M</span><span class="letter">E</span><span class="letter">S</span><span class="letter">&nbsp;</span><span class="letter">T</span><span class="letter">R</span><span class="letter">A</span><span class="letter">V</span><span class="letter">A</span><span class="letter">U</span><span class="letter">X</span>
             </h1>
+            
             <button id="toggle-visual-btn" class="theme-toggle-btn" data-i18n="btn-toggle">
                 ✦ Changer la couleur du texte (Blanc)
             </button>
@@ -461,9 +495,13 @@
 
         <div class="filter-container fade-in-section">
             <button class="filter-btn active" data-filter="all" data-i18n="filter-all">Tous</button>
+            <span class="filter-separator">/</span>
             <button class="filter-btn" data-filter="ml" data-i18n="filter-ml">Machine Learning</button>
+            <span class="filter-separator">/</span>
             <button class="filter-btn" data-filter="data" data-i18n="filter-data">Data & Stats</button>
+            <span class="filter-separator">/</span>
             <button class="filter-btn" data-filter="nlp" data-i18n="filter-nlp">NLP</button>
+            <span class="filter-separator">/</span>
             <button class="filter-btn" data-filter="web" data-i18n="filter-web">Web & Créatif</button>
         </div>
 
@@ -472,7 +510,7 @@
             
             <div class="ds-grid">
                 
-                <div class="card-wrapper fade-in-section" data-category="ml data">
+                <div class="card-wrapper fade-in-section" data-category="ml">
                     <a href="projet_duree.html" class="project-card">
                         <div class="img-container">
                             <img src="miniature_duree.jpg" alt="Prédiction de Durée" class="project-card-img">
@@ -498,7 +536,7 @@
                     </a>
                 </div>
 
-                <div class="card-wrapper fade-in-section" data-category="ml data">
+                <div class="card-wrapper fade-in-section" data-category="ml">
                     <a href="projet_couleur.html" class="project-card">
                         <div class="img-container">
                             <img src="miniature_couleur.jpg" alt="Colorimétrie du Cinéma" class="project-card-img">
@@ -524,7 +562,7 @@
                     </a>
                 </div>
 
-                <div class="card-wrapper fade-in-section" data-category="data web">
+                <div class="card-wrapper fade-in-section" data-category="data">
                     <a href="projet_animes.html" class="project-card">
                         <div class="img-container">
                             <img src="miniature_anime.jpg" alt="Violence & Animation" class="project-card-img">
@@ -577,7 +615,7 @@
                     </div>
                 </div>
 
-                <div class="card-wrapper fade-in-section" data-category="nlp data">
+                <div class="card-wrapper fade-in-section" data-category="nlp">
                     <div class="project-card wip-card">
                         <div class="img-container">
                             <img src="miniature_ens.jpg" alt="Analyse Littéraire ENS" class="project-card-img">
@@ -604,7 +642,7 @@
                     </div>
                 </div>
 
-                <div class="card-wrapper fade-in-section" data-category="nlp ml data">
+                <div class="card-wrapper fade-in-section" data-category="nlp">
                     <div class="project-card wip-card">
                         <div class="img-container">
                             <img src="miniature_linguistique.jpg" alt="Évolution Linguistique" class="project-card-img">
@@ -659,7 +697,9 @@
                 </div>
 
             </div>
-        </div> <div class="section-group" id="group-web">
+        </div> 
+
+        <div class="section-group" id="group-web">
             <h2 class="section-title fade-in-section" data-i18n="section-web">02. Projets Web & Créatifs</h2>
 
             <div class="web-grid">
@@ -690,8 +730,8 @@
                     </a>
                 </div>
 
-                <div class="card-wrapper fade-in-section" data-category="web data">
-                    <div class="project-card" style="cursor: default;">
+                <div class="card-wrapper fade-in-section" data-category="web">
+                    <div class="project-card">
                         <div class="img-container">
                             <img src="miniature_paradoxe.jpg" alt="Le Paradoxe du Littoral" class="project-card-img">
                         </div>
@@ -718,11 +758,21 @@
                 </div>
 
             </div>
-        </div> </div>
+        </div> 
+
+    </div>
 
     <footer class="site-footer">
         <span data-i18n="footer-text">© 2026 Julien Arsena. Tout le contenu (code, données, rapports) est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite.</span>
     </footer>
+
+    <style>
+        /* Animation pour le système de filtre */
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+    </style>
 
     <script>
         // --- 1. ANIMATION SCROLL (FLUIDE 1.5s) ---
@@ -749,27 +799,24 @@
 
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-                // Gestion de l'état actif des boutons
                 filterBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 
                 const filter = btn.getAttribute('data-filter');
 
-                // Filtrage des cartes
                 cardWrappers.forEach(wrapper => {
-                    const categories = wrapper.getAttribute('data-category');
-                    if (filter === 'all' || categories.includes(filter)) {
+                    const category = wrapper.getAttribute('data-category');
+                    if (filter === 'all' || category === filter) {
                         wrapper.style.display = 'flex';
-                        // Relance une petite animation d'apparition
                         wrapper.style.animation = 'none';
-                        wrapper.offsetHeight; /* Trigger reflow */
+                        wrapper.offsetHeight; 
                         wrapper.style.animation = 'popIn 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) forwards';
                     } else {
                         wrapper.style.display = 'none';
                     }
                 });
 
-                // Cacher les titres de sections si elles sont vides à cause du filtre
+                // Cacher les titres de sections vides
                 sectionGroups.forEach(group => {
                     const visibleCards = Array.from(group.querySelectorAll('.card-wrapper')).filter(card => card.style.display !== 'none');
                     const title = group.querySelector('.section-title');
@@ -910,7 +957,7 @@
                 toggleBtn.innerHTML = lang === 'fr' ? '✦ Changer la couleur du texte (Blanc)' : '✦ Change text color (White)';
             }
 
-            initMagneticLetters(); // Réinitialise l'effet sur le nouveau texte
+            initMagneticLetters();
         }
     </script>
 </body>
