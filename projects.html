@@ -164,16 +164,23 @@
             gap: 2.5rem;
         }
 
+        /* --- CARTES UNIFIÉES AVEC L'ACCUEIL --- */
         .project-card {
             border: 3px solid var(--text-color);
-            padding: 2rem;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            transition: all 0.3s ease;
             background-color: transparent;
-            min-height: 280px;
             color: var(--text-color);
+            overflow: hidden;
+            /* Animation lente et harmonieuse */
+            transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                        box-shadow 0.6s cubic-bezier(0.25, 0.8, 0.25, 1),
+                        background-color 1.2s ease, 
+                        color 1.2s ease;
+        }
+
+        .project-card * {
+            transition: color 1.2s ease, border-color 1.2s ease;
         }
 
         .project-card:hover {
@@ -183,22 +190,45 @@
             color: var(--bg-color);
         }
 
+        .project-card-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+            border-bottom: 3px solid var(--text-color);
+            filter: grayscale(100%) contrast(120%);
+            transition: filter 1.2s ease, border-color 1.2s ease;
+        }
+
+        .project-card:hover .project-card-img {
+            filter: grayscale(0%) contrast(100%);
+            border-color: var(--text-color); 
+        }
+
+        .project-card-content {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
         .project-card h3 {
             font-family: 'Anton', sans-serif;
             font-size: 2.5rem;
             line-height: 1.1;
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
             text-transform: uppercase;
         }
 
-        /* NOUVEAU : Style de la phrase d'accroche */
+        /* NOUVEAU : Le style éditorial pour les accroches */
         .project-catchphrase {
             font-family: 'Inter', sans-serif;
             font-style: italic;
-            font-weight: 600;
-            font-size: 1.05rem;
-            margin-bottom: 1rem;
-            opacity: 0.85;
+            font-weight: 800;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            padding-left: 1rem;
+            border-left: 4px solid currentColor; /* Ligne verticale dynamique */
         }
 
         .project-card p {
@@ -213,7 +243,7 @@
             display: flex;
             gap: 0.5rem;
             flex-wrap: wrap;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2.5rem;
         }
 
         .tag {
@@ -230,8 +260,8 @@
             justify-content: space-between;
             align-items: center;
             margin-top: auto;
-            border-top: 2px solid currentColor;
-            padding-top: 1rem;
+            border-top: 3px solid currentColor;
+            padding-top: 1.5rem;
             flex-wrap: wrap;
             gap: 1rem;
         }
@@ -254,21 +284,40 @@
             font-size: 0.9rem;
             border: 2px solid currentColor;
             padding: 0.5rem 1rem;
-            transition: all 0.3s;
             text-decoration: none;
             color: inherit;
             display: inline-block;
             cursor: pointer;
+            background-color: transparent;
+            transition: all 0.3s ease;
         }
 
+        /* Gestion fine du bouton au survol de la carte (sur fond noir) */
         .project-card:hover .project-link-btn {
             border-color: var(--bg-color);
         }
 
-        .project-link-btn:hover {
+        .project-card:hover .project-link-btn:hover {
             background-color: var(--bg-color);
             color: var(--text-color) !important;
-            border-color: var(--bg-color) !important;
+        }
+
+        /* Gestion du bouton sans survol de la carte (sur fond rouge) */
+        .project-link-btn:hover {
+            background-color: var(--text-color);
+            color: var(--bg-color) !important;
+        }
+
+        /* --- FOOTER --- */
+        .site-footer {
+            padding: 1.5rem 2rem;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            opacity: 0.8;
+            margin-top: auto; 
+            border-top: 2px solid var(--text-color);
         }
 
         /* --- RESPONSIVE DESIGN --- */
@@ -279,43 +328,18 @@
         }
 
         @media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                gap: 1.5rem;
-                padding: 1.5rem 1rem;
-            }
-            .header-left {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-            .main-nav {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            .container {
-                padding: 2rem 1rem;
-            }
-            .main-title {
-                font-size: 4rem; 
-            }
-            .section-title {
-                font-size: 2.5rem;
-            }
-            .project-card h3 {
-                font-size: 2rem;
-            }
-            .project-footer {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .action-buttons {
-                width: 100%;
-            }
-            .project-link-btn {
-                flex-grow: 1;
-                text-align: center;
-            }
+            header { flex-direction: column; gap: 1.5rem; padding: 1.5rem 1rem; }
+            .header-left { flex-direction: column; gap: 1rem; text-align: center; }
+            .main-nav { flex-wrap: wrap; justify-content: center; }
+            
+            .container { padding: 2rem 1rem; }
+            .main-title { font-size: 4rem; }
+            .section-title { font-size: 2.5rem; }
+            .project-card h3 { font-size: 2rem; }
+            
+            .project-footer { flex-direction: column; align-items: flex-start; }
+            .action-buttons { width: 100%; }
+            .project-link-btn { flex-grow: 1; text-align: center; }
         }
     </style>
 </head>
@@ -351,114 +375,155 @@
         <div class="ds-grid">
             
             <div class="project-card fade-in-section">
-                <div>
-                    <h3 data-i18n="ds4-title">Prédiction de Durée</h3>
-                    <div class="project-catchphrase" data-i18n="ds4-catch">"Une machine peut-elle deviner quand le générique de fin va défiler ?"</div>
-                    <p data-i18n="ds4-desc">Analyse des données cinématographiques pour développer un modèle de régression capable d'estimer la durée d'un long-métrage à l'aide d'algorithmes d'apprentissage automatique.</p>
-                    <div class="project-tags">
-                        <span class="tag">Machine Learning</span>
-                        <span class="tag">Régression</span>
-                        <span class="tag">Python</span>
+                <img src="miniature_duree.jpg" alt="Prédiction de Durée" class="project-card-img">
+                <div class="project-card-content">
+                    <div>
+                        <h3 data-i18n="ds4-title">Prédiction de Durée</h3>
+                        <div class="project-catchphrase" data-i18n="ds4-catch">"Une machine peut-elle deviner quand le générique de fin va défiler ?"</div>
+                        <p data-i18n="ds4-desc">Analyse des données cinématographiques pour développer un modèle de régression capable d'estimer la durée d'un long-métrage à l'aide d'algorithmes d'apprentissage automatique.</p>
+                        <div class="project-tags">
+                            <span class="tag">Machine Learning</span>
+                            <span class="tag">Régression</span>
+                            <span class="tag">Python</span>
+                        </div>
                     </div>
-                </div>
-                <div class="project-footer">
-                    <span class="project-date" data-i18n="date-dec25">Déc. 2025</span>
-                    <div class="action-buttons">
-                        <a href="projet_duree.html" class="project-link-btn" data-i18n="btn-details">En savoir plus</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="project-card fade-in-section">
-                <div>
-                    <h3 data-i18n="ds1-title">Colorimétrie du Cinéma</h3>
-                    <div class="project-catchphrase" data-i18n="ds1-catch">"Un ordinateur peut-il ressentir la couleur d'un film ?"</div>
-                    <p data-i18n="ds1-desc">Modélisation et prédiction de la palette de couleurs d'une affiche de film en fonction de ses caractéristiques (genre, année, réalisateur) via des méthodes de Machine Learning.</p>
-                    <div class="project-tags">
-                        <span class="tag">Machine Learning</span>
-                        <span class="tag">Python</span>
-                        <span class="tag">Scikit-Learn</span>
-                    </div>
-                </div>
-                <div class="project-footer">
-                    <span class="project-date" data-i18n="date-oct25">Oct. 2025</span>
-                    <div class="action-buttons">
-                        <a href="projet_couleur.html" class="project-link-btn" data-i18n="btn-details">En savoir plus</a>
+                    <div class="project-footer">
+                        <span class="project-date" data-i18n="date-dec25">Déc. 2025</span>
+                        <div class="action-buttons">
+                            <a href="projet_duree.html" class="project-link-btn" data-i18n="btn-details">En savoir plus</a>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="project-card fade-in-section">
-                <div>
-                    <h3 data-i18n="ds5-title">Régimes Politiques</h3>
-                    <div class="project-catchphrase" data-i18n="ds5-catch">"En cours de réalisation..."</div>
-                    <p data-i18n="ds5-desc">Étude statistique comparative mondiale (2023) analysant le poids des budgets et de l'importance accordée à l'armée et à la santé selon le degré d'autoritarisme des États.</p>
-                    <div class="project-tags">
-                        <span class="tag">Géopolitique</span>
-                        <span class="tag">Statistiques</span>
-                        <span class="tag">Analyse</span>
+                <img src="miniature_couleur.jpg" alt="Colorimétrie du Cinéma" class="project-card-img">
+                <div class="project-card-content">
+                    <div>
+                        <h3 data-i18n="ds1-title">Colorimétrie du Cinéma</h3>
+                        <div class="project-catchphrase" data-i18n="ds1-catch">"Un ordinateur peut-il ressentir la couleur d'un film ?"</div>
+                        <p data-i18n="ds1-desc">Modélisation et prédiction de la palette de couleurs d'une affiche de film en fonction de ses caractéristiques (genre, année, réalisateur) via des méthodes de Machine Learning.</p>
+                        <div class="project-tags">
+                            <span class="tag">Machine Learning</span>
+                            <span class="tag">Python</span>
+                            <span class="tag">Scikit-Learn</span>
+                        </div>
                     </div>
-                </div>
-                <div class="project-footer">
-                    <span class="project-date" data-i18n="date-avr26">Avr. 2026</span>
-                    <div class="action-buttons">
-                        <a href="#" class="project-link-btn" data-i18n="btn-details">En savoir plus</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="project-card fade-in-section">
-                <div>
-                    <h3 data-i18n="ds2-title">Violence & Animation</h3>
-                    <div class="project-catchphrase" data-i18n="ds2-catch">"Les animés les mieux notés sont-ils les plus violents ?"</div>
-                    <p data-i18n="ds2-desc">Analyse statistique poussée : les animés (Japonais) les mieux notés par le public sont-ils statistiquement les plus violents ? Web scraping et visualisation de données.</p>
-                    <div class="project-tags">
-                        <span class="tag">Web Scraping</span>
-                        <span class="tag">Pandas</span>
-                        <span class="tag">Data Viz</span>
-                    </div>
-                </div>
-                <div class="project-footer">
-                    <span class="project-date" data-i18n="date-mai25">Mai 2025</span>
-                    <div class="action-buttons">
-                        <a href="#" class="project-link-btn" data-i18n="btn-details">En savoir plus</a>
+                    <div class="project-footer">
+                        <span class="project-date" data-i18n="date-oct25">Oct. 2025</span>
+                        <div class="action-buttons">
+                            <a href="projet_couleur.html" class="project-link-btn" data-i18n="btn-details">En savoir plus</a>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="project-card fade-in-section">
-                <div>
-                    <h3 data-i18n="ds3-title">Générations & Voyages</h3>
-                    <div class="project-catchphrase" data-i18n="ds3-catch">"Les jeunes ont-ils un plus grand désir d'explorer le monde ?"</div>
-                    <p data-i18n="ds3-desc">Étude sociologique appuyée par la donnée : analyse du désir de voyager selon les tranches d'âge. Récolte manuelle, régressions et modélisations des résultats.</p>
-                    <div class="project-tags">
-                        <span class="tag">Statistiques</span>
-                        <span class="tag">Régression</span>
-                        <span class="tag">Enquêtes</span>
+                <img src="miniature_anime.jpg" alt="Violence & Animation" class="project-card-img">
+                <div class="project-card-content">
+                    <div>
+                        <h3 data-i18n="ds2-title">Violence & Animation</h3>
+                        <div class="project-catchphrase" data-i18n="ds2-catch">"Les animés les mieux notés sont-ils les plus violents ?"</div>
+                        <p data-i18n="ds2-desc">Analyse statistique poussée : les animés (Japonais) les mieux notés par le public sont-ils statistiquement les plus violents ? Web scraping et visualisation de données.</p>
+                        <div class="project-tags">
+                            <span class="tag">Web Scraping</span>
+                            <span class="tag">Pandas</span>
+                            <span class="tag">Data Viz</span>
+                        </div>
                     </div>
-                </div>
-                <div class="project-footer">
-                    <span class="project-date" data-i18n="date-fev25">Fév. 2025</span>
-                    <div class="action-buttons">
-                        <a href="#" class="project-link-btn" data-i18n="btn-details">En savoir plus</a>
+                    <div class="project-footer">
+                        <span class="project-date" data-i18n="date-mai25">Mai 2025</span>
+                        <div class="action-buttons">
+                            <a href="projet_animes.html" class="project-link-btn" data-i18n="btn-details">En savoir plus</a>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="project-card fade-in-section">
-                <div>
-                    <h3 data-i18n="ds6-title">Analyse Littéraire (ENS)</h3>
-                    <p data-i18n="ds6-desc">Collecte de données et analyse statistique sur la littérature japonaise classique (jusqu'à 1850). Extraction de modèles historiques via les Humanités Numériques.</p>
-                    <div class="project-tags">
-                        <span class="tag">NLP</span>
-                        <span class="tag">Recherche</span>
-                        <span class="tag">Humanités</span>
+                <img src="miniature_voyage.jpg" alt="Générations & Voyages" class="project-card-img">
+                <div class="project-card-content">
+                    <div>
+                        <h3 data-i18n="ds3-title">Générations & Voyages</h3>
+                        <div class="project-catchphrase" data-i18n="ds3-catch">"Les jeunes ont-ils un plus grand désir d'explorer le monde ?"</div>
+                        <p data-i18n="ds3-desc">Étude sociologique appuyée par la donnée : analyse du désir de voyager selon les tranches d'âge. Récolte manuelle, régressions et modélisations des résultats.</p>
+                        <div class="project-tags">
+                            <span class="tag">Statistiques</span>
+                            <span class="tag">Régression</span>
+                            <span class="tag">Enquêtes</span>
+                        </div>
+                    </div>
+                    <div class="project-footer">
+                        <span class="project-date" data-i18n="date-fev25">Fév. 2025</span>
+                        <div class="action-buttons">
+                            <a href="#" class="project-link-btn" data-i18n="btn-details">En savoir plus</a>
+                        </div>
                     </div>
                 </div>
-                <div class="project-footer">
-                    <span class="project-date" data-i18n="date-ens">Stage ENS</span>
-                    <div class="action-buttons">
-                        <a href="#" class="project-link-btn" data-i18n="btn-details">En savoir plus</a>
+            </div>
+
+            <div class="project-card fade-in-section">
+                <img src="miniature_ens.jpg" alt="Analyse Littéraire ENS" class="project-card-img">
+                <div class="project-card-content">
+                    <div>
+                        <h3 data-i18n="ds6-title">Analyse Littéraire (ENS)</h3>
+                        <div class="project-catchphrase" data-i18n="ds6-catch">"Les mathématiques peuvent-elles décoder les œuvres japonaises ?"</div>
+                        <p data-i18n="ds6-desc">Collecte de données et analyse statistique sur la littérature japonaise classique (jusqu'à 1850). Extraction de modèles historiques via les Humanités Numériques.</p>
+                        <div class="project-tags">
+                            <span class="tag">NLP</span>
+                            <span class="tag">Recherche</span>
+                            <span class="tag">Humanités</span>
+                        </div>
+                    </div>
+                    <div class="project-footer">
+                        <span class="project-date" data-i18n="date-ens">Stage ENS</span>
+                        <div class="action-buttons">
+                            <a href="#" class="project-link-btn" data-i18n="btn-details">En savoir plus</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card fade-in-section">
+                <img src="miniature_linguistique.jpg" alt="Évolution Linguistique" class="project-card-img">
+                <div class="project-card-content">
+                    <div>
+                        <h3 data-i18n="ds7-title">Évolution Linguistique</h3>
+                        <div class="project-catchphrase" data-i18n="ds7-catch">"En cours de réalisation..."</div>
+                        <p data-i18n="ds7-desc">Analyse de vastes corpus textuels pour modéliser l'évolution d'une langue et de ses structures syntaxiques au fil du temps à l'aide d'algorithmes de traitement du langage naturel (NLP).</p>
+                        <div class="project-tags">
+                            <span class="tag">Linguistique</span>
+                            <span class="tag">NLP</span>
+                            <span class="tag">Data Science</span>
+                        </div>
+                    </div>
+                    <div class="project-footer">
+                        <span class="project-date" data-i18n="date-tba">À venir</span>
+                        <div class="action-buttons">
+                            <a href="#" class="project-link-btn" data-i18n="btn-details" style="opacity: 0.5; pointer-events: none;">Bientôt disponible</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card fade-in-section">
+                <img src="miniature_geopolitique.jpg" alt="Régimes Politiques" class="project-card-img">
+                <div class="project-card-content">
+                    <div>
+                        <h3 data-i18n="ds5-title">Régimes Politiques</h3>
+                        <div class="project-catchphrase" data-i18n="ds5-catch">"En cours de réalisation..."</div>
+                        <p data-i18n="ds5-desc">Étude statistique comparative mondiale (2023) analysant le poids des budgets et de l'importance accordée à l'armée et à la santé selon le degré d'autoritarisme des États.</p>
+                        <div class="project-tags">
+                            <span class="tag">Géopolitique</span>
+                            <span class="tag">Statistiques</span>
+                            <span class="tag">Analyse</span>
+                        </div>
+                    </div>
+                    <div class="project-footer">
+                        <span class="project-date" data-i18n="date-avr26">Avr. 2026</span>
+                        <div class="action-buttons">
+                            <a href="#" class="project-link-btn" data-i18n="btn-details" style="opacity: 0.5; pointer-events: none;">Bientôt disponible</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -470,38 +535,46 @@
         <div class="web-grid">
             
             <div class="project-card fade-in-section">
-                <div>
-                    <h3 data-i18n="web1-title">Hunt-It : Chasse au Trésor</h3>
-                    <p data-i18n="web1-desc">Création d'un site web interactif simulant une "chasse au trésor" dans Paris. Conception des énigmes, développement de mini-jeux interactifs en code natif et hébergement sur GitHub Pages dans le cadre d'un projet interdisciplinaire.</p>
-                    <div class="project-tags">
-                        <span class="tag">HTML/CSS</span>
-                        <span class="tag">JavaScript</span>
-                        <span class="tag">Game Design</span>
+                <img src="miniature_huntit.jpg" alt="Hunt-It Chasse au trésor" class="project-card-img">
+                <div class="project-card-content">
+                    <div>
+                        <h3 data-i18n="web1-title">Hunt-It : Chasse au Trésor</h3>
+                        <div class="project-catchphrase" data-i18n="web1-catch">"Transformer la ville en un immense terrain de jeu virtuel."</div>
+                        <p data-i18n="web1-desc">Création d'un site web interactif simulant une "chasse au trésor" dans Paris. Conception des énigmes, développement de mini-jeux interactifs en code natif et hébergement sur GitHub Pages dans le cadre d'un projet interdisciplinaire.</p>
+                        <div class="project-tags">
+                            <span class="tag">HTML/CSS</span>
+                            <span class="tag">JavaScript</span>
+                            <span class="tag">Game Design</span>
+                        </div>
                     </div>
-                </div>
-                <div class="project-footer">
-                    <span class="project-date" data-i18n="date-juin25">Juin 2025</span>
-                    <div class="action-buttons">
-                        <a href="https://hunt-it.github.io/Accueil/?" target="_blank" class="project-link-btn" data-i18n="btn-visit">Visiter le site -></a>
+                    <div class="project-footer">
+                        <span class="project-date" data-i18n="date-juin25">Juin 2025</span>
+                        <div class="action-buttons">
+                            <a href="https://hunt-it.github.io/Accueil/?" target="_blank" class="project-link-btn" data-i18n="btn-visit">Visiter le site -></a>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div class="project-card fade-in-section">
-                <div>
-                    <h3 data-i18n="web2-title">Le Paradoxe du Littoral</h3>
-                    <p data-i18n="web2-desc">Site web réalisé pour illustrer un article scientifique sur les paradoxes mathématiques, et plus particulièrement le paradoxe du littoral (fractales de Mandelbrot). Mise en forme vulgarisée et conception UI/UX pour la médiation scientifique.</p>
-                    <div class="project-tags">
-                        <span class="tag">Mathématiques</span>
-                        <span class="tag">Fractales</span>
-                        <span class="tag">Web Design</span>
+                <img src="miniature_paradoxe.jpg" alt="Le Paradoxe du Littoral" class="project-card-img">
+                <div class="project-card-content">
+                    <div>
+                        <h3 data-i18n="web2-title">Le Paradoxe du Littoral</h3>
+                        <div class="project-catchphrase" data-i18n="web2-catch">"Comment vulgariser la complexité infinie des fractales ?"</div>
+                        <p data-i18n="web2-desc">Site web réalisé pour illustrer un article scientifique sur les paradoxes mathématiques, et plus particulièrement le paradoxe du littoral (fractales de Mandelbrot). Mise en forme vulgarisée et conception UI/UX pour la médiation scientifique.</p>
+                        <div class="project-tags">
+                            <span class="tag">Mathématiques</span>
+                            <span class="tag">Fractales</span>
+                            <span class="tag">Web Design</span>
+                        </div>
                     </div>
-                </div>
-                <div class="project-footer">
-                    <span class="project-date" data-i18n="date-jan25">Janv. 2025</span>
-                    <div class="action-buttons">
-                        <a href="Article_Paradoxe_Littoral.pdf" target="_blank" class="project-link-btn" data-i18n="btn-article">Lire l'article (PDF)</a>
-                        <a href="https://julien-ars.github.io/article-paradoxe-littoral/" target="_blank" class="project-link-btn" data-i18n="btn-visit">Visiter le site -></a>
+                    <div class="project-footer">
+                        <span class="project-date" data-i18n="date-jan25">Janv. 2025</span>
+                        <div class="action-buttons">
+                            <a href="Article_Paradoxe_Littoral.pdf" target="_blank" class="project-link-btn" data-i18n="btn-article">Lire l'article (PDF)</a>
+                            <a href="https://julien-ars.github.io/article-paradoxe-littoral/" target="_blank" class="project-link-btn" data-i18n="btn-visit">Visiter le site -></a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -509,6 +582,10 @@
         </div>
 
     </div>
+
+    <footer class="site-footer">
+        <span data-i18n="footer-text">© 2026 Julien Arsena. Tout le contenu (code, données, rapports) est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite.</span>
+    </footer>
 
     <script>
         // --- ANIMATION SCROLL ---
@@ -554,11 +631,17 @@
                 "ds5-catch": "\"En cours de réalisation...\"",
                 "ds5-desc": "Étude statistique comparative mondiale (2023) analysant le poids des budgets et de l'importance accordée à l'armée et à la santé selon le degré d'autoritarisme des États.",
                 "ds6-title": "Analyse Littéraire (ENS)",
+                "ds6-catch": "\"Les mathématiques peuvent-elles décoder les œuvres japonaises ?\"",
                 "ds6-desc": "Collecte de données et analyse statistique sur la littérature japonaise classique (jusqu'à 1850). Extraction de modèles historiques via les Humanités Numériques.",
+                "ds7-title": "Évolution Linguistique",
+                "ds7-catch": "\"En cours de réalisation...\"",
+                "ds7-desc": "Analyse de vastes corpus textuels pour modéliser l'évolution d'une langue et de ses structures syntaxiques au fil du temps à l'aide d'algorithmes de traitement du langage naturel (NLP).",
                 "section-web": "02. Projets Web & Créatifs",
                 "web1-title": "Hunt-It : Chasse au Trésor",
+                "web1-catch": "\"Transformer la ville en un immense terrain de jeu virtuel.\"",
                 "web1-desc": "Création d'un site web interactif simulant une \"chasse au trésor\" dans Paris. Conception des énigmes, développement de mini-jeux interactifs en code natif et hébergement sur GitHub Pages dans le cadre d'un projet interdisciplinaire.",
                 "web2-title": "Le Paradoxe du Littoral",
+                "web2-catch": "\"Comment vulgariser la complexité infinie des fractales ?\"",
                 "web2-desc": "Site web réalisé pour illustrer un article scientifique sur les paradoxes mathématiques, et plus particulièrement le paradoxe du littoral (fractales de Mandelbrot). Mise en forme vulgarisée et conception UI/UX pour la médiation scientifique.",
                 "date-oct25": "Oct. 2025",
                 "date-mai25": "Mai 2025",
@@ -568,9 +651,11 @@
                 "date-juin25": "Juin 2025",
                 "date-jan25": "Janv. 2025",
                 "date-ens": "Stage ENS",
+                "date-tba": "À venir",
                 "btn-details": "En savoir plus",
                 "btn-visit": "Visiter le site ->",
-                "btn-article": "Lire l'article (PDF)"
+                "btn-article": "Lire l'article (PDF)",
+                "footer-text": "© 2026 Julien Arsena. Tout le contenu (code, données, rapports) est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite."
             },
             "en": {
                 "nav-home": "Home",
@@ -581,7 +666,7 @@
                 "title-projects": "My Work",
                 "section-ds": "01. Data Science & Analysis",
                 "ds1-title": "Cinema Colorimetry",
-                "ds1-catch": "\"Can a Computer Feel the Color of Cinema?\"",
+                "ds1-catch": "\"Can a Computer Feel the Color of a Movie?\"",
                 "ds1-desc": "Modeling and predicting the color palette of a movie poster based on its characteristics (genre, year, director) using Machine Learning methods.",
                 "ds2-title": "Violence & Animation",
                 "ds2-catch": "\"Are the highest rated anime the most violent?\"",
@@ -596,11 +681,17 @@
                 "ds5-catch": "\"Under construction...\"",
                 "ds5-desc": "Global comparative statistical study (2023) analyzing the weight of budgets and importance given to the military and healthcare based on the states' level of authoritarianism.",
                 "ds6-title": "Literary Analysis (ENS)",
+                "ds6-catch": "\"Can mathematics decode Japanese artworks?\"",
                 "ds6-desc": "Data collection and statistical analysis on classical Japanese literature (up to 1850). Extracting historical patterns using Digital Humanities.",
+                "ds7-title": "Linguistic Evolution",
+                "ds7-catch": "\"Under construction...\"",
+                "ds7-desc": "Analysis of large text corpora to model the evolution of a language and its syntactic structures over time using Natural Language Processing (NLP) algorithms.",
                 "section-web": "02. Web & Creative Projects",
                 "web1-title": "Hunt-It: Treasure Hunt",
+                "web1-catch": "\"Transforming the city into a massive virtual playground.\"",
                 "web1-desc": "Creation of an interactive website simulating a \"treasure hunt\" in Paris. Riddle design, interactive mini-games development in native code, hosted on GitHub Pages for an interdisciplinary project.",
                 "web2-title": "The Coastline Paradox",
+                "web2-catch": "\"How do we popularize the infinite complexity of fractals?\"",
                 "web2-desc": "Website created to illustrate a scientific article on mathematical paradoxes, specifically the coastline paradox (Mandelbrot fractals). Simplified formatting and UI/UX design for scientific outreach.",
                 "date-oct25": "Oct. 2025",
                 "date-mai25": "May 2025",
@@ -610,9 +701,11 @@
                 "date-juin25": "June 2025",
                 "date-jan25": "Jan. 2025",
                 "date-ens": "ENS Intern",
+                "date-tba": "Upcoming",
                 "btn-details": "Learn more",
                 "btn-visit": "Visit website ->",
-                "btn-article": "Read Article (PDF)"
+                "btn-article": "Read Article (PDF)",
+                "footer-text": "© 2026 Julien Arsena. All content (code, data, reports) is provided for review purposes. Any reuse requires explicit attribution."
             }
         };
 
