@@ -140,12 +140,11 @@
             text-transform: uppercase;
         }
 
-        /* --- SECTION INTRO (À PROPOS) --- */
+        /* --- SECTION INTRO (À PROPOS) RECENTRÉE --- */
         .intro-section {
             margin-bottom: 6rem;
             display: flex;
             flex-direction: column;
-            gap: 2rem;
         }
 
         .intro-box {
@@ -153,6 +152,12 @@
             padding: 3rem;
             background-color: transparent;
             transition: transform 0.4s ease, box-shadow 0.4s ease;
+            max-width: 900px; /* Limite la largeur pour éviter l'effet vide */
+            margin: 0 auto;   /* Centre la boîte */
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .intro-box:hover {
@@ -162,11 +167,10 @@
 
         .intro-text {
             font-family: 'Inter', sans-serif;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             line-height: 1.6;
             font-weight: 600;
             margin-bottom: 2rem;
-            max-width: 900px;
         }
 
         /* --- SECTION PROJETS --- */
@@ -180,17 +184,17 @@
             gap: 2.5rem;
         }
 
-        /* Cartes de projets (structure modifiée pour l'image) */
+        /* Cartes de projets avec animation ralentie (0.6s fluide) */
         .project-card {
             border: 3px solid var(--text-color);
             display: flex;
             flex-direction: column;
-            transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: all 0.6s ease; /* Transition unifiée et majestueuse */
             background-color: transparent;
             min-height: 350px;
             text-decoration: none;
             color: var(--text-color);
-            overflow: hidden; /* Important pour que l'image respecte les bords de la carte */
+            overflow: hidden;
         }
 
         .project-card:hover {
@@ -341,15 +345,21 @@
         }
         .fade-in-section.is-visible { opacity: 1; transform: none; }
 
-        /* RESPONSIVE */
+        /* --- RESPONSIVE OPTIMISÉ POUR MOBILE --- */
         @media (max-width: 768px) {
             header { flex-direction: column; gap: 1.5rem; padding: 1.5rem 1rem; }
             .header-left { flex-direction: column; gap: 1rem; text-align: center; }
             .main-nav { flex-wrap: wrap; justify-content: center; }
+            
+            /* Ajustements du Hero et du texte pour les téléphones */
+            .hero { height: 60vh; } 
+            .hero h1 { font-size: 23vw; letter-spacing: -1px; } /* Texte beaucoup plus gros sur mobile */
+            .marquee-text { font-size: 2.5rem; } /* Bandeau moins imposant */
+            
             .section-heading, .cta-section h2 { font-size: 3rem; }
-            .intro-text { font-size: 1.2rem; }
+            .intro-text { font-size: 1.1rem; }
             .intro-box { padding: 1.5rem; }
-            .btn-primary { font-size: 1.5rem; text-align: center; width: 100%; }
+            .btn-primary { font-size: 1.3rem; text-align: center; width: 100%; }
         }
     </style>
 </head>
@@ -405,7 +415,7 @@
                     <div class="project-card-content">
                         <div>
                             <h3 data-i18n="proj1-title">Prédiction de Durée</h3>
-                            <p data-i18n="proj1-desc">Régression LASSO et Réseau de Neurones pour estimer la durée en minutes d'un film en fonction de son budget et de son genre.</p>
+                            <p data-i18n="proj1-desc">La durée d'un film n'est pas qu'un choix artistique. Analyse de milliers de données pour tenter d'estimer la longueur d'une œuvre avant même son tournage.</p>
                         </div>
                         <div class="project-tags">
                             <span class="tag">Régression L1</span>
@@ -420,7 +430,7 @@
                     <div class="project-card-content">
                         <div>
                             <h3 data-i18n="proj2-title">Colorimétrie du Cinéma</h3>
-                            <p data-i18n="proj2-desc">Prédiction de la couleur dominante d'une affiche à partir des métadonnées d'un film pour analyser les choix artistiques des studios.</p>
+                            <p data-i18n="proj2-desc">Les studios choisissent-ils leurs palettes visuelles au hasard ? Modélisation de l'identité couleur d'une affiche selon les caractéristiques du film.</p>
                         </div>
                         <div class="project-tags">
                             <span class="tag">Classification</span>
@@ -435,7 +445,7 @@
                     <div class="project-card-content">
                         <div>
                             <h3 data-i18n="proj3-title">Violence & Animation</h3>
-                            <p data-i18n="proj3-desc">Analyse statistique : les séries d'animation japonaises les mieux notées par le public sont-elles statistiquement les plus violentes ?</p>
+                            <p data-i18n="proj3-desc">Idée reçue ou réalité ? Exploration statistique pour comprendre si la violence influence concrètement le succès des séries d'animation japonaises.</p>
                         </div>
                         <div class="project-tags">
                             <span class="tag">Statistiques</span>
@@ -467,7 +477,6 @@
     </footer>
 
     <script>
-        // Animation au défilement
         document.addEventListener("DOMContentLoaded", function() {
             const options = { root: null, rootMargin: '0px', threshold: 0.15 };
             const observer = new IntersectionObserver((entries, observer) => {
@@ -481,7 +490,6 @@
             document.querySelectorAll('.fade-in-section').forEach(section => { observer.observe(section); });
         });
 
-        // Traduction dynamique
         const translations = {
             "fr": {
                 "nav-home": "Accueil",
@@ -493,11 +501,11 @@
                 "btn-about": "Découvrir mon parcours ->",
                 "h-projects": "02. Travaux Récents",
                 "proj1-title": "Prédiction de Durée",
-                "proj1-desc": "Régression LASSO et Réseau de Neurones pour estimer la durée en minutes d'un film en fonction de son budget et de son genre.",
+                "proj1-desc": "La durée d'un film n'est pas qu'un choix artistique. Analyse de milliers de données pour tenter d'estimer la longueur d'une œuvre avant même son tournage.",
                 "proj2-title": "Colorimétrie du Cinéma",
-                "proj2-desc": "Prédiction de la couleur dominante d'une affiche à partir des métadonnées d'un film pour analyser les choix artistiques des studios.",
+                "proj2-desc": "Les studios choisissent-ils leurs palettes visuelles au hasard ? Modélisation de l'identité couleur d'une affiche selon les caractéristiques du film.",
                 "proj3-title": "Violence & Animation",
-                "proj3-desc": "Analyse statistique : les séries d'animation japonaises les mieux notées par le public sont-elles statistiquement les plus violentes ?",
+                "proj3-desc": "Idée reçue ou réalité ? Exploration statistique pour comprendre si la violence influence concrètement le succès des séries d'animation japonaises.",
                 "btn-all": "Voir tous les projets ->",
                 "h-contact": "Prêt à échanger ?",
                 "p-contact": "Toujours curieux de relever de nouveaux défis, je suis ouvert aux opportunités d'études en Master, ainsi qu'aux collaborations stimulantes avec des entreprises ou laboratoires de recherche.",
@@ -514,11 +522,11 @@
                 "btn-about": "Discover my background ->",
                 "h-projects": "02. Recent Work",
                 "proj1-title": "Runtime Prediction",
-                "proj1-desc": "LASSO Regression and Neural Networks to estimate a movie's runtime in minutes based on its budget and genre.",
+                "proj1-desc": "Movie length isn't just an artistic choice. Analyzing thousands of data points to estimate a film's runtime before it's even shot.",
                 "proj2-title": "Cinema Colorimetry",
-                "proj2-desc": "Predicting a movie poster's dominant color using its metadata to analyze studio artistic choices.",
+                "proj2-desc": "Do studios choose their palettes at random? Modeling the visual choices of a movie poster based on its characteristics.",
                 "proj3-title": "Violence & Animation",
-                "proj3-desc": "Statistical analysis: are the highest-rated Japanese animated series statistically the most violent?",
+                "proj3-desc": "Myth or reality? Statistical exploration to understand if violence truly drives the success of animated series.",
                 "btn-all": "View all projects ->",
                 "h-contact": "Let's connect",
                 "p-contact": "Always eager to take on new challenges, I am open to Master's degree opportunities and stimulating collaborations with companies or research labs.",
