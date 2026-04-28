@@ -84,7 +84,7 @@
         .lang-switch span { opacity: 0.4; transition: opacity 0.3s; cursor: pointer; }
         .lang-switch span.active, .lang-switch span:hover { opacity: 1; text-decoration: underline; }
 
-        /* --- HERO SECTION --- */
+        /* --- HERO SECTION (AVEC EFFET EAU) --- */
         .hero {
             height: 75vh;
             display: flex;
@@ -93,21 +93,25 @@
             align-items: center;
             text-align: center;
             border-bottom: 2px solid var(--text-color);
+            /* Applique le filtre SVG défini dans le HTML */
+            filter: url(#water-ripple); 
+            /* Empêche le texte d'être coupé par la distorsion */
+            padding: 2rem; 
+            cursor: crosshair; /* Change le curseur pour inviter à interagir */
         }
 
-        /* NOUVEAU : EFFET 3D AU SURVOL */
         .hero h1 {
-            font-size: 10vw; /* Légèrement dézoomé sur PC */
+            font-size: 10vw; 
             line-height: 0.9;
             text-transform: uppercase;
             letter-spacing: -2px;
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            cursor: default;
+            /* Ombre portée pour accentuer l'effet 3D/Eau */
+            text-shadow: 0px 0px 0px rgba(0,0,0,0);
+            transition: text-shadow 0.3s ease;
         }
 
-        .hero h1:hover {
-            transform: translate(-10px, -10px) scale(1.02);
-            text-shadow: 12px 12px 0px var(--text-color);
+        .hero:hover h1 {
+            text-shadow: 15px 15px 0px rgba(10, 10, 10, 0.2);
         }
 
         /* --- BANDEAU DEFILEMENT --- */
@@ -122,7 +126,7 @@
         }
 
         .marquee-text {
-            font-size: 3rem; /* Dézoomé sur PC */
+            font-size: 3rem; 
             animation: scroll-left 15s linear infinite;
         }
 
@@ -133,7 +137,7 @@
 
         /* --- CONTENEUR GLOBAL DES SECTIONS --- */
         .content-wrapper {
-            max-width: 1200px; /* Plus étroit pour centraliser l'info (dézoom) */
+            max-width: 1200px; 
             margin: 0 auto;
             padding: 4rem 2rem;
             flex-grow: 1;
@@ -141,7 +145,7 @@
         }
 
         .section-heading {
-            font-size: 3rem; /* Dézoomé */
+            font-size: 3rem; 
             margin-bottom: 2rem;
             border-bottom: 4px solid var(--text-color);
             padding-bottom: 0.5rem;
@@ -188,11 +192,11 @@
 
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* S'adapte mieux sur PC */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
             gap: 2rem;
         }
 
-        /* Cartes de projets - Transition forcée sur tous les enfants */
+        /* CARTES DE PROJETS - LATENCE AUGMENTÉE (1.2s) */
         .project-card {
             border: 3px solid var(--text-color);
             display: flex;
@@ -201,11 +205,11 @@
             text-decoration: none;
             color: var(--text-color);
             overflow: hidden; 
-            transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-
-        .project-card * {
-            transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+            /* Le mouvement est rapide (0.6s), mais le changement de couleur est très lent (1.2s) */
+            transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                        box-shadow 0.6s cubic-bezier(0.25, 0.8, 0.25, 1),
+                        background-color 1.2s ease, 
+                        color 1.2s ease;
         }
 
         .project-card:hover {
@@ -215,17 +219,17 @@
             color: var(--bg-color);
         }
 
+        /* L'image de couverture n'a plus de bordure rouge en dessous */
         .project-card-img {
             width: 100%;
-            height: 180px; /* Plus fin sur PC */
+            height: 180px; 
             object-fit: cover;
-            border-bottom: 3px solid var(--text-color);
             filter: grayscale(100%) contrast(120%);
+            transition: filter 1.2s ease; /* Le retour à la couleur se fait aussi lentement */
         }
 
         .project-card:hover .project-card-img {
             filter: grayscale(0%) contrast(100%);
-            border-color: var(--bg-color); /* Fait disparaître la bordure dans le fond noir */
         }
 
         .project-card-content {
@@ -234,6 +238,12 @@
             flex-direction: column;
             justify-content: space-between;
             flex-grow: 1;
+            border-top: 3px solid var(--text-color); /* Ligne noire sous l'image pour séparer */
+            transition: border-color 1.2s ease;
+        }
+
+        .project-card:hover .project-card-content {
+            border-color: var(--bg-color);
         }
 
         .project-card h3 {
@@ -264,6 +274,7 @@
             border-radius: 50px;
             text-transform: uppercase;
             font-weight: 800;
+            transition: border-color 1.2s ease;
         }
 
         /* --- SECTION CONTACT (CTA) --- */
@@ -274,12 +285,11 @@
             text-align: center;
             border-top: 4px solid var(--text-color);
             border-bottom: 4px solid var(--text-color);
-            /* Suppression du margin négatif pour éviter le bug mobile */
             width: 100%;
         }
 
         .cta-section h2 {
-            font-size: 4rem; /* Réduit pour éviter l'effet "énorme" */
+            font-size: 4rem; 
             margin-bottom: 1rem;
             color: #fff;
         }
@@ -294,7 +304,6 @@
             line-height: 1.6;
         }
 
-        /* NOUVEAU : Réseaux sociaux dans le CTA */
         .cta-socials {
             display: flex;
             justify-content: center;
@@ -392,7 +401,6 @@
             .intro-text { font-size: 1.1rem; }
             .intro-box { padding: 1.5rem; }
             
-            /* Ajustements stricts pour le CTA mobile */
             .cta-section { padding: 3rem 1.5rem; }
             .cta-section h2 { font-size: 2.5rem; }
             .cta-text { font-size: 1rem; }
@@ -402,6 +410,15 @@
     </style>
 </head>
 <body>
+
+    <svg style="display: none;">
+        <defs>
+            <filter id="water-ripple">
+                <feTurbulence type="fractalNoise" baseFrequency="0.0" numOctaves="1" result="noise" id="turbulence" />
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G" id="displacementMap" />
+            </filter>
+        </defs>
+    </svg>
 
     <header>
         <div class="header-left">
@@ -525,6 +542,7 @@
     </footer>
 
     <script>
+        // --- 1. ANIMATION SCROLL ---
         document.addEventListener("DOMContentLoaded", function() {
             const options = { root: null, rootMargin: '0px', threshold: 0.15 };
             const observer = new IntersectionObserver((entries, observer) => {
@@ -538,6 +556,39 @@
             document.querySelectorAll('.fade-in-section').forEach(section => { observer.observe(section); });
         });
 
+        // --- 2. EFFET EAU (DISTORSION SVG) SUR LE HERO ---
+        const heroSection = document.querySelector('.hero');
+        const turb = document.getElementById('turbulence');
+        const dispMap = document.getElementById('displacementMap');
+        
+        let currentScale = 0;
+        let targetScale = 0;
+
+        // Quand la souris bouge sur le haut de la page, on calcule la fréquence de l'onde
+        heroSection.addEventListener('mousemove', (e) => {
+            targetScale = 35; // Puissance de la distorsion (l'eau bouge fort)
+            
+            // Varier la fréquence selon la position de la souris pour créer des vagues dynamiques
+            const freqX = 0.01 + (e.clientX / window.innerWidth) * 0.03;
+            const freqY = 0.01 + (e.clientY / window.innerHeight) * 0.03;
+            turb.setAttribute('baseFrequency', `${freqX} ${freqY}`);
+        });
+
+        // Quand la souris quitte la zone, l'eau se calme
+        heroSection.addEventListener('mouseleave', () => {
+            targetScale = 0;
+        });
+
+        // Boucle d'animation fluide
+        function animateWater() {
+            // Easing pour adoucir le retour au calme
+            currentScale += (targetScale - currentScale) * 0.08; 
+            dispMap.setAttribute('scale', currentScale);
+            requestAnimationFrame(animateWater);
+        }
+        animateWater();
+
+        // --- 3. TRADUCTION ---
         const translations = {
             "fr": {
                 "nav-home": "Accueil",
