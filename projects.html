@@ -111,7 +111,7 @@
             margin-bottom: 4rem;
             display: flex;
             flex-direction: column;
-            align-items: center; /* Centre le titre et le bouton */
+            align-items: center;
             position: relative; 
         }
 
@@ -152,7 +152,7 @@
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-top: 2rem; /* Espace sous le grand titre */
+            margin-top: 2rem; 
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
@@ -165,12 +165,12 @@
             box-shadow: 4px 4px 0px rgba(0,0,0,0.2);
         }
 
-        /* --- ANIMATION SCROLL FLUIDE (1.5s) --- */
+        /* --- ANIMATION SCROLL FLUIDE --- */
         .fade-in-section {
             opacity: 0;
             transform: translateY(40px);
-            transition: opacity 1.5s ease-out, transform 1.5s ease-out; /* Plus lent et majestueux */
-            will-change: opacity, visibility;
+            transition: opacity 1s ease-out, transform 1s ease-out; /* Plus doux */
+            will-change: opacity, transform, visibility;
         }
 
         .fade-in-section.is-visible {
@@ -201,15 +201,24 @@
             gap: 2rem;
         }
 
-        /* --- CARTES : TOUJOURS SUR FOND NOIR --- */
+        /* Conteneur pour séparer l'animation de scroll de l'animation de survol */
+        .card-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        /* --- CARTES : FOND NOIR --- */
         .project-card {
             border: 3px solid var(--text-color);
             display: flex;
             flex-direction: column;
-            background-color: var(--text-color); /* FOND NOIR FIXE */
-            color: var(--bg-color); /* TEXTE ROUGE PAR DÉFAUT */
+            background-color: var(--text-color); 
+            color: var(--bg-color); 
             overflow: hidden;
             text-decoration: none;
+            flex-grow: 1;
+            /* L'animation de survol est maintenant TRÈS réactive (0.4s) */
             transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), 
                         box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
@@ -220,7 +229,7 @@
 
         .project-card:hover {
             transform: translate(-8px, -8px);
-            box-shadow: 12px 12px 0px var(--text-color); /* L'ombre reste noire sur le fond rouge */
+            box-shadow: 12px 12px 0px var(--text-color);
         }
 
         .project-card-img {
@@ -228,8 +237,8 @@
             height: 180px; 
             object-fit: cover;
             display: block;
-            /* L'image est directement en couleur */
             filter: grayscale(0%) contrast(100%);
+            /* Supprimé : la bordure sous l'image */
         }
 
         .project-card-content {
@@ -237,14 +246,16 @@
             display: flex;
             flex-direction: column;
             flex-grow: 1;
-            border-top: 3px solid currentColor; /* Ligne de séparation colorée */
+            /* Supprimé : la bordure au dessus du texte */
         }
 
+        /* TITRES PLUS LISIBLES */
         .project-card h3 {
             font-family: 'Anton', sans-serif;
             font-size: 2rem; 
-            line-height: 1.1;
-            margin-bottom: 0.5rem;
+            line-height: 1.2; /* Plus aéré */
+            letter-spacing: 0.5px; /* Les lettres se détachent mieux */
+            margin-bottom: 0.8rem;
             text-transform: uppercase;
         }
 
@@ -264,7 +275,7 @@
             margin-bottom: 1.5rem;
             line-height: 1.5;
             font-weight: 500; 
-            opacity: 0.75; /* Plus discret pour faire ressortir l'accroche */
+            opacity: 0.75; 
         }
 
         .project-tags {
@@ -320,7 +331,6 @@
             transition: all 0.3s ease;
         }
 
-        /* Interaction du bouton */
         .project-card:hover .project-link-btn:hover {
             background-color: currentColor;
             color: var(--text-color) !important;
@@ -328,7 +338,7 @@
 
         /* --- MODE TEXTE BLANC (VIA JAVASCRIPT) --- */
         body.white-text-mode .project-card {
-            color: #ffffff; /* Le texte passe en blanc, le fond reste noir */
+            color: #ffffff; 
         }
 
         /* --- FOOTER --- */
@@ -401,155 +411,169 @@
         
         <div class="ds-grid">
             
-            <a href="projet_duree.html" class="project-card fade-in-section">
-                <img src="miniature_duree.jpg" alt="Prédiction de Durée" class="project-card-img">
-                <div class="project-card-content">
-                    <div>
-                        <h3 data-i18n="ds4-title">Prédiction de Durée</h3>
-                        <div class="project-catchphrase" data-i18n="ds4-catch">"Une machine peut-elle deviner quand le générique va défiler ?"</div>
-                        <p data-i18n="ds4-desc">Analyse des données cinématographiques pour développer un modèle de régression capable d'estimer la durée d'un long-métrage à l'aide d'algorithmes d'apprentissage automatique.</p>
-                        <div class="project-tags">
-                            <span class="tag">Machine Learning</span>
-                            <span class="tag">Régression</span>
-                            <span class="tag">Python</span>
+            <div class="card-wrapper fade-in-section">
+                <a href="projet_duree.html" class="project-card">
+                    <img src="miniature_duree.jpg" alt="Prédiction de Durée" class="project-card-img">
+                    <div class="project-card-content">
+                        <div>
+                            <h3 data-i18n="ds4-title">Prédiction de Durée</h3>
+                            <div class="project-catchphrase" data-i18n="ds4-catch">"Une machine peut-elle deviner quand le générique va défiler ?"</div>
+                            <p data-i18n="ds4-desc">Analyse des données cinématographiques pour développer un modèle de régression capable d'estimer la durée d'un long-métrage à l'aide d'algorithmes d'apprentissage automatique.</p>
+                            <div class="project-tags">
+                                <span class="tag">Machine Learning</span>
+                                <span class="tag">Régression</span>
+                                <span class="tag">Python</span>
+                            </div>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-date" data-i18n="date-dec25">Déc. 2025</span>
+                            <div class="action-buttons">
+                                <span class="project-link-btn" data-i18n="btn-details">Voir la page</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="project-footer">
-                        <span class="project-date" data-i18n="date-dec25">Déc. 2025</span>
-                        <div class="action-buttons">
-                            <span class="project-link-btn" data-i18n="btn-details">Voir la page</span>
-                        </div>
-                    </div>
-                </div>
-            </a>
+                </a>
+            </div>
 
-            <a href="projet_couleur.html" class="project-card fade-in-section">
-                <img src="miniature_couleur.jpg" alt="Colorimétrie du Cinéma" class="project-card-img">
-                <div class="project-card-content">
-                    <div>
-                        <h3 data-i18n="ds1-title">Colorimétrie du Cinéma</h3>
-                        <div class="project-catchphrase" data-i18n="ds1-catch">"Un ordinateur peut-il ressentir la couleur d'un film ?"</div>
-                        <p data-i18n="ds1-desc">Modélisation et prédiction de la palette de couleurs d'une affiche de film en fonction de ses caractéristiques (genre, année, réalisateur) via des méthodes de Machine Learning.</p>
-                        <div class="project-tags">
-                            <span class="tag">Machine Learning</span>
-                            <span class="tag">Python</span>
-                            <span class="tag">Scikit-Learn</span>
+            <div class="card-wrapper fade-in-section">
+                <a href="projet_couleur.html" class="project-card">
+                    <img src="miniature_couleur.jpg" alt="Colorimétrie du Cinéma" class="project-card-img">
+                    <div class="project-card-content">
+                        <div>
+                            <h3 data-i18n="ds1-title">Colorimétrie du Cinéma</h3>
+                            <div class="project-catchphrase" data-i18n="ds1-catch">"Un ordinateur peut-il ressentir la couleur d'un film ?"</div>
+                            <p data-i18n="ds1-desc">Modélisation et prédiction de la palette de couleurs d'une affiche de film en fonction de ses caractéristiques (genre, année, réalisateur) via des méthodes de Machine Learning.</p>
+                            <div class="project-tags">
+                                <span class="tag">Machine Learning</span>
+                                <span class="tag">Python</span>
+                                <span class="tag">Scikit-Learn</span>
+                            </div>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-date" data-i18n="date-oct25">Oct. 2025</span>
+                            <div class="action-buttons">
+                                <span class="project-link-btn" data-i18n="btn-details">Voir la page</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="project-footer">
-                        <span class="project-date" data-i18n="date-oct25">Oct. 2025</span>
-                        <div class="action-buttons">
-                            <span class="project-link-btn" data-i18n="btn-details">Voir la page</span>
-                        </div>
-                    </div>
-                </div>
-            </a>
+                </a>
+            </div>
 
-            <a href="projet_animes.html" class="project-card fade-in-section">
-                <img src="miniature_anime.jpg" alt="Violence & Animation" class="project-card-img">
-                <div class="project-card-content">
-                    <div>
-                        <h3 data-i18n="ds2-title">Violence & Animation</h3>
-                        <div class="project-catchphrase" data-i18n="ds2-catch">"Les animés les mieux notés sont-ils les plus violents ?"</div>
-                        <p data-i18n="ds2-desc">Analyse statistique poussée : les animés (Japonais) les mieux notés par le public sont-ils statistiquement les plus violents ? Web scraping et visualisation de données.</p>
-                        <div class="project-tags">
-                            <span class="tag">Web Scraping</span>
-                            <span class="tag">Pandas</span>
-                            <span class="tag">Data Viz</span>
+            <div class="card-wrapper fade-in-section">
+                <a href="projet_animes.html" class="project-card">
+                    <img src="miniature_anime.jpg" alt="Violence & Animation" class="project-card-img">
+                    <div class="project-card-content">
+                        <div>
+                            <h3 data-i18n="ds2-title">Violence & Animation</h3>
+                            <div class="project-catchphrase" data-i18n="ds2-catch">"Les animés les mieux notés sont-ils les plus violents ?"</div>
+                            <p data-i18n="ds2-desc">Analyse statistique poussée : les animés (Japonais) les mieux notés par le public sont-ils statistiquement les plus violents ? Web scraping et visualisation de données.</p>
+                            <div class="project-tags">
+                                <span class="tag">Web Scraping</span>
+                                <span class="tag">Pandas</span>
+                                <span class="tag">Data Viz</span>
+                            </div>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-date" data-i18n="date-mai25">Mai 2025</span>
+                            <div class="action-buttons">
+                                <span class="project-link-btn" data-i18n="btn-details">Voir la page</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="project-footer">
-                        <span class="project-date" data-i18n="date-mai25">Mai 2025</span>
-                        <div class="action-buttons">
-                            <span class="project-link-btn" data-i18n="btn-details">Voir la page</span>
-                        </div>
-                    </div>
-                </div>
-            </a>
+                </a>
+            </div>
 
-            <div class="project-card fade-in-section" style="cursor: default;">
-                <img src="miniature_voyage.jpg" alt="Générations & Voyages" class="project-card-img">
-                <div class="project-card-content">
-                    <div>
-                        <h3 data-i18n="ds3-title">Générations & Voyages</h3>
-                        <div class="project-catchphrase" data-i18n="ds3-catch">"Les jeunes ont-ils un plus grand désir d'explorer le monde ?"</div>
-                        <p data-i18n="ds3-desc">Étude sociologique appuyée par la donnée : analyse du désir de voyager selon les tranches d'âge. Récolte manuelle, régressions et modélisations des résultats.</p>
-                        <div class="project-tags">
-                            <span class="tag">Statistiques</span>
-                            <span class="tag">Régression</span>
-                            <span class="tag">Enquêtes</span>
+            <div class="card-wrapper fade-in-section">
+                <div class="project-card" style="cursor: default;">
+                    <img src="miniature_voyage.jpg" alt="Générations & Voyages" class="project-card-img">
+                    <div class="project-card-content">
+                        <div>
+                            <h3 data-i18n="ds3-title">Générations & Voyages</h3>
+                            <div class="project-catchphrase" data-i18n="ds3-catch">"Les jeunes ont-ils un plus grand désir d'explorer le monde ?"</div>
+                            <p data-i18n="ds3-desc">Étude sociologique appuyée par la donnée : analyse du désir de voyager selon les tranches d'âge. Récolte manuelle, régressions et modélisations des résultats.</p>
+                            <div class="project-tags">
+                                <span class="tag">Statistiques</span>
+                                <span class="tag">Régression</span>
+                                <span class="tag">Enquêtes</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="project-footer">
-                        <span class="project-date" data-i18n="date-fev25">Fév. 2025</span>
-                        <div class="action-buttons">
-                            <span class="project-link-btn" data-i18n="btn-tba" style="opacity: 0.5;">Bientôt disponible</span>
+                        <div class="project-footer">
+                            <span class="project-date" data-i18n="date-fev25">Fév. 2025</span>
+                            <div class="action-buttons">
+                                <span class="project-link-btn" data-i18n="btn-tba" style="opacity: 0.5;">Bientôt disponible</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="project-card fade-in-section" style="cursor: default;">
-                <img src="miniature_ens.jpg" alt="Analyse Littéraire ENS" class="project-card-img">
-                <div class="project-card-content">
-                    <div>
-                        <h3 data-i18n="ds6-title">Analyse Littéraire (ENS)</h3>
-                        <div class="project-catchphrase" data-i18n="ds6-catch">"Les mathématiques pour décoder les œuvres japonaises ?"</div>
-                        <p data-i18n="ds6-desc">Collecte de données et analyse statistique sur la littérature japonaise classique (jusqu'à 1850). Extraction de modèles historiques via les Humanités Numériques.</p>
-                        <div class="project-tags">
-                            <span class="tag">NLP</span>
-                            <span class="tag">Recherche</span>
-                            <span class="tag">Humanités</span>
+            <div class="card-wrapper fade-in-section">
+                <div class="project-card" style="cursor: default;">
+                    <img src="miniature_ens.jpg" alt="Analyse Littéraire ENS" class="project-card-img">
+                    <div class="project-card-content">
+                        <div>
+                            <h3 data-i18n="ds6-title">Analyse Littéraire (ENS)</h3>
+                            <div class="project-catchphrase" data-i18n="ds6-catch">"Les mathématiques pour décoder les œuvres japonaises ?"</div>
+                            <p data-i18n="ds6-desc">Collecte de données et analyse statistique sur la littérature japonaise classique (jusqu'à 1850). Extraction de modèles historiques via les Humanités Numériques.</p>
+                            <div class="project-tags">
+                                <span class="tag">NLP</span>
+                                <span class="tag">Recherche</span>
+                                <span class="tag">Humanités</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="project-footer">
-                        <span class="project-date" data-i18n="date-ens">Stage ENS</span>
-                        <div class="action-buttons">
-                            <span class="project-link-btn" data-i18n="btn-tba" style="opacity: 0.5;">Bientôt disponible</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="project-card fade-in-section" style="cursor: default;">
-                <img src="miniature_linguistique.jpg" alt="Évolution Linguistique" class="project-card-img">
-                <div class="project-card-content">
-                    <div>
-                        <h3 data-i18n="ds7-title">Évolution Linguistique</h3>
-                        <div class="project-catchphrase" data-i18n="ds7-catch">"En cours de réalisation..."</div>
-                        <p data-i18n="ds7-desc">Analyse de vastes corpus textuels pour modéliser l'évolution d'une langue et de ses structures syntaxiques au fil du temps à l'aide d'algorithmes de traitement du langage naturel (NLP).</p>
-                        <div class="project-tags">
-                            <span class="tag">Linguistique</span>
-                            <span class="tag">NLP</span>
-                            <span class="tag">Data Science</span>
-                        </div>
-                    </div>
-                    <div class="project-footer">
-                        <span class="project-date" data-i18n="date-tba-2">À venir</span>
-                        <div class="action-buttons">
-                            <span class="project-link-btn" data-i18n="btn-tba" style="opacity: 0.5;">Bientôt disponible</span>
+                        <div class="project-footer">
+                            <span class="project-date" data-i18n="date-ens">Stage ENS</span>
+                            <div class="action-buttons">
+                                <span class="project-link-btn" data-i18n="btn-tba" style="opacity: 0.5;">Bientôt disponible</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="project-card fade-in-section" style="cursor: default;">
-                <img src="miniature_geopolitique.jpg" alt="Régimes Politiques" class="project-card-img">
-                <div class="project-card-content">
-                    <div>
-                        <h3 data-i18n="ds5-title">Régimes Politiques</h3>
-                        <div class="project-catchphrase" data-i18n="ds5-catch">"En cours de réalisation..."</div>
-                        <p data-i18n="ds5-desc">Étude statistique comparative mondiale (2023) analysant le poids des budgets et de l'importance accordée à l'armée et à la santé selon le degré d'autoritarisme des États.</p>
-                        <div class="project-tags">
-                            <span class="tag">Géopolitique</span>
-                            <span class="tag">Statistiques</span>
-                            <span class="tag">Analyse</span>
+            <div class="card-wrapper fade-in-section">
+                <div class="project-card" style="cursor: default;">
+                    <img src="miniature_linguistique.jpg" alt="Évolution Linguistique" class="project-card-img">
+                    <div class="project-card-content">
+                        <div>
+                            <h3 data-i18n="ds7-title">Évolution Linguistique</h3>
+                            <div class="project-catchphrase" data-i18n="ds7-catch">"En cours de réalisation..."</div>
+                            <p data-i18n="ds7-desc">Analyse de vastes corpus textuels pour modéliser l'évolution d'une langue et de ses structures syntaxiques au fil du temps à l'aide d'algorithmes de traitement du langage naturel (NLP).</p>
+                            <div class="project-tags">
+                                <span class="tag">Linguistique</span>
+                                <span class="tag">NLP</span>
+                                <span class="tag">Data Science</span>
+                            </div>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-date" data-i18n="date-tba-2">À venir</span>
+                            <div class="action-buttons">
+                                <span class="project-link-btn" data-i18n="btn-tba" style="opacity: 0.5;">Bientôt disponible</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="project-footer">
-                        <span class="project-date" data-i18n="date-avr26">Avr. 2026</span>
-                        <div class="action-buttons">
-                            <span class="project-link-btn" data-i18n="btn-tba" style="opacity: 0.5;">Bientôt disponible</span>
+                </div>
+            </div>
+
+            <div class="card-wrapper fade-in-section">
+                <div class="project-card" style="cursor: default;">
+                    <img src="miniature_geopolitique.jpg" alt="Régimes Politiques" class="project-card-img">
+                    <div class="project-card-content">
+                        <div>
+                            <h3 data-i18n="ds5-title">Régimes Politiques</h3>
+                            <div class="project-catchphrase" data-i18n="ds5-catch">"En cours de réalisation..."</div>
+                            <p data-i18n="ds5-desc">Étude statistique comparative mondiale (2023) analysant le poids des budgets et de l'importance accordée à l'armée et à la santé selon le degré d'autoritarisme des États.</p>
+                            <div class="project-tags">
+                                <span class="tag">Géopolitique</span>
+                                <span class="tag">Statistiques</span>
+                                <span class="tag">Analyse</span>
+                            </div>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-date" data-i18n="date-avr26">Avr. 2026</span>
+                            <div class="action-buttons">
+                                <span class="project-link-btn" data-i18n="btn-tba" style="opacity: 0.5;">Bientôt disponible</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -561,46 +585,50 @@
 
         <div class="web-grid">
             
-            <a href="https://hunt-it.github.io/Accueil/?" target="_blank" class="project-card fade-in-section">
-                <img src="miniature_huntit.jpg" alt="Hunt-It Chasse au trésor" class="project-card-img">
-                <div class="project-card-content">
-                    <div>
-                        <h3 data-i18n="web1-title">Hunt-It : Chasse au Trésor</h3>
-                        <div class="project-catchphrase" data-i18n="web1-catch">"Transformer la ville en un immense terrain de jeu virtuel."</div>
-                        <p data-i18n="web1-desc">Création d'un site web interactif simulant une "chasse au trésor" dans Paris. Conception des énigmes, développement de mini-jeux interactifs en code natif et hébergement sur GitHub Pages dans le cadre d'un projet interdisciplinaire.</p>
-                        <div class="project-tags">
-                            <span class="tag">HTML/CSS</span>
-                            <span class="tag">JavaScript</span>
-                            <span class="tag">Game Design</span>
+            <div class="card-wrapper fade-in-section">
+                <a href="https://hunt-it.github.io/Accueil/?" target="_blank" class="project-card">
+                    <img src="miniature_huntit.jpg" alt="Hunt-It Chasse au trésor" class="project-card-img">
+                    <div class="project-card-content">
+                        <div>
+                            <h3 data-i18n="web1-title">Hunt-It : Chasse au Trésor</h3>
+                            <div class="project-catchphrase" data-i18n="web1-catch">"Transformer la ville en un immense terrain de jeu virtuel."</div>
+                            <p data-i18n="web1-desc">Création d'un site web interactif simulant une "chasse au trésor" dans Paris. Conception des énigmes, développement de mini-jeux interactifs en code natif et hébergement sur GitHub Pages dans le cadre d'un projet interdisciplinaire.</p>
+                            <div class="project-tags">
+                                <span class="tag">HTML/CSS</span>
+                                <span class="tag">JavaScript</span>
+                                <span class="tag">Game Design</span>
+                            </div>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-date" data-i18n="date-juin25">Juin 2025</span>
+                            <div class="action-buttons">
+                                <span class="project-link-btn" data-i18n="btn-visit">Visiter le site -></span>
+                            </div>
                         </div>
                     </div>
-                    <div class="project-footer">
-                        <span class="project-date" data-i18n="date-juin25">Juin 2025</span>
-                        <div class="action-buttons">
-                            <span class="project-link-btn" data-i18n="btn-visit">Visiter le site -></span>
-                        </div>
-                    </div>
-                </div>
-            </a>
+                </a>
+            </div>
 
-            <div class="project-card fade-in-section" style="cursor: default;">
-                <img src="miniature_paradoxe.jpg" alt="Le Paradoxe du Littoral" class="project-card-img">
-                <div class="project-card-content">
-                    <div>
-                        <h3 data-i18n="web2-title">Le Paradoxe du Littoral</h3>
-                        <div class="project-catchphrase" data-i18n="web2-catch">"Comment vulgariser la complexité infinie des fractales ?"</div>
-                        <p data-i18n="web2-desc">Site web réalisé pour illustrer un article scientifique sur les paradoxes mathématiques, et plus particulièrement le paradoxe du littoral (fractales de Mandelbrot). Mise en forme vulgarisée et conception UI/UX pour la médiation scientifique.</p>
-                        <div class="project-tags">
-                            <span class="tag">Mathématiques</span>
-                            <span class="tag">Fractales</span>
-                            <span class="tag">Web Design</span>
+            <div class="card-wrapper fade-in-section">
+                <div class="project-card" style="cursor: default;">
+                    <img src="miniature_paradoxe.jpg" alt="Le Paradoxe du Littoral" class="project-card-img">
+                    <div class="project-card-content">
+                        <div>
+                            <h3 data-i18n="web2-title">Le Paradoxe du Littoral</h3>
+                            <div class="project-catchphrase" data-i18n="web2-catch">"Comment vulgariser la complexité infinie des fractales ?"</div>
+                            <p data-i18n="web2-desc">Site web réalisé pour illustrer un article scientifique sur les paradoxes mathématiques, et plus particulièrement le paradoxe du littoral (fractales de Mandelbrot). Mise en forme vulgarisée et conception UI/UX pour la médiation scientifique.</p>
+                            <div class="project-tags">
+                                <span class="tag">Mathématiques</span>
+                                <span class="tag">Fractales</span>
+                                <span class="tag">Web Design</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="project-footer">
-                        <span class="project-date" data-i18n="date-jan25">Janv. 2025</span>
-                        <div class="action-buttons">
-                            <a href="Article_Paradoxe_Littoral.pdf" target="_blank" class="project-link-btn" data-i18n="btn-article">Lire l'article</a>
-                            <a href="https://julien-ars.github.io/article-paradoxe-littoral/" target="_blank" class="project-link-btn" data-i18n="btn-visit">Visiter le site -></a>
+                        <div class="project-footer">
+                            <span class="project-date" data-i18n="date-jan25">Janv. 2025</span>
+                            <div class="action-buttons">
+                                <a href="Article_Paradoxe_Littoral.pdf" target="_blank" class="project-link-btn" data-i18n="btn-article">Lire l'article</a>
+                                <a href="https://julien-ars.github.io/article-paradoxe-littoral/" target="_blank" class="project-link-btn" data-i18n="btn-visit">Visiter le site -></a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -615,7 +643,7 @@
     </footer>
 
     <script>
-        // --- 1. ANIMATION SCROLL (FLUIDE 1.5s) ---
+        // --- ANIMATION SCROLL ---
         document.addEventListener("DOMContentLoaded", function() {
             const options = { root: null, rootMargin: '0px', threshold: 0.15 };
             const observer = new IntersectionObserver((entries, observer) => {
@@ -632,7 +660,7 @@
             });
         });
 
-        // --- 2. JAVASCRIPT : RÉPULSION DOUCE DES LETTRES ---
+        // --- JAVASCRIPT : RÉPULSION DOUCE DES LETTRES ---
         const heroSection = document.getElementById('hero-section');
         let letters = document.querySelectorAll('.letter');
 
@@ -671,7 +699,7 @@
         }
         initMagneticLetters();
 
-        // --- 3. JAVASCRIPT : TOGGLE COULEUR DU TEXTE ---
+        // --- JAVASCRIPT : TOGGLE COULEUR DU TEXTE ---
         const toggleBtn = document.getElementById('toggle-visual-btn');
         let isWhiteText = false;
 
@@ -687,7 +715,7 @@
             }
         });
 
-        // --- 4. SYSTÈME DE TRADUCTION ---
+        // --- SYSTÈME DE TRADUCTION ---
         const translations = {
             "fr": {
                 "nav-home": "Accueil",
@@ -813,14 +841,12 @@
                 document.getElementById('btn-fr').classList.remove('active');
             }
             
-            // Mise à jour du texte du bouton selon la langue active
             if (isWhiteText) {
                 toggleBtn.innerHTML = lang === 'fr' ? '✦ Changer la couleur du texte (Rouge)' : '✦ Change text color (Red)';
             } else {
                 toggleBtn.innerHTML = lang === 'fr' ? '✦ Changer la couleur du texte (Blanc)' : '✦ Change text color (White)';
             }
 
-            // Réinitialise l'effet magnétique sur le nouveau texte traduit
             initMagneticLetters();
         }
     </script>
