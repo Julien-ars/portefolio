@@ -10,8 +10,8 @@
         :root {
             --bg-color: #e60023; 
             --text-color: #0a0a0a; 
-            /* Couleur du liquide visqueux (un rouge plus profond pour le contraste) */
-            --liquid-color: #b8001c; 
+            /* Couleur du liquide : un rouge plus vif qui, une fois fusionné au fond, donne un effet mouillé */
+            --liquid-color: #ff2a46; 
         }
 
         * {
@@ -29,6 +29,7 @@
             flex-direction: column;
             min-height: 100vh;
             
+            /* Le quadrillage de fond */
             background-image: 
                 linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
@@ -99,35 +100,40 @@
             border-bottom: 2px solid var(--text-color);
             position: relative; 
             overflow: hidden; 
-            /* Le curseur reste normal */
         }
 
-        /* --- EFFET LIQUIDE VISQUEUX --- */
+        /* --- EFFET LIQUIDE VISQUEUX (TRAÎNÉE) --- */
         .gooey-container {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none; /* Ne bloque pas la souris */
-            z-index: 1;
-            /* Filtre SVG Gooey (défini en bas) appliqué au conteneur */
+            pointer-events: none; /* Laisse passer la souris */
+            z-index: 1; /* Derrière le texte */
+            /* Le filtre SVG qui rend les gouttes liquides */
             filter: url(#gooey-effect);
+            /* LA MAGIE : Ce mode de fusion assombrit le fond et le quadrillage, créant un effet "mouillé" ! */
+            mix-blend-mode: multiply; 
         }
 
         .liquid-drop {
             position: absolute;
-            width: 70px;
-            height: 70px;
+            width: 90px; /* Épaisseur de la traînée */
+            height: 90px;
             background-color: var(--liquid-color);
             border-radius: 50%;
-            transform: translate(-50%, -50%) scale(1);
-            /* La durée dicte la vitesse à laquelle le liquide se dissipe (sèche) */
-            transition: transform 0.6s ease-out; 
+            /* L'animation gère la disparition (séchage) du liquide en 1 seconde */
+            animation: dry-liquid 1s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
             will-change: transform;
         }
 
-        /* --- TEXTE INDÉPENDANT --- */
+        @keyframes dry-liquid {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            100% { transform: translate(-50%, -50%) scale(0); }
+        }
+
+        /* --- TEXTE INDÉPENDANT (LETTRE PAR LETTRE) --- */
         .hero h1 {
             font-size: 10vw; 
             line-height: 0.9;
@@ -135,10 +141,9 @@
             letter-spacing: -2px;
             position: relative;
             z-index: 2; /* Au dessus du liquide */
-            pointer-events: none; /* Pour que la souris lise bien la zone hero */
+            pointer-events: none; 
         }
 
-        /* Chaque lettre est un span pour interagir indépendamment */
         .hero h1 span {
             display: inline-block;
             transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -419,9 +424,8 @@
             .header-left { flex-direction: column; gap: 1rem; text-align: center; }
             .main-nav { flex-wrap: wrap; justify-content: center; }
             
-            /* Sur mobile, on enlève l'effet slime pour les performances */
             .hero { height: 60vh; } 
-            .gooey-container { display: none; } 
+            .gooey-container { display: none; } /* Désactivé sur mobile pour perf */
             .hero h1 { font-size: 18vw; letter-spacing: -1px; } 
             .marquee-text { font-size: 2rem; } 
             
@@ -443,7 +447,7 @@
         <defs>
             <filter id="gooey-effect">
                 <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
-                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -9" result="gooey" />
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="gooey" />
                 <feComposite in="SourceGraphic" in2="gooey" operator="atop" />
             </filter>
         </defs>
@@ -590,54 +594,56 @@
             document.querySelectorAll('.fade-in-section').forEach(section => { observer.observe(section); });
         });
 
-        // --- 2. JAVASCRIPT : EFFET VISQUEUX ET RÉPULSION DES LETTRES ---
+        // --- 2. TRAÎNÉE LIQUIDE INTERPOLÉE ET TEXTE RÉPULSIF ---
         const heroSection = document.getElementById('hero-section');
         const gooeyContainer = document.getElementById('gooey-container');
         const letters = document.querySelectorAll('.letter');
-        let lastDrop = 0;
+        
+        let lastMouseX = null;
+        let lastMouseY = null;
 
         heroSection.addEventListener('mousemove', (e) => {
-            // A. Création de la traînée de liquide (gouttes qui fusionnent)
-            const now = Date.now();
-            if (now - lastDrop > 40) { // Crée une goutte toutes les 40ms max pour la perf
-                const rect = heroSection.getBoundingClientRect();
-                const drop = document.createElement('div');
-                drop.classList.add('liquid-drop');
-                
-                drop.style.left = `${e.clientX - rect.left}px`;
-                drop.style.top = `${e.clientY - rect.top}px`;
-                
-                gooeyContainer.appendChild(drop);
+            const rect = heroSection.getBoundingClientRect();
+            const currentX = e.clientX - rect.left;
+            const currentY = e.clientY - rect.top;
 
-                // Déclenche la résorption (le liquide sèche/rétrécit jusqu'à disparaître)
-                requestAnimationFrame(() => {
-                    requestAnimationFrame(() => {
-                        drop.style.transform = 'translate(-50%, -50%) scale(0)';
-                    });
-                });
-
-                // Supprime l'élément du DOM après la transition
-                setTimeout(() => drop.remove(), 600);
-                lastDrop = now;
+            // Initialisation de la position
+            if (lastMouseX === null) {
+                lastMouseX = currentX;
+                lastMouseY = currentY;
             }
 
-            // B. Répulsion douce, indépendante pour chaque lettre
+            // Calcul de la distance parcourue
+            const dist = Math.hypot(currentX - lastMouseX, currentY - lastMouseY);
+            
+            // Si la souris avance, on crée une traînée continue (Interpolation)
+            if (dist > 8) {
+                const steps = Math.floor(dist / 8); // Une goutte tous les 8 pixels
+                for(let i = 1; i <= steps; i++) {
+                    const interpX = lastMouseX + (currentX - lastMouseX) * (i / steps);
+                    const interpY = lastMouseY + (currentY - lastMouseY) * (i / steps);
+                    createLiquidDrop(interpX, interpY);
+                }
+                lastMouseX = currentX;
+                lastMouseY = currentY;
+            }
+
+            // Effet sur les lettres (Répulsion individuelle douce)
             letters.forEach(letter => {
-                const rect = letter.getBoundingClientRect();
-                const centerX = rect.left + rect.width / 2;
-                const centerY = rect.top + rect.height / 2;
+                const letterRect = letter.getBoundingClientRect();
+                const centerX = letterRect.left + letterRect.width / 2;
+                const centerY = letterRect.top + letterRect.height / 2;
                 
                 const dx = e.clientX - centerX;
                 const dy = e.clientY - centerY;
-                const dist = Math.sqrt(dx * dx + dy * dy);
+                const distToLetter = Math.sqrt(dx * dx + dy * dy);
                 
-                const maxDist = 120; // Rayon d'action de la souris sur les lettres
+                const maxDist = 120; // La souris doit vraiment passer "sur" le texte
                 
-                if (dist < maxDist) {
-                    const force = (maxDist - dist) / maxDist;
-                    // Les lettres glissent très légèrement (15px max)
-                    const pushX = -(dx / dist) * force * 15; 
-                    const pushY = -(dy / dist) * force * 15;
+                if (distToLetter < maxDist) {
+                    const force = (maxDist - distToLetter) / maxDist;
+                    const pushX = -(dx / distToLetter) * force * 15; 
+                    const pushY = -(dy / distToLetter) * force * 15;
                     
                     letter.style.transform = `translate(${pushX}px, ${pushY}px)`;
                 } else {
@@ -646,12 +652,25 @@
             });
         });
 
-        // Remet toutes les lettres en place quand la souris part
+        // Remise à zéro quand la souris quitte la zone
         heroSection.addEventListener('mouseleave', () => {
-            letters.forEach(letter => {
-                letter.style.transform = `translate(0, 0)`;
-            });
+            lastMouseX = null;
+            lastMouseY = null;
+            letters.forEach(letter => letter.style.transform = `translate(0, 0)`);
         });
+
+        // Fonction pour créer une goutte qui s'estompe
+        function createLiquidDrop(x, y) {
+            const drop = document.createElement('div');
+            drop.classList.add('liquid-drop');
+            drop.style.left = `${x}px`;
+            drop.style.top = `${y}px`;
+            
+            gooeyContainer.appendChild(drop);
+            
+            // La durée correspond à l'animation CSS (1 seconde de séchage)
+            setTimeout(() => drop.remove(), 1000);
+        }
 
         // --- 3. TRADUCTION ---
         const translations = {
