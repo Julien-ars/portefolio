@@ -10,8 +10,6 @@
         :root {
             --bg-color: #e60023; 
             --text-color: #0a0a0a; 
-            /* Couleur du fluide : Un rouge foncé translucide pour l'effet "mouillé" */
-            --fluid-color: rgba(160, 0, 15, 0.8);
         }
 
         * {
@@ -103,38 +101,14 @@
             cursor: crosshair; 
         }
 
-        /* --- LE FLUIDE VISQUEUX (Slime) --- */
-        .slime-container {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            pointer-events: none; /* Laisse passer les clics */
-            z-index: 1; /* Derrière le texte */
-            /* Le filtre SVG qui fusionne les ronds pour créer un liquide */
-            filter: url(#gooey-effect);
-            /* L'illusion d'optique : brûle les couleurs en dessous (le quadrillage s'épaissit au passage du fluide) */
-            mix-blend-mode: color-burn;
-        }
-
-        /* Les bulles qui composent le fluide */
-        .blob {
-            position: absolute;
-            width: 70px;
-            height: 70px;
-            background-color: var(--fluid-color);
-            border-radius: 50%;
-            /* Elles sont positionnées au centre au chargement */
-            transform: translate(-50%, -50%) scale(0); 
-            will-change: transform;
-        }
-
-        /* --- LE TEXTE INDÉPENDANT --- */
+        /* --- LE TEXTE INDÉPENDANT (Lettres qui esquivent) --- */
         .hero h1 {
             font-size: 10vw; 
             line-height: 0.9;
             text-transform: uppercase;
             letter-spacing: -2px;
             position: relative;
-            z-index: 2; /* Au dessus du liquide */
+            z-index: 2; 
             pointer-events: none; 
         }
 
@@ -142,6 +116,33 @@
             display: inline-block;
             transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             will-change: transform;
+        }
+
+        /* --- EFFET PARTICULES (TRIANGLES NÉONS NOIRS) --- */
+        .neon-triangle {
+            position: absolute;
+            width: 35px;
+            height: 35px;
+            /* Triangle filaire via SVG encodé */
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><polygon points="50,10 10,90 90,90" fill="none" stroke="%230a0a0a" stroke-width="8" stroke-linejoin="round"/></svg>');
+            background-size: cover;
+            pointer-events: none;
+            z-index: 1; /* Derrière le texte */
+            /* L'effet Néon Sombre : une ombre lumineuse discrète (blanche/grise) autour du trait noir */
+            filter: drop-shadow(0px 0px 6px rgba(255, 255, 255, 0.4)); 
+            /* L'animation est définie en JS pour varier la rotation */
+        }
+
+        @keyframes float-triangle {
+            0% { 
+                opacity: 1; 
+                transform: translate(-50%, -50%) scale(1) rotate(0deg); 
+            }
+            100% { 
+                opacity: 0; 
+                /* S'élève vers le haut, rétrécit et tourne aléatoirement */
+                transform: translate(-50%, -150px) scale(0) rotate(var(--rot)); 
+            }
         }
 
         /* --- BANDEAU DEFILEMENT --- */
@@ -235,14 +236,12 @@
             text-decoration: none;
             color: var(--text-color);
             overflow: hidden; 
-            /* Mouvement de la carte vif (0.6s), changement de fond lent (1.2s) */
             transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), 
                         box-shadow 0.6s cubic-bezier(0.25, 0.8, 0.25, 1),
                         background-color 1.2s ease, 
                         color 1.2s ease;
         }
 
-        /* Force les éléments internes à changer de couleur en 1.2s */
         .project-card * {
             transition: color 1.2s ease, border-color 1.2s ease;
         }
@@ -259,7 +258,6 @@
             height: 180px; 
             object-fit: cover;
             display: block; 
-            /* C'est cette ligne qui gère la séparation. Au survol, elle deviendra noire comme le fond */
             border-bottom: 3px solid var(--text-color); 
             filter: grayscale(100%) contrast(120%);
             transition: filter 1.2s ease, border-color 1.2s ease; 
@@ -267,7 +265,7 @@
 
         .project-card:hover .project-card-img {
             filter: grayscale(0%) contrast(100%);
-            border-color: var(--text-color); /* Fait disparaître la ligne rouge */
+            border-color: var(--text-color); 
         }
 
         .project-card-content {
@@ -424,7 +422,6 @@
             .main-nav { flex-wrap: wrap; justify-content: center; }
             
             .hero { height: 60vh; } 
-            .slime-container { display: none; } /* Désactivé sur mobile pour la performance */
             .hero h1 { font-size: 18vw; letter-spacing: -1px; } 
             .marquee-text { font-size: 2rem; } 
             
@@ -441,16 +438,6 @@
     </style>
 </head>
 <body>
-
-    <svg style="display: none;">
-        <defs>
-            <filter id="gooey-effect">
-                <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur" />
-                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -9" result="gooey" />
-                <feComposite in="SourceGraphic" in2="gooey" operator="atop" />
-            </filter>
-        </defs>
-    </svg>
 
     <header>
         <div class="header-left">
@@ -469,17 +456,6 @@
     </header>
 
     <section class="hero fade-in-section" id="hero-section">
-        
-        <div class="slime-container">
-            <div class="blob"></div>
-            <div class="blob"></div>
-            <div class="blob"></div>
-            <div class="blob"></div>
-            <div class="blob"></div>
-            <div class="blob"></div>
-            <div class="blob"></div>
-        </div>
-        
         <h1 id="hero-text">
             <span class="letter">D</span><span class="letter">A</span><span class="letter">T</span><span class="letter">A</span><span class="letter">&nbsp;</span><span class="letter">+</span><br>
             <span class="letter">S</span><span class="letter">C</span><span class="letter">I</span><span class="letter">E</span><span class="letter">N</span><span class="letter">T</span><span class="letter">I</span><span class="letter">S</span><span class="letter">T</span>
@@ -602,30 +578,42 @@
             document.querySelectorAll('.fade-in-section').forEach(section => { observer.observe(section); });
         });
 
-        // --- 2. JAVASCRIPT : FLUIDE CONTINU LÉGÉ ET LETTRES RÉPULSIVES ---
+        // --- 2. GÉNÉRATEUR DE TRIANGLES NÉONS ET RÉPULSION DES LETTRES ---
         const heroSection = document.getElementById('hero-section');
-        const blobs = document.querySelectorAll('.blob');
         const letters = document.querySelectorAll('.letter');
         
-        let mouseX = window.innerWidth / 2;
-        let mouseY = window.innerHeight / 2;
-        let speed = 0;
-        let lastMouseX = mouseX;
-        let lastMouseY = mouseY;
-        let isMouseInHero = false;
-
-        // On crée un état physique pour chaque blob (la "queue" du fluide)
-        const blobData = Array.from({length: blobs.length}, () => ({
-            x: mouseX, y: mouseY, scale: 0
-        }));
+        // Contrôle de la cadence d'apparition des triangles
+        let lastTriangleTime = 0;
 
         heroSection.addEventListener('mousemove', (e) => {
-            isMouseInHero = true;
-            const rect = heroSection.getBoundingClientRect();
-            mouseX = e.clientX - rect.left;
-            mouseY = e.clientY - rect.top;
+            const now = Date.now();
+            
+            // A. Création des triangles filaires avec effet de lueur
+            if (now - lastTriangleTime > 60) { // Un triangle toutes les 60ms maximum
+                const rect = heroSection.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const triangle = document.createElement('div');
+                triangle.classList.add('neon-triangle');
+                triangle.style.left = `${x}px`;
+                triangle.style.top = `${y}px`;
+                
+                // Définir une rotation aléatoire finale pour l'animation
+                const rot = Math.random() > 0.5 ? 1 : -1;
+                const randomAngle = rot * (90 + Math.random() * 180);
+                triangle.style.setProperty('--rot', `${randomAngle}deg`);
+                // Force l'animation à s'exécuter
+                triangle.style.animation = `float-triangle 1s ease-out forwards`;
+                
+                heroSection.appendChild(triangle);
+                
+                // Nettoyage
+                setTimeout(() => triangle.remove(), 1000);
+                lastTriangleTime = now;
+            }
 
-            // Répulsion des lettres individuelles
+            // B. Répulsion douce des lettres
             letters.forEach(letter => {
                 const letterRect = letter.getBoundingClientRect();
                 const centerX = letterRect.left + letterRect.width / 2;
@@ -635,12 +623,13 @@
                 const dy = e.clientY - centerY;
                 const distToLetter = Math.sqrt(dx * dx + dy * dy);
                 
-                const maxDist = 120; // Plus c'est petit, plus il faut être près
+                const maxDist = 120; // Rayon d'action
                 
                 if (distToLetter < maxDist) {
                     const force = (maxDist - distToLetter) / maxDist;
                     const pushX = -(dx / distToLetter) * force * 15; 
                     const pushY = -(dy / distToLetter) * force * 15;
+                    
                     letter.style.transform = `translate(${pushX}px, ${pushY}px)`;
                 } else {
                     letter.style.transform = `translate(0, 0)`;
@@ -648,47 +637,10 @@
             });
         });
 
+        // Remise à zéro quand la souris quitte la zone
         heroSection.addEventListener('mouseleave', () => {
-            isMouseInHero = false;
             letters.forEach(letter => letter.style.transform = `translate(0, 0)`);
         });
-
-        // Boucle de rendu à 60fps pour la physique du liquide
-        function renderFluid() {
-            // Calcul de la vitesse de la souris
-            const dx = mouseX - lastMouseX;
-            const dy = mouseY - lastMouseY;
-            const currentSpeed = Math.sqrt(dx * dx + dy * dy);
-            
-            // Lissage de la vitesse
-            speed += (currentSpeed - speed) * 0.15;
-            
-            lastMouseX = mouseX;
-            lastMouseY = mouseY;
-
-            // L'échelle dépend de la vitesse. Si on s'arrête (speed < 0.5) ou qu'on quitte la zone, l'échelle tombe à 0
-            let targetScale = Math.min(speed * 0.1, 1.2); 
-            if (speed < 0.5 || !isMouseInHero) targetScale = 0;
-
-            // Le premier blob suit la souris
-            blobData[0].x += (mouseX - blobData[0].x) * 0.6;
-            blobData[0].y += (mouseY - blobData[0].y) * 0.6;
-            blobData[0].scale += (targetScale - blobData[0].scale) * 0.3;
-
-            blobs[0].style.transform = `translate(${blobData[0].x}px, ${blobData[0].y}px) scale(${blobData[0].scale})`;
-
-            // Les autres blobs suivent le précédent (effet de traînée "ressort")
-            for (let i = 1; i < blobs.length; i++) {
-                blobData[i].x += (blobData[i-1].x - blobData[i].x) * 0.4;
-                blobData[i].y += (blobData[i-1].y - blobData[i].y) * 0.4;
-                blobData[i].scale += (blobData[i-1].scale * 0.85 - blobData[i].scale) * 0.3;
-                
-                blobs[i].style.transform = `translate(${blobData[i].x}px, ${blobData[i].y}px) scale(${blobData[i].scale})`;
-            }
-
-            requestAnimationFrame(renderFluid);
-        }
-        renderFluid();
 
         // --- 3. TRADUCTION ---
         const translations = {
