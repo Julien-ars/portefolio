@@ -10,8 +10,6 @@
         :root {
             --bg-color: #e60023; 
             --text-color: #0a0a0a; 
-            /* Couleur du liquide visqueux (rouge plus sombre et élégant) */
-            --liquid-color: #b8001c; 
         }
 
         * {
@@ -101,58 +99,22 @@
             overflow: hidden; 
         }
 
-        /* --- EFFET LIQUIDE VISQUEUX --- */
-        .gooey-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none; /* Ne bloque pas la souris */
-            z-index: 1; /* Derrière le texte */
-            /* Filtre SVG Gooey appliqué au conteneur */
-            filter: url(#gooey-effect);
-        }
-
-        .liquid-drop {
-            position: absolute;
-            width: 70px;
-            height: 70px;
-            background-color: var(--liquid-color);
-            border-radius: 50%;
-            /* L'animation gère la disparition du liquide (séchage) */
-            animation: dry-liquid 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
-            will-change: transform;
-        }
-
-        @keyframes dry-liquid {
-            0% { transform: translate(-50%, -50%) scale(1); }
-            100% { transform: translate(-50%, -50%) scale(0); }
-        }
-
-        /* --- TEXTE INDÉPENDANT --- */
+        /* --- TEXTE MAGNÉTIQUE --- */
         .hero h1 {
             font-size: 10vw; 
             line-height: 0.9;
             text-transform: uppercase;
             letter-spacing: -2px;
             position: relative;
-            z-index: 2; /* Au dessus du liquide */
-            /* La souris peut interagir avec les lettres ! */
+            z-index: 2; 
+            pointer-events: none; /* Laisse la zone hero capter la souris */
         }
 
-        /* Chaque lettre réagit individuellement au survol */
         .hero h1 span {
             display: inline-block;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            will-change: transform, color;
-            cursor: default;
-        }
-
-        .hero h1 span:hover {
-            transform: scale(1.15) translateY(-10px) rotate(4deg);
-            color: #ffffff;
-            text-shadow: -5px 10px 0px var(--text-color);
+            /* Transition très fluide pour l'esquive de la souris */
+            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+            will-change: transform;
         }
 
         /* --- BANDEAU DEFILEMENT --- */
@@ -431,7 +393,6 @@
             .main-nav { flex-wrap: wrap; justify-content: center; }
             
             .hero { height: 60vh; } 
-            .gooey-container { display: none; } /* Désactivé sur mobile pour la performance */
             .hero h1 { font-size: 18vw; letter-spacing: -1px; } 
             .marquee-text { font-size: 2rem; } 
             
@@ -448,16 +409,6 @@
     </style>
 </head>
 <body>
-
-    <svg style="display: none;">
-        <defs>
-            <filter id="gooey-effect">
-                <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur" />
-                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -8" result="gooey" />
-                <feComposite in="SourceGraphic" in2="gooey" operator="atop" />
-            </filter>
-        </defs>
-    </svg>
 
     <header>
         <div class="header-left">
@@ -476,11 +427,9 @@
     </header>
 
     <section class="hero fade-in-section" id="hero-section">
-        <div class="gooey-container" id="gooey-container"></div>
-        
         <h1 id="hero-text">
-            <span>D</span><span>A</span><span>T</span><span>A</span><span>&nbsp;</span><span>+</span><br>
-            <span>S</span><span>C</span><span>I</span><span>E</span><span>N</span><span>T</span><span>I</span><span>S</span><span>T</span>
+            <span class="letter">D</span><span class="letter">A</span><span class="letter">T</span><span class="letter">A</span><span class="letter">&nbsp;</span><span class="letter">+</span><br>
+            <span class="letter">S</span><span class="letter">C</span><span class="letter">I</span><span class="letter">E</span><span class="letter">N</span><span class="letter">T</span><span class="letter">I</span><span class="letter">S</span><span class="letter">T</span>
         </h1>
     </section>
 
@@ -600,56 +549,41 @@
             document.querySelectorAll('.fade-in-section').forEach(section => { observer.observe(section); });
         });
 
-        // --- 2. TRAÎNÉE LIQUIDE INTERPOLÉE ---
+        // --- 2. JAVASCRIPT : RÉPULSION DOUCE DES LETTRES (ESQUIVE) ---
         const heroSection = document.getElementById('hero-section');
-        const gooeyContainer = document.getElementById('gooey-container');
-        
-        let lastMouseX = null;
-        let lastMouseY = null;
+        const letters = document.querySelectorAll('.letter');
 
         heroSection.addEventListener('mousemove', (e) => {
-            const rect = heroSection.getBoundingClientRect();
-            const currentX = e.clientX - rect.left;
-            const currentY = e.clientY - rect.top;
-
-            if (lastMouseX === null) {
-                lastMouseX = currentX;
-                lastMouseY = currentY;
-            }
-
-            // Calcul de la distance parcourue
-            const dist = Math.hypot(currentX - lastMouseX, currentY - lastMouseY);
-            
-            // Si la souris bouge de plus de 5px, on crée des gouttes pour faire une traînée fluide
-            if (dist > 5) {
-                const steps = Math.floor(dist / 5); 
-                for(let i = 1; i <= steps; i++) {
-                    const interpX = lastMouseX + (currentX - lastMouseX) * (i / steps);
-                    const interpY = lastMouseY + (currentY - lastMouseY) * (i / steps);
-                    createLiquidDrop(interpX, interpY);
+            letters.forEach(letter => {
+                const letterRect = letter.getBoundingClientRect();
+                const centerX = letterRect.left + letterRect.width / 2;
+                const centerY = letterRect.top + letterRect.height / 2;
+                
+                const dx = e.clientX - centerX;
+                const dy = e.clientY - centerY;
+                const distToLetter = Math.sqrt(dx * dx + dy * dy);
+                
+                const maxDist = 120; // La souris doit passer "sur" le texte
+                
+                if (distToLetter < maxDist) {
+                    const force = (maxDist - distToLetter) / maxDist;
+                    // Les lettres glissent très légèrement pour esquiver
+                    const pushX = -(dx / distToLetter) * force * 20; 
+                    const pushY = -(dy / distToLetter) * force * 20;
+                    
+                    letter.style.transform = `translate(${pushX}px, ${pushY}px)`;
+                } else {
+                    letter.style.transform = `translate(0, 0)`;
                 }
-                lastMouseX = currentX;
-                lastMouseY = currentY;
-            }
+            });
         });
 
+        // Remise à zéro propre quand la souris quitte la zone
         heroSection.addEventListener('mouseleave', () => {
-            lastMouseX = null;
-            lastMouseY = null;
+            letters.forEach(letter => {
+                letter.style.transform = `translate(0, 0)`;
+            });
         });
-
-        // Génère la goutte de liquide qui s'estompe
-        function createLiquidDrop(x, y) {
-            const drop = document.createElement('div');
-            drop.classList.add('liquid-drop');
-            drop.style.left = `${x}px`;
-            drop.style.top = `${y}px`;
-            
-            gooeyContainer.appendChild(drop);
-            
-            // Disparaît après l'animation CSS (0.8s)
-            setTimeout(() => drop.remove(), 800);
-        }
 
         // --- 3. TRADUCTION ---
         const translations = {
