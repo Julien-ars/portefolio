@@ -99,7 +99,7 @@
 
         /* --- CONTENU --- */
         .container {
-            max-width: 1200px; /* Dézoomé pour PC (était à 1400px) */
+            max-width: 1200px;
             margin: 0 auto;
             padding: 4rem 2rem;
             flex-grow: 1;
@@ -109,6 +109,7 @@
         .page-header {
             margin-bottom: 4rem;
             text-align: center;
+            position: relative; /* Pour l'effet magnétique */
         }
 
         .subtitle {
@@ -120,12 +121,51 @@
             margin-bottom: 0.5rem;
         }
 
+        .title-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        /* --- TEXTE MAGNÉTIQUE --- */
         .main-title {
             font-family: 'Anton', sans-serif;
-            font-size: 5.5rem; /* Légèrement réduit */
+            font-size: 5.5rem;
             line-height: 1;
             text-transform: uppercase;
             letter-spacing: -1px;
+            pointer-events: none; /* Laisse le conteneur capter la souris */
+        }
+
+        .main-title span.letter {
+            display: inline-block;
+            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+            will-change: transform;
+        }
+
+        /* --- BOUTON TOGGLE STYLE --- */
+        .theme-toggle-btn {
+            background-color: transparent;
+            border: 3px solid var(--text-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .theme-toggle-btn:hover {
+            background-color: var(--text-color);
+            color: var(--bg-color);
         }
 
         /* ANIMATION SCROLL */
@@ -144,7 +184,7 @@
         /* --- SECTIONS PROJETS --- */
         .section-title {
             font-family: 'Anton', sans-serif;
-            font-size: 3rem; /* Légèrement réduit */
+            font-size: 3rem;
             margin-bottom: 2rem;
             text-transform: uppercase;
             border-bottom: 4px solid var(--text-color);
@@ -154,17 +194,17 @@
 
         .ds-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Adapté pour PC */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
         }
 
         .web-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); /* Adapté pour PC */
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
             gap: 2rem;
         }
 
-        /* --- CARTES UNIFIÉES --- */
+        /* --- CARTES (MODE DYNAMIQUE PAR DÉFAUT) --- */
         .project-card {
             border: 3px solid var(--text-color);
             display: flex;
@@ -173,11 +213,11 @@
             color: var(--text-color);
             overflow: hidden;
             text-decoration: none;
-            /* Transition plus rapide (0.6s) pour tout */
             transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), 
                         box-shadow 0.6s cubic-bezier(0.25, 0.8, 0.25, 1),
                         background-color 0.6s ease, 
-                        color 0.6s ease;
+                        color 0.6s ease,
+                        border-color 0.6s ease;
         }
 
         .project-card * {
@@ -193,7 +233,7 @@
 
         .project-card-img {
             width: 100%;
-            height: 180px; /* Plus compact */
+            height: 180px;
             object-fit: cover;
             display: block;
             border-bottom: 3px solid var(--text-color);
@@ -207,7 +247,7 @@
         }
 
         .project-card-content {
-            padding: 1.5rem; /* Marges réduites */
+            padding: 1.5rem;
             display: flex;
             flex-direction: column;
             flex-grow: 1;
@@ -215,13 +255,12 @@
 
         .project-card h3 {
             font-family: 'Anton', sans-serif;
-            font-size: 2rem; /* Réduit pour rentrer dans l'écran */
+            font-size: 2rem;
             line-height: 1.1;
             margin-bottom: 0.5rem;
             text-transform: uppercase;
         }
 
-        /* L'accroche mise en valeur */
         .project-catchphrase {
             font-family: 'Inter', sans-serif;
             font-style: italic;
@@ -232,14 +271,13 @@
             border-left: 4px solid currentColor; 
         }
 
-        /* La description est maintenant plus discrète */
         .project-card p {
             font-family: 'Inter', sans-serif;
             font-size: 1rem;
             margin-bottom: 1.5rem;
             line-height: 1.5;
-            font-weight: 500; /* Moins gras */
-            opacity: 0.85; /* Légèrement transparent pour faire ressortir l'accroche */
+            font-weight: 500;
+            opacity: 0.85;
         }
 
         .project-tags {
@@ -295,18 +333,33 @@
             transition: all 0.3s ease;
         }
 
-        .project-card:hover .project-link-btn {
+        .project-card:hover .project-link-btn { border-color: var(--bg-color); }
+        .project-card:hover .project-link-btn:hover { background-color: var(--bg-color); color: var(--text-color) !important; }
+        .project-link-btn:hover { background-color: var(--text-color); color: var(--bg-color) !important; }
+
+        /* --- CARTES (MODE SOMBRE FORCÉ VIA JAVASCRIPT) --- */
+        body.dark-cards-mode .project-card {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            border-color: var(--text-color);
+        }
+        body.dark-cards-mode .project-card:hover {
+            transform: translate(-8px, -8px);
+            box-shadow: 12px 12px 0px var(--text-color);
+        }
+        body.dark-cards-mode .project-card-img {
+            filter: grayscale(0%) contrast(100%);
+            border-color: var(--text-color);
+        }
+        body.dark-cards-mode .project-catchphrase, 
+        body.dark-cards-mode .project-footer, 
+        body.dark-cards-mode .tag, 
+        body.dark-cards-mode .project-link-btn {
             border-color: var(--bg-color);
         }
-
-        .project-card:hover .project-link-btn:hover {
+        body.dark-cards-mode .project-link-btn:hover {
             background-color: var(--bg-color);
             color: var(--text-color) !important;
-        }
-
-        .project-link-btn:hover {
-            background-color: var(--text-color);
-            color: var(--bg-color) !important;
         }
 
         /* --- FOOTER --- */
@@ -323,9 +376,7 @@
 
         /* --- RESPONSIVE DESIGN --- */
         @media (max-width: 900px) {
-            .web-grid {
-                grid-template-columns: 1fr;
-            }
+            .web-grid { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 768px) {
@@ -334,8 +385,9 @@
             .main-nav { flex-wrap: wrap; justify-content: center; }
             
             .container { padding: 2rem 1rem; }
-            .main-title { font-size: 4rem; }
+            .main-title { font-size: 3.5rem; }
             .section-title { font-size: 2.5rem; }
+            .theme-toggle-btn { font-size: 0.7rem; padding: 0.5rem 1rem; }
             
             .project-footer { flex-direction: column; align-items: flex-start; }
             .action-buttons { width: 100%; }
@@ -365,9 +417,18 @@
 
     <div class="container">
         
-        <div class="page-header fade-in-section">
+        <div class="page-header fade-in-section" id="hero-section">
             <div class="subtitle" data-i18n="subtitle-projects">Portfolio</div>
-            <h1 class="main-title" data-i18n="title-projects">Mes Travaux</h1>
+            
+            <div class="title-wrapper">
+                <h1 class="main-title" id="hero-text" data-i18n="title-projects">
+                    <span class="letter">M</span><span class="letter">E</span><span class="letter">S</span><span class="letter">&nbsp;</span><span class="letter">T</span><span class="letter">R</span><span class="letter">A</span><span class="letter">V</span><span class="letter">A</span><span class="letter">U</span><span class="letter">X</span>
+                </h1>
+                
+                <button id="toggle-visual-btn" class="theme-toggle-btn" data-i18n="btn-toggle">
+                    ✦ Fixer le fond Noir
+                </button>
+            </div>
         </div>
 
         <h2 class="section-title fade-in-section" data-i18n="section-ds">01. Sciences des Données & Analyse</h2>
@@ -588,7 +649,7 @@
     </footer>
 
     <script>
-        // --- ANIMATION SCROLL ---
+        // --- 1. ANIMATION SCROLL ---
         document.addEventListener("DOMContentLoaded", function() {
             const options = { root: null, rootMargin: '0px', threshold: 0.15 };
             const observer = new IntersectionObserver((entries, observer) => {
@@ -605,7 +666,64 @@
             });
         });
 
-        // --- SYSTÈME DE TRADUCTION ---
+        // --- 2. JAVASCRIPT : RÉPULSION DOUCE DES LETTRES ---
+        const heroSection = document.getElementById('hero-section');
+        let letters = document.querySelectorAll('.letter');
+
+        // On crée une fonction pour attacher l'événement (utile pour la traduction)
+        function initMagneticLetters() {
+            letters = document.querySelectorAll('.letter');
+            
+            heroSection.addEventListener('mousemove', (e) => {
+                letters.forEach(letter => {
+                    const letterRect = letter.getBoundingClientRect();
+                    const centerX = letterRect.left + letterRect.width / 2;
+                    const centerY = letterRect.top + letterRect.height / 2;
+                    
+                    const dx = e.clientX - centerX;
+                    const dy = e.clientY - centerY;
+                    const distToLetter = Math.sqrt(dx * dx + dy * dy);
+                    
+                    const maxDist = 120; // La souris doit passer "sur" le texte
+                    
+                    if (distToLetter < maxDist) {
+                        const force = (maxDist - distToLetter) / maxDist;
+                        const pushX = -(dx / distToLetter) * force * 20; 
+                        const pushY = -(dy / distToLetter) * force * 20;
+                        
+                        letter.style.transform = `translate(${pushX}px, ${pushY}px)`;
+                    } else {
+                        letter.style.transform = `translate(0, 0)`;
+                    }
+                });
+            });
+
+            heroSection.addEventListener('mouseleave', () => {
+                letters.forEach(letter => {
+                    letter.style.transform = `translate(0, 0)`;
+                });
+            });
+        }
+        initMagneticLetters();
+
+        // --- 3. JAVASCRIPT : TOGGLE MODE DARK CARTES ---
+        const toggleBtn = document.getElementById('toggle-visual-btn');
+        let isDarkMode = false;
+
+        toggleBtn.addEventListener('click', () => {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-cards-mode');
+            
+            // Mise à jour du texte du bouton selon la langue active
+            const isFr = document.getElementById('btn-fr').classList.contains('active');
+            if (isDarkMode) {
+                toggleBtn.innerHTML = isFr ? '✦ Remettre en Dynamique' : '✦ Switch to Dynamic';
+            } else {
+                toggleBtn.innerHTML = isFr ? '✦ Fixer le fond Noir' : '✦ Fix Dark Mode';
+            }
+        });
+
+        // --- 4. SYSTÈME DE TRADUCTION ---
         const translations = {
             "fr": {
                 "nav-home": "Accueil",
@@ -613,7 +731,8 @@
                 "nav-about": "À Propos",
                 "nav-contact": "Contact",
                 "subtitle-projects": "Portfolio",
-                "title-projects": "Mes Travaux",
+                "title-projects": "<span class='letter'>M</span><span class='letter'>E</span><span class='letter'>S</span><span class='letter'>&nbsp;</span><span class='letter'>T</span><span class='letter'>R</span><span class='letter'>A</span><span class='letter'>V</span><span class='letter'>A</span><span class='letter'>U</span><span class='letter'>X</span>",
+                "btn-toggle": "✦ Fixer le fond Noir",
                 "section-ds": "01. Sciences des Données & Analyse",
                 "ds1-title": "Colorimétrie du Cinéma",
                 "ds1-catch": "\"Un ordinateur peut-il ressentir la couleur d'un film ?\"",
@@ -663,7 +782,8 @@
                 "nav-about": "About",
                 "nav-contact": "Contact",
                 "subtitle-projects": "Portfolio",
-                "title-projects": "My Work",
+                "title-projects": "<span class='letter'>M</span><span class='letter'>Y</span><span class='letter'>&nbsp;</span><span class='letter'>W</span><span class='letter'>O</span><span class='letter'>R</span><span class='letter'>K</span>",
+                "btn-toggle": "✦ Fix Dark Mode",
                 "section-ds": "01. Data Science & Analysis",
                 "ds1-title": "Cinema Colorimetry",
                 "ds1-catch": "\"Can a Computer Feel the Color of a Movie?\"",
@@ -724,6 +844,16 @@
                 document.getElementById('btn-en').classList.add('active');
                 document.getElementById('btn-fr').classList.remove('active');
             }
+            
+            // Mise à jour du texte du bouton Dark Mode selon la langue
+            if (isDarkMode) {
+                toggleBtn.innerHTML = lang === 'fr' ? '✦ Remettre en Dynamique' : '✦ Switch to Dynamic';
+            } else {
+                toggleBtn.innerHTML = lang === 'fr' ? '✦ Fixer le fond Noir' : '✦ Fix Dark Mode';
+            }
+
+            // Réinitialise l'effet magnétique sur le nouveau texte traduit
+            initMagneticLetters();
         }
     </script>
 </body>
