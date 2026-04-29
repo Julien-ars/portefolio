@@ -165,16 +165,33 @@
             box-shadow: 4px 4px 0px rgba(0,0,0,0.2);
         }
 
-        /* --- NOUVEAU SYSTÈME DE FILTRES MINIMALISTE --- */
+        /* --- SYSTÈME DE FILTRES RE-CLASSIFIÉ ET ÉPURÉ --- */
         .filter-container {
             display: flex;
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
-            gap: 1.2rem;
+            gap: 1rem;
             margin-bottom: 4rem;
-            padding-bottom: 2rem;
+            padding: 1.5rem 0;
             border-bottom: 2px solid rgba(10, 10, 10, 0.1);
+        }
+
+        /* Le groupe DATA */
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .group-label {
+            font-family: 'Inter', sans-serif;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            opacity: 0.8;
+            margin-right: 0.5rem;
         }
 
         .filter-btn {
@@ -183,22 +200,17 @@
             color: var(--text-color);
             font-family: 'Inter', sans-serif;
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 0.95rem;
             text-transform: uppercase;
             cursor: pointer;
-            opacity: 0.35;
+            opacity: 0.4;
             transition: all 0.3s ease;
             padding: 0.2rem 0;
             position: relative;
         }
 
-        .filter-btn:hover {
-            opacity: 0.7;
-        }
-
-        .filter-btn.active {
-            opacity: 1;
-        }
+        .filter-btn:hover { opacity: 0.7; }
+        .filter-btn.active { opacity: 1; }
 
         /* Ligne de soulignement pour le filtre actif */
         .filter-btn.active::after {
@@ -211,9 +223,13 @@
             background-color: var(--text-color);
         }
 
-        .filter-separator {
-            opacity: 0.2;
-            font-weight: 400;
+        .filter-separator { opacity: 0.15; font-weight: 400; font-size: 1.1rem; }
+        .group-separator { opacity: 0.3; font-weight: 400; font-size: 1.5rem; margin: 0 1rem; }
+
+        /* Animation pour l'affichage filtré */
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1); }
         }
 
         /* --- ANIMATION SCROLL FLUIDE (1.5s) --- */
@@ -223,11 +239,7 @@
             transition: opacity 1.5s ease-out, transform 1.5s ease-out; 
             will-change: opacity, visibility;
         }
-
-        .fade-in-section.is-visible {
-            opacity: 1;
-            transform: none;
-        }
+        .fade-in-section.is-visible { opacity: 1; transform: none; }
 
         /* --- SECTIONS PROJETS --- */
         .section-group {
@@ -266,8 +278,7 @@
             overflow: hidden;
             text-decoration: none;
             flex-grow: 1;
-            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), 
-                        box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         .project-card * {
@@ -276,15 +287,15 @@
 
         .project-card:hover {
             transform: translate(-8px, -8px);
-            box-shadow: 12px 12px 0px var(--text-color); 
+            box-shadow: 12px 12px 0px var(--text-color);
         }
 
-        /* Conteneur d'image pour la bannière WIP */
+        /* Conteneur d'image */
         .img-container {
             position: relative;
             overflow: hidden;
-            border-bottom: 3px solid currentColor;
-            transition: border-color 0.4s ease;
+            /* CORRECTION : Plus de bande séparatrice currentColor */
+            border-bottom: 3px solid var(--text-color); 
         }
 
         .project-card-img {
@@ -301,6 +312,7 @@
             display: flex;
             flex-direction: column;
             flex-grow: 1;
+            /* La séparation se fait par l'absence de bordure colorée ici */
         }
 
         .project-card h3 {
@@ -420,9 +432,7 @@
         }
 
         /* --- MODE TEXTE BLANC (VIA JAVASCRIPT) --- */
-        body.white-text-mode .project-card {
-            color: #ffffff; 
-        }
+        body.white-text-mode .project-card { color: #ffffff; }
 
         /* --- FOOTER --- */
         .site-footer {
@@ -437,6 +447,12 @@
         }
 
         /* --- RESPONSIVE DESIGN --- */
+        @media (max-width: 1024px) {
+            .filter-container { flex-direction: column; gap: 1.5rem; padding: 1.5rem; }
+            .filter-group { flex-wrap: wrap; justify-content: center; }
+            .group-separator { display: none; }
+        }
+
         @media (max-width: 900px) {
             .web-grid { grid-template-columns: 1fr; }
         }
@@ -450,7 +466,6 @@
             .main-title { font-size: 3.5rem; }
             .section-title { font-size: 2.5rem; }
             .theme-toggle-btn { font-size: 0.7rem; padding: 0.5rem 1rem; }
-            .filter-container { gap: 0.8rem; }
             .filter-btn { font-size: 0.9rem; }
             
             .project-footer { flex-direction: column; align-items: flex-start; }
@@ -464,7 +479,6 @@
     <header>
         <div class="header-left">
             <div class="logo">/// Julien Arsena</div>
-            
             <nav class="main-nav">
                 <a href="index.html" data-i18n="nav-home">Accueil</a>
                 <a href="projects.html" class="active" data-i18n="nav-projects">Projets</a>
@@ -472,7 +486,6 @@
                 <a href="contact.html" data-i18n="nav-contact">Contact</a>
             </nav>
         </div>
-        
         <div class="lang-switch">
             <span id="btn-fr" class="active" onclick="setLanguage('fr')">FR</span> / 
             <span id="btn-en" onclick="setLanguage('en')">EN</span>
@@ -483,26 +496,34 @@
         
         <div class="page-header fade-in-section" id="hero-section">
             <div class="subtitle" data-i18n="subtitle-projects">Portfolio</div>
-            
             <h1 class="main-title" id="hero-text" data-i18n="title-projects">
                 <span class="letter">M</span><span class="letter">E</span><span class="letter">S</span><span class="letter">&nbsp;</span><span class="letter">T</span><span class="letter">R</span><span class="letter">A</span><span class="letter">V</span><span class="letter">A</span><span class="letter">U</span><span class="letter">X</span>
             </h1>
-            
             <button id="toggle-visual-btn" class="theme-toggle-btn" data-i18n="btn-toggle">
                 ✦ Changer la couleur du texte (Blanc)
             </button>
         </div>
 
         <div class="filter-container fade-in-section">
-            <button class="filter-btn active" data-filter="all" data-i18n="filter-all">Tous</button>
-            <span class="filter-separator">/</span>
-            <button class="filter-btn" data-filter="ml" data-i18n="filter-ml">Machine Learning</button>
-            <span class="filter-separator">/</span>
-            <button class="filter-btn" data-filter="data" data-i18n="filter-data">Data & Stats</button>
-            <span class="filter-separator">/</span>
-            <button class="filter-btn" data-filter="nlp" data-i18n="filter-nlp">NLP</button>
-            <span class="filter-separator">/</span>
-            <button class="filter-btn" data-filter="web" data-i18n="filter-web">Web & Créatif</button>
+            <button class="filter-btn active" data-filter="all" data-i18n="filter-all">Voir Tout</button>
+            
+            <span class="group-separator">|</span>
+
+            <div class="filter-group">
+                <span class="group-label">Data & Stats</span>
+                <button class="filter-btn" data-filter="ml" data-i18n="filter-ml">Machine Learning</button>
+                <span class="filter-separator">/</span>
+                <button class="filter-btn" data-filter="nlp" data-i18n="filter-nlp">NLP</button>
+                <span class="filter-separator">/</span>
+                <button class="filter-btn" data-filter="sondage" data-i18n="filter-sondage">Sondages</button>
+            </div>
+
+            <span class="group-separator">|</span>
+
+            <div class="filter-group">
+                <span class="group-label" data-i18n="filter-label-crea">Créatif</span>
+                <button class="filter-btn" data-filter="web" data-i18n="filter-web">Web</button>
+            </div>
         </div>
 
         <div class="section-group" id="group-ds">
@@ -588,7 +609,7 @@
                     </a>
                 </div>
 
-                <div class="card-wrapper fade-in-section" data-category="data">
+                <div class="card-wrapper fade-in-section" data-category="sondage data">
                     <div class="project-card wip-card">
                         <div class="img-container">
                             <img src="miniature_voyage.jpg" alt="Générations & Voyages" class="project-card-img">
@@ -600,8 +621,8 @@
                                 <div class="project-catchphrase" data-i18n="ds3-catch">"Les jeunes ont-ils un plus grand désir d'explorer le monde ?"</div>
                                 <p data-i18n="ds3-desc">Étude sociologique appuyée par la donnée : analyse du désir de voyager selon les tranches d'âge. Récolte manuelle, régressions et modélisations des résultats.</p>
                                 <div class="project-tags">
+                                    <span class="tag">Sondage</span>
                                     <span class="tag">Statistiques</span>
-                                    <span class="tag">Régression</span>
                                     <span class="tag">Enquêtes</span>
                                 </div>
                             </div>
@@ -654,7 +675,6 @@
                                 <div class="project-catchphrase" data-i18n="ds7-catch">"Comment les langues se structurent-elles à l'ère numérique ?"</div>
                                 <p data-i18n="ds7-desc">Analyse de vastes corpus textuels pour modéliser l'évolution d'une langue et de ses structures syntaxiques au fil du temps à l'aide d'algorithmes de traitement du langage naturel (NLP).</p>
                                 <div class="project-tags">
-                                    <span class="tag">Linguistique</span>
                                     <span class="tag">NLP</span>
                                     <span class="tag">Data Science</span>
                                 </div>
@@ -683,7 +703,6 @@
                                 <div class="project-tags">
                                     <span class="tag">Géopolitique</span>
                                     <span class="tag">Statistiques</span>
-                                    <span class="tag">Analyse</span>
                                 </div>
                             </div>
                             <div class="project-footer">
@@ -731,7 +750,7 @@
                 </div>
 
                 <div class="card-wrapper fade-in-section" data-category="web">
-                    <div class="project-card">
+                    <div class="project-card" style="cursor: default;">
                         <div class="img-container">
                             <img src="miniature_paradoxe.jpg" alt="Le Paradoxe du Littoral" class="project-card-img">
                         </div>
@@ -742,7 +761,6 @@
                                 <p data-i18n="web2-desc">Site web réalisé pour illustrer un article scientifique sur les paradoxes mathématiques, et plus particulièrement le paradoxe du littoral (fractales de Mandelbrot). Mise en forme vulgarisée et conception UI/UX pour la médiation scientifique.</p>
                                 <div class="project-tags">
                                     <span class="tag">Mathématiques</span>
-                                    <span class="tag">Fractales</span>
                                     <span class="tag">Web Design</span>
                                 </div>
                             </div>
@@ -766,14 +784,6 @@
         <span data-i18n="footer-text">© 2026 Julien Arsena. Tout le contenu (code, données, rapports) est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite.</span>
     </footer>
 
-    <style>
-        /* Animation pour le système de filtre */
-        @keyframes popIn {
-            0% { opacity: 0; transform: scale(0.95); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-    </style>
-
     <script>
         // --- 1. ANIMATION SCROLL (FLUIDE 1.5s) ---
         document.addEventListener("DOMContentLoaded", function() {
@@ -792,7 +802,7 @@
             });
         });
 
-        // --- 2. SYSTÈME DE FILTRES ---
+        // --- 2. SYSTÈME DE FILTRES RÉORGANISÉ ET MINIMALISTE ---
         const filterBtns = document.querySelectorAll('.filter-btn');
         const cardWrappers = document.querySelectorAll('.card-wrapper');
         const sectionGroups = document.querySelectorAll('.section-group');
@@ -805,8 +815,11 @@
                 const filter = btn.getAttribute('data-filter');
 
                 cardWrappers.forEach(wrapper => {
-                    const category = wrapper.getAttribute('data-category');
-                    if (filter === 'all' || category === filter) {
+                    const categories = wrapper.getAttribute('data-category');
+                    // On vérifie si la catégorie exacte est présente dans la liste (data-category="ml data")
+                    const categoryArray = categories.split(' ');
+
+                    if (filter === 'all' || categoryArray.includes(filter)) {
                         wrapper.style.display = 'flex';
                         wrapper.style.animation = 'none';
                         wrapper.offsetHeight; 
@@ -894,7 +907,7 @@
                 "subtitle-projects": "Portfolio",
                 "title-projects": "<span class='letter'>M</span><span class='letter'>E</span><span class='letter'>S</span><span class='letter'>&nbsp;</span><span class='letter'>T</span><span class='letter'>R</span><span class='letter'>A</span><span class='letter'>V</span><span class='letter'>A</span><span class='letter'>U</span><span class='letter'>X</span>",
                 "btn-toggle": "✦ Changer la couleur du texte (Blanc)",
-                "filter-all": "Tous", "filter-ml": "Machine Learning", "filter-data": "Data & Stats", "filter-nlp": "NLP", "filter-web": "Web & Créatif",
+                "filter-all": "Voir Tout", "filter-ml": "Machine Learning", "filter-nlp": "NLP", "filter-sondage": "Sondages", "filter-label-crea": "Créatif", "filter-web": "Web",
                 "wip-banner": "EN COURS",
                 "section-ds": "01. Sciences des Données & Analyse",
                 "ds1-title": "Colorimétrie du Cinéma", "ds1-catch": "\"Un ordinateur peut-il ressentir la couleur d'un film ?\"", "ds1-desc": "Modélisation et prédiction de la palette de couleurs d'une affiche de film en fonction de ses caractéristiques (genre, année, réalisateur) via des méthodes de Machine Learning.",
@@ -916,7 +929,7 @@
                 "subtitle-projects": "Portfolio",
                 "title-projects": "<span class='letter'>M</span><span class='letter'>Y</span><span class='letter'>&nbsp;</span><span class='letter'>W</span><span class='letter'>O</span><span class='letter'>R</span><span class='letter'>K</span>",
                 "btn-toggle": "✦ Change text color (White)",
-                "filter-all": "All", "filter-ml": "Machine Learning", "filter-data": "Data & Stats", "filter-nlp": "NLP", "filter-web": "Web & Creative",
+                "filter-all": "View All", "filter-ml": "Machine Learning", "filter-nlp": "NLP", "filter-sondage": "Surveys", "filter-label-crea": "Creative", "filter-web": "Web",
                 "wip-banner": "WORK IN PROGRESS",
                 "section-ds": "01. Data Science & Analysis",
                 "ds1-title": "Cinema Colorimetry", "ds1-catch": "\"Can a Computer Feel the Color of a Movie?\"", "ds1-desc": "Modeling and predicting the color palette of a movie poster based on its characteristics (genre, year, director) using Machine Learning methods.",
