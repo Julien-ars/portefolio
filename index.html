@@ -12,6 +12,12 @@
             --text-color: #0a0a0a; 
         }
 
+        /* --- NOUVEAU : THEME BLANC --- */
+        body.theme-light {
+            --bg-color: #f8f9fa; /* Un blanc très légèrement cassé pour la douceur */
+            --text-color: #0a0a0a; /* On garde le texte noir */
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -31,6 +37,9 @@
                 linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
             background-size: 40px 40px;
+            
+            /* Transition douce lors du changement de thème */
+            transition: background-color 0.5s ease, color 0.5s ease;
         }
 
         /* --- HEADER --- */
@@ -79,12 +88,39 @@
             border: 2px solid var(--text-color);
         }
 
+        /* --- CONTENEUR DROIT (Langue + Thème) --- */
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
         .lang-switch {
             display: flex; gap: 0.5rem; font-family: 'Inter', sans-serif;
             font-weight: 600; font-size: 1rem;
         }
         .lang-switch span { opacity: 0.4; transition: opacity 0.3s; cursor: pointer; }
         .lang-switch span.active, .lang-switch span:hover { opacity: 1; text-decoration: underline; }
+
+        /* BOUTON THEME */
+        .theme-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+        .theme-btn:hover {
+            transform: scale(1.1);
+        }
+        .theme-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
 
         /* --- HERO SECTION --- */
         .hero {
@@ -99,7 +135,6 @@
             overflow: hidden; 
         }
 
-        /* --- TEXTE MAGNÉTIQUE --- */
         .hero h1 {
             font-size: 10vw; 
             line-height: 0.9;
@@ -107,12 +142,11 @@
             letter-spacing: -2px;
             position: relative;
             z-index: 2; 
-            pointer-events: none; /* Laisse la zone hero capter la souris */
+            pointer-events: none;
         }
 
         .hero h1 span {
             display: inline-block;
-            /* Transition très fluide pour l'esquive de la souris */
             transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
             will-change: transform;
         }
@@ -128,6 +162,7 @@
             border-bottom: 2px solid var(--text-color);
             position: relative;
             z-index: 10;
+            transition: background-color 0.5s ease, color 0.5s ease;
         }
 
         .marquee-text {
@@ -155,18 +190,17 @@
             border-bottom: 4px solid var(--text-color);
             padding-bottom: 0.5rem;
             text-transform: uppercase;
+            transition: border-color 0.5s ease;
         }
 
         /* --- SECTION INTRO --- */
-        .intro-section {
-            margin-bottom: 5rem;
-        }
+        .intro-section { margin-bottom: 5rem; }
 
         .intro-box {
             border: 4px solid var(--text-color);
             padding: 2rem 3rem;
             background-color: transparent;
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.5s ease;
             max-width: 900px; 
             margin: 0 auto;   
             text-align: center;
@@ -189,9 +223,7 @@
         }
 
         /* --- SECTION PROJETS --- */
-        .projects-section {
-            margin-bottom: 5rem;
-        }
+        .projects-section { margin-bottom: 5rem; }
 
         .projects-grid {
             display: grid;
@@ -209,12 +241,12 @@
             overflow: hidden; 
             transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), 
                         box-shadow 0.6s cubic-bezier(0.25, 0.8, 0.25, 1),
-                        background-color 1.2s ease, 
-                        color 1.2s ease;
+                        background-color 0.5s ease, 
+                        color 0.5s ease, border-color 0.5s ease;
         }
 
         .project-card * {
-            transition: color 1.2s ease, border-color 1.2s ease;
+            transition: color 0.5s ease, border-color 0.5s ease;
         }
 
         .project-card:hover {
@@ -231,7 +263,7 @@
             display: block; 
             border-bottom: 3px solid var(--text-color); 
             filter: grayscale(100%) contrast(120%);
-            transition: filter 1.2s ease, border-color 1.2s ease; 
+            transition: filter 1.2s ease, border-color 0.5s ease; 
         }
 
         .project-card:hover .project-card-img {
@@ -286,12 +318,13 @@
             border-top: 4px solid var(--text-color);
             border-bottom: 4px solid var(--text-color);
             width: 100%;
+            transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease;
         }
 
         .cta-section h2 {
             font-size: 4rem; 
             margin-bottom: 1rem;
-            color: #fff;
+            color: #fff; /* Reste blanc sur le fond sombre de la CTA */
         }
 
         .cta-text {
@@ -301,7 +334,6 @@
             max-width: 750px;
             margin: 0 auto 2rem auto;
             color: var(--bg-color);
-            line-height: 1.6;
         }
 
         .cta-socials {
@@ -328,14 +360,8 @@
         }
 
         /* --- BOUTONS --- */
-        .btn-container {
-            display: flex;
-            margin-top: 1rem;
-        }
-
-        .btn-container.center {
-            justify-content: center;
-        }
+        .btn-container { display: flex; margin-top: 1rem; }
+        .btn-container.center { justify-content: center; }
 
         .btn-primary {
             font-family: 'Anton', sans-serif;
@@ -391,6 +417,7 @@
             header { flex-direction: column; gap: 1.5rem; padding: 1.5rem 1rem; }
             .header-left { flex-direction: column; gap: 1rem; text-align: center; }
             .main-nav { flex-wrap: wrap; justify-content: center; }
+            .header-right { justify-content: center; width: 100%; }
             
             .hero { height: 60vh; } 
             .hero h1 { font-size: 18vw; letter-spacing: -1px; } 
@@ -420,9 +447,21 @@
                 <a href="contact.html" data-i18n="nav-contact">Contact</a>
             </nav>
         </div>
-        <div class="lang-switch">
-            <span id="btn-fr" class="active" onclick="setLanguage('fr')">FR</span> / 
-            <span id="btn-en" onclick="setLanguage('en')">EN</span>
+        
+        <!-- NOUVEAU : Header Right avec Langue + Bouton Thème -->
+        <div class="header-right">
+            <div class="lang-switch">
+                <span id="btn-fr" class="active" onclick="setLanguage('fr')">FR</span> / 
+                <span id="btn-en" onclick="setLanguage('en')">EN</span>
+            </div>
+            
+            <button id="theme-toggle" class="theme-btn" aria-label="Changer le thème">
+                <!-- Icône SVG demi-cercle stylée -->
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2v20c5.523 0 10-4.477 10-10S17.523 2 12 2z"/>
+                    <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/>
+                </svg>
+            </button>
         </div>
     </header>
 
@@ -535,6 +574,27 @@
     </footer>
 
     <script>
+        // --- 0. NOUVEAU : GESTION DU THEME (A mettre en premier pour éviter les clignotements) ---
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        // On vérifie le localStorage
+        if (localStorage.getItem('theme') === 'light') {
+            body.classList.add('theme-light');
+        }
+
+        // Action au clic
+        themeToggleBtn.addEventListener('click', () => {
+            body.classList.toggle('theme-light');
+            
+            // Sauvegarde dans le localStorage
+            if (body.classList.contains('theme-light')) {
+                localStorage.setItem('theme', 'light');
+            } else {
+                localStorage.removeItem('theme');
+            }
+        });
+
         // --- 1. ANIMATION SCROLL ---
         document.addEventListener("DOMContentLoaded", function() {
             const options = { root: null, rootMargin: '0px', threshold: 0.15 };
