@@ -12,10 +12,10 @@
             --text-color: #0a0a0a; 
         }
 
-        /* --- NOUVEAU : THEME BLANC --- */
+        /* --- THEME CLAIR AMÉLIORÉ (Façon Papier / Carnet) --- */
         body.theme-light {
-            --bg-color: #f8f9fa; /* Un blanc très légèrement cassé pour la douceur */
-            --text-color: #0a0a0a; /* On garde le texte noir */
+            --bg-color: #F2EFE9; /* Un blanc cassé/beige très doux (évite l'effet hôpital) */
+            --text-color: #1A1A1A; /* Un noir légèrement adouci pour ne pas agresser l'œil */
         }
 
         * {
@@ -33,12 +33,12 @@
             flex-direction: column;
             min-height: 100vh;
             
+            /* La grille va donner un superbe effet "papier millimétré" sur le thème clair */
             background-image: 
                 linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
             background-size: 40px 40px;
             
-            /* Transition douce lors du changement de thème */
             transition: background-color 0.5s ease, color 0.5s ease;
         }
 
@@ -324,7 +324,7 @@
         .cta-section h2 {
             font-size: 4rem; 
             margin-bottom: 1rem;
-            color: #fff; /* Reste blanc sur le fond sombre de la CTA */
+            color: var(--bg-color); /* Sur le fond sombre, le texte prend la couleur du background pour le contraste */
         }
 
         .cta-text {
@@ -350,7 +350,7 @@
 
         .cta-socials a:hover {
             transform: translateY(-3px);
-            color: #fff;
+            opacity: 0.8;
         }
 
         .cta-socials svg {
@@ -448,7 +448,6 @@
             </nav>
         </div>
         
-        <!-- NOUVEAU : Header Right avec Langue + Bouton Thème -->
         <div class="header-right">
             <div class="lang-switch">
                 <span id="btn-fr" class="active" onclick="setLanguage('fr')">FR</span> / 
@@ -456,7 +455,6 @@
             </div>
             
             <button id="theme-toggle" class="theme-btn" aria-label="Changer le thème">
-                <!-- Icône SVG demi-cercle stylée -->
                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 2v20c5.523 0 10-4.477 10-10S17.523 2 12 2z"/>
                     <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/>
@@ -574,20 +572,16 @@
     </footer>
 
     <script>
-        // --- 0. NOUVEAU : GESTION DU THEME (A mettre en premier pour éviter les clignotements) ---
+        // --- 0. GESTION DU THEME ---
         const themeToggleBtn = document.getElementById('theme-toggle');
         const body = document.body;
 
-        // On vérifie le localStorage
         if (localStorage.getItem('theme') === 'light') {
             body.classList.add('theme-light');
         }
 
-        // Action au clic
         themeToggleBtn.addEventListener('click', () => {
             body.classList.toggle('theme-light');
-            
-            // Sauvegarde dans le localStorage
             if (body.classList.contains('theme-light')) {
                 localStorage.setItem('theme', 'light');
             } else {
@@ -623,14 +617,12 @@
                 const dy = e.clientY - centerY;
                 const distToLetter = Math.sqrt(dx * dx + dy * dy);
                 
-                const maxDist = 120; // La souris doit passer "sur" le texte
+                const maxDist = 120;
                 
                 if (distToLetter < maxDist) {
                     const force = (maxDist - distToLetter) / maxDist;
-                    // Les lettres glissent très légèrement pour esquiver
                     const pushX = -(dx / distToLetter) * force * 20; 
                     const pushY = -(dy / distToLetter) * force * 20;
-                    
                     letter.style.transform = `translate(${pushX}px, ${pushY}px)`;
                 } else {
                     letter.style.transform = `translate(0, 0)`;
@@ -638,7 +630,6 @@
             });
         });
 
-        // Remise à zéro propre quand la souris quitte la zone
         heroSection.addEventListener('mouseleave', () => {
             letters.forEach(letter => {
                 letter.style.transform = `translate(0, 0)`;
