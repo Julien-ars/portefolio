@@ -7,368 +7,311 @@
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     
     <style>
+        /* --- VARIABLES DE BASE --- */
         :root {
             --bg-color: #e60023; 
             --text-color: #0a0a0a; 
+            --grid-opacity: 0.05; 
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* --- THEME CLAIR --- */
+        body.theme-light {
+            --bg-color: #F2EFE9; 
+            --text-color: #1A1A1A; 
+            --grid-opacity: 0.09; 
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { background-color: #050505; scroll-behavior: smooth; }
+
+        /* --- SELECTION DE TEXTE PERSONNALISÉE --- */
+        ::selection { background-color: #0a0a0a; color: #e60023; }
+        ::-moz-selection { background-color: #0a0a0a; color: #e60023; }
+        
+        body.theme-light ::selection { background-color: #b366ff; color: #fff; }
+        body.theme-light ::-moz-selection { background-color: #b366ff; color: #fff; }
 
         body {
+            position: relative;
             background-color: var(--bg-color);
             color: var(--text-color);
             font-family: 'Inter', sans-serif; 
             overflow-x: hidden;
             
             background-image: 
-                linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+                linear-gradient(rgba(0, 0, 0, var(--grid-opacity)) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, var(--grid-opacity)) 1px, transparent 1px);
             background-size: 40px 40px;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        /* --- QUADRILLAGE FONCÉ INTERACTIF --- */
+        .global-grid-hover {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.5) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.5) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none; z-index: 1; 
+            opacity: var(--grid-overlay-op, 0);
+            -webkit-mask-image: radial-gradient(circle 180px at var(--mouse-x, -100px) var(--mouse-y, -100px), black, transparent);
+            mask-image: radial-gradient(circle 180px at var(--mouse-x, -100px) var(--mouse-y, -100px), black, transparent);
+            transition: opacity 0.3s ease;
+        }
+        body.theme-light .global-grid-hover {
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.7) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.7) 1px, transparent 1px);
         }
 
         /* --- HEADER --- */
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 2rem;
-            border-bottom: 2px solid var(--text-color);
-            font-family: 'Anton', sans-serif;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1.5rem 2rem; border-bottom: 2px solid var(--text-color);
+            font-family: 'Anton', sans-serif; position: relative; z-index: 100;
         }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 3rem;
-        }
+        .header-left { display: flex; align-items: center; gap: 3rem; }
 
-        .logo {
-            font-size: 1.5rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .logo { 
+            font-size: 1.5rem; text-transform: uppercase; letter-spacing: 1px; 
+            text-decoration: none; color: var(--text-color); transition: opacity 0.3s ease;
         }
+        .logo:hover { opacity: 0.7; }
 
-        .main-nav {
-            display: flex;
-            gap: 0.5rem;
-        }
+        .main-nav { display: flex; gap: 0.5rem; }
 
         .main-nav a {
-            font-family: 'Inter', sans-serif;
-            font-weight: 600;
-            font-size: 1rem;
-            text-transform: uppercase;
-            text-decoration: none;
-            color: var(--text-color);
-            padding: 0.5rem 1rem;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem;
+            text-transform: uppercase; text-decoration: none; color: var(--text-color);
+            padding: 0.5rem 1rem; border: 2px solid transparent; transition: all 0.3s ease;
         }
 
         .main-nav a.active, .main-nav a:hover {
-            background-color: var(--text-color);
-            color: var(--bg-color);
-            border: 2px solid var(--text-color);
+            background-color: var(--text-color); color: var(--bg-color); border: 2px solid var(--text-color);
         }
+
+        .header-right { display: flex; align-items: center; gap: 1.5rem; }
 
         .lang-switch {
-            display: flex;
-            gap: 0.5rem;
-            font-family: 'Inter', sans-serif;
-            font-weight: 600;
-            font-size: 1rem;
+            display: flex; gap: 0.5rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem;
         }
 
-        .lang-switch span {
-            opacity: 0.4;
-            transition: opacity 0.3s;
-            cursor: pointer;
-        }
+        .lang-switch span { opacity: 0.4; transition: opacity 0.3s; cursor: pointer; }
+        .lang-switch span.active, .lang-switch span:hover { opacity: 1; text-decoration: underline; }
 
-        .lang-switch span.active, .lang-switch span:hover {
-            opacity: 1;
-            text-decoration: underline;
+        /* Icône bicolore de Thème */
+        .theme-btn { 
+            background: none; border: none; cursor: pointer; display: flex; align-items: center; 
+            justify-content: center; padding: 0.5rem; outline: none;
+        }
+        .theme-indicator {
+            width: 24px; height: 24px; border-radius: 50%;
+            background: linear-gradient(to right, #F2EFE9 50%, #0a0a0a 50%); 
+            border: 2px solid #0a0a0a; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        body.theme-light .theme-indicator {
+            background: linear-gradient(to right, #e60023 50%, #0a0a0a 50%); 
+            border-color: #1A1A1A; transform: rotate(180deg);
         }
 
         /* --- CONTENU --- */
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 4rem 2rem;
-            flex-grow: 1;
-            width: 100%;
+            max-width: 1200px; margin: 0 auto; padding: 4rem 2rem; flex-grow: 1; width: 100%;
+            position: relative; z-index: 5;
         }
 
-        .page-header {
-            margin-bottom: 4rem;
-            text-align: center;
-        }
+        .page-header { margin-bottom: 4rem; text-align: center; }
 
         .subtitle {
-            font-family: 'Inter', sans-serif;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
+            font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
+            letter-spacing: 2px; font-size: 1rem; margin-bottom: 0.5rem;
         }
 
         .main-title {
-            font-family: 'Anton', sans-serif;
-            font-size: 5rem;
-            line-height: 1.1;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-family: 'Anton', sans-serif; font-size: 5rem; line-height: 1.1;
+            text-transform: uppercase; letter-spacing: 1px;
         }
 
         /* ANIMATION SCROLL */
         .fade-in-section {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out;
             will-change: opacity, visibility;
         }
 
-        .fade-in-section.is-visible {
-            opacity: 1;
-            transform: none;
-        }
+        .fade-in-section.is-visible { opacity: 1; transform: none; }
 
         /* --- CARTES D'INFORMATIONS (EN HAUT) --- */
         .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 5rem;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 4rem;
         }
 
         .info-card {
-            border: 3px solid var(--text-color);
-            padding: 2rem;
-            transition: all 0.3s ease;
-            background-color: transparent;
-            text-decoration: none;
-            color: var(--text-color);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            border: 3px solid var(--text-color); padding: 2rem; transition: all 0.3s ease;
+            background-color: transparent; text-decoration: none; color: var(--text-color);
+            display: flex; flex-direction: column; justify-content: center;
         }
 
         a.info-card:hover {
-            transform: translate(-8px, -8px);
-            box-shadow: 12px 12px 0px var(--text-color);
-            background-color: var(--text-color);
-            color: var(--bg-color);
+            transform: translate(-8px, -8px); box-shadow: 12px 12px 0px var(--text-color);
+            background-color: var(--text-color); color: var(--bg-color);
         }
 
         .info-card h3 {
-            font-family: 'Anton', sans-serif;
-            font-size: 2.2rem;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
+            font-family: 'Anton', sans-serif; font-size: 2.2rem; margin-bottom: 1rem; text-transform: uppercase;
         }
 
         .info-card p {
-            font-weight: 600;
-            font-size: 1.1rem;
-            word-break: break-all;
+            font-weight: 600; font-size: 1.1rem; word-break: break-all;
         }
 
         .info-card .label {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            font-weight: 800;
-            opacity: 0.7;
-            margin-bottom: 0.2rem;
-            display: block;
-            margin-top: 1rem;
+            font-size: 0.8rem; text-transform: uppercase; font-weight: 800; opacity: 0.7;
+            margin-bottom: 0.2rem; display: block; margin-top: 1rem;
         }
         
-        .info-card .label:first-of-type {
-            margin-top: 0;
-        }
+        .info-card .label:first-of-type { margin-top: 0; }
 
-        .social-links {
-            display: flex;
-            gap: 1.5rem;
-            margin-top: 1rem;
-        }
+        .social-links { display: flex; gap: 1.5rem; margin-top: 1rem; }
 
         .social-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 60px;
-            height: 60px;
-            border: 3px solid var(--text-color);
-            border-radius: 50%;
-            color: var(--text-color);
-            transition: all 0.3s ease;
+            display: flex; align-items: center; justify-content: center; width: 60px; height: 60px;
+            border: 3px solid var(--text-color); border-radius: 50%; color: var(--text-color); transition: all 0.3s ease;
         }
 
-        .social-icon svg {
-            width: 30px;
-            height: 30px;
-            fill: currentColor;
-        }
+        .social-icon svg { width: 30px; height: 30px; fill: currentColor; }
 
         .social-icon:hover {
-            transform: translate(-3px, -3px);
-            box-shadow: 6px 6px 0px var(--text-color);
-            background-color: var(--text-color);
-            color: var(--bg-color);
+            transform: translate(-3px, -3px); box-shadow: 6px 6px 0px var(--text-color);
+            background-color: var(--text-color); color: var(--bg-color);
+        }
+
+        /* --- NOUVELLE SECTION TÉLÉCHARGEMENT CV --- */
+        .cv-section {
+            display: flex; justify-content: center; margin-bottom: 5rem;
+        }
+
+        .btn-cv {
+            display: inline-flex; align-items: center; gap: 1.2rem;
+            font-family: 'Anton', sans-serif; font-size: 1.8rem; text-transform: uppercase;
+            color: var(--text-color); background-color: transparent; border: 4px solid var(--text-color);
+            padding: 1.2rem 2.5rem; text-decoration: none; transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-cv svg {
+            width: 32px; height: 32px; fill: currentColor; transition: transform 0.3s ease;
+        }
+
+        .btn-cv:hover {
+            transform: translate(-6px, -6px); box-shadow: 12px 12px 0px var(--text-color);
+            background-color: var(--text-color); color: var(--bg-color);
+        }
+
+        .btn-cv:hover svg {
+            transform: translateY(4px); /* L'icône descend au survol */
         }
 
         /* --- FORMULAIRE (EN BAS) --- */
         .form-section-title {
-            font-family: 'Anton', sans-serif;
-            font-size: 2.5rem;
-            text-transform: uppercase;
-            text-align: center;
-            margin-bottom: 2rem;
+            font-family: 'Anton', sans-serif; font-size: 2.5rem; text-transform: uppercase;
+            text-align: center; margin-bottom: 2rem;
         }
 
         .contact-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            max-width: 800px;
-            margin: 0 auto;
+            display: flex; flex-direction: column; gap: 1.5rem; max-width: 800px; margin: 0 auto;
         }
 
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
+        .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
 
         .form-group label {
-            font-family: 'Anton', sans-serif;
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-family: 'Anton', sans-serif; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px;
         }
 
         .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 1rem;
-            border: 3px solid var(--text-color);
-            background-color: transparent;
-            color: var(--text-color);
-            font-family: 'Inter', sans-serif;
-            font-weight: 600;
-            font-size: 1rem;
-            outline: none;
-            transition: all 0.3s ease;
+            width: 100%; padding: 1rem; border: 3px solid var(--text-color); background-color: transparent;
+            color: var(--text-color); font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem;
+            outline: none; transition: all 0.3s ease;
         }
 
         .form-group input:focus, .form-group textarea:focus {
-            background-color: rgba(0, 0, 0, 0.05);
-            box-shadow: 6px 6px 0px var(--text-color);
-            transform: translate(-2px, -2px);
+            background-color: rgba(0, 0, 0, 0.05); box-shadow: 6px 6px 0px var(--text-color); transform: translate(-2px, -2px);
         }
 
-        .form-group textarea {
-            resize: vertical;
-            min-height: 150px;
+        body.theme-light .form-group input:focus, body.theme-light .form-group textarea:focus {
+            background-color: rgba(255, 255, 255, 0.3);
         }
+
+        .form-group textarea { resize: vertical; min-height: 150px; }
 
         .btn-submit {
-            font-family: 'Anton', sans-serif;
-            font-size: 2rem;
-            text-transform: uppercase;
-            color: var(--text-color);
-            background-color: transparent;
-            border: 3px solid var(--text-color);
-            padding: 1rem 2rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 1rem;
-            text-align: center;
-            width: 100%;
+            font-family: 'Anton', sans-serif; font-size: 2rem; text-transform: uppercase; color: var(--text-color);
+            background-color: transparent; border: 3px solid var(--text-color); padding: 1rem 2rem;
+            cursor: pointer; transition: all 0.3s ease; margin-top: 1rem; text-align: center; width: 100%;
         }
 
         .btn-submit:hover {
-            transform: translate(-5px, -5px);
-            box-shadow: 10px 10px 0px var(--text-color);
-            background-color: var(--text-color);
-            color: var(--bg-color);
+            transform: translate(-5px, -5px); box-shadow: 10px 10px 0px var(--text-color);
+            background-color: var(--text-color); color: var(--bg-color);
         }
 
-        /* --- BANDEAU DÉFILANT (CORRECTION DE LA FLUIDITÉ) --- */
+        /* --- BANDEAU DÉFILANT --- */
         .marquee-footer {
-            background-color: var(--text-color);
-            color: var(--bg-color);
-            padding: 1rem 0;
-            overflow: hidden;
-            display: flex;
-            border-top: 2px solid var(--text-color);
-            margin-top: 4rem;
+            background-color: var(--text-color); color: var(--bg-color); padding: 1rem 0; overflow: hidden;
+            display: flex; border-top: 2px solid var(--text-color); margin-top: 4rem; position: relative; z-index: 10;
         }
 
-        /* Le conteneur interne qui va s'animer */
         .marquee-inner {
-            display: flex;
-            width: fit-content;
-            animation: scroll-left 25s linear infinite;
+            display: flex; width: fit-content; animation: scroll-left 25s linear infinite;
         }
 
-        .marquee-text {
-            font-family: 'Anton', sans-serif;
-            font-size: 2.5rem;
-            white-space: nowrap;
-        }
+        .marquee-text { font-family: 'Anton', sans-serif; font-size: 2.5rem; white-space: nowrap; }
 
-        /* L'animation va de 0 à -50%, comme le texte est dupliqué, la boucle est invisible */
-        @keyframes scroll-left {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+        @keyframes scroll-left { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* --- BOUTON RETOUR EN HAUT CENTRÉ --- */
+        .back-to-top-wrapper {
+            background-color: #050505; text-align: center; padding: 2rem 0 3rem 0; position: relative; z-index: 50; width: 100%;
+        }
+        .btn-back-top {
+            display: inline-block; color: #fff; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.2); 
+            padding: 0.7rem 1.8rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; 
+            text-transform: uppercase; text-decoration: none; border-radius: 50px; backdrop-filter: blur(10px); 
+            transition: all 0.3s ease; cursor: pointer;
+        }
+        .btn-back-top:hover { background: #fff; color: #000; transform: translateY(-3px); }
+
+        /* --- FOOTER --- */
+        .site-footer {
+            padding: 1.5rem 2rem; text-align: center; font-family: 'Inter', sans-serif;
+            font-weight: 600; font-size: 0.85rem; opacity: 0.8; border-top: 2px solid var(--text-color);
+            background-color: #050505; color: rgba(179, 102, 255, 0.4); position: relative; z-index: 50;
         }
 
         /* --- RESPONSIVE DESIGN --- */
         @media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                gap: 1.5rem;
-                padding: 1.5rem 1rem;
-            }
-            .header-left {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-            .main-nav {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            .container {
-                padding: 2rem 1rem;
-            }
-            .main-title {
-                font-size: 3.5rem; 
-            }
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-            .form-section-title {
-                font-size: 2rem;
-            }
+            header { flex-direction: column; gap: 1.5rem; padding: 1.5rem 1rem; }
+            .header-left { flex-direction: column; gap: 1rem; text-align: center; }
+            .main-nav { flex-wrap: wrap; justify-content: center; }
+            .container { padding: 2rem 1rem; }
+            .main-title { font-size: 3.5rem; }
+            .info-grid { grid-template-columns: 1fr; margin-bottom: 3rem; }
+            .btn-cv { font-size: 1.4rem; padding: 1rem 1.5rem; width: 100%; justify-content: center; }
+            .form-section-title { font-size: 2rem; }
         }
     </style>
 </head>
-<body>
+<body id="top">
+
+    <div class="global-grid-hover" id="global-grid-hover"></div>
 
     <header>
         <div class="header-left">
-            <div class="logo">/// Julien Arsena</div>
-            
+            <a href="index.html" class="logo">/// Julien Arsena</a>
             <nav class="main-nav">
                 <a href="index.html" data-i18n="nav-home">Accueil</a>
                 <a href="projects.html" data-i18n="nav-projects">Projets</a>
@@ -377,9 +320,15 @@
             </nav>
         </div>
         
-        <div class="lang-switch">
-            <span id="btn-fr" class="active" onclick="setLanguage('fr')">FR</span> / 
-            <span id="btn-en" onclick="setLanguage('en')">EN</span>
+        <div class="header-right">
+            <div class="lang-switch">
+                <span id="btn-fr" class="active" onclick="setLanguage('fr')">FR</span> / 
+                <span id="btn-en" onclick="setLanguage('en')">EN</span>
+            </div>
+            <!-- Icône de thème bicolore -->
+            <button id="theme-toggle" class="theme-btn" aria-label="Changer le thème">
+                <div class="theme-indicator"></div>
+            </button>
         </div>
     </header>
 
@@ -425,6 +374,16 @@
 
         </div>
 
+        <!-- NOUVELLE SECTION BOUTON CV -->
+        <div class="cv-section fade-in-section">
+            <a href="CV_Julien_Arsena.pdf" target="_blank" class="btn-cv" download>
+                <span data-i18n="btn-cv">Télécharger mon CV</span>
+                <svg viewBox="0 0 24 24">
+                    <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                </svg>
+            </a>
+        </div>
+
         <h2 class="form-section-title fade-in-section" data-i18n="or-contact-here">Ou m'écrire directement ici ↓</h2>
         
         <form class="contact-form fade-in-section" action="https://formspree.io/f/xreybnzy" method="POST">
@@ -459,7 +418,33 @@
         </div>
     </div>
 
+    <div class="back-to-top-wrapper">
+        <a id="btn-back-top" class="btn-back-top" data-i18n="btn-back-top">Remonter en haut</a>
+    </div>
+
+    <footer class="site-footer">
+        <span data-i18n="footer-text">© 2026 Julien Arsena. Tout le contenu (code, données, rapports) est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite.</span>
+    </footer>
+
     <script>
+        // --- MÉMOIRE GLOBALE : THÈME ET LANGUE ---
+        
+        // GESTION DU THÈME
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+        
+        if (localStorage.getItem('theme') === 'light') {
+            body.classList.add('theme-light');
+        }
+        
+        themeToggleBtn.addEventListener('click', () => {
+            body.classList.toggle('theme-light');
+            localStorage.setItem('theme', body.classList.contains('theme-light') ? 'light' : '');
+        });
+
+        // GESTION DE LA LANGUE
+        let currentLang = localStorage.getItem('lang') || 'fr';
+
         document.addEventListener("DOMContentLoaded", function() {
             const options = { root: null, rootMargin: '0px', threshold: 0.15 };
             const observer = new IntersectionObserver((entries, observer) => {
@@ -474,6 +459,22 @@
             document.querySelectorAll('.fade-in-section').forEach(section => {
                 observer.observe(section);
             });
+
+            // Applique la langue au chargement
+            setLanguage(currentLang);
+        });
+
+        // EFFET LAMPE TORCHE GLOBAL
+        const globalGridHover = document.getElementById('global-grid-hover');
+        document.addEventListener('mousemove', (e) => {
+            globalGridHover.style.setProperty('--grid-overlay-op', '1');
+            globalGridHover.style.setProperty('--mouse-x', `${e.pageX}px`);
+            globalGridHover.style.setProperty('--mouse-y', `${e.pageY}px`);
+        });
+
+        // RETOUR EN HAUT (Scroll doux)
+        document.getElementById('btn-back-top').addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
         const translations = {
@@ -489,13 +490,15 @@
                 "label-pro": "Institutionnel",
                 "label-perso": "Personnel",
                 "info-socials": "Réseaux",
+                "btn-cv": "Télécharger mon CV",
                 "or-contact-here": "Ou m'écrire directement ici ↓",
                 "form-name": "Nom Complet",
                 "form-email": "Adresse Email",
                 "form-msg": "Votre Message",
                 "form-btn": "Envoyer ->",
-                // Le texte est dupliqué deux fois dans la chaîne pour la boucle infinie CSS
-                "marquee": "<div class='marquee-text'>SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • INTELLIGENCE ARTIFICIELLE • ANALYSE CULTURELLE • MACHINE LEARNING • SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • INTELLIGENCE ARTIFICIELLE • ANALYSE CULTURELLE • MACHINE LEARNING •&nbsp;</div><div class='marquee-text'>SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • INTELLIGENCE ARTIFICIELLE • ANALYSE CULTURELLE • MACHINE LEARNING • SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • INTELLIGENCE ARTIFICIELLE • ANALYSE CULTURELLE • MACHINE LEARNING •&nbsp;</div>"
+                "btn-back-top": "Remonter en haut",
+                "marquee": "<div class='marquee-text'>SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • INTELLIGENCE ARTIFICIELLE • ANALYSE CULTURELLE • MACHINE LEARNING • SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • INTELLIGENCE ARTIFICIELLE • ANALYSE CULTURELLE • MACHINE LEARNING •&nbsp;</div><div class='marquee-text'>SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • INTELLIGENCE ARTIFICIELLE • ANALYSE CULTURELLE • MACHINE LEARNING • SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • INTELLIGENCE ARTIFICIELLE • ANALYSE CULTURELLE • MACHINE LEARNING •&nbsp;</div>",
+                "footer-text": "© 2026 Julien Arsena. Tout le contenu (code, données, rapports) est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite."
             },
             "en": {
                 "nav-home": "Home",
@@ -509,16 +512,22 @@
                 "label-pro": "Institutional",
                 "label-perso": "Personal",
                 "info-socials": "Socials",
+                "btn-cv": "Download my Resume",
                 "or-contact-here": "Or write to me directly here ↓",
                 "form-name": "Full Name",
                 "form-email": "Email Address",
                 "form-msg": "Your Message",
                 "form-btn": "Send ->",
-                "marquee": "<div class='marquee-text'>DATA SCIENCE & ARTS • DIGITAL HUMANITIES • ARTIFICIAL INTELLIGENCE • CULTURAL ANALYSIS • MACHINE LEARNING • DATA SCIENCE & ARTS • DIGITAL HUMANITIES • ARTIFICIAL INTELLIGENCE • CULTURAL ANALYSIS • MACHINE LEARNING •&nbsp;</div><div class='marquee-text'>DATA SCIENCE & ARTS • DIGITAL HUMANITIES • ARTIFICIAL INTELLIGENCE • CULTURAL ANALYSIS • MACHINE LEARNING • DATA SCIENCE & ARTS • DIGITAL HUMANITIES • ARTIFICIAL INTELLIGENCE • CULTURAL ANALYSIS • MACHINE LEARNING •&nbsp;</div>"
+                "btn-back-top": "Back to top",
+                "marquee": "<div class='marquee-text'>DATA SCIENCE & ARTS • DIGITAL HUMANITIES • ARTIFICIAL INTELLIGENCE • CULTURAL ANALYSIS • MACHINE LEARNING • DATA SCIENCE & ARTS • DIGITAL HUMANITIES • ARTIFICIAL INTELLIGENCE • CULTURAL ANALYSIS • MACHINE LEARNING •&nbsp;</div><div class='marquee-text'>DATA SCIENCE & ARTS • DIGITAL HUMANITIES • ARTIFICIAL INTELLIGENCE • CULTURAL ANALYSIS • MACHINE LEARNING • DATA SCIENCE & ARTS • DIGITAL HUMANITIES • ARTIFICIAL INTELLIGENCE • CULTURAL ANALYSIS • MACHINE LEARNING •&nbsp;</div>",
+                "footer-text": "© 2026 Julien Arsena. All content (code, data, reports) is provided for review purposes. Any reuse requires explicit attribution."
             }
         };
 
         function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('lang', lang); 
+
             document.querySelectorAll('[data-i18n]').forEach(element => {
                 const key = element.getAttribute('data-i18n');
                 if (translations[lang][key]) {
