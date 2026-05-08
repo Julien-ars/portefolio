@@ -31,6 +31,7 @@
 
         /* --- FOND GLOBAL AVEC QUADRILLAGE LÉGER --- */
         body {
+            position: relative; /* Nécessaire pour aligner le quadrillage foncé */
             background-color: var(--bg-color); color: var(--text-color); font-family: 'Anton', sans-serif; 
             overflow-x: hidden; display: flex; flex-direction: column; min-height: 100vh;
             background-image: 
@@ -38,6 +39,25 @@
                 linear-gradient(90deg, rgba(0, 0, 0, var(--grid-opacity)) 1px, transparent 1px);
             background-size: 40px 40px;
             transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        /* --- QUADRILLAGE FONCÉ INTERACTIF (Aligné parfaitement avec le body) --- */
+        .global-grid-hover {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.5) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.5) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none; z-index: 1; 
+            opacity: var(--grid-overlay-op, 0);
+            -webkit-mask-image: radial-gradient(circle 180px at var(--mouse-x, -100px) var(--mouse-y, -100px), black, transparent);
+            mask-image: radial-gradient(circle 180px at var(--mouse-x, -100px) var(--mouse-y, -100px), black, transparent);
+            transition: opacity 0.3s ease;
+        }
+        body.theme-light .global-grid-hover {
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.3) 1px, transparent 1px);
         }
 
         /* --- HEADER --- */
@@ -66,31 +86,14 @@
         .hero {
             height: 75vh; display: flex; flex-direction: column; justify-content: center;
             align-items: center; text-align: center; border-bottom: 2px solid var(--text-color);
-            position: relative; overflow: hidden; 
-        }
-
-        /* EFFET LAMPE TORCHE : Quadrillage assombri au survol */
-        .hero-grid-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
-                linear-gradient(rgba(0, 0, 0, 0.25) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 0, 0, 0.25) 1px, transparent 1px);
-            background-size: 40px 40px;
-            opacity: 0; pointer-events: none; z-index: 1;
-            /* Masque circulaire qui suit la souris via CSS Variables */
-            -webkit-mask-image: radial-gradient(circle 200px at var(--mouse-x, -100%) var(--mouse-y, -100%), black, transparent);
-            mask-image: radial-gradient(circle 200px at var(--mouse-x, -100%) var(--mouse-y, -100%), black, transparent);
-            transition: opacity 0.3s ease;
-        }
-        body.theme-light .hero-grid-overlay {
-            background-image: 
-                linear-gradient(rgba(0, 0, 0, 0.15) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 0, 0, 0.15) 1px, transparent 1px);
+            position: relative; 
+            /* On autorise le + à dépasser pour tomber sur le bandeau */
+            overflow: visible; z-index: 20; 
         }
 
         .hero h1 {
             font-size: 11vw; line-height: 0.9; text-transform: uppercase; letter-spacing: -2px;
-            position: relative; z-index: 2; pointer-events: none; display: flex; justify-content: center;
+            position: relative; z-index: 30; pointer-events: none; display: flex; justify-content: center;
         }
         .hero h1 span.letter { display: inline-block; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); will-change: transform; }
         
@@ -99,7 +102,7 @@
         .dot-plus {
             position: absolute; top: -1.3em; left: 50%; transform: translateX(-50%);
             font-size: 0.55em; color: var(--text-color); transition: color 0.5s ease;
-            will-change: transform; pointer-events: auto; cursor: crosshair; z-index: 10;
+            will-change: transform; pointer-events: auto; cursor: crosshair; z-index: 40;
         }
         
         .dot-plus.broken {
@@ -109,13 +112,13 @@
         /* 3 rebonds réalistes jusqu'au bandeau */
         @keyframes bounceDrop {
             0% { transform: translateX(-50%) translateY(0) rotate(0); }
-            15% { transform: translateX(-50%) translateY(38vh) rotate(50deg); } /* Chute 1 */
+            15% { transform: translateX(-50%) translateY(40vh) rotate(50deg); } /* Chute 1 */
             30% { transform: translateX(-50%) translateY(22vh) rotate(90deg); } /* Rebond 1 (Haut) */
-            45% { transform: translateX(-50%) translateY(38vh) rotate(130deg); } /* Chute 2 */
+            45% { transform: translateX(-50%) translateY(40vh) rotate(130deg); } /* Chute 2 */
             55% { transform: translateX(-50%) translateY(30vh) rotate(160deg); } /* Rebond 2 (Moyen) */
-            70% { transform: translateX(-50%) translateY(38vh) rotate(180deg); } /* Chute 3 */
+            70% { transform: translateX(-50%) translateY(40vh) rotate(180deg); } /* Chute 3 */
             80% { transform: translateX(-50%) translateY(35vh) rotate(195deg); } /* Rebond 3 (Petit) */
-            100% { transform: translateX(-50%) translateY(38vh) rotate(210deg); } /* Arrêt final */
+            100% { transform: translateX(-50%) translateY(40vh) rotate(210deg); } /* Arrêt final sur le bandeau */
         }
 
         /* --- BANDEAU DEFILEMENT --- */
@@ -128,13 +131,14 @@
         @keyframes scroll-left { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         /* --- CONTENEUR GLOBAL INTRO --- */
-        .content-wrapper { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem 2rem 2rem; width: 100%; }
+        .content-wrapper { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem 2rem 2rem; width: 100%; position: relative; z-index: 5; }
         .section-heading { font-size: 3rem; margin-bottom: 2rem; border-bottom: 4px solid var(--text-color); padding-bottom: 0.5rem; text-transform: uppercase; transition: border-color 0.5s ease; }
         .intro-section { margin-bottom: 2rem; }
         .intro-box {
             border: 4px solid var(--text-color); padding: 2rem 3rem; background-color: transparent;
             transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.5s ease;
             max-width: 900px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; align-items: center;
+            background-color: var(--bg-color); /* Empêche le quadrillage de gêner la lecture */
         }
         .intro-box:hover { transform: translate(-5px, -5px); box-shadow: 12px 12px 0px var(--text-color); }
         .intro-text { font-family: 'Inter', sans-serif; font-size: 1.2rem; line-height: 1.6; font-weight: 600; margin-bottom: 2rem; }
@@ -153,7 +157,7 @@
 
         /* --- SÉQUENCE ZOOM & HORIZONTAL SCROLL --- */
         .scroll-sequence { 
-            height: 500vh; position: relative; background-color: transparent; margin-bottom: 0;
+            height: 500vh; position: relative; background-color: transparent; margin-bottom: 0; z-index: 5;
         }
         
         .scroll-sticky {
@@ -351,6 +355,8 @@
 </head>
 <body id="top">
 
+    <div class="global-grid-hover" id="global-grid-hover"></div>
+
     <header>
         <div class="header-left">
             <div class="logo">/// Julien Arsena</div>
@@ -376,8 +382,6 @@
     </header>
 
     <section class="hero fade-in-section" id="hero-section">
-        <div class="hero-grid-overlay" id="hero-grid-overlay"></div>
-        
         <h1 id="hero-text">
             <span class="letter">P</span>
             <span class="letter">O</span>
@@ -585,21 +589,17 @@
         });
 
         // EFFET LAMPE TORCHE SUR LE QUADRILLAGE
+        // On utilise document-relative (pageX/pageY) car global-grid-hover est positionné en absolute sur le body
         const heroSection = document.getElementById('hero-section');
-        const heroGridOverlay = document.getElementById('hero-grid-overlay');
+        const globalGridHover = document.getElementById('global-grid-hover');
         
         heroSection.addEventListener('mousemove', (e) => {
-            // Calcul de la position par rapport à la section et non à la page
-            const rect = heroSection.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            heroGridOverlay.style.opacity = '1';
-            heroGridOverlay.style.setProperty('--mouse-x', `${x}px`);
-            heroGridOverlay.style.setProperty('--mouse-y', `${y}px`);
+            globalGridHover.style.setProperty('--grid-overlay-op', '1');
+            globalGridHover.style.setProperty('--mouse-x', `${e.pageX}px`);
+            globalGridHover.style.setProperty('--mouse-y', `${e.pageY}px`);
         });
         heroSection.addEventListener('mouseleave', () => {
-            heroGridOverlay.style.opacity = '0';
+            globalGridHover.style.setProperty('--grid-overlay-op', '0');
         });
 
         // CASSURE DU PLUS (Rebond)
@@ -649,22 +649,19 @@
             let contentOp = 0; 
             const maxScroll = hContainer.scrollWidth - window.innerWidth + window.innerWidth * 0.15; 
 
-            // Phase 1 : Zoom
             if (currentP < 0.15) {
                 let ease = (currentP / 0.15); 
                 clipY = 25 * (1 - ease); clipX = window.innerWidth > 768 ? 25 * (1 - ease) : 10 * (1 - ease);
                 radius = 15 * (1 - ease); gateOp = 1 - (ease * 1.5);
                 topoOp = 0.8 * (1 - ease); 
                 if (currentP > 0.05) contentOp = (currentP - 0.05) / 0.10; 
-            } 
-            // Phase 2 : Scroll Horizontal
-            else {
+            } else {
                 clipY = 0; clipX = 0; radius = 0; gateOp = 0; contentOp = 1; topoOp = 0;
                 let scrollProgress = Math.min(1, (currentP - 0.15) / 0.85);
                 hTrans = scrollProgress * maxScroll;
             } 
 
-            // SÉCURITÉ CLIC : On empêche le clic tant que la section n'est pas totalement ouverte
+            // SÉCURITÉ CLIC 
             if (contentOp > 0.9) {
                 hContainer.style.pointerEvents = 'auto';
                 if(btnAll) btnAll.style.pointerEvents = 'auto';
@@ -691,7 +688,6 @@
             if(bgText) bgText.style.transform = `translate(-50%, -50%) translateX(${currentP * 20}vw)`;
             if(fgText) fgText.style.transform = `translate(-50%, -50%) translateX(-${currentP * 40}vw)`;
 
-            // EFFET ÉLASTIQUE
             if (contentOp > 0.1) {
                 const screenCenter = window.innerWidth / 2;
                 let velocity = (targetP - currentP) * 800; 
@@ -725,7 +721,7 @@
             document.querySelectorAll('.fade-in-section').forEach(s => obs.observe(s));
         });
 
-        // SOURIS ESQUIVE SUR LES LETTRES UNIQUEMENT (Le + n'est pas affecté)
+        // SOURIS ESQUIVE SUR LES LETTRES UNIQUEMENT
         const letters = document.querySelectorAll('.letter');
         heroSection.addEventListener('mousemove', (e) => {
             letters.forEach(letter => {
@@ -752,7 +748,7 @@
             });
         }
 
-        // TRADUCTIONS
+        // TRADUCTIONS ET GESTION DU "E"
         const translations = {
             "fr": { 
                 "nav-home": "Accueil", "nav-projects": "Projets", "nav-about": "À Propos", "nav-contact": "Contact", 
