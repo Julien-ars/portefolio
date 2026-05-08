@@ -7,22 +7,31 @@
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     
     <style>
-        /* --- VARIABLES DE BASE --- */
+        /* --- VARIABLES DE BASE (Thème Rouge) --- */
         :root {
             --bg-color: #e60023; 
             --text-color: #0a0a0a; 
             --accent-bg: #0a0a0a; 
             --accent-text: #e60023; 
             --grid-opacity: 0.05; 
+            
+            /* Violet pour les interactions/hover et Thème Clair */
+            --violet-color: #b366ff; 
+            
+            /* Couleur du titre projets (Rouge par défaut) */
+            --gate-text-color: #e60023; 
         }
 
-        /* --- THEME CLAIR --- */
+        /* --- THEME CLAIR (Modifié pour le Violet) --- */
         body.theme-light {
             --bg-color: #F2EFE9; 
             --text-color: #1A1A1A; 
             --accent-bg: #1A1A1A; 
             --accent-text: #F2EFE9; 
             --grid-opacity: 0.09; 
+            
+            /* Couleur du titre projets en Thème Clair (Violet) */
+            --gate-text-color: var(--violet-color); 
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -59,24 +68,35 @@
         .theme-btn:hover { transform: scale(1.1); }
         .theme-btn svg { width: 24px; height: 24px; fill: currentColor; }
 
-        /* --- HERO SECTION --- */
+        /* --- HERO SECTION : GRILLE INTERACTIVE --- */
         .hero {
             height: 75vh; display: flex; flex-direction: column; justify-content: center;
             align-items: center; text-align: center; border-bottom: 2px solid var(--text-color);
             position: relative; overflow: hidden; 
         }
+        
+        /* 1. Quadrillage interactif au hover */
+        .hero::after {
+            content: ''; position: absolute; inset: 0; z-index: 1;
+            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), transparent 0%, rgba(0, 0, 0, 0.3) 100%);
+            opacity: 0; transition: opacity 0.3s ease; pointer-events: none;
+        }
+        .hero:hover::after { opacity: 1; }
+
         .hero h1 {
             font-size: 11vw; line-height: 0.9; text-transform: uppercase; letter-spacing: -2px;
             position: relative; z-index: 2; pointer-events: none;
         }
         .hero h1 span { display: inline-block; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); will-change: transform; }
         
-        /* Custom I pour PORTEFOLIO - Point bien détaché au-dessus */
+        /* 2. Le point du i indépendant pour la chute */
         .custom-i { position: relative; }
-        .custom-i::after {
-            content: '+'; position: absolute; top: -1.4em; left: 50%; transform: translateX(-50%);
+        .i-dot {
+            content: '+'; position: absolute; top: -1.3em; left: 50%; transform: translateX(-50%);
             font-size: 0.55em; color: var(--text-color); transition: color 0.5s ease;
+            cursor: pointer; z-index: 10;
         }
+        .i-dot:hover { color: var(--violet-color); }
 
         /* --- BANDEAU DEFILEMENT --- */
         .marquee-container {
@@ -99,7 +119,6 @@
         .intro-box:hover { transform: translate(-5px, -5px); box-shadow: 12px 12px 0px var(--text-color); }
         .intro-text { font-family: 'Inter', sans-serif; font-size: 1.2rem; line-height: 1.6; font-weight: 600; margin-bottom: 2rem; }
 
-        /* --- BOUTON PRINCIPAL CORRIGÉ --- */
         .btn-container { display: flex; margin-top: 1rem; width: 100%; justify-content: center; }
         .btn-primary { 
             font-family: 'Anton', sans-serif; font-size: 1.5rem; text-transform: uppercase; text-decoration: none; 
@@ -113,43 +132,22 @@
         }
 
         /* --- SÉQUENCE ZOOM & HORIZONTAL SCROLL (AVEC INERTIE & ÉLASTICITÉ) --- */
-        .scroll-sequence { 
-            height: 700vh; /* Permet un scroll lent et contrôlé */
-            position: relative; 
-            background-color: transparent;
-            margin-bottom: 10vh; /* Espace avant le contact pour une transition douce */
-        }
+        .scroll-sequence { height: 700vh; position: relative; background-color: transparent; margin-bottom: 15vh; }
         
         .scroll-sticky {
             position: sticky; top: 0; height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center;
             overflow: hidden; background-color: transparent;
         }
 
-        /* HABILLAGE : LIGNES TOPOGRAPHIQUES (SVG animé en CSS) */
+        /* 3. LIGNES TOPOGRAPHIQUES : Derrière le titre, plus fines et interactives */
         .topo-bg {
             position: absolute; width: 150%; height: 150%; top: -25%; left: -25%;
             z-index: 10; pointer-events: none; opacity: 0.6;
-            animation: topoFloat 15s ease-in-out infinite alternate;
+            transform: translate(calc(var(--topo-dx, 0px) * -1.5), calc(var(--topo-dy, 0px) * -1.5));
+            transition: opacity 0.5s ease, transform 0.1s ease-out; /* Interaction souris rapide */
         }
-        .topo-bg path { stroke: var(--text-color); stroke-width: 1px; fill: none; transition: stroke 0.5s ease; }
+        .topo-bg path { stroke: var(--text-color); stroke-width: 0.5px; fill: none; transition: stroke 0.5s ease; }
         
-        @keyframes topoFloat {
-            0% { transform: scale(1) translate(0, 0) rotate(0deg); }
-            50% { transform: scale(1.05) translate(-1%, 2%) rotate(1deg); }
-            100% { transform: scale(1) translate(1%, -1%) rotate(-1deg); }
-        }
-
-        /* Réticules de visée */
-        .gate-crosshair {
-            position: absolute; width: 30px; height: 30px; z-index: 40; pointer-events: none;
-            transition: opacity 0.3s ease; opacity: 0.7;
-        }
-        .gate-crosshair::before, .gate-crosshair::after { content: ''; position: absolute; background-color: var(--text-color); }
-        .gate-crosshair::before { width: 100%; height: 2px; top: 50%; transform: translateY(-50%); }
-        .gate-crosshair::after { height: 100%; width: 2px; left: 50%; transform: translateX(-50%); }
-        .cross-tl { top: 15%; left: 15%; } .cross-tr { top: 15%; right: 15%; }
-        .cross-bl { bottom: 15%; left: 15%; } .cross-br { bottom: 15%; right: 15%; }
-
         .clip-box {
             position: absolute; width: 100%; height: 100%; background-color: #050505; 
             display: flex; align-items: center; justify-content: center; overflow: hidden;
@@ -160,11 +158,11 @@
 
         .gate-text {
             position: absolute; font-size: 6vw; text-transform: uppercase; z-index: 50;
-            pointer-events: none; transition: opacity 0.2s ease; letter-spacing: 2px;
-            color: #e60023; /* Rouge affirmé */
+            pointer-events: none; transition: opacity 0.2s ease, color 0.5s ease; letter-spacing: 2px;
+            color: var(--gate-text-color); /* Automatiquement Rouge/Violet selon thème */
         }
 
-        /* Textes de fond/premier plan */
+        /* Opacités gérées par JS */
         .h-scroll-bg-text, .h-scroll-fg-text, .h-scroll-container, .h-btn-all { opacity: 0; }
         
         .h-scroll-bg-text {
@@ -180,19 +178,17 @@
 
         /* --- CARTES : RECTANGLES PC (16:9) + ELASTICITÉ --- */
         .h-scroll-container {
-            display: flex; align-items: center; gap: 4vw; padding: 0 45vw; /* Padding large pour centrer le 1er et dernier */
+            display: flex; align-items: center; gap: 4vw; padding: 0 45vw;
             position: absolute; left: 0; top: 0; height: 100vh;
             width: max-content; will-change: transform, opacity; z-index: 5;
         }
 
         .h-card {
             flex: 0 0 auto; 
-            width: 32vw; /* Plus large pour faire un rectangle */
-            min-width: 300px; max-width: 500px; 
+            width: 32vw; min-width: 300px; max-width: 500px; 
             background-color: transparent; text-decoration: none; display: flex; flex-direction: column;
-            
             opacity: var(--op-val, 1);
-            /* Le skew donne l'effet élastique à la vitesse du scroll */
+            /* skewX basé sur la vélocité (Élasticité) */
             transform: translateY(var(--y-base, 0)) scale(var(--scale-val, 1)) skewX(var(--skew-vel, 0deg));
             will-change: transform, opacity;
         }
@@ -200,10 +196,7 @@
         .h-card:nth-child(odd) { --y-base: -6vh; }
         .h-card:nth-child(even) { --y-base: 6vh; }
 
-        .h-card-inner {
-            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            display: flex; flex-direction: column; width: 100%;
-        }
+        .h-card-inner { transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); display: flex; flex-direction: column; width: 100%; }
 
         /* Format Rectangle PC (16/9) */
         .h-card-img-wrapper {
@@ -218,23 +211,15 @@
         }
 
         .h-card-info { padding-top: 1.2rem; text-align: left; }
-        
-        .h-card h3 {
-            font-size: 1.8rem; margin-bottom: 0.5rem; line-height: 1.1; font-family: 'Anton', sans-serif;
-            text-transform: uppercase; color: #fff; transition: color 0.3s ease;
-        }
-
+        .h-card h3 { font-size: 1.8rem; margin-bottom: 0.5rem; line-height: 1.1; font-family: 'Anton', sans-serif; text-transform: uppercase; color: #fff; transition: color 0.3s ease; }
         .h-card-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; font-family: 'Inter', sans-serif; }
-        .h-card-tags .tag {
-            border: 1px solid rgba(255,255,255,0.3); padding: 0.2rem 0.5rem; font-size: 0.7rem;
-            border-radius: 50px; text-transform: uppercase; font-weight: 600; color: rgba(255,255,255,0.8);
-        }
+        .h-card-tags .tag { border: 1px solid rgba(255,255,255,0.3); padding: 0.2rem 0.5rem; font-size: 0.7rem; border-radius: 50px; text-transform: uppercase; font-weight: 600; color: rgba(255,255,255,0.8); }
 
         .h-card:hover .h-card-inner { transform: scale(1.03) translateY(-5px); }
         .h-card:hover img { transform: scale(1.08); filter: grayscale(0%); }
-        .h-card:hover h3 { color: #b366ff; }
+        .h-card:hover h3 { color: var(--violet-color); }
         
-        .h-card-spacer { flex: 0 0 auto; width: 25vw; } /* Grand espace vide à la fin */
+        .h-card-spacer { flex: 0 0 auto; width: 25vw; } 
 
         /* BOUTON "VOIR TOUT" DISCRET (Verre dépoli) */
         .h-btn-all {
@@ -248,34 +233,26 @@
 
         /* --- SECTION CONTACT INTÉGRÉE (FOND NOIR / TEXTE VIOLET) --- */
         .cta-section { 
-            background-color: #050505; 
-            padding: 8rem 2rem 5rem 2rem; text-align: center; width: 100%; 
-            position: relative; z-index: 50; /* S'assure qu'elle passe au dessus si besoin */
+            background-color: #050505; /* Se fond parfaitement */
+            padding: 8rem 2rem 6rem 2rem; text-align: center; width: 100%; 
+            position: relative; z-index: 50;
         }
         
-        .cta-section h2 { 
-            font-size: 4rem; margin-bottom: 1rem; 
-            color: #b366ff; 
-        } 
-        
-        .cta-text { 
-            font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 600; max-width: 750px; 
-            margin: 0 auto 2rem auto; color: rgba(179, 102, 255, 0.8); 
-        }
-        
+        .cta-section h2 { font-size: 4rem; margin-bottom: 1rem; color: var(--violet-color); } 
+        .cta-text { font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 600; max-width: 750px; margin: 0 auto 2rem auto; color: rgba(179, 102, 255, 0.8); }
         .cta-socials { display: flex; justify-content: center; gap: 1.5rem; margin-top: 2rem; }
-        .cta-socials a { color: #b366ff; transition: all 0.3s ease; }
+        .cta-socials a { color: var(--violet-color); transition: all 0.3s ease; }
         .cta-socials a:hover { transform: translateY(-3px); color: #fff; }
         .cta-socials svg { width: 35px; height: 35px; fill: currentColor; }
 
         .btn-contact-violet { 
             font-family: 'Anton', sans-serif; font-size: 1.5rem; text-transform: uppercase; text-decoration: none; 
-            color: #b366ff; border: 3px solid #b366ff; padding: 0.8rem 1.5rem; transition: all 0.3s ease; 
+            color: var(--violet-color); border: 3px solid var(--violet-color); padding: 0.8rem 1.5rem; transition: all 0.3s ease; 
             background-color: transparent; display: inline-block; cursor: pointer;
         }
         .btn-contact-violet:hover { 
-            transform: translate(-5px, -5px); box-shadow: 8px 8px 0px #b366ff; 
-            background-color: #b366ff; color: #050505; 
+            transform: translate(-5px, -5px); box-shadow: 8px 8px 0px var(--violet-color); 
+            background-color: var(--violet-color); color: #050505; 
         }
 
         .site-footer { 
@@ -296,8 +273,7 @@
             .section-heading { font-size: 2.5rem; }
             .clip-box { clip-path: inset(20% 10% round 10px); }
             .gate-text { font-size: 12vw; }
-            .gate-crosshair, .topo-bg { display: none; } /* Caché sur mobile pour alléger */
-            
+            .topo-bg { display: none; } 
             .h-card { width: 75vw; }
             .h-card:nth-child(odd), .h-card:nth-child(even) { --y-base: 0; } 
         }
@@ -331,7 +307,7 @@
 
     <section class="hero fade-in-section" id="hero-section">
         <h1 id="hero-text">
-            <span class="letter">P</span><span class="letter">O</span><span class="letter">R</span><span class="letter">T</span><span class="letter">E</span><span class="letter">F</span><span class="letter">O</span><span class="letter">L</span><span class="letter custom-i">I</span><span class="letter">O</span>
+            <span class="letter">P</span><span class="letter">O</span><span class="letter">R</span><span class="letter">T</span><span class="letter">E</span><span class="letter">F</span><span class="letter">O</span><span class="letter">L</span><span class="letter custom-i">I<div id="i-dot" class="i-dot">+</div></span>
         </h1>
     </section>
 
@@ -359,22 +335,19 @@
         
         <div class="topo-bg" id="topo-bg">
             <svg width="100%" height="100%" viewBox="0 0 1000 1000" preserveAspectRatio="none">
-                <path d="M-100,200 C300,50 600,400 1100,100" />
-                <path d="M-100,300 C350,150 550,500 1100,200" />
-                <path d="M-100,400 C400,250 500,600 1100,300" />
-                <path d="M-100,500 C450,350 450,700 1100,400" />
-                <path d="M-100,600 C500,450 400,800 1100,500" />
-                <path d="M-100,700 C550,550 350,900 1100,600" />
+                <path d="M-100,100 C200,30 500,300 1100,50" />
+                <path d="M-100,180 C250,80 550,380 1100,130" />
+                <path d="M-100,260 C300,130 600,460 1100,210" />
+                <path d="M-100,340 C350,180 650,540 1100,290" />
+                <path d="M-100,420 C400,230 700,620 1100,370" />
+                <path d="M-100,500 C450,280 750,700 1100,450" />
+                <path d="M-100,580 C500,330 800,780 1100,530" />
+                <path d="M-100,660 C550,380 850,860 1100,610" />
+                <path d="M-100,740 C600,430 900,940 1100,690" />
             </svg>
         </div>
 
         <div class="scroll-sticky">
-            
-            <div class="gate-crosshair cross-tl"></div>
-            <div class="gate-crosshair cross-tr"></div>
-            <div class="gate-crosshair cross-bl"></div>
-            <div class="gate-crosshair cross-br"></div>
-
             <div class="clip-box" id="clip-box">
                 <h2 class="gate-text" id="gate-text" data-i18n="gate-title">Mes Projets</h2>
                 
@@ -489,7 +462,7 @@
     <section class="cta-section">
         <h2 data-i18n="h-contact">Prêt à échanger ?</h2>
         <p class="cta-text" data-i18n="p-contact">Toujours curieux de relever de nouveaux défis, je suis ouvert aux opportunités d'études en Master, ainsi qu'aux collaborations stimulantes avec des entreprises ou laboratoires de recherche.</p>
-        <div class="btn-container center">
+        <div class="btn-container">
             <a href="contact.html" class="btn-contact-violet" data-i18n="btn-contact">Me contacter -></a>
         </div>
         <div class="cta-socials">
@@ -521,7 +494,6 @@
         const clipBox = document.getElementById('clip-box');
         const gateText = document.getElementById('gate-text');
         const topoBg = document.getElementById('topo-bg');
-        const crosshairs = document.querySelectorAll('.gate-crosshair');
         const hContainer = document.getElementById('h-scroll-container');
         const bgText = document.getElementById('h-scroll-bg');
         const fgText = document.getElementById('h-scroll-fg');
@@ -549,7 +521,7 @@
         updateTargetP();
 
         function renderAnimation() {
-            // LERP : Coefficient ajusté pour une super glisse (0.05)
+            // LERP : Coefficient doux pour une super glisse (0.05)
             currentP += (targetP - currentP) * 0.05;
             
             let clipY = 25, clipX = 25, radius = 15, gateOp = 1, hTrans = 0, topoOp = 0.6;
@@ -561,28 +533,27 @@
                 let ease = (currentP / 0.15); 
                 clipY = 25 * (1 - ease); clipX = window.innerWidth > 768 ? 25 * (1 - ease) : 10 * (1 - ease);
                 radius = 15 * (1 - ease); gateOp = 1 - (ease * 1.5);
-                topoOp = 0.6 * (1 - ease); // Le SVG s'efface doucement
+                topoOp = 0.6 * (1 - ease); // Les lignes s'effacent doucement au zoom
                 if (currentP > 0.05) contentOp = (currentP - 0.05) / 0.10; 
             } 
-            // Phase 2 : Scroll Horizontal + Zone Tampon
+            // Phase 2 : Scroll Horizontal + Zone Tampon (Transitions fluides)
             else {
                 clipY = 0; clipX = 0; radius = 0; gateOp = 0; contentOp = 1; topoOp = 0;
-                // Arrête le scroll horizontal à 90% pour préparer la sortie vers la section Contact
-                let scrollProgress = Math.min(1, (currentP - 0.15) / 0.75);
-                hTrans = scrollProgress * maxScroll;
+                // Zone tampon à la fin (currentP > 0.90) pour préparer la sortie
+                let hScrollProgress = Math.min(1, (currentP - 0.15) / 0.75); 
+                hTrans = hScrollProgress * maxScroll;
             } 
 
             clipBox.style.clipPath = `inset(${clipY}% ${clipX}% round ${radius}px)`;
             
             if(gateText) gateText.style.opacity = Math.max(0, gateOp);
             if(topoBg) topoBg.style.opacity = Math.max(0, topoOp);
-            crosshairs.forEach(c => c.style.opacity = Math.max(0, gateOp));
             
             hContainer.style.opacity = Math.max(0, contentOp);
             if(bgText) bgText.style.opacity = Math.max(0, contentOp * 0.5); 
             if(fgText) fgText.style.opacity = Math.max(0, contentOp);
             
-            // Le bouton "Voir tout" disparait subtilement à la toute fin pour laisser place au contact
+            // Le bouton "Voir tout" disparaît doucement à la toute fin pour ne pas chevaucher le Contact
             let btnOp = contentOp;
             if (currentP > 0.95) btnOp = 1 - ((currentP - 0.95) / 0.05);
             if(btnAll) btnAll.style.opacity = Math.max(0, btnOp);
@@ -598,16 +569,17 @@
                 // Vélocité = Différence entre la cible et la position actuelle (Inertie)
                 let velocity = (targetP - currentP) * 800; 
                 let skewAngle = velocity * 0.05; 
-                skewAngle = Math.max(-10, Math.min(10, skewAngle)); // Distorsion douce, max 10 degrés
+                skewAngle = Math.max(-10, Math.min(10, skewAngle)); // Limite à 10 degrés
 
                 cards.forEach(card => {
                     const cardRect = card.getBoundingClientRect();
                     const cardCenter = cardRect.left + (cardRect.width / 2);
                     const distanceFromCenter = cardCenter - screenCenter;
                     
+                    // Normalisation (-1 bord gauche, 0 au centre, 1 bord droit)
                     const normalizedDist = Math.max(-1, Math.min(1, distanceFromCenter / (window.innerWidth / 1.5)));
                     
-                    // Scale : Taille 1 au centre, 0.85 sur les bords
+                    // Scale : Taille 1 au centre, 0.85 sur les bords (Focus visuel)
                     const scaleFactor = 1 - (Math.abs(normalizedDist) * 0.15);
                     const opacityFactor = 1 - (Math.abs(normalizedDist) * 0.6);
 
@@ -619,8 +591,80 @@
 
             requestAnimationFrame(renderAnimation);
         }
-        
         renderAnimation();
+
+        // --- JAVASCRIPT GLOBAL POUR INTERACTONS SOURIS ---
+        
+        // 1. Chute et rebond du point du i
+        const dot = document.getElementById('i-dot');
+        let isFalling = false;
+        
+        dot.addEventListener('mouseenter', () => {
+            if (isFalling) return;
+            isFalling = true;
+            dot.style.color = '#fff'; // Couleur de chute
+
+            // 1. Chute fluide vers le bandeau (20vh de distance)
+            const fall = dot.animate([
+                { top: '-1.3em', offset: 0, easing: 'cubic-bezier(0.5, 0, 1, 0.5)' },
+                { top: '30vh', offset: 1 }
+            ], { duration: 300, fill: 'forwards' });
+
+            fall.onfinish = () => {
+                // 2. Premier gros rebond (plus rapide)
+                const bounce1 = dot.animate([
+                    { top: '30vh', offset: 0, easing: 'cubic-bezier(0, 0.5, 0.5, 1)' },
+                    { top: '22vh', offset: 0.5, easing: 'cubic-bezier(0.5, 0, 1, 0.5)' },
+                    { top: '30vh', offset: 1 }
+                ], { duration: 250 });
+
+                bounce1.onfinish = () => {
+                    // 3. Deuxième petit rebond
+                    const bounce2 = dot.animate([
+                        { top: '30vh', offset: 0, easing: 'cubic-bezier(0, 0.5, 0.5, 1)' },
+                        { top: '27vh', offset: 0.5, easing: 'cubic-bezier(0.5, 0, 1, 0.5)' },
+                        { top: '30vh', offset: 1 }
+                    ], { duration: 150 });
+                    
+                    bounce2.onfinish = () => {
+                        // Rester sur le bandeau
+                        dot.style.top = '30vh';
+                        dot.style.color = var('--bg-color'); // Reprendre couleur fond
+                        // Reset après un délai pour pouvoir recommencer
+                        setTimeout(() => {
+                            dot.style.top = '-1.3em';
+                            dot.style.color = '';
+                            isFalling = false;
+                        }, 1000);
+                    }
+                }
+            };
+        });
+
+        // 2. Quadrillage Portfolio et Lignes Topo interactives
+        const hero = document.getElementById('hero-section');
+        const topoDiv = document.getElementById('topo-bg');
+
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
+            
+            // Grille Hero
+            const heroRect = hero.getBoundingClientRect();
+            const mouseXHero = ((x - heroRect.left) / heroRect.width) * 100;
+            const mouseYHero = ((y - heroRect.top) / heroRect.height) * 100;
+            hero.style.setProperty('--mouse-x', `${mouseXHero}%`);
+            hero.style.setProperty('--mouse-y', `${mouseYHero}%`);
+
+            // Lignes Topo
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            // Déplacement très subtil (5px max)
+            const topoDX = (x - centerX) / centerY * 5; 
+            const topoDY = (y - centerY) / centerY * 5;
+            topoDiv.style.setProperty('--topo-dx', `${topoDX}px`);
+            topoDiv.style.setProperty('--topo-dy', `${topoDY}px`);
+        });
 
         // FADE IN CLASSIQUE
         document.addEventListener("DOMContentLoaded", function() {
@@ -630,10 +674,9 @@
             document.querySelectorAll('.fade-in-section').forEach(s => obs.observe(s));
         });
 
-        // SOURIS ESQUIVE
-        const heroSection = document.getElementById('hero-section');
+        // SOURIS ESQUIVE (Hero Text)
         const letters = document.querySelectorAll('.letter');
-        heroSection.addEventListener('mousemove', (e) => {
+        hero.addEventListener('mousemove', (e) => {
             letters.forEach(letter => {
                 const r = letter.getBoundingClientRect();
                 const dx = e.clientX - (r.left + r.width/2), dy = e.clientY - (r.top + r.height/2);
@@ -644,7 +687,7 @@
                 } else letter.style.transform = `translate(0, 0)`;
             });
         });
-        heroSection.addEventListener('mouseleave', () => { letters.forEach(l => l.style.transform = `translate(0, 0)`); });
+        hero.addEventListener('mouseleave', () => { letters.forEach(l => l.style.transform = `translate(0, 0)`); });
 
         // TRADUCTIONS
         const translations = {
