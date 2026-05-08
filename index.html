@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     
     <style>
-        /* --- VARIABLES DE BASE (Thème Rouge) --- */
+        /* --- VARIABLES DE BASE --- */
         :root {
             --bg-color: #e60023; 
             --text-color: #0a0a0a; 
@@ -29,60 +29,36 @@
             --grid-opacity: 0.09; 
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Anton', sans-serif; 
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            
+            background-color: var(--bg-color); color: var(--text-color); font-family: 'Anton', sans-serif; 
+            overflow-x: hidden; display: flex; flex-direction: column; min-height: 100vh;
             background-image: 
                 linear-gradient(rgba(0, 0, 0, var(--grid-opacity)) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 0, 0, var(--grid-opacity)) 1px, transparent 1px);
             background-size: 40px 40px;
-            
             transition: background-color 0.5s ease, color 0.5s ease;
         }
 
         /* --- HEADER --- */
         header {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 1.5rem 2rem; border-bottom: 2px solid var(--text-color);
-            position: relative; z-index: 100;
+            padding: 1.5rem 2rem; border-bottom: 2px solid var(--text-color); position: relative; z-index: 100;
         }
-
         .header-left { display: flex; align-items: center; gap: 3rem; }
         .logo { font-size: 1.5rem; text-transform: uppercase; letter-spacing: 1px; }
         .main-nav { display: flex; gap: 0.5rem; }
-
         .main-nav a {
-            font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem;
-            text-transform: uppercase; text-decoration: none; color: var(--text-color);
-            padding: 0.5rem 1rem; border: 2px solid transparent; transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem; text-transform: uppercase; 
+            text-decoration: none; color: var(--text-color); padding: 0.5rem 1rem; border: 2px solid transparent; transition: all 0.3s ease;
         }
-
-        .main-nav a.active, .main-nav a:hover {
-            background-color: var(--text-color); color: var(--bg-color); border: 2px solid var(--text-color);
-        }
-
-        /* --- CONTENEUR DROIT (Langue + Thème) --- */
+        .main-nav a.active, .main-nav a:hover { background-color: var(--text-color); color: var(--bg-color); border: 2px solid var(--text-color); }
         .header-right { display: flex; align-items: center; gap: 1.5rem; }
         .lang-switch { display: flex; gap: 0.5rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem; }
         .lang-switch span { opacity: 0.4; transition: opacity 0.3s; cursor: pointer; }
         .lang-switch span.active, .lang-switch span:hover { opacity: 1; text-decoration: underline; }
-
-        .theme-btn {
-            background: none; border: none; cursor: pointer; color: var(--text-color);
-            display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease;
-        }
+        .theme-btn { background: none; border: none; cursor: pointer; color: var(--text-color); display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease; }
         .theme-btn:hover { transform: scale(1.1); }
         .theme-btn svg { width: 24px; height: 24px; fill: currentColor; }
 
@@ -92,21 +68,23 @@
             align-items: center; text-align: center; border-bottom: 2px solid var(--text-color);
             position: relative; overflow: hidden; 
         }
-
         .hero h1 {
-            font-size: 10vw; line-height: 0.9; text-transform: uppercase; letter-spacing: -2px;
+            font-size: 11vw; line-height: 0.9; text-transform: uppercase; letter-spacing: -2px;
             position: relative; z-index: 2; pointer-events: none;
         }
-
-        .hero h1 span {
-            display: inline-block; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); will-change: transform;
+        .hero h1 span { display: inline-block; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); will-change: transform; }
+        
+        /* Custom I pour PORTEFOLIO */
+        .custom-i { position: relative; }
+        .custom-i::after {
+            content: '+'; position: absolute; top: -0.4em; left: 50%; transform: translateX(-50%);
+            font-size: 0.7em; color: var(--text-color); transition: color 0.5s ease;
         }
 
         /* --- BANDEAU DEFILEMENT --- */
         .marquee-container {
-            background-color: var(--accent-bg); color: var(--accent-text);
-            padding: 1rem 0; overflow: hidden; white-space: nowrap; display: flex;
-            border-bottom: 2px solid var(--text-color); position: relative; z-index: 10;
+            background-color: var(--accent-bg); color: var(--accent-text); padding: 1rem 0; overflow: hidden; 
+            white-space: nowrap; display: flex; border-bottom: 2px solid var(--text-color); position: relative; z-index: 10;
             transition: background-color 0.5s ease, color 0.5s ease;
         }
         .marquee-text { font-size: 3rem; animation: scroll-left 15s linear infinite; }
@@ -114,12 +92,7 @@
 
         /* --- CONTENEUR GLOBAL INTRO --- */
         .content-wrapper { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem 2rem 2rem; width: 100%; }
-
-        .section-heading {
-            font-size: 3rem; margin-bottom: 2rem; border-bottom: 4px solid var(--text-color);
-            padding-bottom: 0.5rem; text-transform: uppercase; transition: border-color 0.5s ease;
-        }
-
+        .section-heading { font-size: 3rem; margin-bottom: 2rem; border-bottom: 4px solid var(--text-color); padding-bottom: 0.5rem; text-transform: uppercase; transition: border-color 0.5s ease; }
         .intro-section { margin-bottom: 2rem; }
         .intro-box {
             border: 4px solid var(--text-color); padding: 2rem 3rem; background-color: transparent;
@@ -129,69 +102,80 @@
         .intro-box:hover { transform: translate(-5px, -5px); box-shadow: 12px 12px 0px var(--text-color); }
         .intro-text { font-family: 'Inter', sans-serif; font-size: 1.2rem; line-height: 1.6; font-weight: 600; margin-bottom: 2rem; }
 
-        /* --- NOUVEAU : SECTION SCROLL HORIZONTAL (Projets) --- */
-        .h-scroll-section {
-            height: 350vh; /* Détermine la durée du défilement. Plus c'est haut, plus c'est long. */
-            background-color: #000;
-            position: relative;
+        /* --- NOUVEAU : SÉQUENCE ZOOM & HORIZONTAL SCROLL --- */
+        .scroll-sequence { height: 600vh; position: relative; } /* Hauteur totale de l'animation */
+        
+        .scroll-sticky {
+            position: sticky; top: 0; height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center;
+            overflow: hidden; background-color: transparent;
         }
 
-        .h-scroll-sticky {
-            position: sticky; top: 0; height: 100vh; display: flex; align-items: center;
-            overflow: hidden; background-color: #000; border-top: 2px solid var(--text-color); border-bottom: 2px solid var(--text-color);
+        /* La "Boîte" qui va s'agrandir */
+        .clip-box {
+            position: absolute; width: 100%; height: 100%; background-color: #050505; /* Toujours noir */
+            display: flex; align-items: center; justify-content: center; overflow: hidden;
+            /* L'inset initial crée la forme de la boîte */
+            clip-path: inset(35% 25% round 10px);
+            will-change: clip-path;
         }
 
-        /* L'écriture violette en arrière plan */
+        /* Le texte "MES PROJETS" qui apparait dans la petite boîte */
+        .gate-text {
+            position: absolute; font-size: 5vw; color: #fff; text-transform: uppercase; z-index: 50;
+            pointer-events: none; transition: opacity 0.2s ease;
+        }
+
+        /* Textes de profondeur (Background et Foreground) */
         .h-scroll-bg-text {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 200vw; text-align: center; font-size: 20vw; line-height: 0.8;
-            color: #2E004F; /* Le violet foncé demandé */
-            opacity: 0.7; z-index: 1; pointer-events: none; word-wrap: break-word; will-change: transform;
+            width: 300vw; text-align: center; font-size: 25vw; line-height: 0.8;
+            color: #2E004F; opacity: 0.6; z-index: 1; pointer-events: none; white-space: nowrap; will-change: transform;
+        }
+        .h-scroll-fg-text {
+            position: absolute; top: 70%; left: 50%; transform: translate(-50%, -50%);
+            width: 300vw; text-align: center; font-size: 10vw; color: transparent; 
+            -webkit-text-stroke: 2px rgba(255, 255, 255, 0.2); z-index: 20; pointer-events: none; white-space: nowrap; will-change: transform;
         }
 
+        /* Conteneur des cartes */
         .h-scroll-container {
-            display: flex; gap: 5vw; padding: 0 5vw; position: relative; z-index: 2;
-            width: max-content; will-change: transform; align-items: center;
+            display: flex; align-items: center; gap: 8vw; padding: 0 10vw; position: absolute; left: 0; top: 0; height: 100vh;
+            width: max-content; will-change: transform; z-index: 5;
         }
 
+        /* Les cartes (Désalignées) */
         .h-card {
-            flex: 0 0 auto; width: 85vw; max-width: 500px;
-            background-color: #f8f9fa; /* Toujours clair pour contraster le fond noir */
-            color: #0a0a0a; border: 3px solid #0a0a0a; text-decoration: none; display: flex; flex-direction: column;
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            flex: 0 0 auto; width: 70vw; max-width: 450px; background-color: #f8f9fa; color: #0a0a0a; border: 3px solid #0a0a0a; 
+            text-decoration: none; display: flex; flex-direction: column; transition: transform 0.4s ease, box-shadow 0.4s ease;
         }
+        
+        /* Le désalignement sur 2 niveaux */
+        .h-card:nth-child(odd) { transform: translateY(-12vh); }
+        .h-card:nth-child(even) { transform: translateY(12vh); }
 
-        .h-card:hover { transform: translate(-10px, -10px); box-shadow: 15px 15px 0px #e60023; }
+        /* Le hover s'ajoute par-dessus la position décalée */
+        .h-card:nth-child(odd):hover { transform: translateY(-12vh) translate(-10px, -10px); box-shadow: 15px 15px 0px #e60023; }
+        .h-card:nth-child(even):hover { transform: translateY(12vh) translate(-10px, -10px); box-shadow: 15px 15px 0px #e60023; }
 
-        .h-card img {
-            width: 100%; height: 250px; object-fit: cover; border-bottom: 3px solid #0a0a0a;
-            filter: grayscale(100%); transition: filter 0.4s ease;
-        }
-
+        .h-card img { width: 100%; height: 250px; object-fit: cover; border-bottom: 3px solid #0a0a0a; filter: grayscale(100%); transition: filter 0.4s ease; }
         .h-card:hover img { filter: grayscale(0%); }
-
         .h-card-content { padding: 2rem; }
         .h-card h3 { font-size: 2.5rem; margin-bottom: 0.5rem; line-height: 1.1; }
         .h-card p { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem; margin-bottom: 1.5rem; line-height: 1.5; }
         
-        .h-card-spacer { flex: 0 0 auto; width: 20vw; /* Laisse un blanc à la fin du défilement */ }
+        .h-card-spacer { flex: 0 0 auto; width: 30vw; }
 
-        /* Le petit bouton en bas */
+        /* Bouton discret en bas de la zone noire */
         .h-btn-all {
-            position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
-            z-index: 10; color: #fff; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255,255,255,0.3);
-            padding: 0.6rem 1.2rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.8rem;
-            text-transform: uppercase; text-decoration: none; border-radius: 50px;
-            backdrop-filter: blur(5px); transition: all 0.3s ease;
+            position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); z-index: 30; color: #fff; 
+            background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255,255,255,0.3); padding: 0.6rem 1.2rem; 
+            font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; text-decoration: none; 
+            border-radius: 50px; backdrop-filter: blur(5px); transition: all 0.3s ease;
         }
         .h-btn-all:hover { background: #fff; color: #000; }
 
         /* --- SECTION CONTACT --- */
-        .cta-section {
-            background-color: var(--accent-bg); color: var(--accent-text); padding: 4rem 2rem;
-            text-align: center; border-bottom: 4px solid var(--text-color); width: 100%;
-            transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease;
-        }
+        .cta-section { background-color: var(--accent-bg); color: var(--accent-text); padding: 4rem 2rem; text-align: center; border-bottom: 4px solid var(--text-color); width: 100%; transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease; }
         .cta-section h2 { font-size: 4rem; margin-bottom: 1rem; color: #fff; } 
         .cta-text { font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 600; max-width: 750px; margin: 0 auto 2rem auto; color: var(--accent-text); }
         .cta-socials { display: flex; justify-content: center; gap: 1.5rem; margin-top: 2rem; }
@@ -199,27 +183,15 @@
         .cta-socials a:hover { transform: translateY(-3px); color: #fff; }
         .cta-socials svg { width: 35px; height: 35px; fill: currentColor; }
 
-        /* --- BOUTONS --- */
         .btn-container { display: flex; margin-top: 1rem; }
         .btn-container.center { justify-content: center; }
-        .btn-primary {
-            font-family: 'Anton', sans-serif; font-size: 1.5rem; text-transform: uppercase; text-decoration: none;
-            color: var(--text-color); border: 3px solid var(--text-color); padding: 0.8rem 1.5rem;
-            transition: all 0.3s ease; background-color: transparent; display: inline-block;
-        }
-        .btn-primary:hover {
-            transform: translate(-5px, -5px); box-shadow: 8px 8px 0px var(--text-color);
-            background-color: var(--hover-bg); color: var(--hover-text);
-        }
+        .btn-primary { font-family: 'Anton', sans-serif; font-size: 1.5rem; text-transform: uppercase; text-decoration: none; color: var(--text-color); border: 3px solid var(--text-color); padding: 0.8rem 1.5rem; transition: all 0.3s ease; background-color: transparent; display: inline-block; }
+        .btn-primary:hover { transform: translate(-5px, -5px); box-shadow: 8px 8px 0px var(--text-color); background-color: var(--hover-bg); color: var(--hover-text); }
         .btn-inverted { color: var(--accent-text); border-color: var(--accent-text); }
-        .btn-inverted:hover {
-            box-shadow: 8px 8px 0px var(--accent-text); background-color: var(--accent-text); color: var(--accent-bg);
-        }
+        .btn-inverted:hover { box-shadow: 8px 8px 0px var(--accent-text); background-color: var(--accent-text); color: var(--accent-bg); }
 
-        /* --- FOOTER --- */
         .site-footer { padding: 1.5rem 2rem; text-align: center; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; opacity: 0.8; margin-top: auto; }
 
-        /* ANIMATION SCROLL */
         .fade-in-section { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; will-change: opacity, visibility; }
         .fade-in-section.is-visible { opacity: 1; transform: none; }
 
@@ -227,11 +199,13 @@
             header { flex-direction: column; gap: 1.5rem; padding: 1.5rem 1rem; }
             .header-left { flex-direction: column; gap: 1rem; text-align: center; }
             .main-nav { flex-wrap: wrap; justify-content: center; }
-            .header-right { justify-content: center; width: 100%; }
-            .hero h1 { font-size: 18vw; letter-spacing: -1px; } 
+            .hero h1 { font-size: 13vw; } 
             .marquee-text { font-size: 2rem; } 
             .section-heading { font-size: 2.5rem; }
-            .h-card h3 { font-size: 2rem; }
+            .clip-box { clip-path: inset(30% 10% round 10px); }
+            .gate-text { font-size: 12vw; }
+            .h-card:nth-child(odd), .h-card:nth-child(even) { transform: translateY(0); } /* Aligné sur mobile pour éviter que ça ne coupe */
+            .h-card:nth-child(odd):hover, .h-card:nth-child(even):hover { transform: translate(-5px, -5px); }
         }
     </style>
 </head>
@@ -263,8 +237,7 @@
 
     <section class="hero fade-in-section" id="hero-section">
         <h1 id="hero-text">
-            <span class="letter">P</span><span class="letter">O</span><span class="letter">R</span><span class="letter">T</span><span class="letter">E</span><br>
-            <span class="letter">F</span><span class="letter">O</span><span class="letter">L</span><span class="letter">I</span><span class="letter">O</span>
+            <span class="letter">P</span><span class="letter">O</span><span class="letter">R</span><span class="letter">T</span><span class="letter">E</span><span class="letter">F</span><span class="letter">O</span><span class="letter">L</span><span class="letter custom-i">I</span><span class="letter">O</span>
         </h1>
     </section>
 
@@ -288,51 +261,53 @@
         </section>
     </div>
 
-    <div class="h-scroll-section" id="h-scroll-section">
-        <div class="h-scroll-sticky">
+    <div class="scroll-sequence" id="scroll-sequence">
+        <div class="scroll-sticky">
             
-            <div class="h-scroll-bg-text" id="h-scroll-bg">
-                PROJETS PROJETS PROJETS PROJETS PROJETS PROJETS PROJETS PROJETS PROJETS
+            <div class="clip-box" id="clip-box">
+                <h2 class="gate-text" id="gate-text" data-i18n="h-projects">Mes Projets</h2>
+                
+                <div class="h-scroll-bg-text" id="h-scroll-bg">
+                    PROJETS PROJETS PROJETS PROJETS PROJETS PROJETS
+                </div>
+
+                <div class="h-scroll-fg-text" id="h-scroll-fg">
+                    DATA / ARTS DATA / ARTS DATA / ARTS DATA / ARTS
+                </div>
+
+                <div class="h-scroll-container" id="h-scroll-container">
+                    <a href="projet_duree.html" class="h-card">
+                        <img src="miniature_duree.jpg" alt="Prédiction de Durée">
+                        <div class="h-card-content">
+                            <h3 data-i18n="proj1-title">Prédiction de Durée</h3>
+                            <p data-i18n="proj1-desc">La durée d'un film n'est pas qu'un choix artistique. Analyse de milliers de données pour estimer la longueur d'une œuvre.</p>
+                            <div class="project-tags"><span class="tag">Régression L1</span> <span class="tag">Machine Learning</span></div>
+                        </div>
+                    </a>
+
+                    <a href="projet_couleur.html" class="h-card">
+                        <img src="miniature_couleur.jpg" alt="Colorimétrie du Cinéma">
+                        <div class="h-card-content">
+                            <h3 data-i18n="proj2-title">Colorimétrie du Cinéma</h3>
+                            <p data-i18n="proj2-desc">Modélisation de l'identité couleur d'une affiche selon les caractéristiques techniques du film.</p>
+                            <div class="project-tags"><span class="tag">Classification</span> <span class="tag">Python</span></div>
+                        </div>
+                    </a>
+
+                    <a href="projet_animes.html" class="h-card">
+                        <img src="miniature_anime.jpg" alt="Violence & Animation">
+                        <div class="h-card-content">
+                            <h3 data-i18n="proj3-title">Violence & Animation</h3>
+                            <p data-i18n="proj3-desc">Exploration statistique pour comprendre si la violence influence le succès des séries d'animation.</p>
+                            <div class="project-tags"><span class="tag">Statistiques</span> <span class="tag">Pandas</span></div>
+                        </div>
+                    </a>
+
+                    <div class="h-card-spacer"></div>
+                </div>
+
+                <a href="projects.html" class="h-btn-all" id="h-btn-all" data-i18n="btn-all-tiny">Voir tout -></a>
             </div>
-
-            <div class="h-scroll-container" id="h-scroll-container">
-                <a href="projet_duree.html" class="h-card">
-                    <img src="miniature_duree.jpg" alt="Prédiction de Durée">
-                    <div class="h-card-content">
-                        <h3 data-i18n="proj1-title">Prédiction de Durée</h3>
-                        <p data-i18n="proj1-desc">La durée d'un film n'est pas qu'un choix artistique. Analyse de milliers de données pour tenter d'estimer la longueur d'une œuvre avant même son tournage.</p>
-                        <div class="project-tags">
-                            <span class="tag">Régression L1</span> <span class="tag">Machine Learning</span> <span class="tag">Python</span>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="projet_couleur.html" class="h-card">
-                    <img src="miniature_couleur.jpg" alt="Colorimétrie du Cinéma">
-                    <div class="h-card-content">
-                        <h3 data-i18n="proj2-title">Colorimétrie du Cinéma</h3>
-                        <p data-i18n="proj2-desc">Les studios choisissent-ils leurs palettes visuelles au hasard ? Modélisation de l'identité couleur d'une affiche selon les caractéristiques du film.</p>
-                        <div class="project-tags">
-                            <span class="tag">Classification</span> <span class="tag">Web Scraping</span> <span class="tag">Python</span>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="projet_animes.html" class="h-card">
-                    <img src="miniature_anime.jpg" alt="Violence & Animation">
-                    <div class="h-card-content">
-                        <h3 data-i18n="proj3-title">Violence & Animation</h3>
-                        <p data-i18n="proj3-desc">Idée reçue ou réalité ? Exploration statistique pour comprendre si la violence influence concrètement le succès des séries d'animation japonaises.</p>
-                        <div class="project-tags">
-                            <span class="tag">Statistiques</span> <span class="tag">Data Viz</span> <span class="tag">Pandas</span>
-                        </div>
-                    </div>
-                </a>
-
-                <div class="h-card-spacer"></div>
-            </div>
-
-            <a href="projects.html" class="h-btn-all" data-i18n="btn-all-tiny">Voir tout -></a>
         </div>
     </div>
 
@@ -343,66 +318,82 @@
             <a href="contact.html" class="btn-primary btn-inverted" data-i18n="btn-contact">Me contacter -></a>
         </div>
         <div class="cta-socials">
-            <a href="https://www.linkedin.com/in/julien-arsena/" target="_blank" aria-label="LinkedIn">
+            <a href="https://www.linkedin.com/in/julien-arsena/" target="_blank">
                 <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
             </a>
-            <a href="https://github.com/Julien-ars" target="_blank" aria-label="GitHub">
+            <a href="https://github.com/Julien-ars" target="_blank">
                 <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
             </a>
         </div>
     </section>
 
     <footer class="site-footer">
-        <span data-i18n="footer-text">© 2026 Julien Arsena. Tout le contenu (code, données, rapports) est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite.</span>
+        <span data-i18n="footer-text">© 2026 Julien Arsena. Tout le contenu est mis à disposition pour consultation.</span>
     </footer>
 
     <script>
+        // THEME
         const themeToggleBtn = document.getElementById('theme-toggle');
         const body = document.body;
-
-        if (localStorage.getItem('theme') === 'light') { body.classList.add('theme-light'); }
+        if (localStorage.getItem('theme') === 'light') body.classList.add('theme-light');
         themeToggleBtn.addEventListener('click', () => {
             body.classList.toggle('theme-light');
-            if (body.classList.contains('theme-light')) { localStorage.setItem('theme', 'light'); } 
-            else { localStorage.removeItem('theme'); }
+            localStorage.setItem('theme', body.classList.contains('theme-light') ? 'light' : '');
         });
 
-        // --- NOUVEAU : JAVASCRIPT HORIZONTAL SCROLL ---
-        const hSection = document.getElementById('h-scroll-section');
+        // ANIMATION COMPLEXE : ZOOM + HORIZONTAL + DEZOOM
+        const seq = document.getElementById('scroll-sequence');
+        const clipBox = document.getElementById('clip-box');
+        const gateText = document.getElementById('gate-text');
         const hContainer = document.getElementById('h-scroll-container');
-        const hBgText = document.getElementById('h-scroll-bg');
+        const bgText = document.getElementById('h-scroll-bg');
+        const fgText = document.getElementById('h-scroll-fg');
+        const btnAll = document.getElementById('h-btn-all');
 
         window.addEventListener('scroll', () => {
-            if (!hSection || !hContainer) return;
-            const rect = hSection.getBoundingClientRect();
-            
-            // On calcule où on en est dans la section "sticky"
-            const scrollableDistance = rect.height - window.innerHeight;
-            let progress = -rect.top / scrollableDistance;
-            progress = Math.max(0, Math.min(1, progress));
-            
-            // Déplacement des cartes vers la gauche
-            const maxTranslate = hContainer.scrollWidth - window.innerWidth;
-            hContainer.style.transform = `translateX(-${progress * maxTranslate}px)`;
-            
-            // Déplacement du texte en fond vers la droite (Effet Parallaxe)
-            if(hBgText) {
-                hBgText.style.transform = `translate(-50%, -50%) translateX(${progress * 15}vw)`;
+            if(!seq) return;
+            const rect = seq.getBoundingClientRect();
+            const scrollable = rect.height - window.innerHeight;
+            let p = -rect.top / scrollable;
+            p = Math.max(0, Math.min(1, p));
+
+            let clipY = 35, clipX = 25, radius = 10, gateOp = 1, hTrans = 0, btnOp = 0;
+            const maxScroll = hContainer.scrollWidth - window.innerWidth + 100;
+
+            // Phase 1 : Zoom In (0 à 15%)
+            if (p < 0.15) {
+                let ease = (p / 0.15); 
+                clipY = 35 * (1 - ease); clipX = window.innerWidth > 768 ? 25 * (1 - ease) : 10 * (1 - ease);
+                radius = 10 * (1 - ease); gateOp = 1 - (ease * 1.5);
+            } 
+            // Phase 2 : Scroll Horizontal (15% à 85%)
+            else if (p >= 0.15 && p <= 0.85) {
+                clipY = 0; clipX = 0; radius = 0; gateOp = 0; btnOp = 1;
+                hTrans = ((p - 0.15) / 0.70) * maxScroll;
+            } 
+            // Phase 3 : Zoom Out (85% à 100%)
+            else {
+                let ease = (p - 0.85) / 0.15;
+                clipY = 35 * ease; clipX = window.innerWidth > 768 ? 25 * ease : 10 * ease;
+                radius = 10 * ease; gateOp = 0; btnOp = 1 - (ease * 2); hTrans = maxScroll;
             }
+
+            clipBox.style.clipPath = `inset(${clipY}% ${clipX}% round ${radius}px)`;
+            if(gateText) gateText.style.opacity = Math.max(0, gateOp);
+            if(btnAll) btnAll.style.opacity = Math.max(0, btnOp);
+            
+            // Effet Parallaxe Cartes et Textes
+            hContainer.style.transform = `translateX(-${hTrans}px)`;
+            if(bgText) bgText.style.transform = `translate(-50%, -50%) translateX(${p * 20}vw)`;
+            if(fgText) fgText.style.transform = `translate(-50%, -50%) translateX(-${p * 40}vw)`;
         });
 
-        // ANIMATION APPARITION
+        // FADE IN CLASSIQUE
         document.addEventListener("DOMContentLoaded", function() {
-            const options = { root: null, rootMargin: '0px', threshold: 0.15 };
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, options);
-            document.querySelectorAll('.fade-in-section').forEach(section => { observer.observe(section); });
+            const obs = new IntersectionObserver((entries, obs) => {
+                entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); obs.unobserve(e.target); } });
+            }, { threshold: 0.15 });
+            document.querySelectorAll('.fade-in-section').forEach(s => obs.observe(s));
         });
 
         // SOURIS ESQUIVE
@@ -410,64 +401,28 @@
         const letters = document.querySelectorAll('.letter');
         heroSection.addEventListener('mousemove', (e) => {
             letters.forEach(letter => {
-                const letterRect = letter.getBoundingClientRect();
-                const centerX = letterRect.left + letterRect.width / 2;
-                const centerY = letterRect.top + letterRect.height / 2;
-                const dx = e.clientX - centerX; const dy = e.clientY - centerY;
-                const distToLetter = Math.sqrt(dx * dx + dy * dy);
-                const maxDist = 120;
-                if (distToLetter < maxDist) {
-                    const force = (maxDist - distToLetter) / maxDist;
-                    const pushX = -(dx / distToLetter) * force * 20; 
-                    const pushY = -(dy / distToLetter) * force * 20;
-                    letter.style.transform = `translate(${pushX}px, ${pushY}px)`;
-                } else {
-                    letter.style.transform = `translate(0, 0)`;
-                }
+                const r = letter.getBoundingClientRect();
+                const dx = e.clientX - (r.left + r.width/2), dy = e.clientY - (r.top + r.height/2);
+                const dist = Math.sqrt(dx*dx + dy*dy);
+                if (dist < 120) {
+                    const f = (120 - dist) / 120;
+                    letter.style.transform = `translate(${-(dx/dist)*f*20}px, ${-(dy/dist)*f*20}px)`;
+                } else letter.style.transform = `translate(0, 0)`;
             });
         });
-        heroSection.addEventListener('mouseleave', () => {
-            letters.forEach(letter => { letter.style.transform = `translate(0, 0)`; });
-        });
+        heroSection.addEventListener('mouseleave', () => { letters.forEach(l => l.style.transform = `translate(0, 0)`); });
 
-        // TRADUCTIONS
+        // TRADUCTIONS (Résumé pour clarté)
         const translations = {
-            "fr": {
-                "nav-home": "Accueil", "nav-projects": "Projets", "nav-about": "À Propos", "nav-contact": "Contact",
-                "h-intro": "01. Profil Hybride", "p-intro": "Étudiant en Sciences des Données et Arts (Université PSL & Lycée Louis Le Grand), je combine la grande rigueur des mathématiques et de l'algorithmique avec une solide sensibilité aux humanités numériques et à l'analyse culturelle.",
-                "btn-about": "Découvrir mon parcours ->", "h-projects": "02. Travaux Récents",
-                "proj1-title": "Prédiction de Durée", "proj1-desc": "La durée d'un film n'est pas qu'un choix artistique. Analyse de milliers de données pour tenter d'estimer la longueur d'une œuvre avant même son tournage.",
-                "proj2-title": "Colorimétrie du Cinéma", "proj2-desc": "Les studios choisissent-ils leurs palettes visuelles au hasard ? Modélisation de l'identité couleur d'une affiche selon les caractéristiques du film.",
-                "proj3-title": "Violence & Animation", "proj3-desc": "Idée reçue ou réalité ? Exploration statistique pour comprendre si la violence influence concrètement le succès des séries d'animation japonaises.",
-                "btn-all-tiny": "Voir tout ->", "h-contact": "Prêt à échanger ?",
-                "p-contact": "Toujours curieux de relever de nouveaux défis, je suis ouvert aux opportunités d'études en Master, ainsi qu'aux collaborations stimulantes avec des entreprises ou laboratoires de recherche.",
-                "btn-contact": "Me contacter ->", "footer-text": "© 2026 Julien Arsena. Tout le contenu (code, données, rapports) est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite."
-            },
-            "en": {
-                "nav-home": "Home", "nav-projects": "Projects", "nav-about": "About", "nav-contact": "Contact",
-                "h-intro": "01. Hybrid Profile", "p-intro": "Data Science and Arts student (PSL University & Louis Le Grand), combining the strict rigor of mathematics and algorithms with a deep sensitivity for digital humanities and cultural analysis.",
-                "btn-about": "Discover my background ->", "h-projects": "02. Recent Work",
-                "proj1-title": "Runtime Prediction", "proj1-desc": "Movie length isn't just an artistic choice. Analyzing thousands of data points to estimate a film's runtime before it's even shot.",
-                "proj2-title": "Cinema Colorimetry", "proj2-desc": "Do studios choose their palettes at random? Modeling the visual choices of a movie poster based on its characteristics.",
-                "proj3-title": "Violence & Animation", "proj3-desc": "Myth or reality? Statistical exploration to understand if violence truly drives the success of animated series.",
-                "btn-all-tiny": "View all ->", "h-contact": "Let's connect",
-                "p-contact": "Always eager to take on new challenges, I am open to Master's degree opportunities and stimulating collaborations with companies or research labs.",
-                "btn-contact": "Get in touch ->", "footer-text": "© 2026 Julien Arsena. All content (code, data, reports) is provided for review purposes. Any reuse requires explicit attribution."
-            }
+            "fr": { "nav-home": "Accueil", "nav-projects": "Projets", "nav-about": "À Propos", "nav-contact": "Contact", "h-intro": "01. Profil Hybride", "btn-about": "Découvrir mon parcours ->", "h-projects": "Mes Projets", "proj1-title": "Prédiction de Durée", "proj2-title": "Colorimétrie du Cinéma", "proj3-title": "Violence & Animation", "btn-all-tiny": "Voir tout ->", "h-contact": "Prêt à échanger ?", "btn-contact": "Me contacter ->" },
+            "en": { "nav-home": "Home", "nav-projects": "Projects", "nav-about": "About", "nav-contact": "Contact", "h-intro": "01. Hybrid Profile", "btn-about": "Discover my background ->", "h-projects": "My Projects", "proj1-title": "Runtime Prediction", "proj2-title": "Cinema Colorimetry", "proj3-title": "Violence & Animation", "btn-all-tiny": "View all ->", "h-contact": "Let's connect", "btn-contact": "Get in touch ->" }
         };
-
         function setLanguage(lang) {
-            document.querySelectorAll('[data-i18n]').forEach(element => {
-                const key = element.getAttribute('data-i18n');
-                if (translations[lang][key]) element.innerHTML = translations[lang][key];
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const k = el.getAttribute('data-i18n'); if (translations[lang][k]) el.innerHTML = translations[lang][k];
             });
-            if (lang === 'fr') {
-                document.getElementById('btn-fr').classList.add('active');
-                document.getElementById('btn-en').classList.remove('active');
-            } else {
-                document.getElementById('btn-en').classList.add('active');
-                document.getElementById('btn-fr').classList.remove('active');
-            }
+            document.getElementById('btn-fr').classList.toggle('active', lang === 'fr');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
         }
     </script>
 </body>
