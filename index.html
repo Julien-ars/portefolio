@@ -31,7 +31,7 @@
 
         /* --- FOND GLOBAL AVEC QUADRILLAGE LÉGER --- */
         body {
-            position: relative; /* Nécessaire pour aligner le quadrillage foncé */
+            position: relative; 
             background-color: var(--bg-color); color: var(--text-color); font-family: 'Anton', sans-serif; 
             overflow-x: hidden; display: flex; flex-direction: column; min-height: 100vh;
             background-image: 
@@ -41,7 +41,7 @@
             transition: background-color 0.5s ease, color 0.5s ease;
         }
 
-        /* --- QUADRILLAGE FONCÉ INTERACTIF (Aligné parfaitement avec le body) --- */
+        /* --- QUADRILLAGE FONCÉ INTERACTIF --- */
         .global-grid-hover {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
@@ -86,9 +86,7 @@
         .hero {
             height: 75vh; display: flex; flex-direction: column; justify-content: center;
             align-items: center; text-align: center; border-bottom: 2px solid var(--text-color);
-            position: relative; 
-            /* On autorise le + à dépasser pour tomber sur le bandeau */
-            overflow: visible; z-index: 20; 
+            position: relative; overflow: visible; z-index: 20; 
         }
 
         .hero h1 {
@@ -97,28 +95,23 @@
         }
         .hero h1 span.letter { display: inline-block; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); will-change: transform; }
         
-        /* GESTION DU I ET DU PLUS DETACHÉ */
         .i-wrapper { position: relative; display: inline-block; pointer-events: none; }
         .dot-plus {
             position: absolute; top: -1.3em; left: 50%; transform: translateX(-50%);
             font-size: 0.55em; color: var(--text-color); transition: color 0.5s ease;
             will-change: transform; pointer-events: auto; cursor: crosshair; z-index: 40;
         }
-        
-        .dot-plus.broken {
-            animation: bounceDrop 2s cubic-bezier(0.28, 0.84, 0.42, 1) forwards;
-        }
+        .dot-plus.broken { animation: bounceDrop 2s cubic-bezier(0.28, 0.84, 0.42, 1) forwards; }
 
-        /* 3 rebonds réalistes jusqu'au bandeau */
         @keyframes bounceDrop {
             0% { transform: translateX(-50%) translateY(0) rotate(0); }
-            15% { transform: translateX(-50%) translateY(40vh) rotate(50deg); } /* Chute 1 */
-            30% { transform: translateX(-50%) translateY(22vh) rotate(90deg); } /* Rebond 1 (Haut) */
-            45% { transform: translateX(-50%) translateY(40vh) rotate(130deg); } /* Chute 2 */
-            55% { transform: translateX(-50%) translateY(30vh) rotate(160deg); } /* Rebond 2 (Moyen) */
-            70% { transform: translateX(-50%) translateY(40vh) rotate(180deg); } /* Chute 3 */
-            80% { transform: translateX(-50%) translateY(35vh) rotate(195deg); } /* Rebond 3 (Petit) */
-            100% { transform: translateX(-50%) translateY(40vh) rotate(210deg); } /* Arrêt final sur le bandeau */
+            15% { transform: translateX(-50%) translateY(40vh) rotate(50deg); } 
+            30% { transform: translateX(-50%) translateY(22vh) rotate(90deg); } 
+            45% { transform: translateX(-50%) translateY(40vh) rotate(130deg); } 
+            55% { transform: translateX(-50%) translateY(30vh) rotate(160deg); } 
+            70% { transform: translateX(-50%) translateY(40vh) rotate(180deg); } 
+            80% { transform: translateX(-50%) translateY(35vh) rotate(195deg); } 
+            100% { transform: translateX(-50%) translateY(40vh) rotate(210deg); } 
         }
 
         /* --- BANDEAU DEFILEMENT --- */
@@ -130,20 +123,31 @@
         .marquee-text { font-size: 3rem; animation: scroll-left 15s linear infinite; }
         @keyframes scroll-left { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        /* --- CONTENEUR GLOBAL INTRO --- */
+        /* --- CONTENEUR GLOBAL INTRO & GRILLE 2 COLONNES --- */
         .content-wrapper { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem 2rem 2rem; width: 100%; position: relative; z-index: 5; }
         .section-heading { font-size: 3rem; margin-bottom: 2rem; border-bottom: 4px solid var(--text-color); padding-bottom: 0.5rem; text-transform: uppercase; transition: border-color 0.5s ease; }
-        .intro-section { margin-bottom: 2rem; }
+        
+        .intro-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: stretch;
+            margin-bottom: 2rem;
+        }
+        .intro-col { display: flex; flex-direction: column; }
+
         .intro-box {
-            border: 4px solid var(--text-color); padding: 2rem 3rem; background-color: transparent;
+            border: 4px solid var(--text-color); padding: 2.5rem 3rem; background-color: transparent;
             transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.5s ease;
-            max-width: 900px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; align-items: center;
-            background-color: var(--bg-color); /* Empêche le quadrillage de gêner la lecture */
+            text-align: center; display: flex; flex-direction: column; align-items: center;
+            background-color: var(--bg-color);
+            height: 100%; /* Permet aux deux boîtes d'avoir la même hauteur */
         }
         .intro-box:hover { transform: translate(-5px, -5px); box-shadow: 12px 12px 0px var(--text-color); }
-        .intro-text { font-family: 'Inter', sans-serif; font-size: 1.2rem; line-height: 1.6; font-weight: 600; margin-bottom: 2rem; }
+        .intro-text { font-family: 'Inter', sans-serif; font-size: 1.2rem; line-height: 1.6; font-weight: 600; margin-bottom: 1rem; }
 
-        .btn-container { display: flex; margin-top: 1rem; width: 100%; justify-content: center; }
+        /* Boutons toujours alignés en bas de la box */
+        .btn-container { display: flex; margin-top: auto; padding-top: 2rem; width: 100%; justify-content: center; }
         .btn-primary { 
             font-family: 'Anton', sans-serif; font-size: 1.5rem; text-transform: uppercase; text-decoration: none; 
             color: var(--text-color); border: 3px solid var(--text-color); padding: 0.8rem 1.5rem; 
@@ -155,19 +159,28 @@
             background-color: var(--text-color); color: var(--bg-color); 
         }
 
-        /* --- SÉQUENCE ZOOM & HORIZONTAL SCROLL --- */
-        .scroll-sequence { 
-            height: 500vh; position: relative; background-color: transparent; margin-bottom: 0; z-index: 5;
+        /* --- TAGS COMPÉTENCES (Boîte de droite) --- */
+        .skills-tags {
+            display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; align-items: center;
+            margin-bottom: auto; margin-top: auto; width: 100%;
         }
-        
-        .scroll-sticky {
-            position: sticky; top: 0; height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center;
-            overflow: hidden; background-color: transparent;
+        .skill-tag {
+            border: 2px solid var(--text-color); padding: 0.5rem 1rem;
+            font-family: 'Anton', sans-serif; font-size: 1.2rem; text-transform: uppercase;
+            transition: all 0.3s ease; background-color: transparent; color: var(--text-color);
+            cursor: default;
+        }
+        .skill-tag:hover {
+            background-color: var(--text-color); color: var(--bg-color);
+            transform: translate(-3px, -3px); box-shadow: 4px 4px 0px var(--text-color);
         }
 
+        /* --- SÉQUENCE ZOOM & HORIZONTAL SCROLL --- */
+        .scroll-sequence { height: 500vh; position: relative; background-color: transparent; margin-bottom: 0; z-index: 5; }
+        .scroll-sticky { position: sticky; top: 0; height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center; overflow: hidden; background-color: transparent; }
+
         .gate-crosshair {
-            position: absolute; width: 30px; height: 30px; z-index: 40; pointer-events: none;
-            transition: opacity 0.3s ease; opacity: 0.7;
+            position: absolute; width: 30px; height: 30px; z-index: 40; pointer-events: none; transition: opacity 0.3s ease; opacity: 0.7;
         }
         .gate-crosshair::before, .gate-crosshair::after { content: ''; position: absolute; background-color: var(--text-color); }
         .gate-crosshair::before { width: 100%; height: 2px; top: 50%; transform: translateY(-50%); }
@@ -183,16 +196,10 @@
             background-size: 40px 40px; 
         }
 
-        /* LIGNES TOPOGRAPHIQUES INDÉPENDANTES */
-        .topo-bg {
-            position: absolute; width: 110%; height: 110%; top: -5%; left: -5%;
-            z-index: 10; pointer-events: none; opacity: 0;
-            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); 
-        }
+        .topo-bg { position: absolute; width: 110%; height: 110%; top: -5%; left: -5%; z-index: 10; pointer-events: none; opacity: 0; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); }
         .topo-bg svg { width: 100%; height: 100%; }
         .topo-bg path { stroke: rgba(255, 255, 255, 0.4); stroke-width: 1.5px; fill: none; }
         
-        /* Animations séparées pour un rendu naturel */
         .layer-1 { animation: layerFloat1 18s ease-in-out infinite alternate; transform-origin: center; }
         .layer-2 { animation: layerFloat2 25s ease-in-out infinite alternate-reverse; transform-origin: center; }
         .layer-3 { animation: layerFloat3 20s ease-in-out infinite alternate; transform-origin: center; }
@@ -202,139 +209,84 @@
         @keyframes layerFloat3 { 0% { transform: translate(0, 0) scale(1) rotate(0deg); } 100% { transform: translate(1%, 2%) scale(1.01) rotate(0.5deg); } }
 
         .gate-text {
-            position: absolute; font-size: 6vw; text-transform: uppercase; z-index: 50;
-            pointer-events: none; transition: opacity 0.2s ease, color 0.5s ease; letter-spacing: 2px;
-            color: #e60023;
+            position: absolute; font-size: 6vw; text-transform: uppercase; z-index: 50; pointer-events: none; transition: opacity 0.2s ease, color 0.5s ease; letter-spacing: 2px; color: #e60023;
         }
         body.theme-light .gate-text { color: #b366ff; }
 
         .h-scroll-bg-text, .h-scroll-fg-text, .h-scroll-container, .h-btn-all { opacity: 0; }
         
         .h-scroll-bg-text {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 300vw; text-align: center; font-size: 25vw; line-height: 0.8;
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300vw; text-align: center; font-size: 25vw; line-height: 0.8;
             color: #2E004F; z-index: 1; pointer-events: none; white-space: nowrap; will-change: transform, opacity;
         }
         .h-scroll-fg-text {
-            position: absolute; top: 70%; left: 50%; transform: translate(-50%, -50%);
-            width: 300vw; text-align: center; font-size: 10vw; color: transparent; 
+            position: absolute; top: 70%; left: 50%; transform: translate(-50%, -50%); width: 300vw; text-align: center; font-size: 10vw; color: transparent; 
             -webkit-text-stroke: 2px rgba(255, 255, 255, 0.15); z-index: 20; pointer-events: none; white-space: nowrap; will-change: transform, opacity;
         }
 
         .h-scroll-container {
-            display: flex; align-items: center; gap: 4vw; padding: 0 45vw;
-            position: absolute; left: 0; top: 0; height: 100vh;
-            width: max-content; will-change: transform, opacity; z-index: 15;
-            pointer-events: none; 
+            display: flex; align-items: center; gap: 4vw; padding: 0 45vw; position: absolute; left: 0; top: 0; height: 100vh;
+            width: max-content; will-change: transform, opacity; z-index: 15; pointer-events: none; 
         }
 
         .h-card {
-            flex: 0 0 auto; width: 32vw; min-width: 300px; max-width: 500px; 
-            background-color: transparent; text-decoration: none; display: flex; flex-direction: column;
-            opacity: var(--op-val, 1);
-            transform: translateY(var(--y-base, 0)) scale(var(--scale-val, 1)) skewX(var(--skew-vel, 0deg));
-            will-change: transform, opacity;
+            flex: 0 0 auto; width: 32vw; min-width: 300px; max-width: 500px; background-color: transparent; text-decoration: none; display: flex; flex-direction: column;
+            opacity: var(--op-val, 1); transform: translateY(var(--y-base, 0)) scale(var(--scale-val, 1)) skewX(var(--skew-vel, 0deg)); will-change: transform, opacity;
         }
         
         .h-card:nth-child(odd) { --y-base: -6vh; }
         .h-card:nth-child(even) { --y-base: 6vh; }
 
-        .h-card-inner {
-            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            display: flex; flex-direction: column; width: 100%;
-        }
-
-        .h-card-img-wrapper {
-            width: 100%; aspect-ratio: 16 / 9; height: auto; 
-            overflow: hidden; border: 2px solid rgba(255,255,255,0.8); 
-            position: relative; box-shadow: 0 15px 35px rgba(0,0,0,0.5); border-radius: 4px;
-        }
-
-        .h-card img {
-            width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%); 
-            transition: transform 0.7s cubic-bezier(0.25, 0.8, 0.25, 1), filter 0.5s ease;
-        }
-
+        .h-card-inner { transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); display: flex; flex-direction: column; width: 100%; }
+        .h-card-img-wrapper { width: 100%; aspect-ratio: 16 / 9; height: auto; overflow: hidden; border: 2px solid rgba(255,255,255,0.8); position: relative; box-shadow: 0 15px 35px rgba(0,0,0,0.5); border-radius: 4px; }
+        .h-card img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%); transition: transform 0.7s cubic-bezier(0.25, 0.8, 0.25, 1), filter 0.5s ease; }
         .h-card-info { padding-top: 1.2rem; text-align: left; }
-        
-        .h-card h3 {
-            font-size: 1.5rem; margin-bottom: 0.5rem; line-height: 1.2; 
-            font-family: 'Inter', sans-serif; font-weight: 700; letter-spacing: -0.5px;
-            text-transform: uppercase; color: #fff; transition: color 0.3s ease;
-        }
-
+        .h-card h3 { font-size: 1.5rem; margin-bottom: 0.5rem; line-height: 1.2; font-family: 'Inter', sans-serif; font-weight: 700; letter-spacing: -0.5px; text-transform: uppercase; color: #fff; transition: color 0.3s ease; }
         .h-card-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; font-family: 'Inter', sans-serif; }
-        .h-card-tags .tag {
-            border: 1px solid rgba(255,255,255,0.3); padding: 0.2rem 0.5rem; font-size: 0.7rem;
-            border-radius: 50px; text-transform: uppercase; font-weight: 600; color: rgba(255,255,255,0.8);
-        }
+        .h-card-tags .tag { border: 1px solid rgba(255,255,255,0.3); padding: 0.2rem 0.5rem; font-size: 0.7rem; border-radius: 50px; text-transform: uppercase; font-weight: 600; color: rgba(255,255,255,0.8); }
 
         .h-card:hover .h-card-inner { transform: scale(1.03) translateY(-5px); }
         .h-card:hover img { transform: scale(1.08); filter: grayscale(0%); }
         .h-card:hover h3 { color: #b366ff; }
-        
         .h-card-spacer { flex: 0 0 auto; width: 25vw; } 
 
         .h-btn-all {
-            position: absolute; bottom: 3.5rem; left: 50%; transform: translateX(-50%); z-index: 30; 
-            color: #fff; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.2); 
-            padding: 0.7rem 1.8rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; 
-            text-transform: uppercase; text-decoration: none; border-radius: 50px; backdrop-filter: blur(10px); 
-            transition: all 0.3s ease; will-change: opacity, transform;
-            pointer-events: none; 
+            position: absolute; bottom: 3.5rem; left: 50%; transform: translateX(-50%); z-index: 30; color: #fff; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.2); 
+            padding: 0.7rem 1.8rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; text-decoration: none; border-radius: 50px; backdrop-filter: blur(10px); 
+            transition: all 0.3s ease; will-change: opacity, transform; pointer-events: none; 
         }
         .h-btn-all:hover { background: #fff; color: #000; transform: translateX(-50%) scale(1.05); }
 
         /* --- SECTION CONTACT --- */
-        .cta-section { 
-            background-color: #050505; 
-            padding: 8rem 2rem 5rem 2rem; text-align: center; width: 100%; 
-            position: relative; z-index: 50; 
-        }
-        
+        .cta-section { background-color: #050505; padding: 8rem 2rem 5rem 2rem; text-align: center; width: 100%; position: relative; z-index: 50; }
         .cta-section h2 { font-size: 4rem; margin-bottom: 1rem; color: #b366ff; } 
-        
-        .cta-text { 
-            font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 600; max-width: 750px; 
-            margin: 0 auto 2rem auto; color: rgba(179, 102, 255, 0.8); 
-        }
-        
+        .cta-text { font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 600; max-width: 750px; margin: 0 auto 2rem auto; color: rgba(179, 102, 255, 0.8); }
         .cta-socials { display: flex; justify-content: center; gap: 1.5rem; margin-top: 2rem; }
         .cta-socials a { color: #b366ff; transition: all 0.3s ease; }
         .cta-socials a:hover { transform: translateY(-3px); color: #fff; }
         .cta-socials svg { width: 35px; height: 35px; fill: currentColor; }
 
         .btn-contact-violet { 
-            font-family: 'Anton', sans-serif; font-size: 1.5rem; text-transform: uppercase; text-decoration: none; 
-            color: #b366ff; border: 3px solid #b366ff; padding: 0.8rem 1.5rem; transition: all 0.3s ease; 
-            background-color: transparent; display: inline-block; cursor: pointer;
+            font-family: 'Anton', sans-serif; font-size: 1.5rem; text-transform: uppercase; text-decoration: none; color: #b366ff; border: 3px solid #b366ff; padding: 0.8rem 1.5rem; transition: all 0.3s ease; background-color: transparent; display: inline-block; cursor: pointer;
         }
-        .btn-contact-violet:hover { 
-            transform: translate(-5px, -5px); box-shadow: 8px 8px 0px #b366ff; 
-            background-color: #b366ff; color: #050505; 
-        }
+        .btn-contact-violet:hover { transform: translate(-5px, -5px); box-shadow: 8px 8px 0px #b366ff; background-color: #b366ff; color: #050505; }
 
-        .site-footer { 
-            background-color: #050505; color: rgba(179, 102, 255, 0.4);
-            padding: 1.5rem 2rem 3rem 2rem; text-align: center; font-family: 'Inter', sans-serif; 
-            font-weight: 600; font-size: 0.85rem; position: relative;
-        }
+        .site-footer { background-color: #050505; color: rgba(179, 102, 255, 0.4); padding: 1.5rem 2rem 3rem 2rem; text-align: center; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; position: relative; }
 
-        /* --- BOUTON RETOUR EN HAUT --- */
         .back-to-top {
-            position: absolute; right: 2rem; top: 50%; transform: translateY(-50%);
-            background: rgba(179, 102, 255, 0.1); border: 1px solid rgba(179, 102, 255, 0.3);
-            color: #b366ff; width: 40px; height: 40px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: all 0.3s ease;
+            position: absolute; right: 2rem; top: 50%; transform: translateY(-50%); background: rgba(179, 102, 255, 0.1); border: 1px solid rgba(179, 102, 255, 0.3); color: #b366ff; width: 40px; height: 40px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease;
         }
-        .back-to-top:hover {
-            background: #b366ff; color: #050505; transform: translateY(-50%) scale(1.1);
-        }
+        .back-to-top:hover { background: #b366ff; color: #050505; transform: translateY(-50%) scale(1.1); }
         .back-to-top svg { width: 20px; height: 20px; fill: currentColor; }
 
         .fade-in-section { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; will-change: opacity, visibility; }
         .fade-in-section.is-visible { opacity: 1; transform: none; }
+
+        /* --- RESPONSIVE GRILLE --- */
+        @media (max-width: 900px) {
+            .intro-grid { grid-template-columns: 1fr; gap: 3rem; }
+        }
 
         @media (max-width: 768px) {
             header { flex-direction: column; gap: 1.5rem; padding: 1.5rem 1rem; }
@@ -407,14 +359,37 @@
 
     <div class="content-wrapper">
         <section class="intro-section fade-in-section">
-            <h2 class="section-heading" data-i18n="h-intro">01. Profil Hybride</h2>
-            <div class="intro-box">
-                <p class="intro-text" data-i18n="p-intro">
-                    Étudiant en Sciences des Données et Arts (Université PSL & Lycée Louis Le Grand), je combine la grande rigueur des mathématiques et de l'algorithmique avec une solide sensibilité aux humanités numériques et à l'analyse culturelle.
-                </p>
-                <div class="btn-container">
-                    <a href="about.html" class="btn-primary" data-i18n="btn-about">Découvrir mon parcours -></a>
+            <div class="intro-grid">
+                
+                <div class="intro-col">
+                    <h2 class="section-heading" data-i18n="h-intro1">01. Profil Hybride</h2>
+                    <div class="intro-box">
+                        <p class="intro-text" data-i18n="p-intro">
+                            Étudiant en Sciences des Données et Arts (Université PSL & Lycée Louis Le Grand), je combine la grande rigueur des mathématiques et de l'algorithmique avec une solide sensibilité aux humanités numériques et à l'analyse culturelle.
+                        </p>
+                        <div class="btn-container">
+                            <a href="about.html" class="btn-primary" data-i18n="btn-about">Découvrir mon parcours -></a>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="intro-col">
+                    <h2 class="section-heading" data-i18n="h-intro2">02. Outils & Démarche</h2>
+                    <div class="intro-box">
+                        <div class="skills-tags">
+                            <span class="skill-tag">Python / R</span>
+                            <span class="skill-tag" data-i18n="tag-ml">Machine Learning</span>
+                            <span class="skill-tag" data-i18n="tag-nlp">NLP</span>
+                            <span class="skill-tag" data-i18n="tag-dataviz">Data Visualization</span>
+                            <span class="skill-tag" data-i18n="tag-cult">Analyse Culturelle</span>
+                            <span class="skill-tag" data-i18n="tag-stat">Statistiques</span>
+                        </div>
+                        <div class="btn-container">
+                            <a href="#scroll-sequence" class="btn-primary" data-i18n="btn-skills">Voir les cas d'études -></a>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
     </div>
@@ -588,8 +563,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
-        // EFFET LAMPE TORCHE SUR LE QUADRILLAGE
-        // On utilise document-relative (pageX/pageY) car global-grid-hover est positionné en absolute sur le body
+        // EFFET LAMPE TORCHE
         const heroSection = document.getElementById('hero-section');
         const globalGridHover = document.getElementById('global-grid-hover');
         
@@ -602,7 +576,7 @@
             globalGridHover.style.setProperty('--grid-overlay-op', '0');
         });
 
-        // CASSURE DU PLUS (Rebond)
+        // CASSURE DU PLUS
         const dotPlus = document.querySelector('.dot-plus');
         if (dotPlus) {
             dotPlus.addEventListener('mouseenter', () => {
@@ -661,7 +635,6 @@
                 hTrans = scrollProgress * maxScroll;
             } 
 
-            // SÉCURITÉ CLIC 
             if (contentOp > 0.9) {
                 hContainer.style.pointerEvents = 'auto';
                 if(btnAll) btnAll.style.pointerEvents = 'auto';
@@ -748,13 +721,21 @@
             });
         }
 
-        // TRADUCTIONS ET GESTION DU "E"
+        // TRADUCTIONS ET GESTION DU "E" AINSI QUE LES NOUVEAUX TITRES
         const translations = {
             "fr": { 
                 "nav-home": "Accueil", "nav-projects": "Projets", "nav-about": "À Propos", "nav-contact": "Contact", 
                 "marquee-main": "SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • MACHINE LEARNING • SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • MACHINE LEARNING •",
-                "h-intro": "01. Profil Hybride", "p-intro": "Étudiant en Sciences des Données et Arts (Université PSL & Lycée Louis Le Grand), je combine la grande rigueur des mathématiques et de l'algorithmique avec une solide sensibilité aux humanités numériques et à l'analyse culturelle.",
+                "h-intro1": "01. Profil Hybride", 
+                "h-intro2": "02. Outils & Démarche", 
+                "p-intro": "Étudiant en Sciences des Données et Arts (Université PSL & Lycée Louis Le Grand), je combine la grande rigueur des mathématiques et de l'algorithmique avec une solide sensibilité aux humanités numériques et à l'analyse culturelle.",
+                "tag-ml": "Machine Learning",
+                "tag-nlp": "NLP",
+                "tag-dataviz": "Data Visualization",
+                "tag-cult": "Analyse Culturelle",
+                "tag-stat": "Statistiques",
                 "btn-about": "Découvrir mon parcours ->", 
+                "btn-skills": "Voir les cas d'études ->",
                 "gate-title": "Mes Projets", "bg-projects": "PROJETS PROJETS PROJETS PROJETS PROJETS PROJETS",
                 "proj-duree": "Prédiction de Durée", "proj-couleur": "Colorimétrie du Cinéma", "proj-anime": "Violence & Animation",
                 "proj-voyage": "Générations & Voyages", "proj-ens": "Analyse Littéraire (ENS)", "proj-lang": "Évolution Linguistique",
@@ -767,8 +748,16 @@
             "en": { 
                 "nav-home": "Home", "nav-projects": "Projects", "nav-about": "About", "nav-contact": "Contact", 
                 "marquee-main": "DATA SCIENCE & ARTS • DIGITAL HUMANITIES • MACHINE LEARNING • DATA SCIENCE & ARTS • DIGITAL HUMANITIES • MACHINE LEARNING •",
-                "h-intro": "01. Hybrid Profile", "p-intro": "Data Science and Arts student (PSL University & Louis Le Grand), combining the strict rigor of mathematics and algorithms with a deep sensitivity for digital humanities and cultural analysis.",
+                "h-intro1": "01. Hybrid Profile", 
+                "h-intro2": "02. Tools & Approach", 
+                "p-intro": "Data Science and Arts student (PSL University & Louis Le Grand), combining the strict rigor of mathematics and algorithms with a deep sensitivity for digital humanities and cultural analysis.",
+                "tag-ml": "Machine Learning",
+                "tag-nlp": "NLP",
+                "tag-dataviz": "Dataviz",
+                "tag-cult": "Cultural Analysis",
+                "tag-stat": "Statistics",
                 "btn-about": "Discover my background ->", 
+                "btn-skills": "View case studies ->",
                 "gate-title": "My Projects", "bg-projects": "PROJECTS PROJECTS PROJECTS PROJECTS PROJECTS",
                 "proj-duree": "Runtime Prediction", "proj-couleur": "Cinema Colorimetry", "proj-anime": "Violence & Animation",
                 "proj-voyage": "Generations & Travel", "proj-ens": "Literary Analysis (ENS)", "proj-lang": "Linguistic Evolution",
