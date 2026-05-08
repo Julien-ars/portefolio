@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     
     <style>
-        /* --- VARIABLES DE BASE --- */
+        /* --- VARIABLES DE BASE (Thème Rouge) --- */
         :root {
             --bg-color: #e60023; 
             --text-color: #0a0a0a; 
@@ -18,13 +18,13 @@
             --grid-opacity: 0.05; 
         }
 
-        /* --- THEME CLAIR --- */
+        /* --- THEME CLAIR (Modifié pour rester Noir & Blanc sur les accents) --- */
         body.theme-light {
             --bg-color: #F2EFE9; 
             --text-color: #1A1A1A; 
-            --accent-bg: #e60023; 
-            --accent-text: #F2EFE9; 
-            --hover-bg: #e60023; 
+            --accent-bg: #1A1A1A; /* Reste sombre */
+            --accent-text: #F2EFE9; /* Reste clair */
+            --hover-bg: #1A1A1A; 
             --hover-text: #F2EFE9; 
             --grid-opacity: 0.09; 
         }
@@ -75,10 +75,10 @@
         }
         .hero h1 span { display: inline-block; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); will-change: transform; }
         
-        /* Custom I pour PORTEFOLIO - Ajusté pour être bien au dessus */
+        /* Custom I pour PORTEFOLIO - Ajusté beaucoup plus haut */
         .custom-i { position: relative; }
         .custom-i::after {
-            content: '+'; position: absolute; top: -0.7em; left: 50%; transform: translateX(-50%);
+            content: '+'; position: absolute; top: -1.0em; left: 50%; transform: translateX(-50%);
             font-size: 0.6em; color: var(--text-color); transition: color 0.5s ease;
         }
 
@@ -103,8 +103,8 @@
         .intro-box:hover { transform: translate(-5px, -5px); box-shadow: 12px 12px 0px var(--text-color); }
         .intro-text { font-family: 'Inter', sans-serif; font-size: 1.2rem; line-height: 1.6; font-weight: 600; margin-bottom: 2rem; }
 
-        /* --- SÉQUENCE ZOOM & HORIZONTAL SCROLL (ACCÉLÉRÉE) --- */
-        .scroll-sequence { height: 400vh; position: relative; } /* Réduit pour plus de rapidité */
+        /* --- SÉQUENCE ZOOM & HORIZONTAL SCROLL --- */
+        .scroll-sequence { height: 550vh; position: relative; } /* Hauteur augmentée = Scroll ralenti */
         
         .scroll-sticky {
             position: sticky; top: 0; height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center;
@@ -122,7 +122,7 @@
             pointer-events: none; transition: opacity 0.2s ease;
         }
 
-        /* Textes de fond/premier plan (Opacité gérée via JS) */
+        /* Opacité gérée via JS */
         .h-scroll-bg-text, .h-scroll-fg-text, .h-scroll-container, .h-btn-all { opacity: 0; }
         
         .h-scroll-bg-text {
@@ -136,25 +136,32 @@
             -webkit-text-stroke: 2px rgba(255, 255, 255, 0.2); z-index: 20; pointer-events: none; white-space: nowrap; will-change: transform, opacity;
         }
 
-        /* Conteneur des cartes */
+        /* --- NOUVEAU DESIGN DES CARTES (WODNIACK STYLE) --- */
         .h-scroll-container {
-            display: flex; align-items: center; gap: 8vw; padding: 0 10vw; position: absolute; left: 0; top: 0; height: 100vh;
+            display: flex; align-items: center; gap: 6vw; padding: 0 15vw; position: absolute; left: 0; top: 0; height: 100vh;
             width: max-content; will-change: transform, opacity; z-index: 5;
         }
 
-        /* Cartes Minimalistes (Désalignées) */
         .h-card {
-            flex: 0 0 auto; width: 60vw; max-width: 400px; background-color: transparent; color: #ffffff; 
-            text-decoration: none; display: flex; flex-direction: column; align-items: center;
-            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            flex: 0 0 auto; width: 32vw; min-width: 320px; max-width: 480px; 
+            background-color: transparent; text-decoration: none; display: flex; flex-direction: column;
+            /* La distorsion et le décalage Y sont gérés ici via des variables CSS modifiées par JS */
+            transform: translateY(var(--y-offset, 0)) skewX(var(--skew-val, 0deg));
+            will-change: transform;
         }
         
-        .h-card:nth-child(odd) { transform: translateY(-8vh); }
-        .h-card:nth-child(even) { transform: translateY(8vh); }
+        .h-card:nth-child(odd) { --y-offset: -10vh; }
+        .h-card:nth-child(even) { --y-offset: 10vh; }
+
+        /* C'est l'intérieur de la carte qui s'anime au survol, pas le conteneur principal */
+        .h-card-inner {
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex; flex-direction: column;
+        }
 
         .h-card-img-wrapper {
-            width: 100%; height: 450px; overflow: hidden; border-radius: 4px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5); position: relative;
+            width: 100%; height: 320px; overflow: hidden; border: 3px solid #fff; /* Bordure nette brutaliste */
+            position: relative;
         }
 
         .h-card img {
@@ -162,40 +169,53 @@
             transition: transform 0.7s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
+        .h-card-info {
+            padding-top: 1.2rem; text-align: left;
+        }
+
         .h-card h3 {
-            font-size: 2rem; margin-top: 1.5rem; line-height: 1.1; text-align: center; font-family: 'Anton', sans-serif;
-            text-transform: uppercase; transition: color 0.3s ease;
+            font-size: 2.5rem; margin-bottom: 0.5rem; line-height: 1.1; font-family: 'Anton', sans-serif;
+            text-transform: uppercase; color: #fff; transition: color 0.3s ease;
+        }
+
+        .h-card-tags {
+            display: flex; gap: 0.5rem; flex-wrap: wrap; font-family: 'Inter', sans-serif;
+        }
+
+        .h-card-tags .tag {
+            border: 1px solid rgba(255,255,255,0.4); padding: 0.2rem 0.6rem; font-size: 0.8rem;
+            border-radius: 50px; text-transform: uppercase; font-weight: 600; color: #fff;
         }
 
         /* Effets de survol */
-        .h-card:nth-child(odd):hover { transform: translateY(-8vh) scale(1.02); }
-        .h-card:nth-child(even):hover { transform: translateY(8vh) scale(1.02); }
+        .h-card:hover .h-card-inner { transform: scale(1.05) translateY(-5px); }
         .h-card:hover img { transform: scale(1.08); }
         .h-card:hover h3 { color: #e60023; }
         
         .h-card-spacer { flex: 0 0 auto; width: 30vw; }
 
+        /* BOUTON "VOIR TOUT" BRUTALISTE */
         .h-btn-all {
-            position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); z-index: 30; color: #fff; 
-            background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255,255,255,0.3); padding: 0.8rem 2rem; 
-            font-family: 'Inter', sans-serif; font-weight: 800; font-size: 0.9rem; text-transform: uppercase; text-decoration: none; 
-            border-radius: 50px; backdrop-filter: blur(5px); transition: all 0.3s ease; will-change: opacity;
+            position: absolute; bottom: 3rem; left: 50%; transform: translateX(-50%); z-index: 30; 
+            color: #fff; background: transparent; border: 3px solid #fff; padding: 1rem 2.5rem; 
+            font-family: 'Anton', sans-serif; font-size: 1.5rem; text-transform: uppercase; text-decoration: none; 
+            transition: all 0.3s ease; will-change: opacity;
         }
-        .h-btn-all:hover { background: #fff; color: #000; transform: translateX(-50%) scale(1.05); }
+        .h-btn-all:hover { background: #fff; color: #000; transform: translateX(-50%) translateY(-5px); box-shadow: 8px 8px 0px rgba(255,255,255,0.2); }
 
         /* --- SECTION CONTACT --- */
         .cta-section { background-color: var(--accent-bg); color: var(--accent-text); padding: 4rem 2rem; text-align: center; border-bottom: 4px solid var(--text-color); width: 100%; transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease; }
-        .cta-section h2 { font-size: 4rem; margin-bottom: 1rem; color: #fff; } 
+        .cta-section h2 { font-size: 4rem; margin-bottom: 1rem; color: var(--bg-color); } 
         .cta-text { font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 600; max-width: 750px; margin: 0 auto 2rem auto; color: var(--accent-text); }
         .cta-socials { display: flex; justify-content: center; gap: 1.5rem; margin-top: 2rem; }
         .cta-socials a { color: var(--accent-text); transition: all 0.3s ease; }
-        .cta-socials a:hover { transform: translateY(-3px); color: #fff; }
+        .cta-socials a:hover { transform: translateY(-3px); opacity: 0.7; }
         .cta-socials svg { width: 35px; height: 35px; fill: currentColor; }
 
         .btn-container { display: flex; margin-top: 1rem; }
         .btn-container.center { justify-content: center; }
         .btn-primary { font-family: 'Anton', sans-serif; font-size: 1.5rem; text-transform: uppercase; text-decoration: none; color: var(--text-color); border: 3px solid var(--text-color); padding: 0.8rem 1.5rem; transition: all 0.3s ease; background-color: transparent; display: inline-block; }
-        .btn-primary:hover { transform: translate(-5px, -5px); box-shadow: 8px 8px 0px var(--text-color); background-color: var(--hover-bg); color: var(--hover-text); }
+        .btn-primary:hover { transform: translate(-5px, -5px); box-shadow: 8px 8px 0px var(--text-color); background-color: var(--text-color); color: var(--bg-color); }
         .btn-inverted { color: var(--accent-text); border-color: var(--accent-text); }
         .btn-inverted:hover { box-shadow: 8px 8px 0px var(--accent-text); background-color: var(--accent-text); color: var(--accent-bg); }
 
@@ -215,9 +235,8 @@
             .gate-text { font-size: 12vw; }
             
             .h-card { width: 75vw; }
-            .h-card-img-wrapper { height: 350px; }
-            .h-card:nth-child(odd), .h-card:nth-child(even) { transform: translateY(0); } 
-            .h-card:nth-child(odd):hover, .h-card:nth-child(even):hover { transform: scale(1.02); }
+            .h-card:nth-child(odd), .h-card:nth-child(even) { --y-offset: 0; } 
+            .h-btn-all { font-size: 1.2rem; padding: 0.8rem 2rem; width: 80%; }
         }
     </style>
 </head>
@@ -290,54 +309,99 @@
                 <div class="h-scroll-container" id="h-scroll-container">
                     
                     <a href="projet_duree.html" class="h-card">
-                        <div class="h-card-img-wrapper"><img src="miniature_duree.jpg" alt="Prédiction de Durée"></div>
-                        <h3 data-i18n="proj-duree">Prédiction de Durée</h3>
+                        <div class="h-card-inner">
+                            <div class="h-card-img-wrapper"><img src="miniature_duree.jpg" alt="Prédiction de Durée"></div>
+                            <div class="h-card-info">
+                                <h3 data-i18n="proj-duree">Prédiction de Durée</h3>
+                                <div class="h-card-tags"><span class="tag">Régression L1</span> <span class="tag">Machine Learning</span></div>
+                            </div>
+                        </div>
                     </a>
 
                     <a href="projet_couleur.html" class="h-card">
-                        <div class="h-card-img-wrapper"><img src="miniature_couleur.jpg" alt="Colorimétrie du Cinéma"></div>
-                        <h3 data-i18n="proj-couleur">Colorimétrie du Cinéma</h3>
+                        <div class="h-card-inner">
+                            <div class="h-card-img-wrapper"><img src="miniature_couleur.jpg" alt="Colorimétrie du Cinéma"></div>
+                            <div class="h-card-info">
+                                <h3 data-i18n="proj-couleur">Colorimétrie du Cinéma</h3>
+                                <div class="h-card-tags"><span class="tag">Classification</span> <span class="tag">Python</span></div>
+                            </div>
+                        </div>
                     </a>
 
                     <a href="projet_animes.html" class="h-card">
-                        <div class="h-card-img-wrapper"><img src="miniature_anime.jpg" alt="Violence & Animation"></div>
-                        <h3 data-i18n="proj-anime">Violence & Animation</h3>
+                        <div class="h-card-inner">
+                            <div class="h-card-img-wrapper"><img src="miniature_anime.jpg" alt="Violence & Animation"></div>
+                            <div class="h-card-info">
+                                <h3 data-i18n="proj-anime">Violence & Animation</h3>
+                                <div class="h-card-tags"><span class="tag">Statistiques</span> <span class="tag">Pandas</span></div>
+                            </div>
+                        </div>
                     </a>
 
                     <a href="#" class="h-card">
-                        <div class="h-card-img-wrapper"><img src="miniature_voyage.jpg" alt="Générations & Voyages"></div>
-                        <h3 data-i18n="proj-voyage">Générations & Voyages</h3>
+                        <div class="h-card-inner">
+                            <div class="h-card-img-wrapper"><img src="miniature_voyage.jpg" alt="Générations & Voyages"></div>
+                            <div class="h-card-info">
+                                <h3 data-i18n="proj-voyage">Générations & Voyages</h3>
+                                <div class="h-card-tags"><span class="tag">Sondages</span> <span class="tag">Statistiques</span></div>
+                            </div>
+                        </div>
                     </a>
 
                     <a href="#" class="h-card">
-                        <div class="h-card-img-wrapper"><img src="miniature_ens.jpg" alt="Analyse Littéraire ENS"></div>
-                        <h3 data-i18n="proj-ens">Analyse Littéraire (ENS)</h3>
+                        <div class="h-card-inner">
+                            <div class="h-card-img-wrapper"><img src="miniature_ens.jpg" alt="Analyse Littéraire ENS"></div>
+                            <div class="h-card-info">
+                                <h3 data-i18n="proj-ens">Analyse Littéraire (ENS)</h3>
+                                <div class="h-card-tags"><span class="tag">NLP</span> <span class="tag">Humanités</span></div>
+                            </div>
+                        </div>
                     </a>
 
                     <a href="#" class="h-card">
-                        <div class="h-card-img-wrapper"><img src="miniature_linguistique.jpg" alt="Évolution Linguistique"></div>
-                        <h3 data-i18n="proj-lang">Évolution Linguistique</h3>
+                        <div class="h-card-inner">
+                            <div class="h-card-img-wrapper"><img src="miniature_linguistique.jpg" alt="Évolution Linguistique"></div>
+                            <div class="h-card-info">
+                                <h3 data-i18n="proj-lang">Évolution Linguistique</h3>
+                                <div class="h-card-tags"><span class="tag">NLP</span> <span class="tag">Data Science</span></div>
+                            </div>
+                        </div>
                     </a>
 
                     <a href="#" class="h-card">
-                        <div class="h-card-img-wrapper"><img src="miniature_geopolitique.jpg" alt="Régimes Politiques"></div>
-                        <h3 data-i18n="proj-geo">Régimes Politiques</h3>
+                        <div class="h-card-inner">
+                            <div class="h-card-img-wrapper"><img src="miniature_geopolitique.jpg" alt="Régimes Politiques"></div>
+                            <div class="h-card-info">
+                                <h3 data-i18n="proj-geo">Régimes Politiques</h3>
+                                <div class="h-card-tags"><span class="tag">Géopolitique</span> <span class="tag">Statistiques</span></div>
+                            </div>
+                        </div>
                     </a>
 
                     <a href="https://hunt-it.github.io/Accueil/?" target="_blank" class="h-card">
-                        <div class="h-card-img-wrapper"><img src="miniature_huntit.jpg" alt="Hunt-It Chasse au trésor"></div>
-                        <h3 data-i18n="proj-hunt">Hunt-It : Chasse au Trésor</h3>
+                        <div class="h-card-inner">
+                            <div class="h-card-img-wrapper"><img src="miniature_huntit.jpg" alt="Hunt-It Chasse au trésor"></div>
+                            <div class="h-card-info">
+                                <h3 data-i18n="proj-hunt">Hunt-It : Chasse au Trésor</h3>
+                                <div class="h-card-tags"><span class="tag">JS</span> <span class="tag">Game Design</span></div>
+                            </div>
+                        </div>
                     </a>
 
                     <a href="https://julien-ars.github.io/article-paradoxe-littoral/" target="_blank" class="h-card">
-                        <div class="h-card-img-wrapper"><img src="miniature_paradoxe.jpg" alt="Le Paradoxe du Littoral"></div>
-                        <h3 data-i18n="proj-fractal">Le Paradoxe du Littoral</h3>
+                        <div class="h-card-inner">
+                            <div class="h-card-img-wrapper"><img src="miniature_paradoxe.jpg" alt="Le Paradoxe du Littoral"></div>
+                            <div class="h-card-info">
+                                <h3 data-i18n="proj-fractal">Le Paradoxe du Littoral</h3>
+                                <div class="h-card-tags"><span class="tag">Mathématiques</span> <span class="tag">Web Design</span></div>
+                            </div>
+                        </div>
                     </a>
 
                     <div class="h-card-spacer"></div>
                 </div>
 
-                <a href="projects.html" class="h-btn-all" id="h-btn-all" data-i18n="btn-all-tiny">Voir tout -></a>
+                <a href="projects.html" class="h-btn-all" id="h-btn-all" data-i18n="btn-all-tiny">Voir tous les projets</a>
             </div>
         </div>
     </div>
@@ -359,7 +423,7 @@
     </section>
 
     <footer class="site-footer">
-        <span data-i18n="footer-text">© 2026 Julien Arsena. Tout le contenu (code, données, rapports) est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite.</span>
+        <span data-i18n="footer-text">© 2026 Julien Arsena. Tout le contenu est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite.</span>
     </footer>
 
     <script>
@@ -372,7 +436,7 @@
             localStorage.setItem('theme', body.classList.contains('theme-light') ? 'light' : '');
         });
 
-        // ANIMATION FLUIDE : ZOOM + HORIZONTAL + FADE + DEZOOM
+        // ANIMATION FLUIDE : ZOOM + SCROLL HORIZONTAL (SKEW) + DEZOOM
         const seq = document.getElementById('scroll-sequence');
         const clipBox = document.getElementById('clip-box');
         const gateText = document.getElementById('gate-text');
@@ -380,6 +444,7 @@
         const bgText = document.getElementById('h-scroll-bg');
         const fgText = document.getElementById('h-scroll-fg');
         const btnAll = document.getElementById('h-btn-all');
+        const cards = document.querySelectorAll('.h-card');
 
         window.addEventListener('scroll', () => {
             if(!seq) return;
@@ -389,7 +454,7 @@
             p = Math.max(0, Math.min(1, p));
 
             let clipY = 35, clipX = 25, radius = 10, gateOp = 1, hTrans = 0;
-            let contentOp = 0; // Gère l'opacité du contenu pour une apparition fluide
+            let contentOp = 0; 
             const maxScroll = hContainer.scrollWidth - window.innerWidth + 100;
 
             // Phase 1 : Zoom In (0 à 15%)
@@ -397,7 +462,6 @@
                 let ease = (p / 0.15); 
                 clipY = 35 * (1 - ease); clipX = window.innerWidth > 768 ? 25 * (1 - ease) : 10 * (1 - ease);
                 radius = 10 * (1 - ease); gateOp = 1 - (ease * 1.5);
-                // Le contenu apparait progressivement sur la fin du zoom
                 if (p > 0.05) contentOp = (p - 0.05) / 0.10; 
             } 
             // Phase 2 : Scroll Horizontal (15% à 85%)
@@ -410,23 +474,37 @@
                 let ease = (p - 0.85) / 0.15;
                 clipY = 35 * ease; clipX = window.innerWidth > 768 ? 25 * ease : 10 * ease;
                 radius = 10 * ease; gateOp = 0; hTrans = maxScroll;
-                // Le contenu disparait avant le dezoom final
                 if (p < 0.90) contentOp = 1 - ((p - 0.85) / 0.05);
             }
 
             clipBox.style.clipPath = `inset(${clipY}% ${clipX}% round ${radius}px)`;
             if(gateText) gateText.style.opacity = Math.max(0, gateOp);
             
-            // Application de l'opacité fluide
             hContainer.style.opacity = Math.max(0, contentOp);
-            if(bgText) bgText.style.opacity = Math.max(0, contentOp * 0.5); // Reste légèrement transparent
+            if(bgText) bgText.style.opacity = Math.max(0, contentOp * 0.5); 
             if(fgText) fgText.style.opacity = Math.max(0, contentOp);
             if(btnAll) btnAll.style.opacity = Math.max(0, contentOp);
             
-            // Effet Parallaxe Cartes et Textes
             hContainer.style.transform = `translateX(-${hTrans}px)`;
             if(bgText) bgText.style.transform = `translate(-50%, -50%) translateX(${p * 20}vw)`;
             if(fgText) fgText.style.transform = `translate(-50%, -50%) translateX(-${p * 40}vw)`;
+
+            // NOUVEAU : EFFET DE DISTORSION (SKEW) SUR LES CARTES
+            const screenCenter = window.innerWidth / 2;
+            cards.forEach(card => {
+                const cardRect = card.getBoundingClientRect();
+                const cardCenter = cardRect.left + (cardRect.width / 2);
+                const distanceFromCenter = cardCenter - screenCenter;
+                
+                // Normalisation de la distance (-1 à gauche, 0 au centre, 1 à droite)
+                const normalizedDist = distanceFromCenter / (window.innerWidth / 2);
+                
+                // Calcul de l'inclinaison max (12 degrés)
+                const skewAngle = normalizedDist * 12;
+                
+                // Application de la variable CSS locale
+                card.style.setProperty('--skew-val', `${-skewAngle}deg`);
+            });
         });
 
         // FADE IN CLASSIQUE
@@ -464,10 +542,10 @@
                 "proj-duree": "Prédiction de Durée", "proj-couleur": "Colorimétrie du Cinéma", "proj-anime": "Violence & Animation",
                 "proj-voyage": "Générations & Voyages", "proj-ens": "Analyse Littéraire (ENS)", "proj-lang": "Évolution Linguistique",
                 "proj-geo": "Régimes Politiques", "proj-hunt": "Hunt-It : Chasse au Trésor", "proj-fractal": "Le Paradoxe du Littoral",
-                "btn-all-tiny": "Voir tout ->", "h-contact": "Prêt à échanger ?", 
+                "btn-all-tiny": "Voir tous les projets", "h-contact": "Prêt à échanger ?", 
                 "p-contact": "Toujours curieux de relever de nouveaux défis, je suis ouvert aux opportunités d'études en Master, ainsi qu'aux collaborations stimulantes avec des entreprises ou laboratoires de recherche.",
                 "btn-contact": "Me contacter ->", 
-                "footer-text": "© 2026 Julien Arsena. Tout le contenu (code, données, rapports) est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite." 
+                "footer-text": "© 2026 Julien Arsena. Tout le contenu est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite." 
             },
             "en": { 
                 "nav-home": "Home", "nav-projects": "Projects", "nav-about": "About", "nav-contact": "Contact", 
@@ -478,10 +556,10 @@
                 "proj-duree": "Runtime Prediction", "proj-couleur": "Cinema Colorimetry", "proj-anime": "Violence & Animation",
                 "proj-voyage": "Generations & Travel", "proj-ens": "Literary Analysis (ENS)", "proj-lang": "Linguistic Evolution",
                 "proj-geo": "Political Regimes", "proj-hunt": "Hunt-It: Treasure Hunt", "proj-fractal": "The Coastline Paradox",
-                "btn-all-tiny": "View all ->", "h-contact": "Let's connect", 
+                "btn-all-tiny": "View all projects", "h-contact": "Let's connect", 
                 "p-contact": "Always eager to take on new challenges, I am open to Master's degree opportunities and stimulating collaborations with companies or research labs.",
                 "btn-contact": "Get in touch ->", 
-                "footer-text": "© 2026 Julien Arsena. All content (code, data, reports) is provided for review purposes. Any reuse requires explicit attribution." 
+                "footer-text": "© 2026 Julien Arsena. All content is provided for review purposes. Any reuse requires explicit attribution." 
             }
         };
         
