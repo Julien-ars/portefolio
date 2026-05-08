@@ -7,226 +7,174 @@
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
     
     <style>
+        /* --- VARIABLES DE BASE --- */
         :root {
             --bg-color: #e60023; 
             --text-color: #0a0a0a; 
+            --accent-bg: #0a0a0a; 
+            --accent-text: #e60023; 
+            --grid-opacity: 0.05; 
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* --- THEME CLAIR --- */
+        body.theme-light {
+            --bg-color: #F2EFE9; 
+            --text-color: #1A1A1A; 
+            --accent-bg: #1A1A1A; 
+            --accent-text: #F2EFE9; 
+            --grid-opacity: 0.09; 
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { background-color: #050505; scroll-behavior: smooth; }
+
+        /* --- SELECTION DE TEXTE PERSONNALISÉE --- */
+        ::selection { background-color: #0a0a0a; color: #e60023; }
+        ::-moz-selection { background-color: #0a0a0a; color: #e60023; }
+        
+        body.theme-light ::selection { background-color: #b366ff; color: #fff; }
+        body.theme-light ::-moz-selection { background-color: #b366ff; color: #fff; }
 
         body {
+            position: relative;
             background-color: var(--bg-color);
             color: var(--text-color);
             font-family: 'Inter', sans-serif; 
             overflow-x: hidden;
             
             background-image: 
-                linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+                linear-gradient(rgba(0, 0, 0, var(--grid-opacity)) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, var(--grid-opacity)) 1px, transparent 1px);
             background-size: 40px 40px;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        /* --- QUADRILLAGE FONCÉ INTERACTIF --- */
+        .global-grid-hover {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.5) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.5) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none; z-index: 1; 
+            opacity: var(--grid-overlay-op, 0);
+            -webkit-mask-image: radial-gradient(circle 180px at var(--mouse-x, -100px) var(--mouse-y, -100px), black, transparent);
+            mask-image: radial-gradient(circle 180px at var(--mouse-x, -100px) var(--mouse-y, -100px), black, transparent);
+            transition: opacity 0.3s ease;
+        }
+        body.theme-light .global-grid-hover {
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.7) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.7) 1px, transparent 1px);
         }
 
         /* --- HEADER --- */
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 2rem;
-            border-bottom: 2px solid var(--text-color);
-            font-family: 'Anton', sans-serif;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1.5rem 2rem; border-bottom: 2px solid var(--text-color);
+            font-family: 'Anton', sans-serif; position: relative; z-index: 100;
         }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 3rem;
-        }
+        .header-left { display: flex; align-items: center; gap: 3rem; }
 
-        .logo {
-            font-size: 1.5rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .logo { 
+            font-size: 1.5rem; text-transform: uppercase; letter-spacing: 1px; 
+            text-decoration: none; color: var(--text-color); transition: opacity 0.3s ease;
         }
+        .logo:hover { opacity: 0.7; }
 
-        .main-nav {
-            display: flex;
-            gap: 0.5rem;
-        }
+        .main-nav { display: flex; gap: 0.5rem; }
 
         .main-nav a {
-            font-family: 'Inter', sans-serif;
-            font-weight: 600;
-            font-size: 1rem;
-            text-transform: uppercase;
-            text-decoration: none;
-            color: var(--text-color);
-            padding: 0.5rem 1rem;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem;
+            text-transform: uppercase; text-decoration: none; color: var(--text-color);
+            padding: 0.5rem 1rem; border: 2px solid transparent; transition: all 0.3s ease;
         }
 
         .main-nav a.active, .main-nav a:hover {
-            background-color: var(--text-color);
-            color: var(--bg-color);
-            border: 2px solid var(--text-color);
+            background-color: var(--text-color); color: var(--bg-color); border: 2px solid var(--text-color);
         }
+
+        .header-right { display: flex; align-items: center; gap: 1.5rem; }
 
         .lang-switch {
-            display: flex;
-            gap: 0.5rem;
-            font-family: 'Inter', sans-serif;
-            font-weight: 600;
-            font-size: 1rem;
+            display: flex; gap: 0.5rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem;
         }
 
-        .lang-switch span {
-            opacity: 0.4;
-            transition: opacity 0.3s;
-            cursor: pointer;
-        }
+        .lang-switch span { opacity: 0.4; transition: opacity 0.3s; cursor: pointer; }
+        .lang-switch span.active, .lang-switch span:hover { opacity: 1; text-decoration: underline; }
 
-        .lang-switch span.active, .lang-switch span:hover {
-            opacity: 1;
-            text-decoration: underline;
+        .theme-btn { 
+            background: none; border: none; cursor: pointer; display: flex; align-items: center; 
+            justify-content: center; padding: 0.5rem; outline: none;
+        }
+        .theme-indicator {
+            width: 24px; height: 24px; border-radius: 50%;
+            background: linear-gradient(to right, #F2EFE9 50%, #0a0a0a 50%); 
+            border: 2px solid #0a0a0a; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        body.theme-light .theme-indicator {
+            background: linear-gradient(to right, #e60023 50%, #0a0a0a 50%); 
+            border-color: #1A1A1A; transform: rotate(180deg);
         }
 
         /* --- CONTENU --- */
         .container {
-            max-width: 1200px; 
-            margin: 0 auto;
-            padding: 4rem 2rem;
-            flex-grow: 1;
-            width: 100%;
+            max-width: 1200px; margin: 0 auto; padding: 4rem 2rem; flex-grow: 1; width: 100%; position: relative; z-index: 5;
         }
 
         /* --- HEADER DE LA PAGE --- */
         .page-header {
-            margin-bottom: 3rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center; 
-            position: relative; 
+            margin-bottom: 3rem; display: flex; flex-direction: column; align-items: center; position: relative; 
         }
 
         .subtitle {
-            font-family: 'Inter', sans-serif;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
+            font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
+            letter-spacing: 2px; font-size: 1rem; margin-bottom: 0.5rem;
         }
 
         .main-title {
-            font-family: 'Anton', sans-serif;
-            font-size: 5.5rem;
-            line-height: 1;
-            text-transform: uppercase;
-            letter-spacing: -1px;
-            pointer-events: none; 
+            font-family: 'Anton', sans-serif; font-size: 5.5rem; line-height: 1;
+            text-transform: uppercase; letter-spacing: -1px; pointer-events: none; 
         }
 
         .main-title span.letter {
-            display: inline-block;
-            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
-            will-change: transform;
-        }
-
-        /* --- BOUTON DE COULEUR --- */
-        .theme-toggle-btn {
-            background-color: transparent;
-            border: 3px solid var(--text-color);
-            color: var(--text-color);
-            font-family: 'Inter', sans-serif;
-            font-weight: 800;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            padding: 0.6rem 1.5rem;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 2rem; 
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .theme-toggle-btn:hover {
-            background-color: var(--text-color);
-            color: var(--bg-color);
-            transform: translateY(-3px);
-            box-shadow: 4px 4px 0px rgba(0,0,0,0.2);
+            display: inline-block; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); will-change: transform;
         }
 
         /* --- SYSTÈME DE FILTRES RE-CLASSIFIÉ ET ÉPURÉ --- */
         .filter-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-bottom: 4rem;
-            padding: 1.5rem 0;
-            border-bottom: 2px solid rgba(10, 10, 10, 0.1);
+            display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 1rem;
+            margin-bottom: 4rem; padding: 1.5rem 0; border-bottom: 2px solid rgba(10, 10, 10, 0.1);
         }
 
-        /* Le groupe DATA */
-        .filter-group {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
+        .filter-group { display: flex; align-items: center; gap: 1rem; }
 
         .group-label {
-            font-family: 'Inter', sans-serif;
-            font-weight: 800;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-            opacity: 0.8;
-            margin-right: 0.5rem;
+            font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
+            font-size: 0.9rem; letter-spacing: 1px; opacity: 0.8; margin-right: 0.5rem;
         }
 
         .filter-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-color);
-            font-family: 'Inter', sans-serif;
-            font-weight: 600;
-            font-size: 0.95rem;
-            text-transform: uppercase;
-            cursor: pointer;
-            opacity: 0.4;
-            transition: all 0.3s ease;
-            padding: 0.2rem 0;
-            position: relative;
+            background: transparent; border: none; color: var(--text-color); font-family: 'Inter', sans-serif;
+            font-weight: 600; font-size: 0.95rem; text-transform: uppercase; cursor: pointer;
+            opacity: 0.4; transition: all 0.3s ease; padding: 0.2rem 0; position: relative;
         }
 
         .filter-btn:hover { opacity: 0.7; }
         .filter-btn.active { opacity: 1; }
 
-        /* Ligne de soulignement pour le filtre actif */
         .filter-btn.active::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background-color: var(--text-color);
+            content: ''; position: absolute; bottom: -4px; left: 0; width: 100%; height: 2px; background-color: var(--text-color);
         }
 
         .filter-separator { opacity: 0.15; font-weight: 400; font-size: 1.1rem; }
         .group-separator { opacity: 0.3; font-weight: 400; font-size: 1.5rem; margin: 0 1rem; }
 
-        /* Animation pour l'affichage filtré */
         @keyframes popIn {
             0% { opacity: 0; transform: scale(0.95); }
             100% { opacity: 1; transform: scale(1); }
@@ -234,216 +182,125 @@
 
         /* --- ANIMATION SCROLL FLUIDE (1.5s) --- */
         .fade-in-section {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 1.5s ease-out, transform 1.5s ease-out; 
+            opacity: 0; transform: translateY(40px); transition: opacity 1.5s ease-out, transform 1.5s ease-out; 
             will-change: opacity, visibility;
         }
         .fade-in-section.is-visible { opacity: 1; transform: none; }
 
         /* --- SECTIONS PROJETS --- */
-        .section-group {
-            margin-bottom: 4rem;
-        }
+        .section-group { margin-bottom: 4rem; }
 
         .section-title {
-            font-family: 'Anton', sans-serif;
-            font-size: 3rem; 
-            margin-bottom: 2rem;
-            text-transform: uppercase;
-            border-bottom: 4px solid var(--text-color);
-            padding-bottom: 0.5rem;
+            font-family: 'Anton', sans-serif; font-size: 3rem; margin-bottom: 2rem;
+            text-transform: uppercase; border-bottom: 4px solid var(--text-color); padding-bottom: 0.5rem;
         }
 
-        .ds-grid, .web-grid {
-            display: grid;
-            gap: 2rem;
-        }
+        .ds-grid, .web-grid { display: grid; gap: 2rem; }
         .ds-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
         .web-grid { grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); }
 
-        .card-wrapper {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
+        .card-wrapper { display: flex; flex-direction: column; height: 100%; }
 
         /* --- CARTES : TOUJOURS SUR FOND NOIR --- */
         .project-card {
-            border: 3px solid var(--text-color);
-            display: flex;
-            flex-direction: column;
-            background-color: var(--text-color); 
-            color: var(--bg-color); 
-            overflow: hidden;
-            text-decoration: none;
-            flex-grow: 1;
+            border: 3px solid var(--text-color); display: flex; flex-direction: column;
+            background-color: var(--text-color); color: var(--bg-color); overflow: hidden;
+            text-decoration: none; flex-grow: 1;
             transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        .project-card * {
-            transition: color 0.4s ease, border-color 0.4s ease;
-        }
+        .project-card * { transition: color 0.4s ease, border-color 0.4s ease; }
 
         .project-card:hover {
-            transform: translate(-8px, -8px);
-            box-shadow: 12px 12px 0px var(--text-color);
+            transform: translate(-8px, -8px); box-shadow: 12px 12px 0px var(--text-color);
         }
 
-        /* Conteneur d'image */
         .img-container {
-            position: relative;
-            overflow: hidden;
-            /* CORRECTION : Plus de bande séparatrice currentColor */
-            border-bottom: 3px solid var(--text-color); 
+            position: relative; overflow: hidden; border-bottom: 3px solid var(--text-color); 
         }
 
         .project-card-img {
-            width: 100%;
-            height: 180px; 
-            object-fit: cover;
-            display: block;
-            filter: grayscale(0%) contrast(100%);
-            transition: filter 0.4s ease;
+            width: 100%; height: 180px; object-fit: cover; display: block;
+            filter: grayscale(0%) contrast(100%); transition: filter 0.4s ease;
         }
 
         .project-card-content {
-            padding: 1.5rem; 
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-            /* La séparation se fait par l'absence de bordure colorée ici */
+            padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1;
         }
 
         .project-card h3 {
-            font-family: 'Anton', sans-serif;
-            font-size: 2rem; 
-            line-height: 1.2; 
-            letter-spacing: 0.5px; 
-            margin-bottom: 0.8rem;
-            text-transform: uppercase;
+            font-family: 'Anton', sans-serif; font-size: 2rem; line-height: 1.2; 
+            letter-spacing: 0.5px; margin-bottom: 0.8rem; text-transform: uppercase;
         }
 
         .project-catchphrase {
-            font-family: 'Inter', sans-serif;
-            font-style: italic;
-            font-weight: 800;
-            font-size: 1.05rem;
-            margin-bottom: 1rem;
-            padding-left: 1rem;
-            border-left: 4px solid currentColor; 
+            font-family: 'Inter', sans-serif; font-style: italic; font-weight: 800;
+            font-size: 1.05rem; margin-bottom: 1rem; padding-left: 1rem; border-left: 4px solid currentColor; 
         }
 
         .project-card p {
-            font-family: 'Inter', sans-serif;
-            font-size: 1rem;
-            margin-bottom: 1.5rem;
-            line-height: 1.5;
-            font-weight: 500; 
-            opacity: 0.75; 
+            font-family: 'Inter', sans-serif; font-size: 1rem; margin-bottom: 1.5rem;
+            line-height: 1.5; font-weight: 500; opacity: 0.75; 
         }
 
         .project-tags {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            margin-bottom: 1.5rem;
+            display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;
         }
 
         .tag {
-            border: 2px solid currentColor;
-            padding: 0.2rem 0.6rem;
-            font-size: 0.8rem;
-            border-radius: 50px;
-            text-transform: uppercase;
-            font-weight: 800;
+            border: 2px solid currentColor; padding: 0.2rem 0.6rem; font-size: 0.8rem;
+            border-radius: 50px; text-transform: uppercase; font-weight: 800;
         }
 
         .project-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: auto;
-            border-top: 3px solid currentColor;
-            padding-top: 1rem;
-            flex-wrap: wrap;
-            gap: 1rem;
+            display: flex; justify-content: space-between; align-items: center; margin-top: auto;
+            border-top: 3px solid currentColor; padding-top: 1rem; flex-wrap: wrap; gap: 1rem;
         }
 
-        .project-date {
-            font-family: 'Anton', sans-serif;
-            font-size: 1.2rem;
-        }
+        .project-date { font-family: 'Anton', sans-serif; font-size: 1.2rem; }
 
-        .action-buttons {
-            display: flex;
-            gap: 0.8rem;
-            flex-wrap: wrap;
-        }
+        .action-buttons { display: flex; gap: 0.8rem; flex-wrap: wrap; }
 
         .project-link-btn {
-            font-family: 'Inter', sans-serif;
-            font-weight: 800;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            border: 2px solid currentColor;
-            padding: 0.4rem 0.8rem;
-            text-decoration: none;
-            color: inherit;
-            display: inline-block;
-            cursor: pointer;
-            background-color: transparent;
-            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
+            font-size: 0.85rem; border: 2px solid currentColor; padding: 0.4rem 0.8rem;
+            text-decoration: none; color: inherit; display: inline-block; cursor: pointer;
+            background-color: transparent; transition: all 0.3s ease;
         }
 
         .project-card:not(.wip-card):hover .project-link-btn:hover {
-            background-color: currentColor;
-            color: var(--text-color) !important;
+            background-color: currentColor; color: var(--text-color) !important;
         }
 
         /* --- DESIGN DES PROJETS "EN COURS" (WIP) --- */
-        .wip-card {
-            cursor: not-allowed;
-            opacity: 0.9;
-        }
-        
-        .wip-card .project-card-img {
-            filter: grayscale(100%) contrast(120%) !important;
-        }
+        .wip-card { cursor: not-allowed; opacity: 0.9; }
+        .wip-card .project-card-img { filter: grayscale(100%) contrast(120%) !important; }
 
         .wip-banner {
-            position: absolute;
-            top: 50%;
-            left: -15%;
-            width: 130%;
-            background-color: var(--text-color);
-            color: var(--bg-color);
-            font-family: 'Anton', sans-serif;
-            font-size: 1.8rem;
-            text-align: center;
-            padding: 0.5rem 0;
-            transform: translateY(-50%) rotate(-12deg);
-            border-top: 4px solid var(--bg-color);
-            border-bottom: 4px solid var(--bg-color);
-            z-index: 10;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            position: absolute; top: 50%; left: -15%; width: 130%; background-color: var(--text-color);
+            color: var(--bg-color); font-family: 'Anton', sans-serif; font-size: 1.8rem;
+            text-align: center; padding: 0.5rem 0; transform: translateY(-50%) rotate(-12deg);
+            border-top: 4px solid var(--bg-color); border-bottom: 4px solid var(--bg-color);
+            z-index: 10; text-transform: uppercase; letter-spacing: 2px; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
 
-        /* --- MODE TEXTE BLANC (VIA JAVASCRIPT) --- */
-        body.white-text-mode .project-card { color: #ffffff; }
+        /* --- BOUTON RETOUR EN HAUT CENTRÉ --- */
+        .back-to-top-wrapper {
+            text-align: center; padding-bottom: 3rem; position: relative; z-index: 50; width: 100%;
+        }
+        .btn-back-top {
+            display: inline-block; color: var(--text-color); border: 2px solid var(--text-color); 
+            padding: 0.7rem 1.8rem; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 0.85rem; 
+            text-transform: uppercase; text-decoration: none; border-radius: 50px; 
+            transition: all 0.3s ease; cursor: pointer;
+        }
+        .btn-back-top:hover { background: var(--text-color); color: var(--bg-color); transform: translateY(-3px); }
 
         /* --- FOOTER --- */
         .site-footer {
-            padding: 1.5rem 2rem;
-            text-align: center;
-            font-family: 'Inter', sans-serif;
-            font-weight: 600;
-            font-size: 0.85rem;
-            opacity: 0.8;
-            margin-top: auto; 
-            border-top: 2px solid var(--text-color);
+            padding: 1.5rem 2rem; text-align: center; font-family: 'Inter', sans-serif;
+            font-weight: 600; font-size: 0.85rem; opacity: 0.8; margin-top: auto; 
+            border-top: 2px solid var(--text-color); background-color: #050505; color: rgba(179, 102, 255, 0.4);
         }
 
         /* --- RESPONSIVE DESIGN --- */
@@ -465,7 +322,6 @@
             .container { padding: 2rem 1rem; }
             .main-title { font-size: 3.5rem; }
             .section-title { font-size: 2.5rem; }
-            .theme-toggle-btn { font-size: 0.7rem; padding: 0.5rem 1rem; }
             .filter-btn { font-size: 0.9rem; }
             
             .project-footer { flex-direction: column; align-items: flex-start; }
@@ -476,9 +332,11 @@
 </head>
 <body>
 
+    <div class="global-grid-hover" id="global-grid-hover"></div>
+
     <header>
         <div class="header-left">
-            <div class="logo">/// Julien Arsena</div>
+            <a href="index.html" class="logo">/// Julien Arsena</a>
             <nav class="main-nav">
                 <a href="index.html" data-i18n="nav-home">Accueil</a>
                 <a href="projects.html" class="active" data-i18n="nav-projects">Projets</a>
@@ -486,9 +344,14 @@
                 <a href="contact.html" data-i18n="nav-contact">Contact</a>
             </nav>
         </div>
-        <div class="lang-switch">
-            <span id="btn-fr" class="active" onclick="setLanguage('fr')">FR</span> / 
-            <span id="btn-en" onclick="setLanguage('en')">EN</span>
+        <div class="header-right">
+            <div class="lang-switch">
+                <span id="btn-fr" class="active" onclick="setLanguage('fr')">FR</span> / 
+                <span id="btn-en" onclick="setLanguage('en')">EN</span>
+            </div>
+            <button id="theme-toggle" class="theme-btn" aria-label="Changer le thème">
+                <div class="theme-indicator"></div>
+            </button>
         </div>
     </header>
 
@@ -499,9 +362,6 @@
             <h1 class="main-title" id="hero-text" data-i18n="title-projects">
                 <span class="letter">M</span><span class="letter">E</span><span class="letter">S</span><span class="letter">&nbsp;</span><span class="letter">T</span><span class="letter">R</span><span class="letter">A</span><span class="letter">V</span><span class="letter">A</span><span class="letter">U</span><span class="letter">X</span>
             </h1>
-            <button id="toggle-visual-btn" class="theme-toggle-btn" data-i18n="btn-toggle">
-                ✦ Changer la couleur du texte (Blanc)
-            </button>
         </div>
 
         <div class="filter-container fade-in-section">
@@ -780,12 +640,34 @@
 
     </div>
 
+    <div class="back-to-top-wrapper">
+        <a id="btn-back-top" class="btn-back-top" data-i18n="btn-back-top">Remonter en haut</a>
+    </div>
+
     <footer class="site-footer">
         <span data-i18n="footer-text">© 2026 Julien Arsena. Tout le contenu (code, données, rapports) est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite.</span>
     </footer>
 
     <script>
-        // --- 1. ANIMATION SCROLL (FLUIDE 1.5s) ---
+        // --- MÉMOIRE GLOBALE : THÈME ET LANGUE ---
+        
+        // GESTION DU THÈME
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+        
+        if (localStorage.getItem('theme') === 'light') {
+            body.classList.add('theme-light');
+        }
+        
+        themeToggleBtn.addEventListener('click', () => {
+            body.classList.toggle('theme-light');
+            localStorage.setItem('theme', body.classList.contains('theme-light') ? 'light' : '');
+        });
+
+        // GESTION DE LA LANGUE
+        let currentLang = localStorage.getItem('lang') || 'fr';
+        
+        // --- ANIMATION SCROLL (FLUIDE 1.5s) ---
         document.addEventListener("DOMContentLoaded", function() {
             const options = { root: null, rootMargin: '0px', threshold: 0.15 };
             const observer = new IntersectionObserver((entries, observer) => {
@@ -800,9 +682,25 @@
             document.querySelectorAll('.fade-in-section').forEach(section => {
                 observer.observe(section);
             });
+
+            // On applique la langue au chargement
+            setLanguage(currentLang);
         });
 
-        // --- 2. SYSTÈME DE FILTRES RÉORGANISÉ ET MINIMALISTE ---
+        // EFFET LAMPE TORCHE GLOBAL
+        const globalGridHover = document.getElementById('global-grid-hover');
+        document.addEventListener('mousemove', (e) => {
+            globalGridHover.style.setProperty('--grid-overlay-op', '1');
+            globalGridHover.style.setProperty('--mouse-x', `${e.pageX}px`);
+            globalGridHover.style.setProperty('--mouse-y', `${e.pageY}px`);
+        });
+
+        // RETOUR EN HAUT (Scroll doux)
+        document.getElementById('btn-back-top').addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // --- SYSTÈME DE FILTRES ---
         const filterBtns = document.querySelectorAll('.filter-btn');
         const cardWrappers = document.querySelectorAll('.card-wrapper');
         const sectionGroups = document.querySelectorAll('.section-group');
@@ -816,7 +714,6 @@
 
                 cardWrappers.forEach(wrapper => {
                     const categories = wrapper.getAttribute('data-category');
-                    // On vérifie si la catégorie exacte est présente dans la liste (data-category="ml data")
                     const categoryArray = categories.split(' ');
 
                     if (filter === 'all' || categoryArray.includes(filter)) {
@@ -829,7 +726,6 @@
                     }
                 });
 
-                // Cacher les titres de sections vides
                 sectionGroups.forEach(group => {
                     const visibleCards = Array.from(group.querySelectorAll('.card-wrapper')).filter(card => card.style.display !== 'none');
                     const title = group.querySelector('.section-title');
@@ -845,7 +741,7 @@
             });
         });
 
-        // --- 3. JAVASCRIPT : RÉPULSION DOUCE DES LETTRES ---
+        // --- JAVASCRIPT : RÉPULSION DOUCE DES LETTRES ---
         const heroSection = document.getElementById('hero-section');
         let letters = document.querySelectorAll('.letter');
 
@@ -882,31 +778,13 @@
                 });
             });
         }
-        initMagneticLetters();
 
-        // --- 4. JAVASCRIPT : TOGGLE COULEUR DU TEXTE ---
-        const toggleBtn = document.getElementById('toggle-visual-btn');
-        let isWhiteText = false;
-
-        toggleBtn.addEventListener('click', () => {
-            isWhiteText = !isWhiteText;
-            document.body.classList.toggle('white-text-mode');
-            
-            const isFr = document.getElementById('btn-fr').classList.contains('active');
-            if (isWhiteText) {
-                toggleBtn.innerHTML = isFr ? '✦ Changer la couleur du texte (Rouge)' : '✦ Change text color (Red)';
-            } else {
-                toggleBtn.innerHTML = isFr ? '✦ Changer la couleur du texte (Blanc)' : '✦ Change text color (White)';
-            }
-        });
-
-        // --- 5. SYSTÈME DE TRADUCTION ---
+        // --- SYSTÈME DE TRADUCTION ---
         const translations = {
             "fr": {
                 "nav-home": "Accueil", "nav-projects": "Projets", "nav-about": "À Propos", "nav-contact": "Contact",
                 "subtitle-projects": "Portfolio",
                 "title-projects": "<span class='letter'>M</span><span class='letter'>E</span><span class='letter'>S</span><span class='letter'>&nbsp;</span><span class='letter'>T</span><span class='letter'>R</span><span class='letter'>A</span><span class='letter'>V</span><span class='letter'>A</span><span class='letter'>U</span><span class='letter'>X</span>",
-                "btn-toggle": "✦ Changer la couleur du texte (Blanc)",
                 "filter-all": "Voir Tout", "filter-ml": "Machine Learning", "filter-nlp": "NLP", "filter-sondage": "Sondages", "filter-label-crea": "Créatif", "filter-web": "Web",
                 "wip-banner": "EN COURS",
                 "section-ds": "01. Sciences des Données & Analyse",
@@ -922,13 +800,13 @@
                 "web2-title": "Le Paradoxe du Littoral", "web2-catch": "\"Comment vulgariser la complexité infinie des fractales ?\"", "web2-desc": "Site web réalisé pour illustrer un article scientifique sur les paradoxes mathématiques, et plus particulièrement le paradoxe du littoral (fractales de Mandelbrot). Mise en forme vulgarisée et conception UI/UX pour la médiation scientifique.",
                 "date-oct25": "Oct. 2025", "date-mai25": "Mai 2025", "date-fev25": "Fév. 2025", "date-dec25": "Déc. 2025", "date-avr26": "Avr. 2026", "date-juin25": "Juin 2025", "date-jan25": "Janv. 2025", "date-ens": "Stage ENS", "date-tba": "À venir", "date-tba-2": "À venir",
                 "btn-details": "Voir la page", "btn-tba": "Bientôt disponible", "btn-visit": "Visiter le site ->", "btn-article": "Lire l'article",
+                "btn-back-top": "Remonter en haut",
                 "footer-text": "© 2026 Julien Arsena. Tout le contenu (code, données, rapports) est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite."
             },
             "en": {
                 "nav-home": "Home", "nav-projects": "Projects", "nav-about": "About", "nav-contact": "Contact",
                 "subtitle-projects": "Portfolio",
                 "title-projects": "<span class='letter'>M</span><span class='letter'>Y</span><span class='letter'>&nbsp;</span><span class='letter'>W</span><span class='letter'>O</span><span class='letter'>R</span><span class='letter'>K</span>",
-                "btn-toggle": "✦ Change text color (White)",
                 "filter-all": "View All", "filter-ml": "Machine Learning", "filter-nlp": "NLP", "filter-sondage": "Surveys", "filter-label-crea": "Creative", "filter-web": "Web",
                 "wip-banner": "WORK IN PROGRESS",
                 "section-ds": "01. Data Science & Analysis",
@@ -944,11 +822,15 @@
                 "web2-title": "The Coastline Paradox", "web2-catch": "\"How do we popularize the infinite complexity of fractals?\"", "web2-desc": "Website created to illustrate a scientific article on mathematical paradoxes, specifically the coastline paradox (Mandelbrot fractals). Simplified formatting and UI/UX design for scientific outreach.",
                 "date-oct25": "Oct. 2025", "date-mai25": "May 2025", "date-fev25": "Feb. 2025", "date-dec25": "Dec. 2025", "date-avr26": "Apr. 2026", "date-juin25": "June 2025", "date-jan25": "Jan. 2025", "date-ens": "ENS Intern", "date-tba": "Upcoming", "date-tba-2": "Upcoming",
                 "btn-details": "View page", "btn-tba": "Coming soon", "btn-visit": "Visit website ->", "btn-article": "Read Article",
+                "btn-back-top": "Back to top",
                 "footer-text": "© 2026 Julien Arsena. All content (code, data, reports) is provided for review purposes. Any reuse requires explicit attribution."
             }
         };
 
         function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('lang', lang); 
+            
             document.querySelectorAll('[data-i18n]').forEach(element => {
                 const key = element.getAttribute('data-i18n');
                 if (translations[lang][key]) {
@@ -962,12 +844,6 @@
             } else {
                 document.getElementById('btn-en').classList.add('active');
                 document.getElementById('btn-fr').classList.remove('active');
-            }
-            
-            if (isWhiteText) {
-                toggleBtn.innerHTML = lang === 'fr' ? '✦ Changer la couleur du texte (Rouge)' : '✦ Change text color (Red)';
-            } else {
-                toggleBtn.innerHTML = lang === 'fr' ? '✦ Changer la couleur du texte (Blanc)' : '✦ Change text color (White)';
             }
 
             initMagneticLetters();
