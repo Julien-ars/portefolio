@@ -7,14 +7,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     
     <style>
-        /* --- VARIABLES DE BASE (Thème Rouge) --- */
+        /* --- VARIABLES DE BASE --- */
         :root {
             --bg-color: #e60023; 
             --text-color: #0a0a0a; 
             --accent-bg: #0a0a0a; 
             --accent-text: #e60023; 
-            --hover-bg: #0a0a0a; 
-            --hover-text: #e60023; 
             --grid-opacity: 0.05; 
         }
 
@@ -22,10 +20,8 @@
         body.theme-light {
             --bg-color: #F2EFE9; 
             --text-color: #1A1A1A; 
-            --accent-bg: #1A1A1A; /* Reste noir pour le footer et bandeau contact */
+            --accent-bg: #1A1A1A; 
             --accent-text: #F2EFE9; 
-            --hover-bg: #1A1A1A; 
-            --hover-text: #F2EFE9; 
             --grid-opacity: 0.09; 
         }
 
@@ -75,11 +71,11 @@
         }
         .hero h1 span { display: inline-block; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); will-change: transform; }
         
-        /* Custom I pour PORTEFOLIO - Encore plus haut ! */
+        /* Custom I pour PORTEFOLIO - Point bien détaché */
         .custom-i { position: relative; }
         .custom-i::after {
-            content: '+'; position: absolute; top: -1.3em; left: 50%; transform: translateX(-50%);
-            font-size: 0.6em; color: var(--text-color); transition: color 0.5s ease;
+            content: '+'; position: absolute; top: -1.5em; left: 50%; transform: translateX(-50%);
+            font-size: 0.55em; color: var(--text-color); transition: color 0.5s ease;
         }
 
         /* --- BANDEAU DEFILEMENT --- */
@@ -103,36 +99,45 @@
         .intro-box:hover { transform: translate(-5px, -5px); box-shadow: 12px 12px 0px var(--text-color); }
         .intro-text { font-family: 'Inter', sans-serif; font-size: 1.2rem; line-height: 1.6; font-weight: 600; margin-bottom: 2rem; }
 
-        /* --- SÉQUENCE ZOOM & HORIZONTAL SCROLL (AVEC INERTIE) --- */
-        .scroll-sequence { height: 700vh; position: relative; } /* Hauteur augmentée = Plus lent */
+        /* --- SÉQUENCE ZOOM & HORIZONTAL SCROLL (AVEC INERTIE & ÉLASTICITÉ) --- */
+        .scroll-sequence { 
+            height: 700vh; /* Permet un scroll lent et contrôlé */
+            position: relative; 
+            background-color: transparent;
+        }
         
         .scroll-sticky {
             position: sticky; top: 0; height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center;
             overflow: hidden; background-color: transparent;
         }
 
+        /* Habillage esthétique de la "porte" avant le zoom */
+        .gate-crosshair {
+            position: absolute; width: 30px; height: 30px; z-index: 40; pointer-events: none;
+            transition: opacity 0.3s ease; opacity: 0.7;
+        }
+        .gate-crosshair::before, .gate-crosshair::after { content: ''; position: absolute; background-color: var(--text-color); }
+        .gate-crosshair::before { width: 100%; height: 2px; top: 50%; transform: translateY(-50%); }
+        .gate-crosshair::after { height: 100%; width: 2px; left: 50%; transform: translateX(-50%); }
+        
+        .cross-tl { top: 20%; left: 20%; } .cross-tr { top: 20%; right: 20%; }
+        .cross-bl { bottom: 20%; left: 20%; } .cross-br { bottom: 20%; right: 20%; }
+
         .clip-box {
             position: absolute; width: 100%; height: 100%; background-color: #050505; 
             display: flex; align-items: center; justify-content: center; overflow: hidden;
-            clip-path: inset(35% 25% round 10px); will-change: clip-path;
+            clip-path: inset(25% 25% round 15px); will-change: clip-path;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px; /* Texture discrète dans la boîte noire */
         }
-
-        /* HABILLAGE DE LA BOITE (Coins décoratifs) */
-        .gate-deco {
-            position: absolute; width: 50px; height: 50px; border: 4px solid var(--bg-color); opacity: 0.8;
-            transition: opacity 0.2s ease, border-color 0.5s ease; z-index: 40; pointer-events: none;
-        }
-        .gate-deco.top-left { top: 40px; left: 40px; border-right: none; border-bottom: none; }
-        .gate-deco.top-right { top: 40px; right: 40px; border-left: none; border-bottom: none; }
-        .gate-deco.bottom-left { bottom: 40px; left: 40px; border-right: none; border-top: none; }
-        .gate-deco.bottom-right { bottom: 40px; right: 40px; border-left: none; border-top: none; }
 
         .gate-text {
-            position: absolute; font-size: 6vw; color: var(--bg-color); text-transform: uppercase; z-index: 50;
-            pointer-events: none; transition: opacity 0.2s ease, color 0.5s ease; letter-spacing: 2px;
+            position: absolute; font-size: 6vw; text-transform: uppercase; z-index: 50;
+            pointer-events: none; transition: opacity 0.2s ease; letter-spacing: 2px;
+            color: var(--bg-color); /* Apparaît Rouge en thème sombre, Beige en thème clair */
         }
 
-        /* Textes de fond/premier plan (Opacité gérée via JS) */
+        /* Textes de fond/premier plan */
         .h-scroll-bg-text, .h-scroll-fg-text, .h-scroll-container, .h-btn-all { opacity: 0; }
         
         .h-scroll-bg-text {
@@ -143,30 +148,31 @@
         .h-scroll-fg-text {
             position: absolute; top: 70%; left: 50%; transform: translate(-50%, -50%);
             width: 300vw; text-align: center; font-size: 10vw; color: transparent; 
-            -webkit-text-stroke: 2px rgba(255, 255, 255, 0.2); z-index: 20; pointer-events: none; white-space: nowrap; will-change: transform, opacity;
+            -webkit-text-stroke: 2px rgba(255, 255, 255, 0.15); z-index: 20; pointer-events: none; white-space: nowrap; will-change: transform, opacity;
         }
 
-        /* --- CARTES (PLUS PETITES + EFFET 3D) --- */
+        /* --- CARTES : PETITS RECTANGLES + FOCUS + ELASTICITÉ --- */
         .h-scroll-container {
-            display: flex; align-items: center; gap: 4vw; padding: 0 35vw; position: absolute; left: 0; top: 0; height: 100vh;
+            display: flex; align-items: center; gap: 3vw; padding: 0 40vw; position: absolute; left: 0; top: 0; height: 100vh;
             width: max-content; will-change: transform, opacity; z-index: 5;
-            perspective: 1200px; /* Indispensable pour l'effet 3D */
         }
 
         .h-card {
             flex: 0 0 auto; 
-            width: 24vw; /* Plus petit ! */
-            min-width: 260px; max-width: 380px; 
+            width: 18vw; /* Cartes plus petites */
+            min-width: 220px; max-width: 320px; 
             background-color: transparent; text-decoration: none; display: flex; flex-direction: column;
-            transform-style: preserve-3d;
             
-            /* L'effet magique : Y-offset (fixe) + Échelle (dynamique) + Rotation 3D (dynamique) */
-            transform: translateY(var(--y-base, 0)) scale(var(--scale-val, 1)) rotateY(var(--rot-y, 0deg));
-            will-change: transform;
+            /* Opacité de focus (1 au centre, 0.4 sur les bords) gérée par CSS via variable JS */
+            opacity: var(--op-val, 1);
+            
+            /* Transform combine : Décalage Y + Scale de Focus + Skew de vélocité (Élasticité) */
+            transform: translateY(var(--y-base, 0)) scale(var(--scale-val, 1)) skewX(var(--skew-vel, 0deg));
+            will-change: transform, opacity;
         }
         
-        .h-card:nth-child(odd) { --y-base: -5vh; }
-        .h-card:nth-child(even) { --y-base: 5vh; }
+        .h-card:nth-child(odd) { --y-base: -8vh; }
+        .h-card:nth-child(even) { --y-base: 8vh; }
 
         .h-card-inner {
             transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -174,62 +180,88 @@
         }
 
         .h-card-img-wrapper {
-            width: 100%; height: 350px; overflow: hidden; border: 3px solid #fff; 
-            position: relative; box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            width: 100%; height: 260px; overflow: hidden; border: 2px solid rgba(255,255,255,0.8); 
+            position: relative; box-shadow: 0 15px 35px rgba(0,0,0,0.5); border-radius: 4px;
         }
 
         .h-card img {
-            width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%); 
+            width: 100%; height: 100%; object-fit: cover; filter: grayscale(30%); 
             transition: transform 0.7s cubic-bezier(0.25, 0.8, 0.25, 1), filter 0.5s ease;
         }
 
         .h-card-info { padding-top: 1rem; text-align: left; }
         
         .h-card h3 {
-            font-size: 1.8rem; margin-bottom: 0.5rem; line-height: 1.1; font-family: 'Anton', sans-serif;
+            font-size: 1.6rem; margin-bottom: 0.5rem; line-height: 1.1; font-family: 'Anton', sans-serif;
             text-transform: uppercase; color: #fff; transition: color 0.3s ease;
         }
 
-        .h-card-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; font-family: 'Inter', sans-serif; }
+        .h-card-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; font-family: 'Inter', sans-serif; }
         .h-card-tags .tag {
-            border: 1px solid rgba(255,255,255,0.4); padding: 0.2rem 0.6rem; font-size: 0.75rem;
-            border-radius: 50px; text-transform: uppercase; font-weight: 600; color: #fff;
+            border: 1px solid rgba(255,255,255,0.3); padding: 0.2rem 0.5rem; font-size: 0.7rem;
+            border-radius: 50px; text-transform: uppercase; font-weight: 600; color: rgba(255,255,255,0.8);
         }
 
         /* Survol */
-        .h-card:hover .h-card-inner { transform: scale(1.02) translateY(-5px); }
-        .h-card:hover img { transform: scale(1.08); filter: grayscale(0%); }
-        .h-card:hover h3 { color: #e60023; }
+        .h-card:hover .h-card-inner { transform: scale(1.05) translateY(-5px); }
+        .h-card:hover img { transform: scale(1.1); filter: grayscale(0%); }
+        .h-card:hover h3 { color: #b366ff; /* Violet au survol */ }
         
         .h-card-spacer { flex: 0 0 auto; width: 20vw; }
 
-        /* BOUTON "VOIR TOUT" DISCRET (RESTAURÉ) */
+        /* BOUTON "VOIR TOUT" DISCRET (PILULE TRANSLUCIDE) */
         .h-btn-all {
             position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); z-index: 30; 
-            color: #fff; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255,255,255,0.3); 
+            color: #fff; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.2); 
             padding: 0.6rem 1.5rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; 
-            text-transform: uppercase; text-decoration: none; border-radius: 50px; backdrop-filter: blur(5px); 
+            text-transform: uppercase; text-decoration: none; border-radius: 50px; backdrop-filter: blur(8px); 
             transition: all 0.3s ease; will-change: opacity;
         }
         .h-btn-all:hover { background: #fff; color: #000; transform: translateX(-50%) scale(1.05); }
 
-        /* --- SECTION CONTACT --- */
-        .cta-section { background-color: var(--accent-bg); color: var(--accent-text); padding: 4rem 2rem; text-align: center; border-bottom: 4px solid var(--text-color); width: 100%; transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease; }
-        .cta-section h2 { font-size: 4rem; margin-bottom: 1rem; color: var(--bg-color); } 
-        .cta-text { font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 600; max-width: 750px; margin: 0 auto 2rem auto; color: var(--accent-text); }
+        /* --- SECTION CONTACT INTÉGRÉE (FOND NOIR / TEXTE VIOLET) --- */
+        /* Elle suit directement la boîte noire de la zone de scroll pour une transition invisible */
+        .cta-section { 
+            background-color: #050505; /* Se fond avec le clip-box */
+            padding: 6rem 2rem 4rem 2rem; text-align: center; width: 100%; 
+        }
+        
+        .cta-section h2 { 
+            font-size: 4rem; margin-bottom: 1rem; 
+            color: #b366ff; /* VIOLET ÉCLATANT */
+        } 
+        
+        .cta-text { 
+            font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 600; max-width: 750px; 
+            margin: 0 auto 2rem auto; 
+            color: rgba(179, 102, 255, 0.8); /* Violet adouci */
+        }
+        
         .cta-socials { display: flex; justify-content: center; gap: 1.5rem; margin-top: 2rem; }
-        .cta-socials a { color: var(--accent-text); transition: all 0.3s ease; }
-        .cta-socials a:hover { transform: translateY(-3px); opacity: 0.7; }
+        .cta-socials a { color: #b366ff; transition: all 0.3s ease; }
+        .cta-socials a:hover { transform: translateY(-3px); color: #fff; }
         .cta-socials svg { width: 35px; height: 35px; fill: currentColor; }
 
         .btn-container { display: flex; margin-top: 1rem; }
         .btn-container.center { justify-content: center; }
-        .btn-primary { font-family: 'Anton', sans-serif; font-size: 1.5rem; text-transform: uppercase; text-decoration: none; color: var(--text-color); border: 3px solid var(--text-color); padding: 0.8rem 1.5rem; transition: all 0.3s ease; background-color: transparent; display: inline-block; }
-        .btn-primary:hover { transform: translate(-5px, -5px); box-shadow: 8px 8px 0px var(--text-color); background-color: var(--text-color); color: var(--bg-color); }
-        .btn-inverted { color: var(--accent-text); border-color: var(--accent-text); }
-        .btn-inverted:hover { box-shadow: 8px 8px 0px var(--accent-text); background-color: var(--accent-text); color: var(--accent-bg); }
+        
+        /* Bouton Contact en Violet */
+        .btn-contact-violet { 
+            font-family: 'Anton', sans-serif; font-size: 1.5rem; text-transform: uppercase; text-decoration: none; 
+            color: #b366ff; border: 3px solid #b366ff; padding: 0.8rem 1.5rem; transition: all 0.3s ease; 
+            background-color: transparent; display: inline-block; 
+        }
+        .btn-contact-violet:hover { 
+            transform: translate(-5px, -5px); box-shadow: 8px 8px 0px #b366ff; 
+            background-color: #b366ff; color: #050505; 
+        }
 
-        .site-footer { padding: 1.5rem 2rem; text-align: center; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; opacity: 0.8; margin-top: auto; }
+        /* --- FOOTER ASSORTI --- */
+        .site-footer { 
+            background-color: #050505; color: rgba(179, 102, 255, 0.5);
+            padding: 1.5rem 2rem 3rem 2rem; text-align: center; font-family: 'Inter', sans-serif; 
+            font-weight: 600; font-size: 0.85rem; 
+        }
 
         .fade-in-section { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; will-change: opacity, visibility; }
         .fade-in-section.is-visible { opacity: 1; transform: none; }
@@ -241,15 +273,11 @@
             .hero h1 { font-size: 13vw; } 
             .marquee-text { font-size: 2rem; } 
             .section-heading { font-size: 2.5rem; }
-            .clip-box { clip-path: inset(30% 10% round 10px); }
+            .clip-box { clip-path: inset(20% 10% round 10px); }
             .gate-text { font-size: 12vw; }
-            .gate-deco { width: 30px; height: 30px; }
-            .gate-deco.top-left { top: 20px; left: 20px; }
-            .gate-deco.top-right { top: 20px; right: 20px; }
-            .gate-deco.bottom-left { bottom: 20px; left: 20px; }
-            .gate-deco.bottom-right { bottom: 20px; right: 20px; }
+            .gate-crosshair { display: none; } /* Caché sur mobile pour la lisibilité */
             
-            .h-card { width: 75vw; }
+            .h-card { width: 65vw; }
             .h-card:nth-child(odd), .h-card:nth-child(even) { --y-base: 0; } 
         }
     </style>
@@ -309,12 +337,12 @@
     <div class="scroll-sequence" id="scroll-sequence">
         <div class="scroll-sticky">
             
-            <div class="clip-box" id="clip-box">
-                <div class="gate-deco top-left"></div>
-                <div class="gate-deco top-right"></div>
-                <div class="gate-deco bottom-left"></div>
-                <div class="gate-deco bottom-right"></div>
+            <div class="gate-crosshair cross-tl"></div>
+            <div class="gate-crosshair cross-tr"></div>
+            <div class="gate-crosshair cross-bl"></div>
+            <div class="gate-crosshair cross-br"></div>
 
+            <div class="clip-box" id="clip-box">
                 <h2 class="gate-text" id="gate-text" data-i18n="gate-title">Mes Projets</h2>
                 
                 <div class="h-scroll-bg-text" id="h-scroll-bg" data-i18n="bg-projects">
@@ -429,7 +457,7 @@
         <h2 data-i18n="h-contact">Prêt à échanger ?</h2>
         <p class="cta-text" data-i18n="p-contact">Toujours curieux de relever de nouveaux défis, je suis ouvert aux opportunités d'études en Master, ainsi qu'aux collaborations stimulantes avec des entreprises ou laboratoires de recherche.</p>
         <div class="btn-container center">
-            <a href="contact.html" class="btn-primary btn-inverted" data-i18n="btn-contact">Me contacter -></a>
+            <a href="contact.html" class="btn-contact-violet" data-i18n="btn-contact">Me contacter -></a>
         </div>
         <div class="cta-socials">
             <a href="https://www.linkedin.com/in/julien-arsena/" target="_blank">
@@ -455,16 +483,16 @@
             localStorage.setItem('theme', body.classList.contains('theme-light') ? 'light' : '');
         });
 
-        // --- MOTEUR DE DÉFILEMENT FLUIDE (LERP) ET RENDU 3D ---
+        // --- MOTEUR DE DÉFILEMENT LERP (INERTIE) ET DÉFORMATION ÉLASTIQUE ---
         const seq = document.getElementById('scroll-sequence');
         const clipBox = document.getElementById('clip-box');
         const gateText = document.getElementById('gate-text');
+        const crosshairs = document.querySelectorAll('.gate-crosshair');
         const hContainer = document.getElementById('h-scroll-container');
         const bgText = document.getElementById('h-scroll-bg');
         const fgText = document.getElementById('h-scroll-fg');
         const btnAll = document.getElementById('h-btn-all');
         const cards = document.querySelectorAll('.h-card');
-        const decos = document.querySelectorAll('.gate-deco');
 
         let targetP = 0;
         let currentP = 0;
@@ -487,36 +515,31 @@
         updateTargetP();
 
         function renderAnimation() {
-            // LERP : C'est ici que la magie de la fluidité s'opère (0.07 de vitesse d'inertie)
-            currentP += (targetP - currentP) * 0.07;
+            // LERP : Plus le chiffre est bas, plus l'inertie est forte (0.05 est très doux)
+            currentP += (targetP - currentP) * 0.05;
             
-            let clipY = 35, clipX = 25, radius = 10, gateOp = 1, hTrans = 0;
+            let clipY = 25, clipX = 25, radius = 15, gateOp = 1, hTrans = 0;
             let contentOp = 0; 
-            const maxScroll = hContainer.scrollWidth - window.innerWidth + window.innerWidth * 0.2; // Laisser respirer à la fin
+            const maxScroll = hContainer.scrollWidth - window.innerWidth + window.innerWidth * 0.1; 
 
             // Phase 1 : Zoom
             if (currentP < 0.15) {
                 let ease = (currentP / 0.15); 
-                clipY = 35 * (1 - ease); clipX = window.innerWidth > 768 ? 25 * (1 - ease) : 10 * (1 - ease);
-                radius = 10 * (1 - ease); gateOp = 1 - (ease * 1.5);
+                clipY = 25 * (1 - ease); clipX = window.innerWidth > 768 ? 25 * (1 - ease) : 10 * (1 - ease);
+                radius = 15 * (1 - ease); gateOp = 1 - (ease * 1.5);
                 if (currentP > 0.05) contentOp = (currentP - 0.05) / 0.10; 
             } 
-            // Phase 2 : Scroll Horizontal
-            else if (currentP >= 0.15 && currentP <= 0.85) {
-                clipY = 0; clipX = 0; radius = 0; gateOp = 0; contentOp = 1;
-                hTrans = ((currentP - 0.15) / 0.70) * maxScroll;
-            } 
-            // Phase 3 : Dezoom
+            // Phase 2 : Scroll Horizontal (Le dezoom a été retiré pour fondre sur le contact)
             else {
-                let ease = (currentP - 0.85) / 0.15;
-                clipY = 35 * ease; clipX = window.innerWidth > 768 ? 25 * ease : 10 * ease;
-                radius = 10 * ease; gateOp = 0; hTrans = maxScroll;
-                if (currentP < 0.90) contentOp = 1 - ((currentP - 0.85) / 0.05);
-            }
+                clipY = 0; clipX = 0; radius = 0; gateOp = 0; contentOp = 1;
+                // On mappe le scroll horizontal sur le reste du chemin
+                hTrans = ((currentP - 0.15) / 0.85) * maxScroll;
+            } 
 
             clipBox.style.clipPath = `inset(${clipY}% ${clipX}% round ${radius}px)`;
+            
             if(gateText) gateText.style.opacity = Math.max(0, gateOp);
-            decos.forEach(deco => deco.style.opacity = Math.max(0, gateOp));
+            crosshairs.forEach(c => c.style.opacity = Math.max(0, gateOp));
             
             hContainer.style.opacity = Math.max(0, contentOp);
             if(bgText) bgText.style.opacity = Math.max(0, contentOp * 0.5); 
@@ -527,9 +550,15 @@
             if(bgText) bgText.style.transform = `translate(-50%, -50%) translateX(${currentP * 20}vw)`;
             if(fgText) fgText.style.transform = `translate(-50%, -50%) translateX(-${currentP * 40}vw)`;
 
-            // EFFET DE DISTORSION 3D (COVERFLOW) SUR LES CARTES
+            // EFFET DE FOCUS ET D'ÉLASTICITÉ (SKEWX VIA VÉLOCITÉ)
             if (contentOp > 0.1) {
                 const screenCenter = window.innerWidth / 2;
+                
+                // Calcul de la vélocité pour l'étirement (Déformation fluide)
+                let velocity = (targetP - currentP) * 1000; 
+                let skewAngle = velocity * 0.04; 
+                skewAngle = Math.max(-12, Math.min(12, skewAngle)); // Limite à 12 degrés de déformation
+
                 cards.forEach(card => {
                     const cardRect = card.getBoundingClientRect();
                     const cardCenter = cardRect.left + (cardRect.width / 2);
@@ -538,21 +567,21 @@
                     // Normalisation (-1 bord gauche, 0 au centre, 1 bord droit)
                     const normalizedDist = Math.max(-1, Math.min(1, distanceFromCenter / (window.innerWidth / 1.5)));
                     
-                    // Scale : Taille 1 au centre, 0.82 sur les bords
-                    const scaleFactor = 1 - (Math.abs(normalizedDist) * 0.18);
+                    // Scale : Taille 1 au centre, 0.85 sur les bords (Focus visuel)
+                    const scaleFactor = 1 - (Math.abs(normalizedDist) * 0.15);
                     
-                    // RotateY : Penche de 20 degrés vers l'arrière sur les bords
-                    const rotateY = normalizedDist * 20; 
+                    // Opacité : 1 au centre, 0.4 sur les bords
+                    const opacityFactor = 1 - (Math.abs(normalizedDist) * 0.6);
 
                     card.style.setProperty('--scale-val', scaleFactor);
-                    card.style.setProperty('--rot-y', `${rotateY}deg`);
+                    card.style.setProperty('--op-val', opacityFactor);
+                    card.style.setProperty('--skew-vel', `${skewAngle}deg`);
                 });
             }
 
             requestAnimationFrame(renderAnimation);
         }
         
-        // Lancer la boucle d'animation
         renderAnimation();
 
         // FADE IN CLASSIQUE
@@ -593,7 +622,7 @@
                 "btn-all-tiny": "Voir tous les projets", "h-contact": "Prêt à échanger ?", 
                 "p-contact": "Toujours curieux de relever de nouveaux défis, je suis ouvert aux opportunités d'études en Master, ainsi qu'aux collaborations stimulantes avec des entreprises ou laboratoires de recherche.",
                 "btn-contact": "Me contacter ->", 
-                "footer-text": "© 2026 Julien Arsena. Tout le contenu est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite." 
+                "footer-text": "© 2026 Julien Arsena. Tout le contenu est mis à disposition pour consultation." 
             },
             "en": { 
                 "nav-home": "Home", "nav-projects": "Projects", "nav-about": "About", "nav-contact": "Contact", 
@@ -607,7 +636,7 @@
                 "btn-all-tiny": "View all projects", "h-contact": "Let's connect", 
                 "p-contact": "Always eager to take on new challenges, I am open to Master's degree opportunities and stimulating collaborations with companies or research labs.",
                 "btn-contact": "Get in touch ->", 
-                "footer-text": "© 2026 Julien Arsena. All content is provided for review purposes. Any reuse requires explicit attribution." 
+                "footer-text": "© 2026 Julien Arsena. All content is provided for review purposes." 
             }
         };
         
