@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Julien Arsena | Data Scientist & Arts</title>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         /* --- VARIABLES DE BASE --- */
@@ -27,10 +27,7 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        html {
-            /* Empêche le rebond d'afficher la couleur du body tout en bas */
-            background-color: #050505; 
-        }
+        html { background-color: #050505; }
 
         body {
             background-color: var(--bg-color); color: var(--text-color); font-family: 'Anton', sans-serif; 
@@ -70,16 +67,20 @@
             align-items: center; text-align: center; border-bottom: 2px solid var(--text-color);
             position: relative; overflow: hidden; 
         }
-        /* Effet d'assombrissement fluide au survol de la section */
-        .hero::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle, rgba(0,0,0,0.15) 0%, transparent 80%);
-            opacity: 0; transition: opacity 0.6s ease; z-index: 1; pointer-events: none;
+
+        /* Quadrillage interactif assombri au survol */
+        .hero-grid-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(var(--text-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--text-color) 1px, transparent 1px);
+            background-size: 40px 40px;
+            opacity: 0; transition: opacity 0.4s ease;
+            z-index: 1; pointer-events: none;
         }
-        body.theme-light .hero::before {
-            background: radial-gradient(circle, rgba(0,0,0,0.08) 0%, transparent 80%);
+        .hero:hover .hero-grid-overlay {
+            opacity: 0.08; 
         }
-        .hero:hover::before { opacity: 1; }
 
         .hero h1 {
             font-size: 11vw; line-height: 0.9; text-transform: uppercase; letter-spacing: -2px;
@@ -87,7 +88,7 @@
         }
         .hero h1 span { display: inline-block; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); will-change: transform; }
         
-        /* Custom I pour PORTEFOLIO - Point bien détaché au-dessus et animation de rebond */
+        /* I de Portefolio cassé */
         .custom-i { position: relative; pointer-events: auto; cursor: crosshair; }
         .custom-i::after {
             content: '+'; position: absolute; top: -1.4em; left: 50%; transform: translateX(-50%);
@@ -95,15 +96,17 @@
             will-change: transform;
         }
         
-        @keyframes dropBounce {
-            0% { transform: translateX(-50%) translateY(0); }
-            35% { transform: translateX(-50%) translateY(32vh) scaleY(0.7); }
-            55% { transform: translateX(-50%) translateY(18vh) scaleY(1.1); }
-            75% { transform: translateX(-50%) translateY(32vh) scaleY(0.85); }
-            100% { transform: translateX(-50%) translateY(0); }
+        .custom-i.broken::after {
+            animation: breakDrop 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
-        .custom-i:hover::after {
-            animation: dropBounce 1.4s cubic-bezier(0.28, 0.84, 0.42, 1) forwards;
+
+        @keyframes breakDrop {
+            0% { transform: translateX(-50%) translateY(0) rotate(0); }
+            15% { transform: translateX(-50%) translateY(-15px) rotate(-10deg); } /* Anticipation */
+            50% { transform: translateX(-50%) translateY(42vh) rotate(50deg); } /* Chute */
+            70% { transform: translateX(-50%) translateY(32vh) rotate(80deg); } /* Rebond */
+            85% { transform: translateX(-50%) translateY(42vh) rotate(110deg); } /* Chute 2 */
+            100% { transform: translateX(-50%) translateY(42vh) rotate(105deg); } /* Reste coincé */
         }
 
         /* --- BANDEAU DEFILEMENT --- */
@@ -127,7 +130,6 @@
         .intro-box:hover { transform: translate(-5px, -5px); box-shadow: 12px 12px 0px var(--text-color); }
         .intro-text { font-family: 'Inter', sans-serif; font-size: 1.2rem; line-height: 1.6; font-weight: 600; margin-bottom: 2rem; }
 
-        /* --- BOUTON PRINCIPAL CORRIGÉ --- */
         .btn-container { display: flex; margin-top: 1rem; width: 100%; justify-content: center; }
         .btn-primary { 
             font-family: 'Anton', sans-serif; font-size: 1.5rem; text-transform: uppercase; text-decoration: none; 
@@ -140,12 +142,12 @@
             background-color: var(--text-color); color: var(--bg-color); 
         }
 
-        /* --- SÉQUENCE ZOOM & HORIZONTAL SCROLL (AVEC INERTIE & ÉLASTICITÉ) --- */
+        /* --- SÉQUENCE ZOOM & HORIZONTAL SCROLL --- */
         .scroll-sequence { 
-            height: 700vh;
+            height: 500vh; /* Légèrement réduit pour éviter l'effet de lenteur */
             position: relative; 
             background-color: transparent;
-            margin-bottom: 0; /* CORRECTION DU BUG : Retrait de l'espace pour supprimer la bande rouge/blanche */
+            margin-bottom: 0;
         }
         
         .scroll-sticky {
@@ -153,7 +155,6 @@
             overflow: hidden; background-color: transparent;
         }
 
-        /* Réticules de visée */
         .gate-crosshair {
             position: absolute; width: 30px; height: 30px; z-index: 40; pointer-events: none;
             transition: opacity 0.3s ease; opacity: 0.7;
@@ -172,14 +173,14 @@
             background-size: 40px 40px; 
         }
 
-        /* HABILLAGE : LIGNES TOPOGRAPHIQUES (Placé à l'intérieur du clip-box) */
+        /* LIGNES TOPOGRAPHIQUES AMELIORÉES */
         .topo-bg {
-            position: absolute; width: 120%; height: 120%; top: -10%; left: -10%;
-            z-index: 0; pointer-events: none; opacity: 0.35;
-            transition: transform 0.3s ease-out; /* Pour adoucir l'interaction souris */
+            position: absolute; width: 110%; height: 110%; top: -5%; left: -5%;
+            z-index: 10; pointer-events: none; opacity: 0;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
-        .topo-bg svg { width: 100%; height: 100%; animation: topoFloat 25s ease-in-out infinite alternate; }
-        .topo-bg path { stroke: rgba(255, 255, 255, 0.4); stroke-width: 0.5px; fill: none; }
+        .topo-bg svg { width: 100%; height: 100%; animation: topoFloat 20s ease-in-out infinite alternate; }
+        .topo-bg path { stroke: rgba(255, 255, 255, 0.4); stroke-width: 1.5px; fill: none; }
         
         @keyframes topoFloat {
             0% { transform: scale(1) translate(0, 0) rotate(0deg); }
@@ -190,14 +191,10 @@
         .gate-text {
             position: absolute; font-size: 6vw; text-transform: uppercase; z-index: 50;
             pointer-events: none; transition: opacity 0.2s ease, color 0.5s ease; letter-spacing: 2px;
-            color: #e60023; /* Rouge affirmé */
+            color: #e60023;
         }
-        /* Changement de couleur dynamique pour le thème clair */
-        body.theme-light .gate-text {
-            color: #b366ff;
-        }
+        body.theme-light .gate-text { color: #b366ff; }
 
-        /* Textes de fond/premier plan */
         .h-scroll-bg-text, .h-scroll-fg-text, .h-scroll-container, .h-btn-all { opacity: 0; }
         
         .h-scroll-bg-text {
@@ -211,21 +208,16 @@
             -webkit-text-stroke: 2px rgba(255, 255, 255, 0.15); z-index: 20; pointer-events: none; white-space: nowrap; will-change: transform, opacity;
         }
 
-        /* --- CARTES : RECTANGLES PC (16:9) + ELASTICITÉ --- */
         .h-scroll-container {
-            display: flex; align-items: center; gap: 4vw; padding: 0 45vw; /* Padding large pour centrer le 1er et dernier */
+            display: flex; align-items: center; gap: 4vw; padding: 0 45vw;
             position: absolute; left: 0; top: 0; height: 100vh;
-            width: max-content; will-change: transform, opacity; z-index: 5;
+            width: max-content; will-change: transform, opacity; z-index: 15;
         }
 
         .h-card {
-            flex: 0 0 auto; 
-            width: 32vw; /* Plus large pour faire un rectangle */
-            min-width: 300px; max-width: 500px; 
+            flex: 0 0 auto; width: 32vw; min-width: 300px; max-width: 500px; 
             background-color: transparent; text-decoration: none; display: flex; flex-direction: column;
-            
             opacity: var(--op-val, 1);
-            /* Le skew donne l'effet élastique à la vitesse du scroll */
             transform: translateY(var(--y-base, 0)) scale(var(--scale-val, 1)) skewX(var(--skew-vel, 0deg));
             will-change: transform, opacity;
         }
@@ -238,7 +230,6 @@
             display: flex; flex-direction: column; width: 100%;
         }
 
-        /* Format Rectangle PC (16/9) */
         .h-card-img-wrapper {
             width: 100%; aspect-ratio: 16 / 9; height: auto; 
             overflow: hidden; border: 2px solid rgba(255,255,255,0.8); 
@@ -252,8 +243,10 @@
 
         .h-card-info { padding-top: 1.2rem; text-align: left; }
         
+        /* Correction de la police des projets pour plus de lisibilité */
         .h-card h3 {
-            font-size: 1.8rem; margin-bottom: 0.5rem; line-height: 1.1; font-family: 'Anton', sans-serif;
+            font-size: 1.5rem; margin-bottom: 0.5rem; line-height: 1.2; 
+            font-family: 'Inter', sans-serif; font-weight: 700; letter-spacing: -0.5px;
             text-transform: uppercase; color: #fff; transition: color 0.3s ease;
         }
 
@@ -267,9 +260,8 @@
         .h-card:hover img { transform: scale(1.08); filter: grayscale(0%); }
         .h-card:hover h3 { color: #b366ff; }
         
-        .h-card-spacer { flex: 0 0 auto; width: 25vw; } /* Grand espace vide à la fin */
+        .h-card-spacer { flex: 0 0 auto; width: 25vw; } 
 
-        /* BOUTON "VOIR TOUT" DISCRET (Verre dépoli) */
         .h-btn-all {
             position: absolute; bottom: 3.5rem; left: 50%; transform: translateX(-50%); z-index: 30; 
             color: #fff; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.2); 
@@ -279,17 +271,14 @@
         }
         .h-btn-all:hover { background: #fff; color: #000; transform: translateX(-50%) scale(1.05); }
 
-        /* --- SECTION CONTACT INTÉGRÉE (FOND NOIR / TEXTE VIOLET) --- */
+        /* --- SECTION CONTACT --- */
         .cta-section { 
             background-color: #050505; 
             padding: 8rem 2rem 5rem 2rem; text-align: center; width: 100%; 
             position: relative; z-index: 50; 
         }
         
-        .cta-section h2 { 
-            font-size: 4rem; margin-bottom: 1rem; 
-            color: #b366ff; 
-        } 
+        .cta-section h2 { font-size: 4rem; margin-bottom: 1rem; color: #b366ff; } 
         
         .cta-text { 
             font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 600; max-width: 750px; 
@@ -329,8 +318,7 @@
             .section-heading { font-size: 2.5rem; }
             .clip-box { clip-path: inset(20% 10% round 10px); }
             .gate-text { font-size: 12vw; }
-            .gate-crosshair, .topo-bg { display: none; } /* Caché sur mobile pour alléger */
-            
+            .gate-crosshair, .topo-bg { display: none; }
             .h-card { width: 75vw; }
             .h-card:nth-child(odd), .h-card:nth-child(even) { --y-base: 0; } 
         }
@@ -363,8 +351,9 @@
     </header>
 
     <section class="hero fade-in-section" id="hero-section">
+        <div class="hero-grid-overlay"></div>
         <h1 id="hero-text">
-            <span class="letter">P</span><span class="letter">O</span><span class="letter">R</span><span class="letter">T</span><span class="letter">E</span><span class="letter">F</span><span class="letter">O</span><span class="letter">L</span><span class="letter custom-i">I</span><span class="letter">O</span>
+            <span class="letter">P</span><span class="letter">O</span><span class="letter">R</span><span class="letter">T</span><span class="letter" id="letter-e">E</span><span class="letter">F</span><span class="letter">O</span><span class="letter">L</span><span class="letter custom-i">I</span><span class="letter">O</span>
         </h1>
     </section>
 
@@ -398,24 +387,21 @@
 
             <div class="clip-box" id="clip-box">
                 
-                <!-- TOPOGRAPHIE INTEGRÉE DANS LE CLIP-BOX POUR ETRE DERRIERE LE TEXTE -->
                 <div class="topo-bg" id="topo-bg">
-                    <svg width="100%" height="100%" viewBox="0 0 1000 1000" preserveAspectRatio="none">
-                        <path d="M-100,50 C200,-50 400,100 1100,0" />
-                        <path d="M-100,100 C250,0 450,150 1100,50" />
-                        <path d="M-100,150 C300,50 500,200 1100,100" />
-                        <path d="M-100,200 C350,100 550,250 1100,150" />
-                        <path d="M-100,250 C400,150 600,300 1100,200" />
-                        <path d="M-100,300 C450,200 650,350 1100,250" />
-                        <path d="M-100,350 C500,250 700,400 1100,300" />
-                        <path d="M-100,400 C550,300 750,450 1100,350" />
-                        <path d="M-100,450 C600,350 800,500 1100,400" />
-                        <path d="M-100,500 C650,400 850,550 1100,450" />
-                        <path d="M-100,550 C700,450 900,600 1100,500" />
-                        <path d="M-100,600 C750,500 950,650 1100,550" />
-                        <path d="M-100,650 C800,550 1000,700 1100,600" />
-                        <path d="M-100,700 C850,600 1050,750 1100,650" />
-                        <path d="M-100,750 C900,650 1100,800 1100,700" />
+                    <svg width="100%" height="100%" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice">
+                        <path d="M-200,100 C100,200 400,-100 800,200 S1100,50 1300,300" />
+                        <path d="M-200,150 C120,250 420,-50 820,250 S1120,100 1300,350" />
+                        <path d="M-200,200 C140,300 440,0 840,300 S1140,150 1300,400" />
+                        <path d="M-200,250 C160,350 460,50 860,350 S1160,200 1300,450" />
+                        
+                        <path d="M-200,400 C100,500 400,200 700,500 S1000,300 1300,600" />
+                        <path d="M-200,450 C120,550 420,250 720,550 S1020,350 1300,650" />
+                        <path d="M-200,500 C140,600 440,300 740,600 S1040,400 1300,700" />
+                        <path d="M-200,550 C160,650 460,350 760,650 S1060,450 1300,750" />
+                        
+                        <path d="M-200,700 C100,800 500,500 800,800 S1100,600 1300,900" />
+                        <path d="M-200,750 C120,850 520,550 820,850 S1120,650 1300,950" />
+                        <path d="M-200,800 C140,900 540,600 840,900 S1140,700 1300,1000" />
                     </svg>
                 </div>
 
@@ -430,7 +416,6 @@
                 </div>
 
                 <div class="h-scroll-container" id="h-scroll-container">
-                    
                     <a href="projet_duree.html" class="h-card">
                         <div class="h-card-inner">
                             <div class="h-card-img-wrapper"><img src="miniature_duree.jpg" alt="Prédiction de Durée"></div>
@@ -440,7 +425,6 @@
                             </div>
                         </div>
                     </a>
-
                     <a href="projet_couleur.html" class="h-card">
                         <div class="h-card-inner">
                             <div class="h-card-img-wrapper"><img src="miniature_couleur.jpg" alt="Colorimétrie du Cinéma"></div>
@@ -450,7 +434,6 @@
                             </div>
                         </div>
                     </a>
-
                     <a href="projet_animes.html" class="h-card">
                         <div class="h-card-inner">
                             <div class="h-card-img-wrapper"><img src="miniature_anime.jpg" alt="Violence & Animation"></div>
@@ -460,7 +443,6 @@
                             </div>
                         </div>
                     </a>
-
                     <a href="#" class="h-card">
                         <div class="h-card-inner">
                             <div class="h-card-img-wrapper"><img src="miniature_voyage.jpg" alt="Générations & Voyages"></div>
@@ -470,7 +452,6 @@
                             </div>
                         </div>
                     </a>
-
                     <a href="#" class="h-card">
                         <div class="h-card-inner">
                             <div class="h-card-img-wrapper"><img src="miniature_ens.jpg" alt="Analyse Littéraire ENS"></div>
@@ -480,7 +461,6 @@
                             </div>
                         </div>
                     </a>
-
                     <a href="#" class="h-card">
                         <div class="h-card-inner">
                             <div class="h-card-img-wrapper"><img src="miniature_linguistique.jpg" alt="Évolution Linguistique"></div>
@@ -490,7 +470,6 @@
                             </div>
                         </div>
                     </a>
-
                     <a href="#" class="h-card">
                         <div class="h-card-inner">
                             <div class="h-card-img-wrapper"><img src="miniature_geopolitique.jpg" alt="Régimes Politiques"></div>
@@ -500,7 +479,6 @@
                             </div>
                         </div>
                     </a>
-
                     <a href="https://hunt-it.github.io/Accueil/?" target="_blank" class="h-card">
                         <div class="h-card-inner">
                             <div class="h-card-img-wrapper"><img src="miniature_huntit.jpg" alt="Hunt-It Chasse au trésor"></div>
@@ -510,7 +488,6 @@
                             </div>
                         </div>
                     </a>
-
                     <a href="https://julien-ars.github.io/article-paradoxe-littoral/" target="_blank" class="h-card">
                         <div class="h-card-inner">
                             <div class="h-card-img-wrapper"><img src="miniature_paradoxe.jpg" alt="Le Paradoxe du Littoral"></div>
@@ -520,10 +497,8 @@
                             </div>
                         </div>
                     </a>
-
                     <div class="h-card-spacer"></div>
                 </div>
-
                 <a href="projects.html" class="h-btn-all" id="h-btn-all" data-i18n="btn-all-tiny">Voir tous les projets</a>
             </div>
         </div>
@@ -559,7 +534,15 @@
             localStorage.setItem('theme', body.classList.contains('theme-light') ? 'light' : '');
         });
 
-        // --- MOTEUR DE DÉFILEMENT LERP (INERTIE) ET DÉFORMATION ÉLASTIQUE ---
+        // CASSURE DU I
+        const customI = document.querySelector('.custom-i');
+        if (customI) {
+            customI.addEventListener('mouseenter', () => {
+                customI.classList.add('broken');
+            });
+        }
+
+        // --- MOTEUR DE DÉFILEMENT ---
         const seq = document.getElementById('scroll-sequence');
         const clipBox = document.getElementById('clip-box');
         const gateText = document.getElementById('gate-text');
@@ -594,7 +577,7 @@
         function renderAnimation() {
             currentP += (targetP - currentP) * 0.05;
             
-            let clipY = 25, clipX = 25, radius = 15, gateOp = 1, hTrans = 0, topoOp = 0.35;
+            let clipY = 25, clipX = 25, radius = 15, gateOp = 1, hTrans = 0, topoOp = 0.8;
             let contentOp = 0; 
             const maxScroll = hContainer.scrollWidth - window.innerWidth + window.innerWidth * 0.15; 
 
@@ -603,13 +586,14 @@
                 let ease = (currentP / 0.15); 
                 clipY = 25 * (1 - ease); clipX = window.innerWidth > 768 ? 25 * (1 - ease) : 10 * (1 - ease);
                 radius = 15 * (1 - ease); gateOp = 1 - (ease * 1.5);
-                topoOp = 0.35 * (1 - ease); // Le SVG s'efface doucement
+                topoOp = 0.8 * (1 - ease); 
                 if (currentP > 0.05) contentOp = (currentP - 0.05) / 0.10; 
             } 
-            // Phase 2 : Scroll Horizontal + Zone Tampon
+            // Phase 2 : Scroll Horizontal + Fin Fluide
             else {
                 clipY = 0; clipX = 0; radius = 0; gateOp = 0; contentOp = 1; topoOp = 0;
-                let scrollProgress = Math.min(1, (currentP - 0.15) / 0.75);
+                // Transition fluide jusqu'à 100% de la séquence de scroll
+                let scrollProgress = Math.min(1, (currentP - 0.15) / 0.85);
                 hTrans = scrollProgress * maxScroll;
             } 
 
@@ -631,10 +615,9 @@
             if(bgText) bgText.style.transform = `translate(-50%, -50%) translateX(${currentP * 20}vw)`;
             if(fgText) fgText.style.transform = `translate(-50%, -50%) translateX(-${currentP * 40}vw)`;
 
-            // EFFET ÉLASTIQUE SUR LES CARTES
+            // EFFET ÉLASTIQUE
             if (contentOp > 0.1) {
                 const screenCenter = window.innerWidth / 2;
-                
                 let velocity = (targetP - currentP) * 800; 
                 let skewAngle = velocity * 0.05; 
                 skewAngle = Math.max(-10, Math.min(10, skewAngle)); 
@@ -643,7 +626,6 @@
                     const cardRect = card.getBoundingClientRect();
                     const cardCenter = cardRect.left + (cardRect.width / 2);
                     const distanceFromCenter = cardCenter - screenCenter;
-                    
                     const normalizedDist = Math.max(-1, Math.min(1, distanceFromCenter / (window.innerWidth / 1.5)));
                     
                     const scaleFactor = 1 - (Math.abs(normalizedDist) * 0.15);
@@ -657,7 +639,6 @@
 
             requestAnimationFrame(renderAnimation);
         }
-        
         renderAnimation();
 
         // FADE IN CLASSIQUE
@@ -668,7 +649,7 @@
             document.querySelectorAll('.fade-in-section').forEach(s => obs.observe(s));
         });
 
-        // SOURIS ESQUIVE
+        // SOURIS ESQUIVE SUR TITRE
         const heroSection = document.getElementById('hero-section');
         const letters = document.querySelectorAll('.letter');
         heroSection.addEventListener('mousemove', (e) => {
@@ -684,10 +665,9 @@
         });
         heroSection.addEventListener('mouseleave', () => { letters.forEach(l => l.style.transform = `translate(0, 0)`); });
 
-        // INTERACTION SOURIS LIGNES TOPOGRAPHIQUES
+        // SOURIS REPOUSSE TOPOGRAPHIE
         if(clipBox && topoBg) {
             clipBox.addEventListener('mousemove', (e) => {
-                // Décalage léger en fonction de la position de la souris
                 const x = (e.clientX / window.innerWidth - 0.5) * 40;
                 const y = (e.clientY / window.innerHeight - 0.5) * 40;
                 topoBg.style.transform = `translate(${x}px, ${y}px)`;
@@ -697,7 +677,7 @@
             });
         }
 
-        // TRADUCTIONS
+        // TRADUCTIONS ET GESTION DU "E"
         const translations = {
             "fr": { 
                 "nav-home": "Accueil", "nav-projects": "Projets", "nav-about": "À Propos", "nav-contact": "Contact", 
@@ -735,6 +715,12 @@
             });
             document.getElementById('btn-fr').classList.toggle('active', lang === 'fr');
             document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+            
+            // Gère la disparition du E pour PORTFOLIO
+            const eLetter = document.getElementById('letter-e');
+            if (eLetter) {
+                eLetter.style.display = lang === 'en' ? 'none' : 'inline-block';
+            }
         }
     </script>
 </body>
