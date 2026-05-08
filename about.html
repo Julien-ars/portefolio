@@ -139,6 +139,7 @@
 
         .page-header {
             margin-bottom: 3rem;
+            text-align: center;
         }
 
         .subtitle {
@@ -150,11 +151,23 @@
             margin-bottom: 0.5rem;
         }
 
+        /* --- TITRE AVEC EFFET MAGNÉTIQUE --- */
         .main-title {
             font-family: 'Anton', sans-serif;
             font-size: 5rem;
             line-height: 1;
             text-transform: uppercase;
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: center; 
+            gap: 0.2rem;
+        }
+
+        .main-title span.letter {
+            display: inline-block; 
+            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+            will-change: transform; 
+            pointer-events: none;
         }
 
         .fade-in-section {
@@ -364,13 +377,38 @@
             border: 1px solid transparent;
         }
 
-        /* Inversion des couleurs au survol de la carte */
         .skill-card:hover .lang-dots {
             border-color: var(--bg-color);
             background-color: rgba(255, 255, 255, 0.15);
         }
         .skill-card:hover .dot.filled {
             border-color: var(--bg-color);
+        }
+
+        /* --- SECTION TÉLÉCHARGEMENT CV --- */
+        .cv-section {
+            display: flex; justify-content: center; margin-top: 4rem; margin-bottom: 2rem;
+        }
+
+        .btn-cv {
+            display: inline-flex; align-items: center; gap: 1.2rem;
+            font-family: 'Anton', sans-serif; font-size: 1.8rem; text-transform: uppercase;
+            color: var(--text-color); background-color: transparent; border: 4px solid var(--text-color);
+            padding: 1.2rem 2.5rem; text-decoration: none; transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-cv svg {
+            width: 32px; height: 32px; fill: currentColor; transition: transform 0.3s ease;
+        }
+
+        .btn-cv:hover {
+            transform: translate(-6px, -6px); box-shadow: 12px 12px 0px var(--text-color);
+            background-color: var(--text-color); color: var(--bg-color);
+        }
+
+        .btn-cv:hover svg {
+            transform: translateY(4px); /* L'icône descend au survol */
         }
 
         /* --- BOUTON RETOUR EN HAUT CENTRÉ --- */
@@ -381,10 +419,9 @@
             display: inline-block; color: var(--text-color); border: 2px solid var(--text-color); 
             padding: 0.7rem 1.8rem; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 0.85rem; 
             text-transform: uppercase; text-decoration: none; border-radius: 50px; 
-            transition: all 0.3s ease; cursor: pointer;
+            transition: all 0.3s ease; cursor: pointer; background-color: var(--bg-color);
         }
-        .btn-back-top:hover { background: var(--text-color); color: var(--bg-color); transform: translateY(-3px); box-shadow: 4px 4px 0px var(--text-color); }
-
+        .btn-back-top:hover { background: var(--text-color); color: var(--bg-color); transform: translateY(-3px); box-shadow: 4px 4px 0px rgba(0,0,0,0.2); }
 
         /* --- FOOTER --- */
         .site-footer {
@@ -435,10 +472,12 @@
                 padding-bottom: 0.5rem;
                 margin-bottom: 0.5rem;
             }
+            
+            .btn-cv { font-size: 1.4rem; padding: 1rem 1.5rem; width: 100%; justify-content: center; }
         }
     </style>
 </head>
-<body>
+<body id="top">
 
     <div class="global-grid-hover" id="global-grid-hover"></div>
 
@@ -467,9 +506,11 @@
 
     <div class="container">
         
-        <div class="page-header fade-in-section">
+        <div class="page-header fade-in-section" id="hero-section">
             <div class="subtitle" data-i18n="subtitle-about">À Propos</div>
-            <h1 class="main-title" data-i18n="title-journey">Mon Parcours</h1>
+            <h1 class="main-title" data-i18n="title-journey">
+                <span class="letter">M</span><span class="letter">o</span><span class="letter">n</span><span class="letter">&nbsp;</span><span class="letter">P</span><span class="letter">a</span><span class="letter">r</span><span class="letter">c</span><span class="letter">o</span><span class="letter">u</span><span class="letter">r</span><span class="letter">s</span>
+            </h1>
         </div>
 
         <div class="profile-section fade-in-section">
@@ -599,9 +640,19 @@
             </div>
         </div>
 
+        <!-- NOUVELLE SECTION BOUTON CV -->
+        <div class="cv-section fade-in-section">
+            <a href="CV_Julien_Arsena.pdf" target="_blank" class="btn-cv" download>
+                <span data-i18n="btn-cv">Télécharger mon CV</span>
+                <svg viewBox="0 0 24 24">
+                    <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                </svg>
+            </a>
+        </div>
+
     </div>
 
-    <!-- Bouton de retour vers le haut stylisé -->
+    <!-- BOUTON RETOUR EN HAUT -->
     <div class="back-to-top-wrapper">
         <a id="btn-back-top" class="btn-back-top" data-i18n="btn-back-top">Remonter en haut</a>
     </div>
@@ -657,6 +708,42 @@
             globalGridHover.style.setProperty('--mouse-y', `${e.pageY}px`);
         });
 
+        // EFFET MAGNÉTIQUE SUR LES LETTRES DU TITRE
+        const heroSection = document.getElementById('hero-section');
+        let letters = document.querySelectorAll('.letter');
+
+        if (heroSection) {
+            heroSection.addEventListener('mousemove', (e) => {
+                letters.forEach(letter => {
+                    const letterRect = letter.getBoundingClientRect();
+                    const centerX = letterRect.left + letterRect.width / 2;
+                    const centerY = letterRect.top + letterRect.height / 2;
+                    
+                    const dx = e.clientX - centerX;
+                    const dy = e.clientY - centerY;
+                    const distToLetter = Math.sqrt(dx * dx + dy * dy);
+                    
+                    const maxDist = 120; 
+                    
+                    if (distToLetter < maxDist) {
+                        const force = (maxDist - distToLetter) / maxDist;
+                        const pushX = -(dx / distToLetter) * force * 20; 
+                        const pushY = -(dy / distToLetter) * force * 20;
+                        
+                        letter.style.transform = `translate(${pushX}px, ${pushY}px)`;
+                    } else {
+                        letter.style.transform = `translate(0, 0)`;
+                    }
+                });
+            });
+
+            heroSection.addEventListener('mouseleave', () => {
+                letters.forEach(letter => {
+                    letter.style.transform = `translate(0, 0)`;
+                });
+            });
+        }
+
         // RETOUR EN HAUT (Scroll doux)
         document.getElementById('btn-back-top').addEventListener('click', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -670,7 +757,7 @@
                 "nav-about": "À Propos",
                 "nav-contact": "Contact",
                 "subtitle-about": "À Propos",
-                "title-journey": "Mon Parcours",
+                "title-journey": "<span class='letter'>M</span><span class='letter'>o</span><span class='letter'>n</span><span class='letter'>&nbsp;</span><span class='letter'>P</span><span class='letter'>a</span><span class='letter'>r</span><span class='letter'>c</span><span class='letter'>o</span><span class='letter'>u</span><span class='letter'>r</span><span class='letter'>s</span>",
                 "profile-title": "Étudiant en Sciences des Données & Arts",
                 "profile-p1": "Passionné par l'intersection entre l'intelligence artificielle et la culture, je suis actuellement étudiant en L2 au sein du Cycle Pluridisciplinaire d'Études Supérieures (CPES) à l'Université PSL et au Lycée Louis Le Grand.",
                 "profile-p2": "Mon profil hybride me permet d'allier une grande rigueur dans les sciences formelles (algorithmique, statistiques, programmation) à une solide compréhension des sciences humaines (histoire des arts, approches cognitives de la fiction).",
@@ -703,6 +790,7 @@
                 "int-2": "Musées & Expos",
                 "int-3": "Littérature",
                 "int-4": "Géopolitique",
+                "btn-cv": "Télécharger mon CV",
                 "btn-back-top": "Remonter en haut",
                 "footer-text": "© 2026 Julien Arsena. Tout le contenu (code, données, rapports) est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite."
             },
@@ -712,7 +800,7 @@
                 "nav-about": "About",
                 "nav-contact": "Contact",
                 "subtitle-about": "About",
-                "title-journey": "My Background",
+                "title-journey": "<span class='letter'>M</span><span class='letter'>y</span><span class='letter'>&nbsp;</span><span class='letter'>B</span><span class='letter'>a</span><span class='letter'>c</span><span class='letter'>k</span><span class='letter'>g</span><span class='letter'>r</span><span class='letter'>o</span><span class='letter'>u</span><span class='letter'>n</span><span class='letter'>d</span>",
                 "profile-title": "Data Science & Arts Student",
                 "profile-p1": "Passionate about the intersection of artificial intelligence and culture, I am currently a sophomore in the Multidisciplinary Undergraduate Degree (CPES) at PSL University and Lycée Louis Le Grand.",
                 "profile-p2": "My hybrid profile allows me to combine strict rigor in formal sciences (algorithms, statistics, programming) with a solid understanding of the humanities (art history, cognitive approaches to fiction).",
@@ -745,6 +833,7 @@
                 "int-2": "Museums & Exhibitions",
                 "int-3": "Literature",
                 "int-4": "Geopolitics",
+                "btn-cv": "Download my Resume",
                 "btn-back-top": "Back to top",
                 "footer-text": "© 2026 Julien Arsena. All content (code, data, reports) is provided for review purposes. Any reuse requires explicit attribution."
             }
@@ -760,6 +849,9 @@
                     element.innerHTML = translations[lang][key];
                 }
             });
+            
+            // Mise à jour de la variable letters si le texte (et donc les spans) a changé
+            letters = document.querySelectorAll('.letter');
 
             if (lang === 'fr') {
                 document.getElementById('btn-fr').classList.add('active');
