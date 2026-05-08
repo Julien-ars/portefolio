@@ -7,12 +7,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     
     <style>
+        /* --- VARIABLES DE BASE --- */
         :root {
             --bg-color: #e60023; 
             --text-color: #0a0a0a; 
             --green-color: #1ed760; /* Vert adouci et plus reposant */
             --track-color: rgba(0, 0, 0, 0.15); /* Bande de fond pour les jauges */
             --gray-color: rgba(10, 10, 10, 0.3);  
+            --grid-opacity: 0.05; 
+        }
+
+        /* --- THEME CLAIR --- */
+        body.theme-light {
+            --bg-color: #F2EFE9; 
+            --text-color: #1A1A1A; 
+            --grid-opacity: 0.09; 
         }
 
         * {
@@ -21,80 +30,101 @@
             box-sizing: border-box;
         }
 
+        html { background-color: #050505; scroll-behavior: smooth; }
+
+        /* --- SELECTION DE TEXTE PERSONNALISÉE --- */
+        ::selection { background-color: #0a0a0a; color: #e60023; }
+        ::-moz-selection { background-color: #0a0a0a; color: #e60023; }
+        
+        body.theme-light ::selection { background-color: #b366ff; color: #fff; }
+        body.theme-light ::-moz-selection { background-color: #b366ff; color: #fff; }
+
+        /* --- FOND GLOBAL AVEC QUADRILLAGE LÉGER --- */
         body {
+            position: relative;
             background-color: var(--bg-color);
             color: var(--text-color);
             font-family: 'Inter', sans-serif; 
             overflow-x: hidden;
             
             background-image: 
-                linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+                linear-gradient(rgba(0, 0, 0, var(--grid-opacity)) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, var(--grid-opacity)) 1px, transparent 1px);
             background-size: 40px 40px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        /* --- QUADRILLAGE FONCÉ INTERACTIF --- */
+        .global-grid-hover {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.5) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.5) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none; z-index: 1; 
+            opacity: var(--grid-overlay-op, 0);
+            -webkit-mask-image: radial-gradient(circle 180px at var(--mouse-x, -100px) var(--mouse-y, -100px), black, transparent);
+            mask-image: radial-gradient(circle 180px at var(--mouse-x, -100px) var(--mouse-y, -100px), black, transparent);
+            transition: opacity 0.3s ease;
+        }
+        body.theme-light .global-grid-hover {
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.7) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.7) 1px, transparent 1px);
         }
 
         /* --- HEADER --- */
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 2rem;
-            border-bottom: 2px solid var(--text-color);
-            font-family: 'Anton', sans-serif;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1.5rem 2rem; border-bottom: 2px solid var(--text-color);
+            font-family: 'Anton', sans-serif; position: relative; z-index: 100;
         }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 3rem;
-        }
+        .header-left { display: flex; align-items: center; gap: 3rem; }
 
-        .logo {
-            font-size: 1.5rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .logo { 
+            font-size: 1.5rem; text-transform: uppercase; letter-spacing: 1px; 
+            text-decoration: none; color: var(--text-color); transition: opacity 0.3s ease;
         }
+        .logo:hover { opacity: 0.7; }
 
-        .main-nav {
-            display: flex;
-            gap: 0.5rem;
-        }
+        .main-nav { display: flex; gap: 0.5rem; }
 
         .main-nav a {
-            font-family: 'Inter', sans-serif;
-            font-weight: 600;
-            font-size: 1rem;
-            text-transform: uppercase;
-            text-decoration: none;
-            color: var(--text-color);
-            padding: 0.5rem 1rem;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem;
+            text-transform: uppercase; text-decoration: none; color: var(--text-color);
+            padding: 0.5rem 1rem; border: 2px solid transparent; transition: all 0.3s ease;
         }
 
         .main-nav a.active, .main-nav a:hover {
-            background-color: var(--text-color);
-            color: var(--bg-color);
-            border: 2px solid var(--text-color);
+            background-color: var(--text-color); color: var(--bg-color); border: 2px solid var(--text-color);
         }
+
+        .header-right { display: flex; align-items: center; gap: 1.5rem; }
 
         .lang-switch {
-            display: flex;
-            gap: 0.5rem;
-            font-family: 'Inter', sans-serif;
-            font-weight: 600;
-            font-size: 1rem;
+            display: flex; gap: 0.5rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem;
         }
 
-        .lang-switch span {
-            opacity: 0.4;
-            transition: opacity 0.3s;
-            cursor: pointer;
-        }
+        .lang-switch span { opacity: 0.4; transition: opacity 0.3s; cursor: pointer; }
+        .lang-switch span.active, .lang-switch span:hover { opacity: 1; text-decoration: underline; }
 
-        .lang-switch span.active, .lang-switch span:hover {
-            opacity: 1;
-            text-decoration: underline;
+        /* Icône bicolore de Thème */
+        .theme-btn { 
+            background: none; border: none; cursor: pointer; display: flex; align-items: center; 
+            justify-content: center; padding: 0.5rem; outline: none;
+        }
+        .theme-indicator {
+            width: 24px; height: 24px; border-radius: 50%;
+            background: linear-gradient(to right, #F2EFE9 50%, #0a0a0a 50%); 
+            border: 2px solid #0a0a0a; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        body.theme-light .theme-indicator {
+            background: linear-gradient(to right, #e60023 50%, #0a0a0a 50%); 
+            border-color: #1A1A1A; transform: rotate(180deg);
         }
 
         /* --- CONTENU --- */
@@ -102,6 +132,9 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 4rem 2rem;
+            flex-grow: 1;
+            position: relative;
+            z-index: 5;
         }
 
         .page-header {
@@ -257,6 +290,8 @@
         .skill-card:hover {
             background-color: var(--text-color);
             color: var(--bg-color);
+            transform: translate(-5px, -5px);
+            box-shadow: 8px 8px 0px var(--text-color);
         }
 
         .skill-card h4 {
@@ -279,18 +314,19 @@
             font-size: 0.9rem;
             border-radius: 50px;
             font-weight: 800;
+            text-transform: uppercase;
         }
 
- /* --- NOUVEAUX STYLES POUR LES LANGUES (La bande grise) --- */
+        /* --- STYLES POUR LES LANGUES --- */
         .lang-list {
             display: flex;
             flex-direction: column;
-            gap: 1.2rem; /* Un peu plus d'espace entre les langues */
+            gap: 1.2rem; 
         }
 
         .lang-item {
             display: grid;
-            grid-template-columns: 1fr auto; /* Le texte prend la place libre (1fr), la jauge s'aligne à droite (auto) */
+            grid-template-columns: 1fr auto; 
             align-items: center;
             width: 100%;
         }
@@ -307,13 +343,15 @@
             padding: 6px 10px;
             border-radius: 20px;
             border: 1px solid var(--text-color);
-            flex-shrink: 0; /* Empêche la jauge de s'écraser si le texte est long */
+            flex-shrink: 0; 
+            transition: background-color 0.3s ease, border-color 0.3s ease;
         }
 
         .dot {
             width: 12px;
             height: 12px;
             border-radius: 50%;
+            transition: border-color 0.3s ease;
         }
 
         .dot.filled {
@@ -335,9 +373,36 @@
             border-color: var(--bg-color);
         }
 
+        /* --- BOUTON RETOUR EN HAUT CENTRÉ --- */
+        .back-to-top-wrapper {
+            text-align: center; padding-bottom: 3rem; position: relative; z-index: 50; width: 100%;
+        }
+        .btn-back-top {
+            display: inline-block; color: var(--text-color); border: 2px solid var(--text-color); 
+            padding: 0.7rem 1.8rem; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 0.85rem; 
+            text-transform: uppercase; text-decoration: none; border-radius: 50px; 
+            transition: all 0.3s ease; cursor: pointer;
+        }
+        .btn-back-top:hover { background: var(--text-color); color: var(--bg-color); transform: translateY(-3px); box-shadow: 4px 4px 0px var(--text-color); }
+
+
+        /* --- FOOTER --- */
+        .site-footer {
+            padding: 1.5rem 2rem;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            opacity: 0.8;
+            margin-top: auto; 
+            border-top: 2px solid var(--text-color);
+            background-color: #050505; 
+            color: rgba(179, 102, 255, 0.4);
+            position: relative;
+            z-index: 50;
+        }
+
         /* --- ADAPTATION MOBILE (RESPONSIVE DESIGN) --- */
-        
-        /* Tablettes (moins de 900px) */
         @media (max-width: 900px) {
             .profile-section {
                 grid-template-columns: 1fr; 
@@ -350,43 +415,20 @@
             }
         }
 
-       /* Téléphones (moins de 768px) */
         @media (max-width: 768px) {
-            header {
-                flex-direction: column;
-                gap: 1.5rem;
-                padding: 1.5rem 1rem;
-            }
+            header { flex-direction: column; gap: 1.5rem; padding: 1.5rem 1rem; }
+            .header-left { flex-direction: column; gap: 1rem; text-align: center; }
+            .main-nav { flex-wrap: wrap; justify-content: center; }
             
-            .header-left {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-            
-            .main-nav {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            .container {
-                padding: 2rem 1rem;
-            }
-            
-            .main-title {
-                font-size: 3.5rem; /* Titre plus petit */
-            }
-            
-            .section-title {
-                font-size: 2.2rem;
-            }
+            .container { padding: 2rem 1rem; }
+            .main-title { font-size: 3.5rem; }
+            .section-title { font-size: 2.2rem; }
             
             .wide-card {
-                grid-template-columns: 1fr; /* La date passe au-dessus du texte */
+                grid-template-columns: 1fr; 
                 gap: 0.5rem;
                 padding: 1.5rem;
             }
-            
             .wide-card .date {
                 font-size: 1.2rem;
                 border-bottom: 2px solid var(--text-color);
@@ -398,10 +440,11 @@
 </head>
 <body>
 
+    <div class="global-grid-hover" id="global-grid-hover"></div>
+
     <header>
         <div class="header-left">
-            <div class="logo">/// Julien Arsena</div>
-            
+            <a href="index.html" class="logo">/// Julien Arsena</a>
             <nav class="main-nav">
                 <a href="index.html" data-i18n="nav-home">Accueil</a>
                 <a href="projects.html" data-i18n="nav-projects">Projets</a>
@@ -410,9 +453,15 @@
             </nav>
         </div>
         
-        <div class="lang-switch">
-            <span id="btn-fr" class="active" onclick="setLanguage('fr')">FR</span> / 
-            <span id="btn-en" onclick="setLanguage('en')">EN</span>
+        <div class="header-right">
+            <div class="lang-switch">
+                <span id="btn-fr" class="active" onclick="setLanguage('fr')">FR</span> / 
+                <span id="btn-en" onclick="setLanguage('en')">EN</span>
+            </div>
+            <!-- Icône de thème bicolore -->
+            <button id="theme-toggle" class="theme-btn" aria-label="Changer le thème">
+                <div class="theme-indicator"></div>
+            </button>
         </div>
     </header>
 
@@ -493,7 +542,7 @@
                         <span class="skill-tag">Scikit-Learn</span>
                         <span class="skill-tag">Pandas</span>
                         <span class="skill-tag">Numpy</span>
-                        <span class="skill-tag">HTML</span>
+                        <span class="skill-tag">HTML/CSS</span>
                     </div>
                 </div>
 
@@ -552,8 +601,35 @@
 
     </div>
 
+    <!-- Bouton de retour vers le haut stylisé -->
+    <div class="back-to-top-wrapper">
+        <a id="btn-back-top" class="btn-back-top" data-i18n="btn-back-top">Remonter en haut</a>
+    </div>
+
+    <footer class="site-footer">
+        <span data-i18n="footer-text">© 2026 Julien Arsena. Tout le contenu (code, données, rapports) est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite.</span>
+    </footer>
+
     <script>
-        // --- 1. ANIMATION SCROLL ---
+        // --- MÉMOIRE GLOBALE : THÈME ET LANGUE ---
+        
+        // GESTION DU THÈME
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const body = document.body;
+        
+        if (localStorage.getItem('theme') === 'light') {
+            body.classList.add('theme-light');
+        }
+        
+        themeToggleBtn.addEventListener('click', () => {
+            body.classList.toggle('theme-light');
+            localStorage.setItem('theme', body.classList.contains('theme-light') ? 'light' : '');
+        });
+
+        // GESTION DE LA LANGUE
+        let currentLang = localStorage.getItem('lang') || 'fr';
+
+        // --- ANIMATION SCROLL ---
         document.addEventListener("DOMContentLoaded", function() {
             const options = { root: null, rootMargin: '0px', threshold: 0.15 };
             const observer = new IntersectionObserver((entries, observer) => {
@@ -568,9 +644,25 @@
             document.querySelectorAll('.fade-in-section').forEach(section => {
                 observer.observe(section);
             });
+
+            // On applique la langue au chargement
+            setLanguage(currentLang);
         });
 
-        // --- 2. SYSTÈME DE TRADUCTION ---
+        // EFFET LAMPE TORCHE GLOBAL
+        const globalGridHover = document.getElementById('global-grid-hover');
+        document.addEventListener('mousemove', (e) => {
+            globalGridHover.style.setProperty('--grid-overlay-op', '1');
+            globalGridHover.style.setProperty('--mouse-x', `${e.pageX}px`);
+            globalGridHover.style.setProperty('--mouse-y', `${e.pageY}px`);
+        });
+
+        // RETOUR EN HAUT (Scroll doux)
+        document.getElementById('btn-back-top').addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // --- SYSTÈME DE TRADUCTION ---
         const translations = {
             "fr": {
                 "nav-home": "Accueil",
@@ -610,7 +702,9 @@
                 "int-1": "Cinéma & Animation",
                 "int-2": "Musées & Expos",
                 "int-3": "Littérature",
-                "int-4": "Géopolitique"
+                "int-4": "Géopolitique",
+                "btn-back-top": "Remonter en haut",
+                "footer-text": "© 2026 Julien Arsena. Tout le contenu (code, données, rapports) est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite."
             },
             "en": {
                 "nav-home": "Home",
@@ -650,11 +744,16 @@
                 "int-1": "Cinema & Animation",
                 "int-2": "Museums & Exhibitions",
                 "int-3": "Literature",
-                "int-4": "Geopolitics"
+                "int-4": "Geopolitics",
+                "btn-back-top": "Back to top",
+                "footer-text": "© 2026 Julien Arsena. All content (code, data, reports) is provided for review purposes. Any reuse requires explicit attribution."
             }
         };
 
         function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('lang', lang); 
+
             document.querySelectorAll('[data-i18n]').forEach(element => {
                 const key = element.getAttribute('data-i18n');
                 if (translations[lang][key]) {
