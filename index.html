@@ -18,12 +18,12 @@
             --grid-opacity: 0.05; 
         }
 
-        /* --- THEME CLAIR (Modifié pour rester Noir & Blanc sur les accents) --- */
+        /* --- THEME CLAIR --- */
         body.theme-light {
             --bg-color: #F2EFE9; 
             --text-color: #1A1A1A; 
-            --accent-bg: #1A1A1A; /* Reste sombre */
-            --accent-text: #F2EFE9; /* Reste clair */
+            --accent-bg: #1A1A1A; /* Reste noir pour le footer et bandeau contact */
+            --accent-text: #F2EFE9; 
             --hover-bg: #1A1A1A; 
             --hover-text: #F2EFE9; 
             --grid-opacity: 0.09; 
@@ -75,10 +75,10 @@
         }
         .hero h1 span { display: inline-block; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); will-change: transform; }
         
-        /* Custom I pour PORTEFOLIO - Ajusté beaucoup plus haut */
+        /* Custom I pour PORTEFOLIO - Encore plus haut ! */
         .custom-i { position: relative; }
         .custom-i::after {
-            content: '+'; position: absolute; top: -1.0em; left: 50%; transform: translateX(-50%);
+            content: '+'; position: absolute; top: -1.3em; left: 50%; transform: translateX(-50%);
             font-size: 0.6em; color: var(--text-color); transition: color 0.5s ease;
         }
 
@@ -103,8 +103,8 @@
         .intro-box:hover { transform: translate(-5px, -5px); box-shadow: 12px 12px 0px var(--text-color); }
         .intro-text { font-family: 'Inter', sans-serif; font-size: 1.2rem; line-height: 1.6; font-weight: 600; margin-bottom: 2rem; }
 
-        /* --- SÉQUENCE ZOOM & HORIZONTAL SCROLL --- */
-        .scroll-sequence { height: 550vh; position: relative; } /* Hauteur augmentée = Scroll ralenti */
+        /* --- SÉQUENCE ZOOM & HORIZONTAL SCROLL (AVEC INERTIE) --- */
+        .scroll-sequence { height: 700vh; position: relative; } /* Hauteur augmentée = Plus lent */
         
         .scroll-sticky {
             position: sticky; top: 0; height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center;
@@ -117,12 +117,22 @@
             clip-path: inset(35% 25% round 10px); will-change: clip-path;
         }
 
+        /* HABILLAGE DE LA BOITE (Coins décoratifs) */
+        .gate-deco {
+            position: absolute; width: 50px; height: 50px; border: 4px solid var(--bg-color); opacity: 0.8;
+            transition: opacity 0.2s ease, border-color 0.5s ease; z-index: 40; pointer-events: none;
+        }
+        .gate-deco.top-left { top: 40px; left: 40px; border-right: none; border-bottom: none; }
+        .gate-deco.top-right { top: 40px; right: 40px; border-left: none; border-bottom: none; }
+        .gate-deco.bottom-left { bottom: 40px; left: 40px; border-right: none; border-top: none; }
+        .gate-deco.bottom-right { bottom: 40px; right: 40px; border-left: none; border-top: none; }
+
         .gate-text {
-            position: absolute; font-size: 5vw; color: #ffffff; text-transform: uppercase; z-index: 50;
-            pointer-events: none; transition: opacity 0.2s ease;
+            position: absolute; font-size: 6vw; color: var(--bg-color); text-transform: uppercase; z-index: 50;
+            pointer-events: none; transition: opacity 0.2s ease, color 0.5s ease; letter-spacing: 2px;
         }
 
-        /* Opacité gérée via JS */
+        /* Textes de fond/premier plan (Opacité gérée via JS) */
         .h-scroll-bg-text, .h-scroll-fg-text, .h-scroll-container, .h-btn-all { opacity: 0; }
         
         .h-scroll-bg-text {
@@ -136,72 +146,72 @@
             -webkit-text-stroke: 2px rgba(255, 255, 255, 0.2); z-index: 20; pointer-events: none; white-space: nowrap; will-change: transform, opacity;
         }
 
-        /* --- NOUVEAU DESIGN DES CARTES (WODNIACK STYLE) --- */
+        /* --- CARTES (PLUS PETITES + EFFET 3D) --- */
         .h-scroll-container {
-            display: flex; align-items: center; gap: 6vw; padding: 0 15vw; position: absolute; left: 0; top: 0; height: 100vh;
+            display: flex; align-items: center; gap: 4vw; padding: 0 35vw; position: absolute; left: 0; top: 0; height: 100vh;
             width: max-content; will-change: transform, opacity; z-index: 5;
+            perspective: 1200px; /* Indispensable pour l'effet 3D */
         }
 
         .h-card {
-            flex: 0 0 auto; width: 32vw; min-width: 320px; max-width: 480px; 
+            flex: 0 0 auto; 
+            width: 24vw; /* Plus petit ! */
+            min-width: 260px; max-width: 380px; 
             background-color: transparent; text-decoration: none; display: flex; flex-direction: column;
-            /* La distorsion et le décalage Y sont gérés ici via des variables CSS modifiées par JS */
-            transform: translateY(var(--y-offset, 0)) skewX(var(--skew-val, 0deg));
+            transform-style: preserve-3d;
+            
+            /* L'effet magique : Y-offset (fixe) + Échelle (dynamique) + Rotation 3D (dynamique) */
+            transform: translateY(var(--y-base, 0)) scale(var(--scale-val, 1)) rotateY(var(--rot-y, 0deg));
             will-change: transform;
         }
         
-        .h-card:nth-child(odd) { --y-offset: -10vh; }
-        .h-card:nth-child(even) { --y-offset: 10vh; }
+        .h-card:nth-child(odd) { --y-base: -5vh; }
+        .h-card:nth-child(even) { --y-base: 5vh; }
 
-        /* C'est l'intérieur de la carte qui s'anime au survol, pas le conteneur principal */
         .h-card-inner {
             transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            display: flex; flex-direction: column;
+            display: flex; flex-direction: column; width: 100%;
         }
 
         .h-card-img-wrapper {
-            width: 100%; height: 320px; overflow: hidden; border: 3px solid #fff; /* Bordure nette brutaliste */
-            position: relative;
+            width: 100%; height: 350px; overflow: hidden; border: 3px solid #fff; 
+            position: relative; box-shadow: 0 15px 35px rgba(0,0,0,0.4);
         }
 
         .h-card img {
-            width: 100%; height: 100%; object-fit: cover; filter: none; 
-            transition: transform 0.7s cubic-bezier(0.25, 0.8, 0.25, 1);
+            width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%); 
+            transition: transform 0.7s cubic-bezier(0.25, 0.8, 0.25, 1), filter 0.5s ease;
         }
 
-        .h-card-info {
-            padding-top: 1.2rem; text-align: left;
-        }
-
+        .h-card-info { padding-top: 1rem; text-align: left; }
+        
         .h-card h3 {
-            font-size: 2.5rem; margin-bottom: 0.5rem; line-height: 1.1; font-family: 'Anton', sans-serif;
+            font-size: 1.8rem; margin-bottom: 0.5rem; line-height: 1.1; font-family: 'Anton', sans-serif;
             text-transform: uppercase; color: #fff; transition: color 0.3s ease;
         }
 
-        .h-card-tags {
-            display: flex; gap: 0.5rem; flex-wrap: wrap; font-family: 'Inter', sans-serif;
-        }
-
+        .h-card-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; font-family: 'Inter', sans-serif; }
         .h-card-tags .tag {
-            border: 1px solid rgba(255,255,255,0.4); padding: 0.2rem 0.6rem; font-size: 0.8rem;
+            border: 1px solid rgba(255,255,255,0.4); padding: 0.2rem 0.6rem; font-size: 0.75rem;
             border-radius: 50px; text-transform: uppercase; font-weight: 600; color: #fff;
         }
 
-        /* Effets de survol */
-        .h-card:hover .h-card-inner { transform: scale(1.05) translateY(-5px); }
-        .h-card:hover img { transform: scale(1.08); }
+        /* Survol */
+        .h-card:hover .h-card-inner { transform: scale(1.02) translateY(-5px); }
+        .h-card:hover img { transform: scale(1.08); filter: grayscale(0%); }
         .h-card:hover h3 { color: #e60023; }
         
-        .h-card-spacer { flex: 0 0 auto; width: 30vw; }
+        .h-card-spacer { flex: 0 0 auto; width: 20vw; }
 
-        /* BOUTON "VOIR TOUT" BRUTALISTE */
+        /* BOUTON "VOIR TOUT" DISCRET (RESTAURÉ) */
         .h-btn-all {
-            position: absolute; bottom: 3rem; left: 50%; transform: translateX(-50%); z-index: 30; 
-            color: #fff; background: transparent; border: 3px solid #fff; padding: 1rem 2.5rem; 
-            font-family: 'Anton', sans-serif; font-size: 1.5rem; text-transform: uppercase; text-decoration: none; 
+            position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); z-index: 30; 
+            color: #fff; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255,255,255,0.3); 
+            padding: 0.6rem 1.5rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; 
+            text-transform: uppercase; text-decoration: none; border-radius: 50px; backdrop-filter: blur(5px); 
             transition: all 0.3s ease; will-change: opacity;
         }
-        .h-btn-all:hover { background: #fff; color: #000; transform: translateX(-50%) translateY(-5px); box-shadow: 8px 8px 0px rgba(255,255,255,0.2); }
+        .h-btn-all:hover { background: #fff; color: #000; transform: translateX(-50%) scale(1.05); }
 
         /* --- SECTION CONTACT --- */
         .cta-section { background-color: var(--accent-bg); color: var(--accent-text); padding: 4rem 2rem; text-align: center; border-bottom: 4px solid var(--text-color); width: 100%; transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease; }
@@ -233,10 +243,14 @@
             .section-heading { font-size: 2.5rem; }
             .clip-box { clip-path: inset(30% 10% round 10px); }
             .gate-text { font-size: 12vw; }
+            .gate-deco { width: 30px; height: 30px; }
+            .gate-deco.top-left { top: 20px; left: 20px; }
+            .gate-deco.top-right { top: 20px; right: 20px; }
+            .gate-deco.bottom-left { bottom: 20px; left: 20px; }
+            .gate-deco.bottom-right { bottom: 20px; right: 20px; }
             
             .h-card { width: 75vw; }
-            .h-card:nth-child(odd), .h-card:nth-child(even) { --y-offset: 0; } 
-            .h-btn-all { font-size: 1.2rem; padding: 0.8rem 2rem; width: 80%; }
+            .h-card:nth-child(odd), .h-card:nth-child(even) { --y-base: 0; } 
         }
     </style>
 </head>
@@ -296,6 +310,11 @@
         <div class="scroll-sticky">
             
             <div class="clip-box" id="clip-box">
+                <div class="gate-deco top-left"></div>
+                <div class="gate-deco top-right"></div>
+                <div class="gate-deco bottom-left"></div>
+                <div class="gate-deco bottom-right"></div>
+
                 <h2 class="gate-text" id="gate-text" data-i18n="gate-title">Mes Projets</h2>
                 
                 <div class="h-scroll-bg-text" id="h-scroll-bg" data-i18n="bg-projects">
@@ -436,7 +455,7 @@
             localStorage.setItem('theme', body.classList.contains('theme-light') ? 'light' : '');
         });
 
-        // ANIMATION FLUIDE : ZOOM + SCROLL HORIZONTAL (SKEW) + DEZOOM
+        // --- MOTEUR DE DÉFILEMENT FLUIDE (LERP) ET RENDU 3D ---
         const seq = document.getElementById('scroll-sequence');
         const clipBox = document.getElementById('clip-box');
         const gateText = document.getElementById('gate-text');
@@ -445,40 +464,59 @@
         const fgText = document.getElementById('h-scroll-fg');
         const btnAll = document.getElementById('h-btn-all');
         const cards = document.querySelectorAll('.h-card');
+        const decos = document.querySelectorAll('.gate-deco');
 
-        window.addEventListener('scroll', () => {
+        let targetP = 0;
+        let currentP = 0;
+        let isInitialized = false;
+
+        function updateTargetP() {
             if(!seq) return;
             const rect = seq.getBoundingClientRect();
             const scrollable = rect.height - window.innerHeight;
-            let p = -rect.top / scrollable;
-            p = Math.max(0, Math.min(1, p));
+            let pRaw = -rect.top / scrollable;
+            targetP = Math.max(0, Math.min(1, pRaw));
+            if(!isInitialized) {
+                currentP = targetP;
+                isInitialized = true;
+            }
+        }
+        
+        window.addEventListener('scroll', updateTargetP);
+        window.addEventListener('resize', updateTargetP);
+        updateTargetP();
 
+        function renderAnimation() {
+            // LERP : C'est ici que la magie de la fluidité s'opère (0.07 de vitesse d'inertie)
+            currentP += (targetP - currentP) * 0.07;
+            
             let clipY = 35, clipX = 25, radius = 10, gateOp = 1, hTrans = 0;
             let contentOp = 0; 
-            const maxScroll = hContainer.scrollWidth - window.innerWidth + 100;
+            const maxScroll = hContainer.scrollWidth - window.innerWidth + window.innerWidth * 0.2; // Laisser respirer à la fin
 
-            // Phase 1 : Zoom In (0 à 15%)
-            if (p < 0.15) {
-                let ease = (p / 0.15); 
+            // Phase 1 : Zoom
+            if (currentP < 0.15) {
+                let ease = (currentP / 0.15); 
                 clipY = 35 * (1 - ease); clipX = window.innerWidth > 768 ? 25 * (1 - ease) : 10 * (1 - ease);
                 radius = 10 * (1 - ease); gateOp = 1 - (ease * 1.5);
-                if (p > 0.05) contentOp = (p - 0.05) / 0.10; 
+                if (currentP > 0.05) contentOp = (currentP - 0.05) / 0.10; 
             } 
-            // Phase 2 : Scroll Horizontal (15% à 85%)
-            else if (p >= 0.15 && p <= 0.85) {
+            // Phase 2 : Scroll Horizontal
+            else if (currentP >= 0.15 && currentP <= 0.85) {
                 clipY = 0; clipX = 0; radius = 0; gateOp = 0; contentOp = 1;
-                hTrans = ((p - 0.15) / 0.70) * maxScroll;
+                hTrans = ((currentP - 0.15) / 0.70) * maxScroll;
             } 
-            // Phase 3 : Zoom Out (85% à 100%)
+            // Phase 3 : Dezoom
             else {
-                let ease = (p - 0.85) / 0.15;
+                let ease = (currentP - 0.85) / 0.15;
                 clipY = 35 * ease; clipX = window.innerWidth > 768 ? 25 * ease : 10 * ease;
                 radius = 10 * ease; gateOp = 0; hTrans = maxScroll;
-                if (p < 0.90) contentOp = 1 - ((p - 0.85) / 0.05);
+                if (currentP < 0.90) contentOp = 1 - ((currentP - 0.85) / 0.05);
             }
 
             clipBox.style.clipPath = `inset(${clipY}% ${clipX}% round ${radius}px)`;
             if(gateText) gateText.style.opacity = Math.max(0, gateOp);
+            decos.forEach(deco => deco.style.opacity = Math.max(0, gateOp));
             
             hContainer.style.opacity = Math.max(0, contentOp);
             if(bgText) bgText.style.opacity = Math.max(0, contentOp * 0.5); 
@@ -486,26 +524,36 @@
             if(btnAll) btnAll.style.opacity = Math.max(0, contentOp);
             
             hContainer.style.transform = `translateX(-${hTrans}px)`;
-            if(bgText) bgText.style.transform = `translate(-50%, -50%) translateX(${p * 20}vw)`;
-            if(fgText) fgText.style.transform = `translate(-50%, -50%) translateX(-${p * 40}vw)`;
+            if(bgText) bgText.style.transform = `translate(-50%, -50%) translateX(${currentP * 20}vw)`;
+            if(fgText) fgText.style.transform = `translate(-50%, -50%) translateX(-${currentP * 40}vw)`;
 
-            // NOUVEAU : EFFET DE DISTORSION (SKEW) SUR LES CARTES
-            const screenCenter = window.innerWidth / 2;
-            cards.forEach(card => {
-                const cardRect = card.getBoundingClientRect();
-                const cardCenter = cardRect.left + (cardRect.width / 2);
-                const distanceFromCenter = cardCenter - screenCenter;
-                
-                // Normalisation de la distance (-1 à gauche, 0 au centre, 1 à droite)
-                const normalizedDist = distanceFromCenter / (window.innerWidth / 2);
-                
-                // Calcul de l'inclinaison max (12 degrés)
-                const skewAngle = normalizedDist * 12;
-                
-                // Application de la variable CSS locale
-                card.style.setProperty('--skew-val', `${-skewAngle}deg`);
-            });
-        });
+            // EFFET DE DISTORSION 3D (COVERFLOW) SUR LES CARTES
+            if (contentOp > 0.1) {
+                const screenCenter = window.innerWidth / 2;
+                cards.forEach(card => {
+                    const cardRect = card.getBoundingClientRect();
+                    const cardCenter = cardRect.left + (cardRect.width / 2);
+                    const distanceFromCenter = cardCenter - screenCenter;
+                    
+                    // Normalisation (-1 bord gauche, 0 au centre, 1 bord droit)
+                    const normalizedDist = Math.max(-1, Math.min(1, distanceFromCenter / (window.innerWidth / 1.5)));
+                    
+                    // Scale : Taille 1 au centre, 0.82 sur les bords
+                    const scaleFactor = 1 - (Math.abs(normalizedDist) * 0.18);
+                    
+                    // RotateY : Penche de 20 degrés vers l'arrière sur les bords
+                    const rotateY = normalizedDist * 20; 
+
+                    card.style.setProperty('--scale-val', scaleFactor);
+                    card.style.setProperty('--rot-y', `${rotateY}deg`);
+                });
+            }
+
+            requestAnimationFrame(renderAnimation);
+        }
+        
+        // Lancer la boucle d'animation
+        renderAnimation();
 
         // FADE IN CLASSIQUE
         document.addEventListener("DOMContentLoaded", function() {
