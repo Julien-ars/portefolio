@@ -61,7 +61,6 @@
             mask-image: radial-gradient(circle 180px at var(--mouse-x, -100px) var(--mouse-y, -100px), black, transparent);
             transition: opacity 0.3s ease;
         }
-        /* Quadrillage bien plus foncé au survol pour le thème clair */
         body.theme-light .global-grid-hover {
             background-image: 
                 linear-gradient(rgba(0, 0, 0, 0.7) 1px, transparent 1px),
@@ -74,7 +73,14 @@
             padding: 1.5rem 2rem; border-bottom: 2px solid var(--text-color); position: relative; z-index: 100;
         }
         .header-left { display: flex; align-items: center; gap: 3rem; }
-        .logo { font-size: 1.5rem; text-transform: uppercase; letter-spacing: 1px; }
+        
+        /* Logo cliquable */
+        .logo { 
+            font-size: 1.5rem; text-transform: uppercase; letter-spacing: 1px; 
+            text-decoration: none; color: var(--text-color); transition: opacity 0.3s ease;
+        }
+        .logo:hover { opacity: 0.7; }
+
         .main-nav { display: flex; gap: 0.5rem; }
         .main-nav a {
             font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem; text-transform: uppercase; 
@@ -87,18 +93,23 @@
         .lang-switch span { opacity: 0.4; transition: opacity 0.3s; cursor: pointer; }
         .lang-switch span.active, .lang-switch span:hover { opacity: 1; text-decoration: underline; }
         
-        /* Bouton Thème Visuel (Cercle indicateur de couleur) */
-        .theme-btn { background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease; padding: 0.5rem; }
-        .theme-btn:hover { transform: scale(1.1); }
-        .theme-indicator {
-            width: 22px; height: 22px; border-radius: 50%;
-            background-color: #F2EFE9; /* Sur fond rouge, affiche blanc */
-            border: 2px solid #0a0a0a;
-            transition: all 0.5s ease;
+        /* Icône bicolore de Thème */
+        .theme-btn { 
+            background: none; border: none; cursor: pointer; display: flex; align-items: center; 
+            justify-content: center; padding: 0.5rem; outline: none;
         }
+        .theme-indicator {
+            width: 24px; height: 24px; border-radius: 50%;
+            /* Sur fond rouge : gauche blanc, droite noir */
+            background: linear-gradient(to right, #F2EFE9 50%, #0a0a0a 50%); 
+            border: 2px solid #0a0a0a;
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        /* Sur fond blanc : gauche rouge, droite noir, avec une rotation à 180deg pour l'animation */
         body.theme-light .theme-indicator {
-            background-color: #e60023; /* Sur fond blanc, affiche rouge */
+            background: linear-gradient(to right, #e60023 50%, #0a0a0a 50%); 
             border-color: #1A1A1A;
+            transform: rotate(180deg);
         }
 
         /* --- HERO SECTION --- */
@@ -114,13 +125,12 @@
         }
         .hero h1 span.letter { display: inline-block; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); will-change: transform; }
         
-        /* GESTION DU I ET DU PLUS DETACHÉ + CALCUL DE CHUTE EXACT */
         .i-wrapper { position: relative; display: inline-block; pointer-events: none; }
         .dot-plus {
             position: absolute; top: -1.3em; left: 50%; transform: translateX(-50%);
             font-size: 0.55em; color: var(--text-color); transition: color 0.5s ease;
             will-change: transform; pointer-events: auto; cursor: crosshair; z-index: 40;
-            --drop-dist: 0px; /* Sera calculé en JS */
+            --drop-dist: 0px; 
         }
         .dot-plus.broken { animation: bounceDrop 2s cubic-bezier(0.28, 0.84, 0.42, 1) forwards; }
 
@@ -174,7 +184,6 @@
             background-color: var(--text-color); color: var(--bg-color); 
         }
 
-        /* --- TAGS COMPÉTENCES TUBES ARRONDIS --- */
         .skills-tags {
             display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; align-items: center;
             margin-bottom: auto; margin-top: auto; width: 100%;
@@ -182,7 +191,7 @@
         .skill-tag {
             border: 2px solid var(--text-color); padding: 0.5rem 1.2rem;
             font-family: 'Anton', sans-serif; font-size: 1.2rem; text-transform: uppercase;
-            border-radius: 50px; /* L'effet tube arrondi */
+            border-radius: 50px; 
             transition: all 0.3s ease; background-color: transparent; color: var(--text-color);
             cursor: default;
         }
@@ -210,12 +219,10 @@
             background-size: 40px 40px; 
         }
 
-        /* LIGNES TOPOGRAPHIQUES ACCÉLÉRÉES */
         .topo-bg { position: absolute; width: 110%; height: 110%; top: -5%; left: -5%; z-index: 10; pointer-events: none; opacity: 0; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); }
         .topo-bg svg { width: 100%; height: 100%; }
         .topo-bg path { stroke: rgba(255, 255, 255, 0.4); stroke-width: 1.5px; fill: none; }
         
-        /* Les lignes bougent plus vite pour être mieux remarquées */
         .layer-1 { animation: layerFloat1 8s ease-in-out infinite alternate; transform-origin: center; }
         .layer-2 { animation: layerFloat2 12s ease-in-out infinite alternate-reverse; transform-origin: center; }
         .layer-3 { animation: layerFloat3 10s ease-in-out infinite alternate; transform-origin: center; }
@@ -287,7 +294,6 @@
         }
         .btn-contact-violet:hover { transform: translate(-5px, -5px); box-shadow: 8px 8px 0px #b366ff; background-color: #b366ff; color: #050505; }
 
-        /* --- NOUVEAU BOUTON RETOUR EN HAUT CENTRÉ --- */
         .back-to-top-wrapper {
             background-color: #050505; text-align: center; padding-bottom: 3rem; position: relative; z-index: 50; width: 100%;
         }
@@ -304,30 +310,25 @@
         .fade-in-section { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; will-change: opacity, visibility; }
         .fade-in-section.is-visible { opacity: 1; transform: none; }
 
-        /* --- RESPONSIVE GRILLE --- */
+        /* --- RESPONSIVE --- */
         @media (max-width: 900px) {
             .intro-grid { grid-template-columns: 1fr; gap: 3rem; }
         }
 
-        /* --- OPTIMISATION MOBILE / TABLETTE --- */
         @media (max-width: 768px) {
             header { flex-direction: column; gap: 1.5rem; padding: 1.5rem 1rem; }
             .header-left { flex-direction: column; gap: 1rem; text-align: center; }
             .main-nav { flex-wrap: wrap; justify-content: center; }
-            /* Réduction légère pour éviter le débordement sur petit écran */
             .hero h1 { font-size: 9.5vw; } 
             .marquee-text { font-size: 2rem; } 
             .section-heading { font-size: 2.5rem; }
-            
-            /* Optimisation du scroll horizontal pour mobile */
             .clip-box { clip-path: inset(20% 5% round 10px); }
             .gate-text { font-size: 12vw; }
             .gate-crosshair, .topo-bg { display: none; }
-            .h-scroll-container { padding: 0 10vw; } /* Espace plus adapté au doigt */
-            .h-card { width: 80vw; } /* Les cartes prennent plus de place sur l'écran */
+            .h-scroll-container { padding: 0 10vw; } 
+            .h-card { width: 80vw; } 
             .h-card:nth-child(odd), .h-card:nth-child(even) { --y-base: 0; } 
             .h-card-spacer { width: 10vw; }
-            
             .intro-box { padding: 1.5rem; }
         }
     </style>
@@ -338,7 +339,8 @@
 
     <header>
         <div class="header-left">
-            <div class="logo">/// Julien Arsena</div>
+            <!-- Lien ramenant à la page principale -->
+            <a href="index.html" class="logo">/// Julien Arsena</a>
             <nav class="main-nav">
                 <a href="index.html" class="active" data-i18n="nav-home">Accueil</a>
                 <a href="projects.html" data-i18n="nav-projects">Projets</a>
@@ -351,6 +353,7 @@
                 <span id="btn-fr" class="active" onclick="setLanguage('fr')">FR</span> / 
                 <span id="btn-en" onclick="setLanguage('en')">EN</span>
             </div>
+            <!-- Icône de thème bicolore -->
             <button id="theme-toggle" class="theme-btn" aria-label="Changer le thème">
                 <div class="theme-indicator"></div>
             </button>
@@ -381,6 +384,7 @@
         </div>
     </div>
 
+    <!-- GRILLE À DEUX COLONNES -->
     <div class="content-wrapper">
         <section class="intro-section fade-in-section">
             <div class="intro-grid">
@@ -400,6 +404,7 @@
                 <div class="intro-col">
                     <h2 class="section-heading" data-i18n="h-intro2">02. Outils & Démarche</h2>
                     <div class="intro-box">
+                        <!-- Compétences avec effet "tube arrondi" -->
                         <div class="skills-tags">
                             <span class="skill-tag">Python / R</span>
                             <span class="skill-tag" data-i18n="tag-ml">Machine Learning</span>
@@ -574,14 +579,47 @@
     </footer>
 
     <script>
-        // THEME
+        // --- MÉMOIRE GLOBALE : THÈME ET LANGUE (À COPIER SUR TOUTES LES PAGES) ---
+        
+        // GESTION DU THÈME
         const themeToggleBtn = document.getElementById('theme-toggle');
         const body = document.body;
-        if (localStorage.getItem('theme') === 'light') body.classList.add('theme-light');
+        
+        // On vérifie le localStorage dès le chargement
+        if (localStorage.getItem('theme') === 'light') {
+            body.classList.add('theme-light');
+        }
+        
         themeToggleBtn.addEventListener('click', () => {
             body.classList.toggle('theme-light');
+            // On sauvegarde le choix pour les autres pages
             localStorage.setItem('theme', body.classList.contains('theme-light') ? 'light' : '');
         });
+
+        // GESTION DE LA LANGUE
+        // On récupère la dernière langue utilisée (ou 'fr' par défaut)
+        let currentLang = localStorage.getItem('lang') || 'fr';
+        
+        function setLanguage(lang) {
+            currentLang = lang;
+            // On sauvegarde la langue pour les autres pages
+            localStorage.setItem('lang', lang); 
+            
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const k = el.getAttribute('data-i18n'); 
+                if (translations[lang] && translations[lang][k]) {
+                    el.innerHTML = translations[lang][k];
+                }
+            });
+            
+            document.getElementById('btn-fr').classList.toggle('active', lang === 'fr');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+            
+            const eLetter = document.getElementById('letter-e');
+            if (eLetter) {
+                eLetter.style.display = lang === 'en' ? 'none' : 'inline-block';
+            }
+        }
 
         // RETOUR EN HAUT (Scroll doux)
         document.getElementById('btn-back-top').addEventListener('click', () => {
@@ -601,7 +639,7 @@
             globalGridHover.style.setProperty('--grid-overlay-op', '0');
         });
 
-        // CASSURE DU PLUS AVEC CALCUL DE CHUTE EXACT SUR LE BANDEAU
+        // CASSURE DU PLUS (CALCUL EXACT JUSQU'AU BANDEAU)
         const dotPlus = document.querySelector('.dot-plus');
         const marqueeBanner = document.getElementById('marquee-banner');
 
@@ -609,10 +647,10 @@
             dotPlus.addEventListener('mouseenter', () => {
                 if (!dotPlus.classList.contains('broken')) {
                     const plusRect = dotPlus.getBoundingClientRect();
-                    const heroRect = heroSection.getBoundingClientRect();
+                    const marqueeRect = marqueeBanner.getBoundingClientRect();
                     
-                    // On calcule la distance exacte entre le haut du "+" et le bas de la section hero (-2px pour qu'il s'appuie parfaitement sur la bordure)
-                    const dropDist = heroRect.bottom - plusRect.top - plusRect.height - 2; 
+                    // Calcul exact de l'espace entre le bas du "+" et le haut du bandeau noir
+                    const dropDist = marqueeRect.top - plusRect.bottom; 
                     
                     dotPlus.style.setProperty('--drop-dist', `${dropDist}px`);
                     dotPlus.classList.add('broken');
@@ -728,6 +766,9 @@
                 entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); obs.unobserve(e.target); } });
             }, { threshold: 0.15 });
             document.querySelectorAll('.fade-in-section').forEach(s => obs.observe(s));
+            
+            // On applique la langue dès que le contenu est prêt
+            setLanguage(currentLang);
         });
 
         // SOURIS ESQUIVE SUR LES LETTRES UNIQUEMENT
@@ -806,19 +847,6 @@
                 "footer-text": "© 2026 Julien Arsena. All content is provided for review purposes." 
             }
         };
-        
-        function setLanguage(lang) {
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const k = el.getAttribute('data-i18n'); if (translations[lang][k]) el.innerHTML = translations[lang][k];
-            });
-            document.getElementById('btn-fr').classList.toggle('active', lang === 'fr');
-            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-            
-            const eLetter = document.getElementById('letter-e');
-            if (eLetter) {
-                eLetter.style.display = lang === 'en' ? 'none' : 'inline-block';
-            }
-        }
     </script>
 </body>
 </html>
