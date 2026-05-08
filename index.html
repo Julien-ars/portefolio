@@ -29,35 +29,15 @@
 
         html { background-color: #050505; scroll-behavior: smooth; }
 
+        /* --- FOND GLOBAL AVEC QUADRILLAGE LÉGER --- */
         body {
             background-color: var(--bg-color); color: var(--text-color); font-family: 'Anton', sans-serif; 
             overflow-x: hidden; display: flex; flex-direction: column; min-height: 100vh;
-            transition: background-color 0.5s ease, color 0.5s ease;
-        }
-
-        /* --- QUADRILLAGE FIXE & EFFET LAMPE TORCHE --- */
-        .site-bg, .site-bg-dark {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none;
-            background-size: 40px 40px; transition: opacity 0.4s ease;
-        }
-        .site-bg {
             background-image: 
                 linear-gradient(rgba(0, 0, 0, var(--grid-opacity)) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 0, 0, var(--grid-opacity)) 1px, transparent 1px);
-        }
-        /* Le quadrillage sombre révélé au survol */
-        .site-bg-dark {
-            background-image: 
-                linear-gradient(rgba(0, 0, 0, 0.25) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 0, 0, 0.25) 1px, transparent 1px);
-            opacity: 0; 
-            -webkit-mask-image: radial-gradient(circle 180px at var(--mouse-x, -100%) var(--mouse-y, -100%), black, transparent);
-            mask-image: radial-gradient(circle 180px at var(--mouse-x, -100%) var(--mouse-y, -100%), black, transparent);
-        }
-        body.theme-light .site-bg-dark {
-            background-image: 
-                linear-gradient(rgba(0, 0, 0, 0.15) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 0, 0, 0.15) 1px, transparent 1px);
+            background-size: 40px 40px;
+            transition: background-color 0.5s ease, color 0.5s ease;
         }
 
         /* --- HEADER --- */
@@ -89,34 +69,53 @@
             position: relative; overflow: hidden; 
         }
 
+        /* EFFET LAMPE TORCHE : Quadrillage assombri au survol */
+        .hero-grid-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.25) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.25) 1px, transparent 1px);
+            background-size: 40px 40px;
+            opacity: 0; pointer-events: none; z-index: 1;
+            /* Masque circulaire qui suit la souris via CSS Variables */
+            -webkit-mask-image: radial-gradient(circle 200px at var(--mouse-x, -100%) var(--mouse-y, -100%), black, transparent);
+            mask-image: radial-gradient(circle 200px at var(--mouse-x, -100%) var(--mouse-y, -100%), black, transparent);
+            transition: opacity 0.3s ease;
+        }
+        body.theme-light .hero-grid-overlay {
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.15) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.15) 1px, transparent 1px);
+        }
+
         .hero h1 {
             font-size: 11vw; line-height: 0.9; text-transform: uppercase; letter-spacing: -2px;
-            position: relative; z-index: 2; pointer-events: none;
+            position: relative; z-index: 2; pointer-events: none; display: flex; justify-content: center;
         }
         .hero h1 span.letter { display: inline-block; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); will-change: transform; }
         
-        /* L'objet + détaché du i */
-        .custom-i { position: relative; }
+        /* GESTION DU I ET DU PLUS DETACHÉ */
+        .i-wrapper { position: relative; display: inline-block; pointer-events: none; }
         .dot-plus {
             position: absolute; top: -1.3em; left: 50%; transform: translateX(-50%);
             font-size: 0.55em; color: var(--text-color); transition: color 0.5s ease;
-            will-change: transform; pointer-events: auto; cursor: crosshair;
+            will-change: transform; pointer-events: auto; cursor: crosshair; z-index: 10;
         }
         
         .dot-plus.broken {
             animation: bounceDrop 2s cubic-bezier(0.28, 0.84, 0.42, 1) forwards;
         }
 
-        /* Rebond en 3 temps (3 rebonds distincts) */
+        /* 3 rebonds réalistes jusqu'au bandeau */
         @keyframes bounceDrop {
             0% { transform: translateX(-50%) translateY(0) rotate(0); }
-            15% { transform: translateX(-50%) translateY(42vh) rotate(50deg); } /* Chute 1 */
-            25% { transform: translateX(-50%) translateY(28vh) rotate(90deg); } /* Rebond 1 (Haut) */
-            40% { transform: translateX(-50%) translateY(42vh) rotate(130deg); } /* Chute 2 */
-            50% { transform: translateX(-50%) translateY(36vh) rotate(160deg); } /* Rebond 2 (Moyen) */
-            65% { transform: translateX(-50%) translateY(42vh) rotate(180deg); } /* Chute 3 */
-            75% { transform: translateX(-50%) translateY(40vh) rotate(195deg); } /* Rebond 3 (Petit) */
-            100% { transform: translateX(-50%) translateY(42vh) rotate(210deg); } /* Reste coincé */
+            15% { transform: translateX(-50%) translateY(38vh) rotate(50deg); } /* Chute 1 */
+            30% { transform: translateX(-50%) translateY(22vh) rotate(90deg); } /* Rebond 1 (Haut) */
+            45% { transform: translateX(-50%) translateY(38vh) rotate(130deg); } /* Chute 2 */
+            55% { transform: translateX(-50%) translateY(30vh) rotate(160deg); } /* Rebond 2 (Moyen) */
+            70% { transform: translateX(-50%) translateY(38vh) rotate(180deg); } /* Chute 3 */
+            80% { transform: translateX(-50%) translateY(35vh) rotate(195deg); } /* Rebond 3 (Petit) */
+            100% { transform: translateX(-50%) translateY(38vh) rotate(210deg); } /* Arrêt final */
         }
 
         /* --- BANDEAU DEFILEMENT --- */
@@ -180,20 +179,23 @@
             background-size: 40px 40px; 
         }
 
-        /* LIGNES TOPOGRAPHIQUES AMELIORÉES */
+        /* LIGNES TOPOGRAPHIQUES INDÉPENDANTES */
         .topo-bg {
             position: absolute; width: 110%; height: 110%; top: -5%; left: -5%;
             z-index: 10; pointer-events: none; opacity: 0;
-            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); /* Transition rapide pour réactivité souris */
+            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); 
         }
-        .topo-bg svg { width: 100%; height: 100%; animation: topoFloat 20s ease-in-out infinite alternate; }
+        .topo-bg svg { width: 100%; height: 100%; }
         .topo-bg path { stroke: rgba(255, 255, 255, 0.4); stroke-width: 1.5px; fill: none; }
         
-        @keyframes topoFloat {
-            0% { transform: scale(1) translate(0, 0) rotate(0deg); }
-            50% { transform: scale(1.05) translate(-1%, 2%) rotate(1deg); }
-            100% { transform: scale(1) translate(1%, -1%) rotate(-1deg); }
-        }
+        /* Animations séparées pour un rendu naturel */
+        .layer-1 { animation: layerFloat1 18s ease-in-out infinite alternate; transform-origin: center; }
+        .layer-2 { animation: layerFloat2 25s ease-in-out infinite alternate-reverse; transform-origin: center; }
+        .layer-3 { animation: layerFloat3 20s ease-in-out infinite alternate; transform-origin: center; }
+
+        @keyframes layerFloat1 { 0% { transform: translate(0, 0) scale(1) rotate(0deg); } 100% { transform: translate(2%, -1%) scale(1.02) rotate(1deg); } }
+        @keyframes layerFloat2 { 0% { transform: translate(0, 0) scale(1) rotate(0deg); } 100% { transform: translate(-2%, 2%) scale(1.03) rotate(-1deg); } }
+        @keyframes layerFloat3 { 0% { transform: translate(0, 0) scale(1) rotate(0deg); } 100% { transform: translate(1%, 2%) scale(1.01) rotate(0.5deg); } }
 
         .gate-text {
             position: absolute; font-size: 6vw; text-transform: uppercase; z-index: 50;
@@ -219,7 +221,7 @@
             display: flex; align-items: center; gap: 4vw; padding: 0 45vw;
             position: absolute; left: 0; top: 0; height: 100vh;
             width: max-content; will-change: transform, opacity; z-index: 15;
-            pointer-events: none; /* Désactivé par défaut, activé en JS */
+            pointer-events: none; 
         }
 
         .h-card {
@@ -275,7 +277,7 @@
             padding: 0.7rem 1.8rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; 
             text-transform: uppercase; text-decoration: none; border-radius: 50px; backdrop-filter: blur(10px); 
             transition: all 0.3s ease; will-change: opacity, transform;
-            pointer-events: none; /* Sécurité clics */
+            pointer-events: none; 
         }
         .h-btn-all:hover { background: #fff; color: #000; transform: translateX(-50%) scale(1.05); }
 
@@ -349,9 +351,6 @@
 </head>
 <body id="top">
 
-    <div class="site-bg"></div>
-    <div class="site-bg-dark" id="site-bg-dark"></div>
-
     <header>
         <div class="header-left">
             <div class="logo">/// Julien Arsena</div>
@@ -377,8 +376,22 @@
     </header>
 
     <section class="hero fade-in-section" id="hero-section">
+        <div class="hero-grid-overlay" id="hero-grid-overlay"></div>
+        
         <h1 id="hero-text">
-            <span class="letter">P</span><span class="letter">O</span><span class="letter">R</span><span class="letter">T</span><span class="letter" id="letter-e">E</span><span class="letter">F</span><span class="letter">O</span><span class="letter">L</span><span class="letter custom-i">I<span class="dot-plus">+</span></span><span class="letter">O</span>
+            <span class="letter">P</span>
+            <span class="letter">O</span>
+            <span class="letter">R</span>
+            <span class="letter">T</span>
+            <span class="letter" id="letter-e">E</span>
+            <span class="letter">F</span>
+            <span class="letter">O</span>
+            <span class="letter">L</span>
+            <span class="i-wrapper">
+                <span class="letter">I</span>
+                <span class="dot-plus">+</span>
+            </span>
+            <span class="letter">O</span>
         </h1>
     </section>
 
@@ -414,19 +427,23 @@
                 
                 <div class="topo-bg" id="topo-bg">
                     <svg width="100%" height="100%" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice">
-                        <path d="M-200,100 C100,200 400,-100 800,200 S1100,50 1300,300" />
-                        <path d="M-200,150 C120,250 420,-50 820,250 S1120,100 1300,350" />
-                        <path d="M-200,200 C140,300 440,0 840,300 S1140,150 1300,400" />
-                        <path d="M-200,250 C160,350 460,50 860,350 S1160,200 1300,450" />
-                        
-                        <path d="M-200,400 C100,500 400,200 700,500 S1000,300 1300,600" />
-                        <path d="M-200,450 C120,550 420,250 720,550 S1020,350 1300,650" />
-                        <path d="M-200,500 C140,600 440,300 740,600 S1040,400 1300,700" />
-                        <path d="M-200,550 C160,650 460,350 760,650 S1060,450 1300,750" />
-                        
-                        <path d="M-200,700 C100,800 500,500 800,800 S1100,600 1300,900" />
-                        <path d="M-200,750 C120,850 520,550 820,850 S1120,650 1300,950" />
-                        <path d="M-200,800 C140,900 540,600 840,900 S1140,700 1300,1000" />
+                        <g class="layer-1">
+                            <path d="M-200,100 C100,200 400,-100 800,200 S1100,50 1300,300" />
+                            <path d="M-200,250 C160,350 460,50 860,350 S1160,200 1300,450" />
+                            <path d="M-200,500 C140,600 440,300 740,600 S1040,400 1300,700" />
+                            <path d="M-200,750 C120,850 520,550 820,850 S1120,650 1300,950" />
+                        </g>
+                        <g class="layer-2">
+                            <path d="M-200,150 C120,250 420,-50 820,250 S1120,100 1300,350" />
+                            <path d="M-200,400 C100,500 400,200 700,500 S1000,300 1300,600" />
+                            <path d="M-200,550 C160,650 460,350 760,650 S1060,450 1300,750" />
+                            <path d="M-200,800 C140,900 540,600 840,900 S1140,700 1300,1000" />
+                        </g>
+                        <g class="layer-3">
+                            <path d="M-200,200 C140,300 440,0 840,300 S1140,150 1300,400" />
+                            <path d="M-200,450 C120,550 420,250 720,550 S1020,350 1300,650" />
+                            <path d="M-200,700 C100,800 500,500 800,800 S1100,600 1300,900" />
+                        </g>
                     </svg>
                 </div>
 
@@ -569,18 +586,23 @@
 
         // EFFET LAMPE TORCHE SUR LE QUADRILLAGE
         const heroSection = document.getElementById('hero-section');
-        const siteBgDark = document.getElementById('site-bg-dark');
+        const heroGridOverlay = document.getElementById('hero-grid-overlay');
         
         heroSection.addEventListener('mousemove', (e) => {
-            siteBgDark.style.opacity = '1';
-            siteBgDark.style.setProperty('--mouse-x', `${e.clientX}px`);
-            siteBgDark.style.setProperty('--mouse-y', `${e.clientY}px`);
+            // Calcul de la position par rapport à la section et non à la page
+            const rect = heroSection.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            heroGridOverlay.style.opacity = '1';
+            heroGridOverlay.style.setProperty('--mouse-x', `${x}px`);
+            heroGridOverlay.style.setProperty('--mouse-y', `${y}px`);
         });
         heroSection.addEventListener('mouseleave', () => {
-            siteBgDark.style.opacity = '0';
+            heroGridOverlay.style.opacity = '0';
         });
 
-        // CASSURE DU I (Rebond)
+        // CASSURE DU PLUS (Rebond)
         const dotPlus = document.querySelector('.dot-plus');
         if (dotPlus) {
             dotPlus.addEventListener('mouseenter', () => {
@@ -703,7 +725,7 @@
             document.querySelectorAll('.fade-in-section').forEach(s => obs.observe(s));
         });
 
-        // SOURIS ESQUIVE SUR TITRE
+        // SOURIS ESQUIVE SUR LES LETTRES UNIQUEMENT (Le + n'est pas affecté)
         const letters = document.querySelectorAll('.letter');
         heroSection.addEventListener('mousemove', (e) => {
             letters.forEach(letter => {
@@ -718,10 +740,9 @@
         });
         heroSection.addEventListener('mouseleave', () => { letters.forEach(l => l.style.transform = `translate(0, 0)`); });
 
-        // SOURIS POUSSE TOPOGRAPHIE (Mouvement augmenté)
+        // SOURIS POUSSE TOPOGRAPHIE
         if(clipBox && topoBg) {
             clipBox.addEventListener('mousemove', (e) => {
-                // Amplitude augmentée (x80 au lieu de x40) et léger zoom
                 const x = (e.clientX / window.innerWidth - 0.5) * 80;
                 const y = (e.clientY / window.innerHeight - 0.5) * 80;
                 topoBg.style.transform = `translate(${x}px, ${y}px) scale(1.05)`;
@@ -731,7 +752,7 @@
             });
         }
 
-        // TRADUCTIONS ET GESTION DU "E"
+        // TRADUCTIONS
         const translations = {
             "fr": { 
                 "nav-home": "Accueil", "nav-projects": "Projets", "nav-about": "À Propos", "nav-contact": "Contact", 
