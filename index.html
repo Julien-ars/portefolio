@@ -7,31 +7,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     
     <style>
-        /* --- VARIABLES DE BASE (Thème Rouge) --- */
+        /* --- VARIABLES DE BASE --- */
         :root {
             --bg-color: #e60023; 
             --text-color: #0a0a0a; 
             --accent-bg: #0a0a0a; 
             --accent-text: #e60023; 
             --grid-opacity: 0.05; 
-            
-            /* Violet pour les interactions/hover et Thème Clair */
-            --violet-color: #b366ff; 
-            
-            /* Couleur du titre projets (Rouge par défaut) */
-            --gate-text-color: #e60023; 
         }
 
-        /* --- THEME CLAIR (Modifié pour le Violet) --- */
+        /* --- THEME CLAIR --- */
         body.theme-light {
             --bg-color: #F2EFE9; 
             --text-color: #1A1A1A; 
             --accent-bg: #1A1A1A; 
             --accent-text: #F2EFE9; 
             --grid-opacity: 0.09; 
-            
-            /* Couleur du titre projets en Thème Clair (Violet) */
-            --gate-text-color: var(--violet-color); 
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -68,20 +59,23 @@
         .theme-btn:hover { transform: scale(1.1); }
         .theme-btn svg { width: 24px; height: 24px; fill: currentColor; }
 
-        /* --- HERO SECTION : GRILLE INTERACTIVE --- */
+        /* --- HERO SECTION --- */
         .hero {
             height: 75vh; display: flex; flex-direction: column; justify-content: center;
             align-items: center; text-align: center; border-bottom: 2px solid var(--text-color);
             position: relative; overflow: hidden; 
         }
-        
-        /* 1. Quadrillage interactif au hover */
-        .hero::after {
-            content: ''; position: absolute; inset: 0; z-index: 1;
-            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), transparent 0%, rgba(0, 0, 0, 0.3) 100%);
-            opacity: 0; transition: opacity 0.3s ease; pointer-events: none;
+
+        /* NOUVEAU : Effet Lampe Torche sur le Quadrillage */
+        .hero::before {
+            content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+            background: radial-gradient(circle 400px at var(--mouseX, 50%) var(--mouseY, 50%), rgba(0,0,0,0.15) 0%, transparent 80%);
+            opacity: 0; transition: opacity 0.5s ease;
         }
-        .hero:hover::after { opacity: 1; }
+        body.theme-light .hero::before {
+            background: radial-gradient(circle 400px at var(--mouseX, 50%) var(--mouseY, 50%), rgba(255,255,255,0.8) 0%, transparent 80%);
+        }
+        .hero:hover::before { opacity: 1; }
 
         .hero h1 {
             font-size: 11vw; line-height: 0.9; text-transform: uppercase; letter-spacing: -2px;
@@ -89,14 +83,26 @@
         }
         .hero h1 span { display: inline-block; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); will-change: transform; }
         
-        /* 2. Le point du i indépendant pour la chute */
-        .custom-i { position: relative; }
-        .i-dot {
-            content: '+'; position: absolute; top: -1.3em; left: 50%; transform: translateX(-50%);
-            font-size: 0.55em; color: var(--text-color); transition: color 0.5s ease;
-            cursor: pointer; z-index: 10;
+        /* Custom I et Animation du PLUS */
+        .custom-i { position: relative; pointer-events: auto; cursor: pointer; }
+        .plus-mark {
+            position: absolute; top: -1.4em; left: 50%; transform: translateX(-50%);
+            font-size: 0.55em; color: var(--text-color); transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            pointer-events: none; /* Laisse le parent I capter le hover */
         }
-        .i-dot:hover { color: var(--violet-color); }
+        
+        /* Animation rebond physique */
+        @keyframes bounceDrop {
+            0% { transform: translate(-50%, 0); }
+            35% { transform: translate(-50%, 26vh) scaleY(0.8); } /* Hit 1 */
+            55% { transform: translate(-50%, 15vh) scaleY(1); } /* Rebond 1 */
+            75% { transform: translate(-50%, 26vh) scaleY(0.9); } /* Hit 2 */
+            88% { transform: translate(-50%, 22vh) scaleY(1); } /* Rebond 2 */
+            100% { transform: translate(-50%, 26vh) scaleY(1); } /* Repos */
+        }
+        .custom-i:hover .plus-mark {
+            animation: bounceDrop 1.2s cubic-bezier(0.28, 0.84, 0.42, 1) forwards;
+        }
 
         /* --- BANDEAU DEFILEMENT --- */
         .marquee-container {
@@ -107,7 +113,7 @@
         .marquee-text { font-size: 3rem; animation: scroll-left 15s linear infinite; }
         @keyframes scroll-left { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        /* --- CONTENEUR GLOBAL INTRO --- */
+        /* --- CONTENEUR INTRO --- */
         .content-wrapper { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem 2rem 2rem; width: 100%; }
         .section-heading { font-size: 3rem; margin-bottom: 2rem; border-bottom: 4px solid var(--text-color); padding-bottom: 0.5rem; text-transform: uppercase; transition: border-color 0.5s ease; }
         .intro-section { margin-bottom: 2rem; }
@@ -131,64 +137,72 @@
             background-color: var(--text-color); color: var(--bg-color); 
         }
 
-        /* --- SÉQUENCE ZOOM & HORIZONTAL SCROLL (AVEC INERTIE & ÉLASTICITÉ) --- */
-        .scroll-sequence { height: 700vh; position: relative; background-color: transparent; margin-bottom: 15vh; }
+        /* --- SÉQUENCE ZOOM & HORIZONTAL SCROLL --- */
+        .scroll-sequence { 
+            height: 700vh; position: relative; background-color: transparent;
+        }
         
         .scroll-sticky {
             position: sticky; top: 0; height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center;
             overflow: hidden; background-color: transparent;
         }
 
-        /* 3. LIGNES TOPOGRAPHIQUES : Derrière le titre, plus fines et interactives */
-        .topo-bg {
-            position: absolute; width: 150%; height: 150%; top: -25%; left: -25%;
-            z-index: 10; pointer-events: none; opacity: 0.6;
-            transform: translate(calc(var(--topo-dx, 0px) * -1.5), calc(var(--topo-dy, 0px) * -1.5));
-            transition: opacity 0.5s ease, transform 0.1s ease-out; /* Interaction souris rapide */
+        .gate-crosshair {
+            position: absolute; width: 30px; height: 30px; z-index: 40; pointer-events: none;
+            transition: opacity 0.3s ease; opacity: 0.7;
         }
-        .topo-bg path { stroke: var(--text-color); stroke-width: 0.5px; fill: none; transition: stroke 0.5s ease; }
-        
+        .gate-crosshair::before, .gate-crosshair::after { content: ''; position: absolute; background-color: var(--text-color); }
+        .gate-crosshair::before { width: 100%; height: 2px; top: 50%; transform: translateY(-50%); }
+        .gate-crosshair::after { height: 100%; width: 2px; left: 50%; transform: translateX(-50%); }
+        .cross-tl { top: 15%; left: 15%; } .cross-tr { top: 15%; right: 15%; }
+        .cross-bl { bottom: 15%; left: 15%; } .cross-br { bottom: 15%; right: 15%; }
+
         .clip-box {
             position: absolute; width: 100%; height: 100%; background-color: #050505; 
             display: flex; align-items: center; justify-content: center; overflow: hidden;
             clip-path: inset(25% 25% round 15px); will-change: clip-path; z-index: 20;
-            background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 40px 40px; 
         }
 
+        /* NOUVEAU : Topographie interactive DANS la boîte noire, super fine */
+        .topo-bg {
+            position: absolute; width: 150%; height: 150%; top: -25%; left: -25%;
+            z-index: 10; pointer-events: none; opacity: 0.8;
+            transition: opacity 0.3s ease, transform 0.2s ease-out; /* Parallaxe */
+        }
+        .topo-bg path { stroke: rgba(255,255,255,0.15); stroke-width: 0.5px; fill: none; }
+        
+        /* Titre dynamique (Rouge ou Violet) */
         .gate-text {
             position: absolute; font-size: 6vw; text-transform: uppercase; z-index: 50;
             pointer-events: none; transition: opacity 0.2s ease, color 0.5s ease; letter-spacing: 2px;
-            color: var(--gate-text-color); /* Automatiquement Rouge/Violet selon thème */
+            color: #e60023; /* Rouge par défaut */
         }
+        body.theme-light .gate-text { color: #b366ff; /* Violet en thème clair */ }
 
-        /* Opacités gérées par JS */
         .h-scroll-bg-text, .h-scroll-fg-text, .h-scroll-container, .h-btn-all { opacity: 0; }
         
         .h-scroll-bg-text {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 300vw; text-align: center; font-size: 25vw; line-height: 0.8;
-            color: #2E004F; z-index: 1; pointer-events: none; white-space: nowrap; will-change: transform, opacity;
+            color: #2E004F; z-index: 15; pointer-events: none; white-space: nowrap; will-change: transform, opacity;
         }
         .h-scroll-fg-text {
             position: absolute; top: 70%; left: 50%; transform: translate(-50%, -50%);
             width: 300vw; text-align: center; font-size: 10vw; color: transparent; 
-            -webkit-text-stroke: 2px rgba(255, 255, 255, 0.15); z-index: 20; pointer-events: none; white-space: nowrap; will-change: transform, opacity;
+            -webkit-text-stroke: 2px rgba(255, 255, 255, 0.15); z-index: 30; pointer-events: none; white-space: nowrap; will-change: transform, opacity;
         }
 
-        /* --- CARTES : RECTANGLES PC (16:9) + ELASTICITÉ --- */
+        /* --- CARTES RECTANGLES --- */
         .h-scroll-container {
             display: flex; align-items: center; gap: 4vw; padding: 0 45vw;
             position: absolute; left: 0; top: 0; height: 100vh;
-            width: max-content; will-change: transform, opacity; z-index: 5;
+            width: max-content; will-change: transform, opacity; z-index: 25;
         }
 
         .h-card {
-            flex: 0 0 auto; 
-            width: 32vw; min-width: 300px; max-width: 500px; 
+            flex: 0 0 auto; width: 32vw; min-width: 300px; max-width: 500px; 
             background-color: transparent; text-decoration: none; display: flex; flex-direction: column;
             opacity: var(--op-val, 1);
-            /* skewX basé sur la vélocité (Élasticité) */
             transform: translateY(var(--y-base, 0)) scale(var(--scale-val, 1)) skewX(var(--skew-vel, 0deg));
             will-change: transform, opacity;
         }
@@ -198,18 +212,11 @@
 
         .h-card-inner { transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); display: flex; flex-direction: column; width: 100%; }
 
-        /* Format Rectangle PC (16/9) */
         .h-card-img-wrapper {
-            width: 100%; aspect-ratio: 16 / 9; height: auto; 
-            overflow: hidden; border: 2px solid rgba(255,255,255,0.8); 
+            width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border: 2px solid rgba(255,255,255,0.8); 
             position: relative; box-shadow: 0 15px 35px rgba(0,0,0,0.5); border-radius: 4px;
         }
-
-        .h-card img {
-            width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%); 
-            transition: transform 0.7s cubic-bezier(0.25, 0.8, 0.25, 1), filter 0.5s ease;
-        }
-
+        .h-card img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%); transition: transform 0.7s cubic-bezier(0.25, 0.8, 0.25, 1), filter 0.5s ease; }
         .h-card-info { padding-top: 1.2rem; text-align: left; }
         .h-card h3 { font-size: 1.8rem; margin-bottom: 0.5rem; line-height: 1.1; font-family: 'Anton', sans-serif; text-transform: uppercase; color: #fff; transition: color 0.3s ease; }
         .h-card-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; font-family: 'Inter', sans-serif; }
@@ -217,13 +224,12 @@
 
         .h-card:hover .h-card-inner { transform: scale(1.03) translateY(-5px); }
         .h-card:hover img { transform: scale(1.08); filter: grayscale(0%); }
-        .h-card:hover h3 { color: var(--violet-color); }
+        .h-card:hover h3 { color: #b366ff; }
         
         .h-card-spacer { flex: 0 0 auto; width: 25vw; } 
 
-        /* BOUTON "VOIR TOUT" DISCRET (Verre dépoli) */
         .h-btn-all {
-            position: absolute; bottom: 3.5rem; left: 50%; transform: translateX(-50%); z-index: 30; 
+            position: absolute; bottom: 3.5rem; left: 50%; transform: translateX(-50%); z-index: 40; 
             color: #fff; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.2); 
             padding: 0.7rem 1.8rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; 
             text-transform: uppercase; text-decoration: none; border-radius: 50px; backdrop-filter: blur(10px); 
@@ -231,34 +237,34 @@
         }
         .h-btn-all:hover { background: #fff; color: #000; transform: translateX(-50%) scale(1.05); }
 
-        /* --- SECTION CONTACT INTÉGRÉE (FOND NOIR / TEXTE VIOLET) --- */
+        /* --- SECTION CONTACT PARFAITEMENT SOUDÉE --- */
         .cta-section { 
-            background-color: #050505; /* Se fond parfaitement */
-            padding: 8rem 2rem 6rem 2rem; text-align: center; width: 100%; 
-            position: relative; z-index: 50;
+            background-color: #050505; 
+            padding: 8rem 2rem 5rem 2rem; text-align: center; width: 100%; 
+            position: relative; z-index: 50; 
+            margin-top: -2px; /* SCELLE LE JOINT POUR ÉVITER LE BUG DE BORDURE ROUGE */
         }
         
-        .cta-section h2 { font-size: 4rem; margin-bottom: 1rem; color: var(--violet-color); } 
+        .cta-section h2 { font-size: 4rem; margin-bottom: 1rem; color: #b366ff; } 
         .cta-text { font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 600; max-width: 750px; margin: 0 auto 2rem auto; color: rgba(179, 102, 255, 0.8); }
         .cta-socials { display: flex; justify-content: center; gap: 1.5rem; margin-top: 2rem; }
-        .cta-socials a { color: var(--violet-color); transition: all 0.3s ease; }
+        .cta-socials a { color: #b366ff; transition: all 0.3s ease; }
         .cta-socials a:hover { transform: translateY(-3px); color: #fff; }
         .cta-socials svg { width: 35px; height: 35px; fill: currentColor; }
 
         .btn-contact-violet { 
             font-family: 'Anton', sans-serif; font-size: 1.5rem; text-transform: uppercase; text-decoration: none; 
-            color: var(--violet-color); border: 3px solid var(--violet-color); padding: 0.8rem 1.5rem; transition: all 0.3s ease; 
+            color: #b366ff; border: 3px solid #b366ff; padding: 0.8rem 1.5rem; transition: all 0.3s ease; 
             background-color: transparent; display: inline-block; cursor: pointer;
         }
         .btn-contact-violet:hover { 
-            transform: translate(-5px, -5px); box-shadow: 8px 8px 0px var(--violet-color); 
-            background-color: var(--violet-color); color: #050505; 
+            transform: translate(-5px, -5px); box-shadow: 8px 8px 0px #b366ff; background-color: #b366ff; color: #050505; 
         }
 
         .site-footer { 
             background-color: #050505; color: rgba(179, 102, 255, 0.4);
             padding: 1.5rem 2rem 3rem 2rem; text-align: center; font-family: 'Inter', sans-serif; 
-            font-weight: 600; font-size: 0.85rem; 
+            font-weight: 600; font-size: 0.85rem; border: none; margin: 0;
         }
 
         .fade-in-section { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; will-change: opacity, visibility; }
@@ -273,7 +279,7 @@
             .section-heading { font-size: 2.5rem; }
             .clip-box { clip-path: inset(20% 10% round 10px); }
             .gate-text { font-size: 12vw; }
-            .topo-bg { display: none; } 
+            .gate-crosshair, .topo-bg { display: none; } 
             .h-card { width: 75vw; }
             .h-card:nth-child(odd), .h-card:nth-child(even) { --y-base: 0; } 
         }
@@ -307,7 +313,7 @@
 
     <section class="hero fade-in-section" id="hero-section">
         <h1 id="hero-text">
-            <span class="letter">P</span><span class="letter">O</span><span class="letter">R</span><span class="letter">T</span><span class="letter">E</span><span class="letter">F</span><span class="letter">O</span><span class="letter">L</span><span class="letter custom-i">I<div id="i-dot" class="i-dot">+</div></span>
+            <span class="letter">P</span><span class="letter">O</span><span class="letter">R</span><span class="letter">T</span><span class="letter">E</span><span class="letter">F</span><span class="letter">O</span><span class="letter">L</span><span class="letter custom-i">I<span class="plus-mark">+</span></span><span class="letter">O</span>
         </h1>
     </section>
 
@@ -333,22 +339,30 @@
 
     <div class="scroll-sequence" id="scroll-sequence">
         
-        <div class="topo-bg" id="topo-bg">
-            <svg width="100%" height="100%" viewBox="0 0 1000 1000" preserveAspectRatio="none">
-                <path d="M-100,100 C200,30 500,300 1100,50" />
-                <path d="M-100,180 C250,80 550,380 1100,130" />
-                <path d="M-100,260 C300,130 600,460 1100,210" />
-                <path d="M-100,340 C350,180 650,540 1100,290" />
-                <path d="M-100,420 C400,230 700,620 1100,370" />
-                <path d="M-100,500 C450,280 750,700 1100,450" />
-                <path d="M-100,580 C500,330 800,780 1100,530" />
-                <path d="M-100,660 C550,380 850,860 1100,610" />
-                <path d="M-100,740 C600,430 900,940 1100,690" />
-            </svg>
-        </div>
-
         <div class="scroll-sticky">
+            
+            <div class="gate-crosshair cross-tl"></div>
+            <div class="gate-crosshair cross-tr"></div>
+            <div class="gate-crosshair cross-bl"></div>
+            <div class="gate-crosshair cross-br"></div>
+
             <div class="clip-box" id="clip-box">
+                
+                <div class="topo-bg" id="topo-bg">
+                    <svg width="100%" height="100%" viewBox="0 0 1000 1000" preserveAspectRatio="none">
+                        <path d="M-100,50 C300,10 600,150 1100,-50" />
+                        <path d="M-100,150 C350,110 550,250 1100,50" />
+                        <path d="M-100,250 C400,210 500,350 1100,150" />
+                        <path d="M-100,350 C450,310 450,450 1100,250" />
+                        <path d="M-100,450 C500,410 400,550 1100,350" />
+                        <path d="M-100,550 C550,510 350,650 1100,450" />
+                        <path d="M-100,650 C600,610 300,750 1100,550" />
+                        <path d="M-100,750 C650,710 250,850 1100,650" />
+                        <path d="M-100,850 C700,810 200,950 1100,750" />
+                        <path d="M-100,950 C750,910 150,1050 1100,850" />
+                    </svg>
+                </div>
+
                 <h2 class="gate-text" id="gate-text" data-i18n="gate-title">Mes Projets</h2>
                 
                 <div class="h-scroll-bg-text" id="h-scroll-bg" data-i18n="bg-projects">
@@ -462,7 +476,7 @@
     <section class="cta-section">
         <h2 data-i18n="h-contact">Prêt à échanger ?</h2>
         <p class="cta-text" data-i18n="p-contact">Toujours curieux de relever de nouveaux défis, je suis ouvert aux opportunités d'études en Master, ainsi qu'aux collaborations stimulantes avec des entreprises ou laboratoires de recherche.</p>
-        <div class="btn-container">
+        <div class="btn-container center">
             <a href="contact.html" class="btn-contact-violet" data-i18n="btn-contact">Me contacter -></a>
         </div>
         <div class="cta-socials">
@@ -494,6 +508,7 @@
         const clipBox = document.getElementById('clip-box');
         const gateText = document.getElementById('gate-text');
         const topoBg = document.getElementById('topo-bg');
+        const crosshairs = document.querySelectorAll('.gate-crosshair');
         const hContainer = document.getElementById('h-scroll-container');
         const bgText = document.getElementById('h-scroll-bg');
         const fgText = document.getElementById('h-scroll-fg');
@@ -521,10 +536,10 @@
         updateTargetP();
 
         function renderAnimation() {
-            // LERP : Coefficient doux pour une super glisse (0.05)
+            // LERP : Fluidité absolue (0.05)
             currentP += (targetP - currentP) * 0.05;
             
-            let clipY = 25, clipX = 25, radius = 15, gateOp = 1, hTrans = 0, topoOp = 0.6;
+            let clipY = 25, clipX = 25, radius = 15, gateOp = 1, hTrans = 0, topoOp = 0.8;
             let contentOp = 0; 
             const maxScroll = hContainer.scrollWidth - window.innerWidth + window.innerWidth * 0.15; 
 
@@ -533,27 +548,27 @@
                 let ease = (currentP / 0.15); 
                 clipY = 25 * (1 - ease); clipX = window.innerWidth > 768 ? 25 * (1 - ease) : 10 * (1 - ease);
                 radius = 15 * (1 - ease); gateOp = 1 - (ease * 1.5);
-                topoOp = 0.6 * (1 - ease); // Les lignes s'effacent doucement au zoom
+                topoOp = 0.8 * (1 - ease); // Lignes s'effacent
                 if (currentP > 0.05) contentOp = (currentP - 0.05) / 0.10; 
             } 
-            // Phase 2 : Scroll Horizontal + Zone Tampon (Transitions fluides)
+            // Phase 2 : Scroll Horizontal fluide -> Pas de dezoom, s'arrête net.
             else {
                 clipY = 0; clipX = 0; radius = 0; gateOp = 0; contentOp = 1; topoOp = 0;
-                // Zone tampon à la fin (currentP > 0.90) pour préparer la sortie
-                let hScrollProgress = Math.min(1, (currentP - 0.15) / 0.75); 
-                hTrans = hScrollProgress * maxScroll;
+                let scrollProgress = Math.min(1, (currentP - 0.15) / 0.85);
+                hTrans = scrollProgress * maxScroll;
             } 
 
             clipBox.style.clipPath = `inset(${clipY}% ${clipX}% round ${radius}px)`;
             
             if(gateText) gateText.style.opacity = Math.max(0, gateOp);
             if(topoBg) topoBg.style.opacity = Math.max(0, topoOp);
+            crosshairs.forEach(c => c.style.opacity = Math.max(0, gateOp));
             
             hContainer.style.opacity = Math.max(0, contentOp);
             if(bgText) bgText.style.opacity = Math.max(0, contentOp * 0.5); 
             if(fgText) fgText.style.opacity = Math.max(0, contentOp);
             
-            // Le bouton "Voir tout" disparaît doucement à la toute fin pour ne pas chevaucher le Contact
+            // Apparition/Disparition du bouton "Voir Tout"
             let btnOp = contentOp;
             if (currentP > 0.95) btnOp = 1 - ((currentP - 0.95) / 0.05);
             if(btnAll) btnAll.style.opacity = Math.max(0, btnOp);
@@ -562,24 +577,20 @@
             if(bgText) bgText.style.transform = `translate(-50%, -50%) translateX(${currentP * 20}vw)`;
             if(fgText) fgText.style.transform = `translate(-50%, -50%) translateX(-${currentP * 40}vw)`;
 
-            // EFFET ÉLASTIQUE SUR LES CARTES (Basé sur la vélocité)
+            // SKEW INERTIEL (Elasticité des cartes)
             if (contentOp > 0.1) {
                 const screenCenter = window.innerWidth / 2;
                 
-                // Vélocité = Différence entre la cible et la position actuelle (Inertie)
                 let velocity = (targetP - currentP) * 800; 
                 let skewAngle = velocity * 0.05; 
-                skewAngle = Math.max(-10, Math.min(10, skewAngle)); // Limite à 10 degrés
+                skewAngle = Math.max(-10, Math.min(10, skewAngle)); 
 
                 cards.forEach(card => {
                     const cardRect = card.getBoundingClientRect();
                     const cardCenter = cardRect.left + (cardRect.width / 2);
                     const distanceFromCenter = cardCenter - screenCenter;
                     
-                    // Normalisation (-1 bord gauche, 0 au centre, 1 bord droit)
                     const normalizedDist = Math.max(-1, Math.min(1, distanceFromCenter / (window.innerWidth / 1.5)));
-                    
-                    // Scale : Taille 1 au centre, 0.85 sur les bords (Focus visuel)
                     const scaleFactor = 1 - (Math.abs(normalizedDist) * 0.15);
                     const opacityFactor = 1 - (Math.abs(normalizedDist) * 0.6);
 
@@ -591,80 +602,50 @@
 
             requestAnimationFrame(renderAnimation);
         }
+        
         renderAnimation();
 
-        // --- JAVASCRIPT GLOBAL POUR INTERACTONS SOURIS ---
+        // MOUSE PARALLAX (HÉRO + TOPOGRAPHIE)
+        const heroSection = document.getElementById('hero-section');
+        const letters = document.querySelectorAll('.letter');
         
-        // 1. Chute et rebond du point du i
-        const dot = document.getElementById('i-dot');
-        let isFalling = false;
-        
-        dot.addEventListener('mouseenter', () => {
-            if (isFalling) return;
-            isFalling = true;
-            dot.style.color = '#fff'; // Couleur de chute
+        window.addEventListener('mousemove', (e) => {
+            // Effet Topographie (Mouvement fluide de l'ensemble des lignes)
+            if(topoBg && currentP < 0.15) {
+                const x = (e.clientX / window.innerWidth - 0.5) * 40;
+                const y = (e.clientY / window.innerHeight - 0.5) * 40;
+                topoBg.style.transform = `translate(${x}px, ${y}px)`;
+            }
 
-            // 1. Chute fluide vers le bandeau (20vh de distance)
-            const fall = dot.animate([
-                { top: '-1.3em', offset: 0, easing: 'cubic-bezier(0.5, 0, 1, 0.5)' },
-                { top: '30vh', offset: 1 }
-            ], { duration: 300, fill: 'forwards' });
-
-            fall.onfinish = () => {
-                // 2. Premier gros rebond (plus rapide)
-                const bounce1 = dot.animate([
-                    { top: '30vh', offset: 0, easing: 'cubic-bezier(0, 0.5, 0.5, 1)' },
-                    { top: '22vh', offset: 0.5, easing: 'cubic-bezier(0.5, 0, 1, 0.5)' },
-                    { top: '30vh', offset: 1 }
-                ], { duration: 250 });
-
-                bounce1.onfinish = () => {
-                    // 3. Deuxième petit rebond
-                    const bounce2 = dot.animate([
-                        { top: '30vh', offset: 0, easing: 'cubic-bezier(0, 0.5, 0.5, 1)' },
-                        { top: '27vh', offset: 0.5, easing: 'cubic-bezier(0.5, 0, 1, 0.5)' },
-                        { top: '30vh', offset: 1 }
-                    ], { duration: 150 });
+            // Tracking pour le faisceau lumineux & répulsion des lettres du Héro
+            if(heroSection) {
+                const rect = heroSection.getBoundingClientRect();
+                if (e.clientY >= rect.top && e.clientY <= rect.bottom) {
+                    const hx = e.clientX - rect.left;
+                    const hy = e.clientY - rect.top;
+                    heroSection.style.setProperty('--mouseX', `${hx}px`);
+                    heroSection.style.setProperty('--mouseY', `${hy}px`);
                     
-                    bounce2.onfinish = () => {
-                        // Rester sur le bandeau
-                        dot.style.top = '30vh';
-                        dot.style.color = var('--bg-color'); // Reprendre couleur fond
-                        // Reset après un délai pour pouvoir recommencer
-                        setTimeout(() => {
-                            dot.style.top = '-1.3em';
-                            dot.style.color = '';
-                            isFalling = false;
-                        }, 1000);
-                    }
+                    letters.forEach(letter => {
+                        const r = letter.getBoundingClientRect();
+                        const dx = e.clientX - (r.left + r.width/2), dy = e.clientY - (r.top + r.height/2);
+                        const dist = Math.sqrt(dx*dx + dy*dy);
+                        if (dist < 120) {
+                            const f = (120 - dist) / 120;
+                            letter.style.transform = `translate(${-(dx/dist)*f*20}px, ${-(dy/dist)*f*20}px)`;
+                        } else {
+                            letter.style.transform = `translate(0, 0)`;
+                        }
+                    });
                 }
-            };
+            }
         });
 
-        // 2. Quadrillage Portfolio et Lignes Topo interactives
-        const hero = document.getElementById('hero-section');
-        const topoDiv = document.getElementById('topo-bg');
-
-        document.addEventListener('mousemove', (e) => {
-            const x = e.clientX;
-            const y = e.clientY;
-            
-            // Grille Hero
-            const heroRect = hero.getBoundingClientRect();
-            const mouseXHero = ((x - heroRect.left) / heroRect.width) * 100;
-            const mouseYHero = ((y - heroRect.top) / heroRect.height) * 100;
-            hero.style.setProperty('--mouse-x', `${mouseXHero}%`);
-            hero.style.setProperty('--mouse-y', `${mouseYHero}%`);
-
-            // Lignes Topo
-            const centerX = window.innerWidth / 2;
-            const centerY = window.innerHeight / 2;
-            // Déplacement très subtil (5px max)
-            const topoDX = (x - centerX) / centerY * 5; 
-            const topoDY = (y - centerY) / centerY * 5;
-            topoDiv.style.setProperty('--topo-dx', `${topoDX}px`);
-            topoDiv.style.setProperty('--topo-dy', `${topoDY}px`);
-        });
+        if(heroSection) {
+            heroSection.addEventListener('mouseleave', () => { 
+                letters.forEach(l => l.style.transform = `translate(0, 0)`); 
+            });
+        }
 
         // FADE IN CLASSIQUE
         document.addEventListener("DOMContentLoaded", function() {
@@ -673,21 +654,6 @@
             }, { threshold: 0.15 });
             document.querySelectorAll('.fade-in-section').forEach(s => obs.observe(s));
         });
-
-        // SOURIS ESQUIVE (Hero Text)
-        const letters = document.querySelectorAll('.letter');
-        hero.addEventListener('mousemove', (e) => {
-            letters.forEach(letter => {
-                const r = letter.getBoundingClientRect();
-                const dx = e.clientX - (r.left + r.width/2), dy = e.clientY - (r.top + r.height/2);
-                const dist = Math.sqrt(dx*dx + dy*dy);
-                if (dist < 120) {
-                    const f = (120 - dist) / 120;
-                    letter.style.transform = `translate(${-(dx/dist)*f*20}px, ${-(dy/dist)*f*20}px)`;
-                } else letter.style.transform = `translate(0, 0)`;
-            });
-        });
-        hero.addEventListener('mouseleave', () => { letters.forEach(l => l.style.transform = `translate(0, 0)`); });
 
         // TRADUCTIONS
         const translations = {
