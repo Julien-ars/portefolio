@@ -135,7 +135,16 @@
         .main-title {
             font-family: 'Anton', sans-serif; font-size: 5rem; line-height: 1.1;
             text-transform: uppercase; letter-spacing: 1px;
+            /* Pour l'effet magnétique */
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 0.2rem;
         }
+
+        /* Lettres magnétiques */
+        .main-title span.letter {
+            display: inline-block; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+            will-change: transform; pointer-events: none;
+        }
+        .main-title br { width: 100%; display: block; content: ""; margin: 0; }
 
         /* ANIMATION SCROLL */
         .fade-in-section {
@@ -145,7 +154,7 @@
 
         .fade-in-section.is-visible { opacity: 1; transform: none; }
 
-        /* --- CARTES D'INFORMATIONS (EN HAUT) --- */
+        /* --- CARTES D'INFORMATIONS --- */
         .info-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 4rem;
         }
@@ -190,36 +199,10 @@
             background-color: var(--text-color); color: var(--bg-color);
         }
 
-        /* --- NOUVELLE SECTION TÉLÉCHARGEMENT CV --- */
-        .cv-section {
-            display: flex; justify-content: center; margin-bottom: 5rem;
-        }
-
-        .btn-cv {
-            display: inline-flex; align-items: center; gap: 1.2rem;
-            font-family: 'Anton', sans-serif; font-size: 1.8rem; text-transform: uppercase;
-            color: var(--text-color); background-color: transparent; border: 4px solid var(--text-color);
-            padding: 1.2rem 2.5rem; text-decoration: none; transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .btn-cv svg {
-            width: 32px; height: 32px; fill: currentColor; transition: transform 0.3s ease;
-        }
-
-        .btn-cv:hover {
-            transform: translate(-6px, -6px); box-shadow: 12px 12px 0px var(--text-color);
-            background-color: var(--text-color); color: var(--bg-color);
-        }
-
-        .btn-cv:hover svg {
-            transform: translateY(4px); /* L'icône descend au survol */
-        }
-
-        /* --- FORMULAIRE (EN BAS) --- */
+        /* --- FORMULAIRE --- */
         .form-section-title {
             font-family: 'Anton', sans-serif; font-size: 2.5rem; text-transform: uppercase;
-            text-align: center; margin-bottom: 2rem;
+            text-align: center; margin-bottom: 2rem; margin-top: 2rem;
         }
 
         .contact-form {
@@ -259,10 +242,23 @@
             background-color: var(--text-color); color: var(--bg-color);
         }
 
+        /* --- BOUTON RETOUR EN HAUT (PLACÉ AVANT LE BANDEAU) --- */
+        .back-to-top-wrapper {
+            background-color: transparent; text-align: center; padding: 4rem 0 2rem 0; position: relative; z-index: 50; width: 100%;
+        }
+        .btn-back-top {
+            display: inline-block; color: var(--text-color); border: 2px solid var(--text-color); 
+            padding: 0.7rem 1.8rem; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 0.85rem; 
+            text-transform: uppercase; text-decoration: none; border-radius: 50px; 
+            transition: all 0.3s ease; cursor: pointer; background-color: var(--bg-color);
+        }
+        .btn-back-top:hover { background: var(--text-color); color: var(--bg-color); transform: translateY(-3px); box-shadow: 4px 4px 0px rgba(0,0,0,0.2); }
+
+
         /* --- BANDEAU DÉFILANT --- */
         .marquee-footer {
             background-color: var(--text-color); color: var(--bg-color); padding: 1rem 0; overflow: hidden;
-            display: flex; border-top: 2px solid var(--text-color); margin-top: 4rem; position: relative; z-index: 10;
+            display: flex; border-top: 2px solid var(--text-color); position: relative; z-index: 10;
         }
 
         .marquee-inner {
@@ -272,18 +268,6 @@
         .marquee-text { font-family: 'Anton', sans-serif; font-size: 2.5rem; white-space: nowrap; }
 
         @keyframes scroll-left { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
-        /* --- BOUTON RETOUR EN HAUT CENTRÉ --- */
-        .back-to-top-wrapper {
-            background-color: #050505; text-align: center; padding: 2rem 0 3rem 0; position: relative; z-index: 50; width: 100%;
-        }
-        .btn-back-top {
-            display: inline-block; color: #fff; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.2); 
-            padding: 0.7rem 1.8rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; 
-            text-transform: uppercase; text-decoration: none; border-radius: 50px; backdrop-filter: blur(10px); 
-            transition: all 0.3s ease; cursor: pointer;
-        }
-        .btn-back-top:hover { background: #fff; color: #000; transform: translateY(-3px); }
 
         /* --- FOOTER --- */
         .site-footer {
@@ -300,7 +284,6 @@
             .container { padding: 2rem 1rem; }
             .main-title { font-size: 3.5rem; }
             .info-grid { grid-template-columns: 1fr; margin-bottom: 3rem; }
-            .btn-cv { font-size: 1.4rem; padding: 1rem 1.5rem; width: 100%; justify-content: center; }
             .form-section-title { font-size: 2rem; }
         }
     </style>
@@ -325,7 +308,6 @@
                 <span id="btn-fr" class="active" onclick="setLanguage('fr')">FR</span> / 
                 <span id="btn-en" onclick="setLanguage('en')">EN</span>
             </div>
-            <!-- Icône de thème bicolore -->
             <button id="theme-toggle" class="theme-btn" aria-label="Changer le thème">
                 <div class="theme-indicator"></div>
             </button>
@@ -334,9 +316,11 @@
 
     <div class="container">
         
-        <div class="page-header fade-in-section">
+        <div class="page-header fade-in-section" id="hero-section">
             <div class="subtitle" data-i18n="subtitle-contact">Contact</div>
-            <h1 class="main-title" data-i18n="title-contact">Restons en<br>Contact</h1>
+            <h1 class="main-title" id="hero-text" data-i18n="title-contact">
+                <span class="letter">R</span><span class="letter">e</span><span class="letter">s</span><span class="letter">t</span><span class="letter">o</span><span class="letter">n</span><span class="letter">s</span><span class="letter">&nbsp;</span><span class="letter">e</span><span class="letter">n</span><br><span class="letter">C</span><span class="letter">o</span><span class="letter">n</span><span class="letter">t</span><span class="letter">a</span><span class="letter">c</span><span class="letter">t</span>
+            </h1>
         </div>
 
         <div class="info-grid">
@@ -374,16 +358,6 @@
 
         </div>
 
-        <!-- NOUVELLE SECTION BOUTON CV -->
-        <div class="cv-section fade-in-section">
-            <a href="CV_Julien_Arsena.pdf" target="_blank" class="btn-cv" download>
-                <span data-i18n="btn-cv">Télécharger mon CV</span>
-                <svg viewBox="0 0 24 24">
-                    <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-                </svg>
-            </a>
-        </div>
-
         <h2 class="form-section-title fade-in-section" data-i18n="or-contact-here">Ou m'écrire directement ici ↓</h2>
         
         <form class="contact-form fade-in-section" action="https://formspree.io/f/xreybnzy" method="POST">
@@ -407,6 +381,11 @@
 
     </div>
 
+    <!-- BOUTON RETOUR EN HAUT PLACÉ AU-DESSUS DE LA BANDE DÉFILANTE -->
+    <div class="back-to-top-wrapper">
+        <a id="btn-back-top" class="btn-back-top" data-i18n="btn-back-top">Remonter en haut</a>
+    </div>
+
     <div class="marquee-footer">
         <div class="marquee-inner" id="marquee-inner">
             <div class="marquee-text">
@@ -416,10 +395,6 @@
                 SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • INTELLIGENCE ARTIFICIELLE • ANALYSE CULTURELLE • MACHINE LEARNING • SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • INTELLIGENCE ARTIFICIELLE • ANALYSE CULTURELLE • MACHINE LEARNING •&nbsp;
             </div>
         </div>
-    </div>
-
-    <div class="back-to-top-wrapper">
-        <a id="btn-back-top" class="btn-back-top" data-i18n="btn-back-top">Remonter en haut</a>
     </div>
 
     <footer class="site-footer">
@@ -477,6 +452,40 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
+        // EFFET MAGNÉTIQUE SUR LES LETTRES DU TITRE
+        const heroSection = document.getElementById('hero-section');
+        let letters = document.querySelectorAll('.letter');
+
+        heroSection.addEventListener('mousemove', (e) => {
+            letters.forEach(letter => {
+                const letterRect = letter.getBoundingClientRect();
+                const centerX = letterRect.left + letterRect.width / 2;
+                const centerY = letterRect.top + letterRect.height / 2;
+                
+                const dx = e.clientX - centerX;
+                const dy = e.clientY - centerY;
+                const distToLetter = Math.sqrt(dx * dx + dy * dy);
+                
+                const maxDist = 120; 
+                
+                if (distToLetter < maxDist) {
+                    const force = (maxDist - distToLetter) / maxDist;
+                    const pushX = -(dx / distToLetter) * force * 20; 
+                    const pushY = -(dy / distToLetter) * force * 20;
+                    
+                    letter.style.transform = `translate(${pushX}px, ${pushY}px)`;
+                } else {
+                    letter.style.transform = `translate(0, 0)`;
+                }
+            });
+        });
+
+        heroSection.addEventListener('mouseleave', () => {
+            letters.forEach(letter => {
+                letter.style.transform = `translate(0, 0)`;
+            });
+        });
+
         const translations = {
             "fr": {
                 "nav-home": "Accueil",
@@ -484,13 +493,12 @@
                 "nav-about": "À Propos",
                 "nav-contact": "Contact",
                 "subtitle-contact": "Contact",
-                "title-contact": "Restons en<br>Contact",
+                "title-contact": "<span class='letter'>R</span><span class='letter'>e</span><span class='letter'>s</span><span class='letter'>t</span><span class='letter'>o</span><span class='letter'>n</span><span class='letter'>s</span><span class='letter'>&nbsp;</span><span class='letter'>e</span><span class='letter'>n</span><br><span class='letter'>C</span><span class='letter'>o</span><span class='letter'>n</span><span class='letter'>t</span><span class='letter'>a</span><span class='letter'>c</span><span class='letter'>t</span>",
                 "info-phone": "Téléphone",
                 "info-email": "Emails",
                 "label-pro": "Institutionnel",
                 "label-perso": "Personnel",
                 "info-socials": "Réseaux",
-                "btn-cv": "Télécharger mon CV",
                 "or-contact-here": "Ou m'écrire directement ici ↓",
                 "form-name": "Nom Complet",
                 "form-email": "Adresse Email",
@@ -506,13 +514,12 @@
                 "nav-about": "About",
                 "nav-contact": "Contact",
                 "subtitle-contact": "Contact",
-                "title-contact": "Get In<br>Touch",
+                "title-contact": "<span class='letter'>G</span><span class='letter'>e</span><span class='letter'>t</span><span class='letter'>&nbsp;</span><span class='letter'>I</span><span class='letter'>n</span><br><span class='letter'>T</span><span class='letter'>o</span><span class='letter'>u</span><span class='letter'>c</span><span class='letter'>h</span>",
                 "info-phone": "Phone",
                 "info-email": "Emails",
                 "label-pro": "Institutional",
                 "label-perso": "Personal",
                 "info-socials": "Socials",
-                "btn-cv": "Download my Resume",
                 "or-contact-here": "Or write to me directly here ↓",
                 "form-name": "Full Name",
                 "form-email": "Email Address",
@@ -534,6 +541,9 @@
                     element.innerHTML = translations[lang][key];
                 }
             });
+            
+            // On met à jour la variable letters au cas où le HTML du titre a changé
+            letters = document.querySelectorAll('.letter');
 
             // Mise à jour de la bannière défilante
             document.getElementById('marquee-inner').innerHTML = translations[lang]["marquee"];
