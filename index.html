@@ -27,16 +27,37 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        html { background-color: #050505; }
+        html { background-color: #050505; scroll-behavior: smooth; }
 
         body {
             background-color: var(--bg-color); color: var(--text-color); font-family: 'Anton', sans-serif; 
             overflow-x: hidden; display: flex; flex-direction: column; min-height: 100vh;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        /* --- QUADRILLAGE FIXE & EFFET LAMPE TORCHE --- */
+        .site-bg, .site-bg-dark {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none;
+            background-size: 40px 40px; transition: opacity 0.4s ease;
+        }
+        .site-bg {
             background-image: 
                 linear-gradient(rgba(0, 0, 0, var(--grid-opacity)) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 0, 0, var(--grid-opacity)) 1px, transparent 1px);
-            background-size: 40px 40px;
-            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+        /* Le quadrillage sombre révélé au survol */
+        .site-bg-dark {
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.25) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.25) 1px, transparent 1px);
+            opacity: 0; 
+            -webkit-mask-image: radial-gradient(circle 180px at var(--mouse-x, -100%) var(--mouse-y, -100%), black, transparent);
+            mask-image: radial-gradient(circle 180px at var(--mouse-x, -100%) var(--mouse-y, -100%), black, transparent);
+        }
+        body.theme-light .site-bg-dark {
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.15) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.15) 1px, transparent 1px);
         }
 
         /* --- HEADER --- */
@@ -68,45 +89,34 @@
             position: relative; overflow: hidden; 
         }
 
-        /* Quadrillage interactif assombri au survol */
-        .hero-grid-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
-                linear-gradient(var(--text-color) 1px, transparent 1px),
-                linear-gradient(90deg, var(--text-color) 1px, transparent 1px);
-            background-size: 40px 40px;
-            opacity: 0; transition: opacity 0.4s ease;
-            z-index: 1; pointer-events: none;
-        }
-        .hero:hover .hero-grid-overlay {
-            opacity: 0.08; 
-        }
-
         .hero h1 {
             font-size: 11vw; line-height: 0.9; text-transform: uppercase; letter-spacing: -2px;
             position: relative; z-index: 2; pointer-events: none;
         }
-        .hero h1 span { display: inline-block; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); will-change: transform; }
+        .hero h1 span.letter { display: inline-block; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); will-change: transform; }
         
-        /* I de Portefolio cassé */
-        .custom-i { position: relative; pointer-events: auto; cursor: crosshair; }
-        .custom-i::after {
-            content: '+'; position: absolute; top: -1.4em; left: 50%; transform: translateX(-50%);
+        /* L'objet + détaché du i */
+        .custom-i { position: relative; }
+        .dot-plus {
+            position: absolute; top: -1.3em; left: 50%; transform: translateX(-50%);
             font-size: 0.55em; color: var(--text-color); transition: color 0.5s ease;
-            will-change: transform;
+            will-change: transform; pointer-events: auto; cursor: crosshair;
         }
         
-        .custom-i.broken::after {
-            animation: breakDrop 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        .dot-plus.broken {
+            animation: bounceDrop 2s cubic-bezier(0.28, 0.84, 0.42, 1) forwards;
         }
 
-        @keyframes breakDrop {
+        /* Rebond en 3 temps (3 rebonds distincts) */
+        @keyframes bounceDrop {
             0% { transform: translateX(-50%) translateY(0) rotate(0); }
-            15% { transform: translateX(-50%) translateY(-15px) rotate(-10deg); } /* Anticipation */
-            50% { transform: translateX(-50%) translateY(42vh) rotate(50deg); } /* Chute */
-            70% { transform: translateX(-50%) translateY(32vh) rotate(80deg); } /* Rebond */
-            85% { transform: translateX(-50%) translateY(42vh) rotate(110deg); } /* Chute 2 */
-            100% { transform: translateX(-50%) translateY(42vh) rotate(105deg); } /* Reste coincé */
+            15% { transform: translateX(-50%) translateY(42vh) rotate(50deg); } /* Chute 1 */
+            25% { transform: translateX(-50%) translateY(28vh) rotate(90deg); } /* Rebond 1 (Haut) */
+            40% { transform: translateX(-50%) translateY(42vh) rotate(130deg); } /* Chute 2 */
+            50% { transform: translateX(-50%) translateY(36vh) rotate(160deg); } /* Rebond 2 (Moyen) */
+            65% { transform: translateX(-50%) translateY(42vh) rotate(180deg); } /* Chute 3 */
+            75% { transform: translateX(-50%) translateY(40vh) rotate(195deg); } /* Rebond 3 (Petit) */
+            100% { transform: translateX(-50%) translateY(42vh) rotate(210deg); } /* Reste coincé */
         }
 
         /* --- BANDEAU DEFILEMENT --- */
@@ -144,10 +154,7 @@
 
         /* --- SÉQUENCE ZOOM & HORIZONTAL SCROLL --- */
         .scroll-sequence { 
-            height: 500vh; /* Légèrement réduit pour éviter l'effet de lenteur */
-            position: relative; 
-            background-color: transparent;
-            margin-bottom: 0;
+            height: 500vh; position: relative; background-color: transparent; margin-bottom: 0;
         }
         
         .scroll-sticky {
@@ -177,7 +184,7 @@
         .topo-bg {
             position: absolute; width: 110%; height: 110%; top: -5%; left: -5%;
             z-index: 10; pointer-events: none; opacity: 0;
-            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); /* Transition rapide pour réactivité souris */
         }
         .topo-bg svg { width: 100%; height: 100%; animation: topoFloat 20s ease-in-out infinite alternate; }
         .topo-bg path { stroke: rgba(255, 255, 255, 0.4); stroke-width: 1.5px; fill: none; }
@@ -212,6 +219,7 @@
             display: flex; align-items: center; gap: 4vw; padding: 0 45vw;
             position: absolute; left: 0; top: 0; height: 100vh;
             width: max-content; will-change: transform, opacity; z-index: 15;
+            pointer-events: none; /* Désactivé par défaut, activé en JS */
         }
 
         .h-card {
@@ -243,7 +251,6 @@
 
         .h-card-info { padding-top: 1.2rem; text-align: left; }
         
-        /* Correction de la police des projets pour plus de lisibilité */
         .h-card h3 {
             font-size: 1.5rem; margin-bottom: 0.5rem; line-height: 1.2; 
             font-family: 'Inter', sans-serif; font-weight: 700; letter-spacing: -0.5px;
@@ -268,6 +275,7 @@
             padding: 0.7rem 1.8rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; 
             text-transform: uppercase; text-decoration: none; border-radius: 50px; backdrop-filter: blur(10px); 
             transition: all 0.3s ease; will-change: opacity, transform;
+            pointer-events: none; /* Sécurité clics */
         }
         .h-btn-all:hover { background: #fff; color: #000; transform: translateX(-50%) scale(1.05); }
 
@@ -303,8 +311,21 @@
         .site-footer { 
             background-color: #050505; color: rgba(179, 102, 255, 0.4);
             padding: 1.5rem 2rem 3rem 2rem; text-align: center; font-family: 'Inter', sans-serif; 
-            font-weight: 600; font-size: 0.85rem; 
+            font-weight: 600; font-size: 0.85rem; position: relative;
         }
+
+        /* --- BOUTON RETOUR EN HAUT --- */
+        .back-to-top {
+            position: absolute; right: 2rem; top: 50%; transform: translateY(-50%);
+            background: rgba(179, 102, 255, 0.1); border: 1px solid rgba(179, 102, 255, 0.3);
+            color: #b366ff; width: 40px; height: 40px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.3s ease;
+        }
+        .back-to-top:hover {
+            background: #b366ff; color: #050505; transform: translateY(-50%) scale(1.1);
+        }
+        .back-to-top svg { width: 20px; height: 20px; fill: currentColor; }
 
         .fade-in-section { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; will-change: opacity, visibility; }
         .fade-in-section.is-visible { opacity: 1; transform: none; }
@@ -321,10 +342,15 @@
             .gate-crosshair, .topo-bg { display: none; }
             .h-card { width: 75vw; }
             .h-card:nth-child(odd), .h-card:nth-child(even) { --y-base: 0; } 
+            .back-to-top { position: static; transform: none; margin: 1rem auto 0 auto; }
+            .back-to-top:hover { transform: scale(1.1); }
         }
     </style>
 </head>
-<body>
+<body id="top">
+
+    <div class="site-bg"></div>
+    <div class="site-bg-dark" id="site-bg-dark"></div>
 
     <header>
         <div class="header-left">
@@ -351,9 +377,8 @@
     </header>
 
     <section class="hero fade-in-section" id="hero-section">
-        <div class="hero-grid-overlay"></div>
         <h1 id="hero-text">
-            <span class="letter">P</span><span class="letter">O</span><span class="letter">R</span><span class="letter">T</span><span class="letter" id="letter-e">E</span><span class="letter">F</span><span class="letter">O</span><span class="letter">L</span><span class="letter custom-i">I</span><span class="letter">O</span>
+            <span class="letter">P</span><span class="letter">O</span><span class="letter">R</span><span class="letter">T</span><span class="letter" id="letter-e">E</span><span class="letter">F</span><span class="letter">O</span><span class="letter">L</span><span class="letter custom-i">I<span class="dot-plus">+</span></span><span class="letter">O</span>
         </h1>
     </section>
 
@@ -522,6 +547,9 @@
 
     <footer class="site-footer">
         <span data-i18n="footer-text">© 2026 Julien Arsena. Tout le contenu est mis à disposition pour consultation.</span>
+        <button id="back-to-top" class="back-to-top" aria-label="Retour en haut">
+            <svg viewBox="0 0 24 24"><path d="M12 4l-8 8h6v8h4v-8h6z"/></svg>
+        </button>
     </footer>
 
     <script>
@@ -534,11 +562,29 @@
             localStorage.setItem('theme', body.classList.contains('theme-light') ? 'light' : '');
         });
 
-        // CASSURE DU I
-        const customI = document.querySelector('.custom-i');
-        if (customI) {
-            customI.addEventListener('mouseenter', () => {
-                customI.classList.add('broken');
+        // RETOUR EN HAUT
+        document.getElementById('back-to-top').addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // EFFET LAMPE TORCHE SUR LE QUADRILLAGE
+        const heroSection = document.getElementById('hero-section');
+        const siteBgDark = document.getElementById('site-bg-dark');
+        
+        heroSection.addEventListener('mousemove', (e) => {
+            siteBgDark.style.opacity = '1';
+            siteBgDark.style.setProperty('--mouse-x', `${e.clientX}px`);
+            siteBgDark.style.setProperty('--mouse-y', `${e.clientY}px`);
+        });
+        heroSection.addEventListener('mouseleave', () => {
+            siteBgDark.style.opacity = '0';
+        });
+
+        // CASSURE DU I (Rebond)
+        const dotPlus = document.querySelector('.dot-plus');
+        if (dotPlus) {
+            dotPlus.addEventListener('mouseenter', () => {
+                dotPlus.classList.add('broken');
             });
         }
 
@@ -589,13 +635,21 @@
                 topoOp = 0.8 * (1 - ease); 
                 if (currentP > 0.05) contentOp = (currentP - 0.05) / 0.10; 
             } 
-            // Phase 2 : Scroll Horizontal + Fin Fluide
+            // Phase 2 : Scroll Horizontal
             else {
                 clipY = 0; clipX = 0; radius = 0; gateOp = 0; contentOp = 1; topoOp = 0;
-                // Transition fluide jusqu'à 100% de la séquence de scroll
                 let scrollProgress = Math.min(1, (currentP - 0.15) / 0.85);
                 hTrans = scrollProgress * maxScroll;
             } 
+
+            // SÉCURITÉ CLIC : On empêche le clic tant que la section n'est pas totalement ouverte
+            if (contentOp > 0.9) {
+                hContainer.style.pointerEvents = 'auto';
+                if(btnAll) btnAll.style.pointerEvents = 'auto';
+            } else {
+                hContainer.style.pointerEvents = 'none';
+                if(btnAll) btnAll.style.pointerEvents = 'none';
+            }
 
             clipBox.style.clipPath = `inset(${clipY}% ${clipX}% round ${radius}px)`;
             
@@ -650,7 +704,6 @@
         });
 
         // SOURIS ESQUIVE SUR TITRE
-        const heroSection = document.getElementById('hero-section');
         const letters = document.querySelectorAll('.letter');
         heroSection.addEventListener('mousemove', (e) => {
             letters.forEach(letter => {
@@ -665,15 +718,16 @@
         });
         heroSection.addEventListener('mouseleave', () => { letters.forEach(l => l.style.transform = `translate(0, 0)`); });
 
-        // SOURIS REPOUSSE TOPOGRAPHIE
+        // SOURIS POUSSE TOPOGRAPHIE (Mouvement augmenté)
         if(clipBox && topoBg) {
             clipBox.addEventListener('mousemove', (e) => {
-                const x = (e.clientX / window.innerWidth - 0.5) * 40;
-                const y = (e.clientY / window.innerHeight - 0.5) * 40;
-                topoBg.style.transform = `translate(${x}px, ${y}px)`;
+                // Amplitude augmentée (x80 au lieu de x40) et léger zoom
+                const x = (e.clientX / window.innerWidth - 0.5) * 80;
+                const y = (e.clientY / window.innerHeight - 0.5) * 80;
+                topoBg.style.transform = `translate(${x}px, ${y}px) scale(1.05)`;
             });
             clipBox.addEventListener('mouseleave', () => {
-                topoBg.style.transform = `translate(0px, 0px)`;
+                topoBg.style.transform = `translate(0px, 0px) scale(1)`;
             });
         }
 
@@ -716,7 +770,6 @@
             document.getElementById('btn-fr').classList.toggle('active', lang === 'fr');
             document.getElementById('btn-en').classList.toggle('active', lang === 'en');
             
-            // Gère la disparition du E pour PORTFOLIO
             const eLetter = document.getElementById('letter-e');
             if (eLetter) {
                 eLetter.style.display = lang === 'en' ? 'none' : 'inline-block';
