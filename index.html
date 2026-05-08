@@ -54,6 +54,7 @@
             text-decoration: none; color: var(--text-color); padding: 0.5rem 1rem; border: 2px solid transparent; transition: all 0.3s ease;
         }
         .main-nav a.active, .main-nav a:hover { background-color: var(--text-color); color: var(--bg-color); border: 2px solid var(--text-color); }
+        
         .header-right { display: flex; align-items: center; gap: 1.5rem; }
         .lang-switch { display: flex; gap: 0.5rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem; }
         .lang-switch span { opacity: 0.4; transition: opacity 0.3s; cursor: pointer; }
@@ -74,11 +75,11 @@
         }
         .hero h1 span { display: inline-block; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); will-change: transform; }
         
-        /* Custom I pour PORTEFOLIO */
+        /* Custom I pour PORTEFOLIO - Ajusté pour être bien au dessus */
         .custom-i { position: relative; }
         .custom-i::after {
-            content: '+'; position: absolute; top: -0.4em; left: 50%; transform: translateX(-50%);
-            font-size: 0.7em; color: var(--text-color); transition: color 0.5s ease;
+            content: '+'; position: absolute; top: -0.7em; left: 50%; transform: translateX(-50%);
+            font-size: 0.6em; color: var(--text-color); transition: color 0.5s ease;
         }
 
         /* --- BANDEAU DEFILEMENT --- */
@@ -102,77 +103,85 @@
         .intro-box:hover { transform: translate(-5px, -5px); box-shadow: 12px 12px 0px var(--text-color); }
         .intro-text { font-family: 'Inter', sans-serif; font-size: 1.2rem; line-height: 1.6; font-weight: 600; margin-bottom: 2rem; }
 
-        /* --- NOUVEAU : SÉQUENCE ZOOM & HORIZONTAL SCROLL --- */
-        .scroll-sequence { height: 600vh; position: relative; } /* Hauteur totale de l'animation */
+        /* --- SÉQUENCE ZOOM & HORIZONTAL SCROLL (ACCÉLÉRÉE) --- */
+        .scroll-sequence { height: 400vh; position: relative; } /* Réduit pour plus de rapidité */
         
         .scroll-sticky {
             position: sticky; top: 0; height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center;
             overflow: hidden; background-color: transparent;
         }
 
-        /* La "Boîte" qui va s'agrandir */
         .clip-box {
-            position: absolute; width: 100%; height: 100%; background-color: #050505; /* Toujours noir */
+            position: absolute; width: 100%; height: 100%; background-color: #050505; 
             display: flex; align-items: center; justify-content: center; overflow: hidden;
-            /* L'inset initial crée la forme de la boîte */
-            clip-path: inset(35% 25% round 10px);
-            will-change: clip-path;
+            clip-path: inset(35% 25% round 10px); will-change: clip-path;
         }
 
-        /* Le texte "MES PROJETS" qui apparait dans la petite boîte */
         .gate-text {
-            position: absolute; font-size: 5vw; color: #fff; text-transform: uppercase; z-index: 50;
+            position: absolute; font-size: 5vw; color: #ffffff; text-transform: uppercase; z-index: 50;
             pointer-events: none; transition: opacity 0.2s ease;
         }
 
-        /* Textes de profondeur (Background et Foreground) */
+        /* Textes de fond/premier plan (Opacité gérée via JS) */
+        .h-scroll-bg-text, .h-scroll-fg-text, .h-scroll-container, .h-btn-all { opacity: 0; }
+        
         .h-scroll-bg-text {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             width: 300vw; text-align: center; font-size: 25vw; line-height: 0.8;
-            color: #2E004F; opacity: 0.6; z-index: 1; pointer-events: none; white-space: nowrap; will-change: transform;
+            color: #2E004F; z-index: 1; pointer-events: none; white-space: nowrap; will-change: transform, opacity;
         }
         .h-scroll-fg-text {
             position: absolute; top: 70%; left: 50%; transform: translate(-50%, -50%);
             width: 300vw; text-align: center; font-size: 10vw; color: transparent; 
-            -webkit-text-stroke: 2px rgba(255, 255, 255, 0.2); z-index: 20; pointer-events: none; white-space: nowrap; will-change: transform;
+            -webkit-text-stroke: 2px rgba(255, 255, 255, 0.2); z-index: 20; pointer-events: none; white-space: nowrap; will-change: transform, opacity;
         }
 
         /* Conteneur des cartes */
         .h-scroll-container {
             display: flex; align-items: center; gap: 8vw; padding: 0 10vw; position: absolute; left: 0; top: 0; height: 100vh;
-            width: max-content; will-change: transform; z-index: 5;
+            width: max-content; will-change: transform, opacity; z-index: 5;
         }
 
-        /* Les cartes (Désalignées) */
+        /* Cartes Minimalistes (Désalignées) */
         .h-card {
-            flex: 0 0 auto; width: 70vw; max-width: 450px; background-color: #f8f9fa; color: #0a0a0a; border: 3px solid #0a0a0a; 
-            text-decoration: none; display: flex; flex-direction: column; transition: transform 0.4s ease, box-shadow 0.4s ease;
+            flex: 0 0 auto; width: 60vw; max-width: 400px; background-color: transparent; color: #ffffff; 
+            text-decoration: none; display: flex; flex-direction: column; align-items: center;
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         
-        /* Le désalignement sur 2 niveaux */
-        .h-card:nth-child(odd) { transform: translateY(-12vh); }
-        .h-card:nth-child(even) { transform: translateY(12vh); }
+        .h-card:nth-child(odd) { transform: translateY(-8vh); }
+        .h-card:nth-child(even) { transform: translateY(8vh); }
 
-        /* Le hover s'ajoute par-dessus la position décalée */
-        .h-card:nth-child(odd):hover { transform: translateY(-12vh) translate(-10px, -10px); box-shadow: 15px 15px 0px #e60023; }
-        .h-card:nth-child(even):hover { transform: translateY(12vh) translate(-10px, -10px); box-shadow: 15px 15px 0px #e60023; }
+        .h-card-img-wrapper {
+            width: 100%; height: 450px; overflow: hidden; border-radius: 4px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5); position: relative;
+        }
 
-        .h-card img { width: 100%; height: 250px; object-fit: cover; border-bottom: 3px solid #0a0a0a; filter: grayscale(100%); transition: filter 0.4s ease; }
-        .h-card:hover img { filter: grayscale(0%); }
-        .h-card-content { padding: 2rem; }
-        .h-card h3 { font-size: 2.5rem; margin-bottom: 0.5rem; line-height: 1.1; }
-        .h-card p { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem; margin-bottom: 1.5rem; line-height: 1.5; }
+        .h-card img {
+            width: 100%; height: 100%; object-fit: cover; filter: none; 
+            transition: transform 0.7s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .h-card h3 {
+            font-size: 2rem; margin-top: 1.5rem; line-height: 1.1; text-align: center; font-family: 'Anton', sans-serif;
+            text-transform: uppercase; transition: color 0.3s ease;
+        }
+
+        /* Effets de survol */
+        .h-card:nth-child(odd):hover { transform: translateY(-8vh) scale(1.02); }
+        .h-card:nth-child(even):hover { transform: translateY(8vh) scale(1.02); }
+        .h-card:hover img { transform: scale(1.08); }
+        .h-card:hover h3 { color: #e60023; }
         
         .h-card-spacer { flex: 0 0 auto; width: 30vw; }
 
-        /* Bouton discret en bas de la zone noire */
         .h-btn-all {
-            position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); z-index: 30; color: #fff; 
-            background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255,255,255,0.3); padding: 0.6rem 1.2rem; 
-            font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.8rem; text-transform: uppercase; text-decoration: none; 
-            border-radius: 50px; backdrop-filter: blur(5px); transition: all 0.3s ease;
+            position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); z-index: 30; color: #fff; 
+            background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255,255,255,0.3); padding: 0.8rem 2rem; 
+            font-family: 'Inter', sans-serif; font-weight: 800; font-size: 0.9rem; text-transform: uppercase; text-decoration: none; 
+            border-radius: 50px; backdrop-filter: blur(5px); transition: all 0.3s ease; will-change: opacity;
         }
-        .h-btn-all:hover { background: #fff; color: #000; }
+        .h-btn-all:hover { background: #fff; color: #000; transform: translateX(-50%) scale(1.05); }
 
         /* --- SECTION CONTACT --- */
         .cta-section { background-color: var(--accent-bg); color: var(--accent-text); padding: 4rem 2rem; text-align: center; border-bottom: 4px solid var(--text-color); width: 100%; transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease; }
@@ -204,8 +213,11 @@
             .section-heading { font-size: 2.5rem; }
             .clip-box { clip-path: inset(30% 10% round 10px); }
             .gate-text { font-size: 12vw; }
-            .h-card:nth-child(odd), .h-card:nth-child(even) { transform: translateY(0); } /* Aligné sur mobile pour éviter que ça ne coupe */
-            .h-card:nth-child(odd):hover, .h-card:nth-child(even):hover { transform: translate(-5px, -5px); }
+            
+            .h-card { width: 75vw; }
+            .h-card-img-wrapper { height: 350px; }
+            .h-card:nth-child(odd), .h-card:nth-child(even) { transform: translateY(0); } 
+            .h-card:nth-child(odd):hover, .h-card:nth-child(even):hover { transform: scale(1.02); }
         }
     </style>
 </head>
@@ -242,7 +254,7 @@
     </section>
 
     <div class="marquee-container">
-        <div class="marquee-text">
+        <div class="marquee-text" data-i18n="marquee-main">
             SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • MACHINE LEARNING • SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • MACHINE LEARNING •
         </div>
     </div>
@@ -265,9 +277,9 @@
         <div class="scroll-sticky">
             
             <div class="clip-box" id="clip-box">
-                <h2 class="gate-text" id="gate-text" data-i18n="h-projects">Mes Projets</h2>
+                <h2 class="gate-text" id="gate-text" data-i18n="gate-title">Mes Projets</h2>
                 
-                <div class="h-scroll-bg-text" id="h-scroll-bg">
+                <div class="h-scroll-bg-text" id="h-scroll-bg" data-i18n="bg-projects">
                     PROJETS PROJETS PROJETS PROJETS PROJETS PROJETS
                 </div>
 
@@ -276,31 +288,50 @@
                 </div>
 
                 <div class="h-scroll-container" id="h-scroll-container">
+                    
                     <a href="projet_duree.html" class="h-card">
-                        <img src="miniature_duree.jpg" alt="Prédiction de Durée">
-                        <div class="h-card-content">
-                            <h3 data-i18n="proj1-title">Prédiction de Durée</h3>
-                            <p data-i18n="proj1-desc">La durée d'un film n'est pas qu'un choix artistique. Analyse de milliers de données pour estimer la longueur d'une œuvre.</p>
-                            <div class="project-tags"><span class="tag">Régression L1</span> <span class="tag">Machine Learning</span></div>
-                        </div>
+                        <div class="h-card-img-wrapper"><img src="miniature_duree.jpg" alt="Prédiction de Durée"></div>
+                        <h3 data-i18n="proj-duree">Prédiction de Durée</h3>
                     </a>
 
                     <a href="projet_couleur.html" class="h-card">
-                        <img src="miniature_couleur.jpg" alt="Colorimétrie du Cinéma">
-                        <div class="h-card-content">
-                            <h3 data-i18n="proj2-title">Colorimétrie du Cinéma</h3>
-                            <p data-i18n="proj2-desc">Modélisation de l'identité couleur d'une affiche selon les caractéristiques techniques du film.</p>
-                            <div class="project-tags"><span class="tag">Classification</span> <span class="tag">Python</span></div>
-                        </div>
+                        <div class="h-card-img-wrapper"><img src="miniature_couleur.jpg" alt="Colorimétrie du Cinéma"></div>
+                        <h3 data-i18n="proj-couleur">Colorimétrie du Cinéma</h3>
                     </a>
 
                     <a href="projet_animes.html" class="h-card">
-                        <img src="miniature_anime.jpg" alt="Violence & Animation">
-                        <div class="h-card-content">
-                            <h3 data-i18n="proj3-title">Violence & Animation</h3>
-                            <p data-i18n="proj3-desc">Exploration statistique pour comprendre si la violence influence le succès des séries d'animation.</p>
-                            <div class="project-tags"><span class="tag">Statistiques</span> <span class="tag">Pandas</span></div>
-                        </div>
+                        <div class="h-card-img-wrapper"><img src="miniature_anime.jpg" alt="Violence & Animation"></div>
+                        <h3 data-i18n="proj-anime">Violence & Animation</h3>
+                    </a>
+
+                    <a href="#" class="h-card">
+                        <div class="h-card-img-wrapper"><img src="miniature_voyage.jpg" alt="Générations & Voyages"></div>
+                        <h3 data-i18n="proj-voyage">Générations & Voyages</h3>
+                    </a>
+
+                    <a href="#" class="h-card">
+                        <div class="h-card-img-wrapper"><img src="miniature_ens.jpg" alt="Analyse Littéraire ENS"></div>
+                        <h3 data-i18n="proj-ens">Analyse Littéraire (ENS)</h3>
+                    </a>
+
+                    <a href="#" class="h-card">
+                        <div class="h-card-img-wrapper"><img src="miniature_linguistique.jpg" alt="Évolution Linguistique"></div>
+                        <h3 data-i18n="proj-lang">Évolution Linguistique</h3>
+                    </a>
+
+                    <a href="#" class="h-card">
+                        <div class="h-card-img-wrapper"><img src="miniature_geopolitique.jpg" alt="Régimes Politiques"></div>
+                        <h3 data-i18n="proj-geo">Régimes Politiques</h3>
+                    </a>
+
+                    <a href="https://hunt-it.github.io/Accueil/?" target="_blank" class="h-card">
+                        <div class="h-card-img-wrapper"><img src="miniature_huntit.jpg" alt="Hunt-It Chasse au trésor"></div>
+                        <h3 data-i18n="proj-hunt">Hunt-It : Chasse au Trésor</h3>
+                    </a>
+
+                    <a href="https://julien-ars.github.io/article-paradoxe-littoral/" target="_blank" class="h-card">
+                        <div class="h-card-img-wrapper"><img src="miniature_paradoxe.jpg" alt="Le Paradoxe du Littoral"></div>
+                        <h3 data-i18n="proj-fractal">Le Paradoxe du Littoral</h3>
                     </a>
 
                     <div class="h-card-spacer"></div>
@@ -328,7 +359,7 @@
     </section>
 
     <footer class="site-footer">
-        <span data-i18n="footer-text">© 2026 Julien Arsena. Tout le contenu est mis à disposition pour consultation.</span>
+        <span data-i18n="footer-text">© 2026 Julien Arsena. Tout le contenu (code, données, rapports) est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite.</span>
     </footer>
 
     <script>
@@ -341,7 +372,7 @@
             localStorage.setItem('theme', body.classList.contains('theme-light') ? 'light' : '');
         });
 
-        // ANIMATION COMPLEXE : ZOOM + HORIZONTAL + DEZOOM
+        // ANIMATION FLUIDE : ZOOM + HORIZONTAL + FADE + DEZOOM
         const seq = document.getElementById('scroll-sequence');
         const clipBox = document.getElementById('clip-box');
         const gateText = document.getElementById('gate-text');
@@ -357,7 +388,8 @@
             let p = -rect.top / scrollable;
             p = Math.max(0, Math.min(1, p));
 
-            let clipY = 35, clipX = 25, radius = 10, gateOp = 1, hTrans = 0, btnOp = 0;
+            let clipY = 35, clipX = 25, radius = 10, gateOp = 1, hTrans = 0;
+            let contentOp = 0; // Gère l'opacité du contenu pour une apparition fluide
             const maxScroll = hContainer.scrollWidth - window.innerWidth + 100;
 
             // Phase 1 : Zoom In (0 à 15%)
@@ -365,22 +397,31 @@
                 let ease = (p / 0.15); 
                 clipY = 35 * (1 - ease); clipX = window.innerWidth > 768 ? 25 * (1 - ease) : 10 * (1 - ease);
                 radius = 10 * (1 - ease); gateOp = 1 - (ease * 1.5);
+                // Le contenu apparait progressivement sur la fin du zoom
+                if (p > 0.05) contentOp = (p - 0.05) / 0.10; 
             } 
             // Phase 2 : Scroll Horizontal (15% à 85%)
             else if (p >= 0.15 && p <= 0.85) {
-                clipY = 0; clipX = 0; radius = 0; gateOp = 0; btnOp = 1;
+                clipY = 0; clipX = 0; radius = 0; gateOp = 0; contentOp = 1;
                 hTrans = ((p - 0.15) / 0.70) * maxScroll;
             } 
             // Phase 3 : Zoom Out (85% à 100%)
             else {
                 let ease = (p - 0.85) / 0.15;
                 clipY = 35 * ease; clipX = window.innerWidth > 768 ? 25 * ease : 10 * ease;
-                radius = 10 * ease; gateOp = 0; btnOp = 1 - (ease * 2); hTrans = maxScroll;
+                radius = 10 * ease; gateOp = 0; hTrans = maxScroll;
+                // Le contenu disparait avant le dezoom final
+                if (p < 0.90) contentOp = 1 - ((p - 0.85) / 0.05);
             }
 
             clipBox.style.clipPath = `inset(${clipY}% ${clipX}% round ${radius}px)`;
             if(gateText) gateText.style.opacity = Math.max(0, gateOp);
-            if(btnAll) btnAll.style.opacity = Math.max(0, btnOp);
+            
+            // Application de l'opacité fluide
+            hContainer.style.opacity = Math.max(0, contentOp);
+            if(bgText) bgText.style.opacity = Math.max(0, contentOp * 0.5); // Reste légèrement transparent
+            if(fgText) fgText.style.opacity = Math.max(0, contentOp);
+            if(btnAll) btnAll.style.opacity = Math.max(0, contentOp);
             
             // Effet Parallaxe Cartes et Textes
             hContainer.style.transform = `translateX(-${hTrans}px)`;
@@ -412,11 +453,38 @@
         });
         heroSection.addEventListener('mouseleave', () => { letters.forEach(l => l.style.transform = `translate(0, 0)`); });
 
-        // TRADUCTIONS (Résumé pour clarté)
+        // TRADUCTIONS
         const translations = {
-            "fr": { "nav-home": "Accueil", "nav-projects": "Projets", "nav-about": "À Propos", "nav-contact": "Contact", "h-intro": "01. Profil Hybride", "btn-about": "Découvrir mon parcours ->", "h-projects": "Mes Projets", "proj1-title": "Prédiction de Durée", "proj2-title": "Colorimétrie du Cinéma", "proj3-title": "Violence & Animation", "btn-all-tiny": "Voir tout ->", "h-contact": "Prêt à échanger ?", "btn-contact": "Me contacter ->" },
-            "en": { "nav-home": "Home", "nav-projects": "Projects", "nav-about": "About", "nav-contact": "Contact", "h-intro": "01. Hybrid Profile", "btn-about": "Discover my background ->", "h-projects": "My Projects", "proj1-title": "Runtime Prediction", "proj2-title": "Cinema Colorimetry", "proj3-title": "Violence & Animation", "btn-all-tiny": "View all ->", "h-contact": "Let's connect", "btn-contact": "Get in touch ->" }
+            "fr": { 
+                "nav-home": "Accueil", "nav-projects": "Projets", "nav-about": "À Propos", "nav-contact": "Contact", 
+                "marquee-main": "SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • MACHINE LEARNING • SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • MACHINE LEARNING •",
+                "h-intro": "01. Profil Hybride", "p-intro": "Étudiant en Sciences des Données et Arts (Université PSL & Lycée Louis Le Grand), je combine la grande rigueur des mathématiques et de l'algorithmique avec une solide sensibilité aux humanités numériques et à l'analyse culturelle.",
+                "btn-about": "Découvrir mon parcours ->", 
+                "gate-title": "Mes Projets", "bg-projects": "PROJETS PROJETS PROJETS PROJETS PROJETS PROJETS",
+                "proj-duree": "Prédiction de Durée", "proj-couleur": "Colorimétrie du Cinéma", "proj-anime": "Violence & Animation",
+                "proj-voyage": "Générations & Voyages", "proj-ens": "Analyse Littéraire (ENS)", "proj-lang": "Évolution Linguistique",
+                "proj-geo": "Régimes Politiques", "proj-hunt": "Hunt-It : Chasse au Trésor", "proj-fractal": "Le Paradoxe du Littoral",
+                "btn-all-tiny": "Voir tout ->", "h-contact": "Prêt à échanger ?", 
+                "p-contact": "Toujours curieux de relever de nouveaux défis, je suis ouvert aux opportunités d'études en Master, ainsi qu'aux collaborations stimulantes avec des entreprises ou laboratoires de recherche.",
+                "btn-contact": "Me contacter ->", 
+                "footer-text": "© 2026 Julien Arsena. Tout le contenu (code, données, rapports) est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite." 
+            },
+            "en": { 
+                "nav-home": "Home", "nav-projects": "Projects", "nav-about": "About", "nav-contact": "Contact", 
+                "marquee-main": "DATA SCIENCE & ARTS • DIGITAL HUMANITIES • MACHINE LEARNING • DATA SCIENCE & ARTS • DIGITAL HUMANITIES • MACHINE LEARNING •",
+                "h-intro": "01. Hybrid Profile", "p-intro": "Data Science and Arts student (PSL University & Louis Le Grand), combining the strict rigor of mathematics and algorithms with a deep sensitivity for digital humanities and cultural analysis.",
+                "btn-about": "Discover my background ->", 
+                "gate-title": "My Projects", "bg-projects": "PROJECTS PROJECTS PROJECTS PROJECTS PROJECTS",
+                "proj-duree": "Runtime Prediction", "proj-couleur": "Cinema Colorimetry", "proj-anime": "Violence & Animation",
+                "proj-voyage": "Generations & Travel", "proj-ens": "Literary Analysis (ENS)", "proj-lang": "Linguistic Evolution",
+                "proj-geo": "Political Regimes", "proj-hunt": "Hunt-It: Treasure Hunt", "proj-fractal": "The Coastline Paradox",
+                "btn-all-tiny": "View all ->", "h-contact": "Let's connect", 
+                "p-contact": "Always eager to take on new challenges, I am open to Master's degree opportunities and stimulating collaborations with companies or research labs.",
+                "btn-contact": "Get in touch ->", 
+                "footer-text": "© 2026 Julien Arsena. All content (code, data, reports) is provided for review purposes. Any reuse requires explicit attribution." 
+            }
         };
+        
         function setLanguage(lang) {
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const k = el.getAttribute('data-i18n'); if (translations[lang][k]) el.innerHTML = translations[lang][k];
