@@ -187,6 +187,7 @@
         .key-metrics {
             display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 5rem;
         }
+        
         .metric-card {
             background-color: transparent; color: var(--text-color); padding: 2rem; text-align: center;
             border: 4px solid var(--text-color); 
@@ -340,22 +341,20 @@
         body.theme-light .next-project-btn { color: #b366ff; border-color: #b366ff; }
         body.theme-light .next-project-btn:hover { background-color: #b366ff; color: var(--text-color); box-shadow: 6px 6px 0px #b366ff; }
 
-        /* --- LIEN RETOUR PROJETS --- */
-        .card-link {
-            display: inline-block; font-family: 'Anton', sans-serif; text-decoration: none;
-            color: currentColor; border-bottom: 2px solid currentColor; font-size: 1.1rem; text-transform: uppercase; transition: opacity 0.2s;
+        /* --- BOUTONS D'ACTION BAS DE PAGE --- */
+        .bottom-actions {
+            display: flex; justify-content: center; gap: 2rem; padding: 4rem 0; width: 100%; position: relative; z-index: 50;
         }
-        .card-link:hover { opacity: 0.6; }
-
-        /* --- BOUTON RETOUR EN HAUT CENTRÉ --- */
-        .back-to-top-wrapper { text-align: center; padding: 4rem 0 3rem 0; position: relative; z-index: 50; width: 100%; }
-        .btn-back-top {
+        .btn-bottom {
             display: inline-block; color: var(--text-color); border: 2px solid var(--text-color); 
-            padding: 0.7rem 1.8rem; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 0.85rem; 
+            padding: 0.8rem 2rem; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 0.95rem; 
             text-transform: uppercase; text-decoration: none; border-radius: 50px; 
-            transition: all 0.3s ease; cursor: pointer; background-color: var(--bg-color);
+            transition: all 0.3s ease; cursor: pointer; background-color: transparent;
         }
-        .btn-back-top:hover { background: var(--text-color); color: var(--bg-color); transform: translateY(-3px); box-shadow: 4px 4px 0px rgba(0,0,0,0.2); }
+        .btn-bottom:hover { 
+            background: var(--text-color); color: var(--bg-color); 
+            transform: translateY(-4px); box-shadow: 4px 4px 0px var(--text-color); 
+        }
 
         /* --- FOOTER --- */
         .site-footer {
@@ -364,9 +363,17 @@
             background-color: #050505; color: rgba(179, 102, 255, 0.4); margin-top: auto;
         }
 
-        /* ANIMATION SCROLL */
-        .fade-in-section { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; will-change: opacity, visibility; }
-        .fade-in-section.is-visible { opacity: 1; transform: none; }
+        /* --- ANIMATION SCROLL CORRIGÉE --- */
+        .fade-in-section { 
+            opacity: 0; 
+            transform: translateY(40px); 
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out; 
+            will-change: opacity, transform; 
+        }
+        .fade-in-section.is-visible { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
 
         /* --- OPTIMISATION MOBILE / TABLETTE --- */
         @media (max-width: 968px) {
@@ -638,18 +645,15 @@
         <div class="next-project fade-in-section">
             <div class="next-project-title" data-i18n="next-label">Projet Suivant</div>
             <div class="next-project-name" data-i18n="next-title">Violence & Animation</div>
-            <div class="next-project-desc" data-i18n="next-desc">Les animés les mieux notés sont-ils statistiques les plus violents ? Une analyse par Web Scraping et Pandas.</div>
+            <div class="next-project-desc" data-i18n="next-desc">Les animés les mieux notés sont-ils statistiquement les plus violents ? Une analyse par Web Scraping et Pandas.</div>
             <a href="projet_animes.html" class="next-project-btn" data-i18n="next-btn">Voir le projet →</a>
-        </div>
-        
-        <div style="text-align: center; margin-top: 2rem; margin-bottom: 4rem;" class="fade-in-section">
-            <a href="projects.html" class="card-link" style="color: var(--text-color); font-size: 1.2rem;" data-i18n="btn-back-projects">← Retour à tous les projets</a>
         </div>
 
     </div>
 
-    <div class="back-to-top-wrapper">
-        <a id="btn-back-top" class="btn-back-top" data-i18n="btn-back-top">Remonter en haut</a>
+    <div class="bottom-actions fade-in-section">
+        <a href="projects.html" class="btn-bottom" data-i18n="btn-back-projects">← Tous les projets</a>
+        <a id="btn-back-top" class="btn-bottom" data-i18n="btn-back-top">Remonter en haut ↑</a>
     </div>
 
     <footer class="site-footer">
@@ -672,13 +676,6 @@
         let currentLang = localStorage.getItem('lang') || 'fr';
 
         document.addEventListener("DOMContentLoaded", function() {
-            // Remplacement de transition par animation CSS pour l'apparition
-            document.querySelectorAll('.fade-in-section').forEach(el => {
-                el.style.animation = `fadeIn 0.8s ease-out ${el.style.animationDelay || '0s'} forwards`;
-                el.style.opacity = '0'; 
-                el.style.transform = 'translateY(40px)';
-            });
-
             const fadeObserver = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -778,7 +775,7 @@
                 "f3-n": "Base de Données", "f3-t": "Dataset de 3000 films", "f4-n": "Dictionnaire de Variables", "f4-t": "Codebook",
                 "next-label": "Projet Suivant", "next-title": "Violence & Animation", "next-desc": "Les animés les mieux notés sont-ils statistiquement les plus violents ? Une analyse par Web Scraping et Pandas.", "next-btn": "Voir le projet →",
                 "btn-back-projects": "← Retour à tous les projets",
-                "btn-back-top": "Remonter en haut",
+                "btn-back-top": "Remonter en haut ↑",
                 "footer-text": "© 2026 Julien Arsena. Tout le contenu (code, données, rapports) est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite."
             },
             "en": {
@@ -813,8 +810,8 @@
                 "f1-n": "Scientific Report", "f1-t": "Research Document", "f2-n": "Python Scripts & Model", "f2-t": "Jupyter Notebooks",
                 "f3-n": "Database", "f3-t": "3,000 entries dataset", "f4-n": "Variables Dictionary", "f4-t": "Codebook",
                 "next-label": "Next Project", "next-title": "Violence & Animation", "next-desc": "Are the highest-rated anime statistically the most violent? An analysis using Web Scraping and Pandas.", "next-btn": "View project →",
-                "btn-back-projects": "← Back to all projects",
-                "btn-back-top": "Back to top",
+                "btn-back-projects": "← All projects",
+                "btn-back-top": "Back to top ↑",
                 "footer-text": "© 2026 Julien Arsena. All content (code, data, reports) is provided for review purposes. Any reuse requires explicit attribution."
             }
         };
