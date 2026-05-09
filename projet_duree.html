@@ -55,9 +55,7 @@
         header {
             display: flex; justify-content: space-between; align-items: center;
             padding: 1.5rem 2rem; border-bottom: 2px solid var(--text-color);
-            font-family: 'Anton', sans-serif; position: sticky; top: 0; z-index: 100;
-            background-color: var(--bg-color); /* Fond pour éviter la transparence au scroll */
-            transition: background-color 0.5s ease;
+            font-family: 'Anton', sans-serif; position: relative; z-index: 100;
         }
 
         .header-left { display: flex; align-items: center; gap: 3rem; }
@@ -115,7 +113,7 @@
 
         /* --- CONTENU --- */
         .container {
-            max-width: 1200px; margin: 0 auto; padding: 2rem 2rem 4rem 2rem;
+            max-width: 1200px; margin: 0 auto; padding: 2rem 2rem 1rem 2rem;
             flex-grow: 1; width: 100%;
         }
 
@@ -187,9 +185,13 @@
         .key-metrics {
             display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 5rem;
         }
+        
+        /* Correction : La transition est sur la carte, le délai sur le parent (fade-in) */
         .metric-card {
             background-color: transparent; color: var(--text-color); padding: 2rem; text-align: center;
-            border: 4px solid var(--text-color); transition: all 0.3s ease;
+            border: 4px solid var(--text-color); 
+            transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease, color 0.4s ease;
+            height: 100%;
         }
         .metric-card:hover {
             transform: translate(-5px, -5px); box-shadow: 8px 8px 0px var(--text-color);
@@ -204,8 +206,7 @@
             display: grid; grid-template-columns: 250px 1fr; gap: 4rem; align-items: start;
         }
 
-        /* Sommaire collant avec barre de progression */
-        .toc { position: sticky; top: 6rem; /* Décalé pour ne pas coller au header sticky */ }
+        .toc { position: sticky; top: 2rem; }
         
         .toc-title {
             font-family: 'Anton', sans-serif; font-size: 1.2rem; text-transform: uppercase; margin-bottom: 1.5rem; opacity: 0.5;
@@ -240,17 +241,10 @@
 
         /* --- SECTIONS TEXTUELLES --- */
         .project-content { display: flex; flex-direction: column; gap: 4rem; }
-        
-        /* Mod 4: Ajout d'une marge de sécurité pour le scroll vers les ancres */
-        .content-section { scroll-margin-top: 6rem; }
-        
-        .content-title {
-            font-family: 'Anton', sans-serif; font-size: 2.5rem; text-transform: uppercase; margin-bottom: 1.5rem;
-        }
-
+        .content-section { scroll-margin-top: 5rem; }
+        .content-title { font-family: 'Anton', sans-serif; font-size: 2.5rem; text-transform: uppercase; margin-bottom: 1.5rem; }
         .content-text { font-size: 1.15rem; line-height: 1.8; font-weight: 500; margin-bottom: 1.5rem; }
 
-        /* Flèches alignées en absolue pour éviter la casse du texte */
         .styled-list { list-style: none; padding-left: 0; }
         .styled-list li {
             position: relative; padding-left: 2.5rem; margin-bottom: 1.5rem; 
@@ -327,7 +321,7 @@
 
         /* --- PROJET SUIVANT --- */
         .next-project {
-            background-color: var(--text-color); color: var(--bg-color); padding: 3rem; margin-top: 5rem; border: 4px solid var(--text-color);
+            background-color: var(--text-color); color: var(--bg-color); padding: 3rem; margin-top: 4rem; border: 4px solid var(--text-color);
             transition: all 0.5s ease;
         }
         body.theme-light .next-project { color: #b366ff; }
@@ -346,22 +340,20 @@
         body.theme-light .next-project-btn { color: #b366ff; border-color: #b366ff; }
         body.theme-light .next-project-btn:hover { background-color: #b366ff; color: var(--text-color); box-shadow: 6px 6px 0px #b366ff; }
 
-        /* --- LIEN RETOUR PROJETS --- */
-        .card-link {
-            display: inline-block; font-family: 'Anton', sans-serif; text-decoration: none;
-            color: currentColor; border-bottom: 2px solid currentColor; font-size: 1.1rem; text-transform: uppercase; transition: opacity 0.2s;
+        /* --- BOUTONS D'ACTION BAS DE PAGE --- */
+        .bottom-actions {
+            display: flex; justify-content: center; gap: 2rem; padding: 4rem 0; width: 100%; position: relative; z-index: 50;
         }
-        .card-link:hover { opacity: 0.6; }
-
-        /* --- BOUTON RETOUR EN HAUT CENTRÉ --- */
-        .back-to-top-wrapper { text-align: center; padding: 4rem 0 3rem 0; position: relative; z-index: 50; width: 100%; }
-        .btn-back-top {
+        .btn-bottom {
             display: inline-block; color: var(--text-color); border: 2px solid var(--text-color); 
-            padding: 0.7rem 1.8rem; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 0.85rem; 
+            padding: 0.8rem 2rem; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 0.95rem; 
             text-transform: uppercase; text-decoration: none; border-radius: 50px; 
-            transition: all 0.3s ease; cursor: pointer; background-color: var(--bg-color);
+            transition: all 0.3s ease; cursor: pointer; background-color: transparent;
         }
-        .btn-back-top:hover { background: var(--text-color); color: var(--bg-color); transform: translateY(-3px); box-shadow: 4px 4px 0px rgba(0,0,0,0.2); }
+        .btn-bottom:hover { 
+            background: var(--text-color); color: var(--bg-color); 
+            transform: translateY(-4px); box-shadow: 4px 4px 0px var(--text-color); 
+        }
 
         /* --- FOOTER --- */
         .site-footer {
@@ -387,11 +379,10 @@
             header { flex-direction: column; gap: 1.5rem; padding: 1.5rem 1rem; }
             .header-left { flex-direction: column; gap: 1rem; text-align: center; }
             .main-nav { flex-wrap: wrap; justify-content: center; }
-            .container { padding: 2rem 1rem; }
+            .container { padding: 2rem 1rem 0 1rem; }
             
             .main-title { font-size: 2.8rem; }
             .project-catchphrase { font-size: 1.1rem; }
-            
             .tldr-box { padding: 1.5rem; }
             .tldr-title { font-size: 1.5rem; margin-bottom: 1rem;}
             
@@ -417,6 +408,9 @@
             .next-project { padding: 2rem 1.5rem; margin-top: 3rem; }
             .next-project-name { font-size: 1.8rem; }
             
+            .bottom-actions { flex-direction: column; gap: 1.2rem; padding: 3rem 1rem; align-items: stretch; }
+            .btn-bottom { text-align: center; }
+
             .styled-table-pro th, .styled-table-pro td { font-size: 1rem; padding: 0.8rem; }
             .styled-table-pro td:first-child { font-size: 0.9rem; }
         }
@@ -439,14 +433,12 @@
                 <span id="btn-fr" class="active" onclick="setLanguage('fr')">FR</span> / 
                 <span id="btn-en" onclick="setLanguage('en')">EN</span>
             </div>
-            <!-- Icône de thème bicolore -->
             <button id="theme-toggle" class="theme-btn" aria-label="Changer le thème">
                 <div class="theme-indicator"></div>
             </button>
         </div>
     </header>
 
-    <!-- BREADCRUMB -->
     <div class="breadcrumb fade-in-section">
         <a href="index.html" data-i18n="bread-home">Accueil</a>
         <span>›</span>
@@ -457,7 +449,6 @@
 
     <div class="container">
         
-        <!-- HEADER DU PROJET -->
         <div class="project-header fade-in-section">
             <h1 class="main-title" data-i18n="hero-title">Prédiction de Durée</h1>
             <div class="project-catchphrase" data-i18n="hero-catch">"Une machine peut-elle deviner quand le générique va défiler ?"</div>
@@ -471,12 +462,10 @@
             </div>
         </div>
 
-        <!-- BANNIÈRE IMAGE GEANTE AVEC FALLBACK CSS -->
         <div class="project-banner fade-in-section">
             <img src="miniature_duree.jpg" alt="Aperçu du projet">
         </div>
 
-        <!-- TL;DR BOX HORIZONTAL -->
         <div class="tldr-box fade-in-section">
             <div class="tldr-title" data-i18n="tldr-title">EN BREF</div>
             <div class="tldr-grid">
@@ -497,26 +486,29 @@
             </div>
         </div>
 
-        <!-- MÉTRIQUES CLÉS AVEC STAGGER -->
         <div class="key-metrics">
-            <div class="metric-card fade-in-section" style="transition-delay: 0s;">
-                <div class="metric-value">16.29</div>
-                <div class="metric-label" data-i18n="metric-1">Minutes d'erreur (RMSE)</div>
+            <div class="fade-in-section" style="animation-delay: 0s;">
+                <div class="metric-card">
+                    <div class="metric-value">16.29</div>
+                    <div class="metric-label" data-i18n="metric-1">Minutes d'erreur (RMSE)</div>
+                </div>
             </div>
-            <div class="metric-card fade-in-section" style="transition-delay: 0.15s;">
-                <div class="metric-value">5 369</div>
-                <div class="metric-label" data-i18n="metric-2">Films analysés</div>
+            <div class="fade-in-section" style="animation-delay: 0.2s;">
+                <div class="metric-card">
+                    <div class="metric-value">5 369</div>
+                    <div class="metric-label" data-i18n="metric-2">Films analysés</div>
+                </div>
             </div>
-            <div class="metric-card fade-in-section" style="transition-delay: 0.3s;">
-                <div class="metric-value">3</div>
-                <div class="metric-label" data-i18n="metric-3">Algorithmes comparés</div>
+            <div class="fade-in-section" style="animation-delay: 0.4s;">
+                <div class="metric-card">
+                    <div class="metric-value">3</div>
+                    <div class="metric-label" data-i18n="metric-3">Algorithmes comparés</div>
+                </div>
             </div>
         </div>
 
-        <!-- CONTINUOUS SCROLL LAYOUT (TOC Latéral + Indicateur Fluide) -->
         <div class="project-layout">
             
-            <!-- Sommaire Latéral -->
             <div class="toc fade-in-section">
                 <div class="toc-title" data-i18n="toc-title">Sommaire</div>
                 <nav class="toc-nav">
@@ -528,10 +520,8 @@
                 </nav>
             </div>
 
-            <!-- Contenu du Projet -->
             <div class="project-content">
                 
-                <!-- SECTION 01 -->
                 <div id="contexte" class="content-section fade-in-section">
                     <h2 class="content-title" data-i18n="s1-title">01. Le Contexte</h2>
                     <p class="content-text" data-i18n="s1-p1">
@@ -539,19 +529,15 @@
                     </p>
                 </div>
 
-                <!-- SECTION 02 -->
                 <div id="methodologie" class="content-section fade-in-section">
                     <h2 class="content-title" data-i18n="s2-title">02. La Méthodologie</h2>
                     <ul class="styled-list">
                         <li><strong data-i18n="s2-b1">Préparation des données :</strong> <span data-i18n="s2-t1">Utilisation de la base de données "The Movie Dataset" (TMDB) provenant de Kaggle, filtrée pour obtenir 5 369 films exploitables. Les distributions très asymétriques du budget et des revenus ont été normalisées à l'aide d'une transformation logarithmique.</span></li>
-                        
                         <li><strong data-i18n="s2-b2">Encodage et ingénierie :</strong> <span data-i18n="s2-t2">Nouvelles variables créées en calculant le carré de chaque caractéristique quantitative pour capturer de potentielles relations non linéaires. Les variables catégorielles complexes (genres multiples, pays) ont été transformées en colonnes binaires (One-Hot Encoding).</span></li>
-                        
                         <li><strong data-i18n="s2-b3">Modélisation :</strong> <span data-i18n="s2-t3">Implémentation et comparaison de trois algorithmes (standardisés et évalués via une validation croisée à 5 plis) : Régression Linéaire classique, Régression LASSO (avec pénalisation L1), et Réseau de Neurones artificiels (MLPRegressor).</span></li>
                     </ul>
                 </div>
 
-                <!-- SECTION 03 (Regroupement) -->
                 <div id="resultats" class="content-section fade-in-section">
                     <h2 class="content-title" data-i18n="s3-title">03. Visualisations & Performances</h2>
                     <p class="content-text" data-i18n="s3-p1">
@@ -616,7 +602,6 @@
                     </div>
                     <p class="viz-caption" style="margin-top: 1rem;" data-i18n="tab-cap">Tab 1. Résumé des performances finales par algorithme (exprimées en minutes d'erreur)</p>
 
-                    <!-- CONCLUSION MISE EN AVANT -->
                     <div class="conclusion-box">
                         <p class="content-text">
                             <strong data-i18n="conclu-h">Conclusion clé :</strong> <span data-i18n="conclu-t">Bien que le budget, le genre et l'époque de sortie fournissent un signal prédictif indéniable (le modèle prédit la longueur du film avec une marge d'erreur d'environ 16 minutes), ils ne suffisent pas à capturer toute la complexité de la durée. Celle-ci reste fondamentalement influencée par des choix artistiques et des spécificités de production intrinsèquement humains.</span>
@@ -624,7 +609,6 @@
                     </div>
                 </div>
 
-                <!-- SECTION 04 -->
                 <div id="code" class="content-section fade-in-section">
                     <h2 class="content-title" data-i18n="s4-title">04. Fichiers & Code Source</h2>
                     <p class="content-text" data-i18n="s4-p1">Consultez mon rapport scientifique, explorez mes données ou lisez mon code Python directement via les liens ci-dessous :</p>
@@ -635,19 +619,16 @@
                             <div class="file-name" data-i18n="f1-n">Rapport d'Étude</div>
                             <div class="file-type" data-i18n="f1-t">Document Scientifique</div>
                         </a>
-
                         <a href="Projet_n2_Arsena_Julien.ipynb" target="_blank" class="file-card">
                             <div class="file-icon">ML</div>
                             <div class="file-name" data-i18n="f2-n">Code Source Python</div>
                             <div class="file-type" data-i18n="f2-t">Jupyter Notebook</div>
                         </a>
-
                         <a href="movie_metadata.csv" target="_blank" class="file-card">
                             <div class="file-icon">CSV</div>
                             <div class="file-name" data-i18n="f3-n">Base de Données</div>
                             <div class="file-type" data-i18n="f3-t">Dataset TMDB (Kaggle)</div>
                         </a>
-
                         <a href="CODEBOOK_projet_n2_Arsena_Julien.txt" target="_blank" class="file-card">
                             <div class="file-icon">TXT</div>
                             <div class="file-name" data-i18n="f4-n">Dictionnaire de Variables</div>
@@ -659,24 +640,18 @@
             </div>
         </div>
 
-        <!-- PROJET SUIVANT -->
         <div class="next-project fade-in-section">
             <div class="next-project-title" data-i18n="next-label">Projet Suivant</div>
             <div class="next-project-name" data-i18n="next-title">Colorimétrie du Cinéma</div>
             <div class="next-project-desc" data-i18n="next-desc">Un ordinateur peut-il ressentir la couleur d'un film ? Découvrez comment j'ai modélisé et prédit les palettes de couleurs des affiches cinématographiques.</div>
             <a href="projet_couleur.html" class="next-project-btn" data-i18n="next-btn">Voir le projet →</a>
         </div>
-        
-        <!-- RETOUR AUX PROJETS -->
-        <div style="text-align: center; margin-top: 2rem; margin-bottom: 4rem;" class="fade-in-section">
-            <a href="projects.html" class="card-link" style="color: var(--text-color); font-size: 1.2rem;" data-i18n="btn-back-projects">← Retour à tous les projets</a>
-        </div>
 
     </div>
 
-    <!-- BOUTON RETOUR EN HAUT -->
-    <div class="back-to-top-wrapper">
-        <a id="btn-back-top" class="btn-back-top" data-i18n="btn-back-top">Remonter en haut</a>
+    <div class="bottom-actions fade-in-section">
+        <a href="projects.html" class="btn-bottom" data-i18n="btn-back-projects">← Tous les projets</a>
+        <a id="btn-back-top" class="btn-bottom" data-i18n="btn-back-top">Remonter en haut ↑</a>
     </div>
 
     <footer class="site-footer">
@@ -684,8 +659,6 @@
     </footer>
 
     <script>
-        // --- MÉMOIRE GLOBALE : THÈME ET LANGUE ---
-        
         const themeToggleBtn = document.getElementById('theme-toggle');
         const body = document.body;
         
@@ -700,10 +673,14 @@
 
         let currentLang = localStorage.getItem('lang') || 'fr';
 
-        // --- ANIMATION SCROLL & SURBRILLANCE DU SOMMAIRE ---
         document.addEventListener("DOMContentLoaded", function() {
-            // Fade-in pour les éléments
-            const fadeOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
+            // Remplacement de transition par animation CSS pour éviter le conflit au hover
+            document.querySelectorAll('.fade-in-section').forEach(el => {
+                el.style.animation = `fadeIn 0.8s ease-out ${el.style.animationDelay || '0s'} forwards`;
+                el.style.opacity = '0'; 
+                el.style.transform = 'translateY(40px)';
+            });
+
             const fadeObserver = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -711,13 +688,12 @@
                         observer.unobserve(entry.target);
                     }
                 });
-            }, fadeOptions);
+            }, { root: null, rootMargin: '0px', threshold: 0.15 });
 
             document.querySelectorAll('.fade-in-section').forEach(section => {
                 fadeObserver.observe(section);
             });
 
-            // Surbillance dynamique du sommaire avec Curseur Fluide
             const tocLinks = document.querySelectorAll('.toc-link');
             const sections = document.querySelectorAll('.content-section');
             const tocIndicator = document.getElementById('toc-indicator');
@@ -747,12 +723,10 @@
             setLanguage(currentLang);
         });
 
-        // RETOUR EN HAUT
         document.getElementById('btn-back-top').addEventListener('click', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
-        // --- LIGHTBOX POUR LES IMAGES ---
         const lightbox = document.createElement('div');
         lightbox.className = 'lightbox';
         const lightboxImg = document.createElement('img');
@@ -772,7 +746,6 @@
             document.body.style.overflow = '';
         });
 
-        // --- SYSTÈME DE TRADUCTION ---
         const translations = {
             "fr": {
                 "nav-home": "Accueil", "nav-projects": "Projets", "nav-about": "À Propos", "nav-contact": "Contact",
@@ -807,8 +780,8 @@
                 "f1-n": "Rapport d'Étude", "f1-t": "Document Scientifique", "f2-n": "Code Source Python", "f2-t": "Jupyter Notebook",
                 "f3-n": "Base de Données", "f3-t": "Dataset TMDB (Kaggle)", "f4-n": "Dictionnaire de Variables", "f4-t": "Codebook",
                 "next-label": "Projet Suivant", "next-title": "Colorimétrie du Cinéma", "next-desc": "Un ordinateur peut-il ressentir la couleur d'un film ? Découvrez comment j'ai modélisé et prédit les palettes de couleurs des affiches cinématographiques.", "next-btn": "Voir le projet →",
-                "btn-back-projects": "← Retour à tous les projets",
-                "btn-back-top": "Remonter en haut",
+                "btn-back-projects": "← Tous les projets",
+                "btn-back-top": "Remonter en haut ↑",
                 "footer-text": "© 2026 Julien Arsena. Tout le contenu (code, données, rapports) est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite."
             },
             "en": {
@@ -844,8 +817,8 @@
                 "f1-n": "Study Report", "f1-t": "Scientific Document", "f2-n": "Python Source Code", "f2-t": "Jupyter Notebook",
                 "f3-n": "Database", "f3-t": "TMDB Dataset (Kaggle)", "f4-n": "Variable Dictionary", "f4-t": "Codebook",
                 "next-label": "Next Project", "next-title": "Cinema Colorimetry", "next-desc": "Can a computer feel the color of a movie? Discover how I modeled and predicted color palettes of movie posters.", "next-btn": "View project →",
-                "btn-back-projects": "← Back to all projects",
-                "btn-back-top": "Back to top",
+                "btn-back-projects": "← All projects",
+                "btn-back-top": "Back to top ↑",
                 "footer-text": "© 2026 Julien Arsena. All content (code, data, reports) is provided for review purposes. Any reuse requires explicit attribution."
             }
         };
