@@ -118,20 +118,18 @@
         }
 
         /* --- HERO SECTION --- */
-        .project-hero {
-            margin-bottom: 4rem; display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; align-items: start;
+        .project-header {
+            margin-bottom: 3rem;
         }
 
-        .hero-left { border-bottom: 4px solid var(--text-color); padding-bottom: 2rem; }
-
         .main-title {
-            font-family: 'Anton', sans-serif; font-size: 4rem; line-height: 1;
-            text-transform: uppercase; margin-bottom: 1rem;
+            font-family: 'Anton', sans-serif; font-size: 4.5rem; line-height: 1;
+            text-transform: uppercase; margin-bottom: 1rem; letter-spacing: -1px;
         }
 
         .project-catchphrase {
             font-family: 'Inter', sans-serif; font-style: italic; font-weight: 800;
-            font-size: 1.3rem; margin-bottom: 1.5rem; opacity: 0.85;
+            font-size: 1.5rem; margin-bottom: 1.5rem; opacity: 0.85;
         }
 
         .project-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; }
@@ -141,41 +139,75 @@
             border-radius: 50px; text-transform: uppercase; font-weight: 800;
         }
 
-        /* --- TL;DR BOX --- */
+        /* --- BANNIÈRE IMAGE (NOUVEAU) --- */
+        .project-banner {
+            width: 100%;
+            height: 50vh;
+            min-height: 400px;
+            border: 4px solid var(--text-color);
+            margin-bottom: 3rem;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 12px 12px 0px var(--text-color);
+        }
+
+        .project-banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(40%) contrast(110%);
+            transition: filter 0.6s ease, transform 0.6s ease;
+        }
+
+        .project-banner:hover img {
+            filter: grayscale(0%) contrast(100%);
+            transform: scale(1.03);
+        }
+
+        /* --- TL;DR BOX HORIZONTAL (AMÉLIORÉ) --- */
         .tldr-box {
-            background-color: var(--text-color); color: var(--bg-color); padding: 2rem;
-            border: 4px solid var(--text-color); position: sticky; top: 2rem;
+            background-color: var(--text-color); color: var(--bg-color); padding: 2.5rem;
+            border: 4px solid var(--text-color); margin-bottom: 3rem;
         }
         .tldr-title {
-            font-family: 'Anton', sans-serif; font-size: 1.5rem; text-transform: uppercase;
-            margin-bottom: 1.5rem; letter-spacing: 1px;
+            font-family: 'Anton', sans-serif; font-size: 2rem; text-transform: uppercase;
+            margin-bottom: 1.5rem; letter-spacing: 1px; border-bottom: 2px solid var(--bg-color);
+            padding-bottom: 0.5rem; display: inline-block;
         }
-        .tldr-item { margin-bottom: 1.5rem; }
-        .tldr-item:last-child { margin-bottom: 0; }
+        
+        .tldr-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
         .tldr-label {
-            font-family: 'Anton', sans-serif; font-size: 0.9rem; text-transform: uppercase;
-            opacity: 0.7; margin-bottom: 0.3rem; letter-spacing: 0.5px;
+            font-family: 'Anton', sans-serif; font-size: 1rem; text-transform: uppercase;
+            opacity: 0.7; margin-bottom: 0.5rem; letter-spacing: 0.5px;
         }
-        .tldr-value { font-weight: 800; font-size: 1rem; line-height: 1.4; }
+        .tldr-value { font-weight: 600; font-size: 1.1rem; line-height: 1.5; }
 
         /* --- MÉTRIQUES CLÉS --- */
         .key-metrics {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin: 3rem 0;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 5rem;
         }
         .metric-card {
-            background-color: var(--text-color); color: var(--bg-color); padding: 2rem; text-align: center;
+            background-color: transparent; color: var(--text-color); padding: 2rem; text-align: center;
             border: 4px solid var(--text-color); transition: all 0.3s ease;
         }
         .metric-card:hover {
             transform: translate(-5px, -5px); box-shadow: 8px 8px 0px var(--text-color);
-            background-color: var(--bg-color); color: var(--text-color);
+            background-color: var(--text-color); color: var(--bg-color);
         }
-        .metric-value { font-family: 'Anton', sans-serif; font-size: 3rem; line-height: 1; margin-bottom: 0.5rem; }
+        .metric-value { font-family: 'Anton', sans-serif; font-size: 3.5rem; line-height: 1; margin-bottom: 0.5rem; }
         .metric-label { font-weight: 600; font-size: 0.9rem; text-transform: uppercase; opacity: 0.8; }
 
-        /* --- LAYOUT SOMMAIRE + CONTENU (REMPLACE LES TABS) --- */
+        /* --- LAYOUT SOMMAIRE + CONTENU --- */
         .project-layout {
-            display: grid; grid-template-columns: 250px 1fr; gap: 4rem; margin-top: 5rem; align-items: start;
+            display: grid; 
+            grid-template-columns: 250px 1fr; 
+            gap: 5rem; /* Gap augmenté pour faire respirer la lecture */
+            align-items: start;
         }
 
         /* Sommaire collant */
@@ -193,20 +225,27 @@
         /* --- SECTIONS TEXTUELLES --- */
         .project-content { display: flex; flex-direction: column; gap: 5rem; }
         
-        .content-section { scroll-margin-top: 2rem; /* Évite que le menu sticky cache le titre au clic */ }
+        .content-section { scroll-margin-top: 2rem; }
         
         .content-title {
             font-family: 'Anton', sans-serif; font-size: 2.5rem; text-transform: uppercase; margin-bottom: 1.5rem;
         }
 
-        .content-text { font-size: 1.1rem; line-height: 1.8; font-weight: 500; margin-bottom: 1.5rem; }
+        .content-text { font-size: 1.15rem; line-height: 1.8; font-weight: 500; margin-bottom: 1.5rem; }
 
+        /* Correction de l'alignement des flèches */
         .styled-list { list-style: none; padding-left: 0; }
         .styled-list li {
-            padding-left: 2rem; margin-bottom: 1rem; position: relative; font-size: 1.1rem; line-height: 1.7; font-weight: 500;
+            padding-left: 2.5rem; margin-bottom: 1.5rem; position: relative; font-size: 1.15rem; line-height: 1.8; font-weight: 500;
         }
         .styled-list li::before {
-            content: "→"; position: absolute; left: 0; font-family: 'Anton', sans-serif; font-size: 1.5rem; font-weight: bold;
+            content: "→"; 
+            position: absolute; 
+            left: 0; 
+            top: -2px; /* Ajustement précis de l'alignement vertical */
+            font-family: 'Anton', sans-serif; 
+            font-size: 1.5rem; 
+            font-weight: bold;
         }
 
         /* --- GRILLE VISUELLE --- */
@@ -268,16 +307,16 @@
 
         /* --- PROJET SUIVANT --- */
         .next-project {
-            background-color: var(--text-color); color: var(--bg-color); padding: 3rem; margin-top: 5rem; border: 4px solid var(--text-color);
+            background-color: transparent; color: var(--text-color); padding: 3rem; margin-top: 5rem; border: 4px solid var(--text-color);
         }
         .next-project-title { font-family: 'Anton', sans-serif; font-size: 1.2rem; text-transform: uppercase; margin-bottom: 1rem; opacity: 0.7; }
         .next-project-name { font-family: 'Anton', sans-serif; font-size: 2.5rem; text-transform: uppercase; margin-bottom: 1rem; line-height: 1.1; }
         .next-project-desc { font-size: 1.1rem; margin-bottom: 2rem; font-weight: 600; opacity: 0.9; }
         .next-project-btn {
-            font-family: 'Anton', sans-serif; font-size: 1.5rem; text-transform: uppercase; text-decoration: none; color: var(--bg-color);
-            border: 3px solid var(--bg-color); padding: 1rem 2rem; display: inline-block; transition: all 0.3s ease;
+            font-family: 'Anton', sans-serif; font-size: 1.5rem; text-transform: uppercase; text-decoration: none; color: var(--text-color);
+            border: 3px solid var(--text-color); padding: 1rem 2rem; display: inline-block; transition: all 0.3s ease;
         }
-        .next-project-btn:hover { background-color: var(--bg-color); color: var(--text-color); }
+        .next-project-btn:hover { background-color: var(--text-color); color: var(--bg-color); transform: translate(-3px, -3px); box-shadow: 6px 6px 0px var(--text-color); }
 
         /* --- BOUTON RETOUR EN HAUT CENTRÉ --- */
         .back-to-top-wrapper {
@@ -306,25 +345,26 @@
 
         /* --- RESPONSIVE DESIGN --- */
         @media (max-width: 968px) {
-            .project-hero { grid-template-columns: 1fr; }
-            .tldr-box { position: static; margin-bottom: 2rem; }
+            .tldr-grid { grid-template-columns: 1fr; gap: 1.5rem; }
             .key-metrics { grid-template-columns: 1fr; }
             .project-layout { grid-template-columns: 1fr; gap: 2rem; }
-            .toc { display: none; /* On cache le sommaire sur mobile/tablette pour gagner de la place */ }
+            .toc { display: none; /* On cache le sommaire sur tablette/mobile */ }
+            .project-banner { height: 35vh; min-height: 250px; }
         }
 
         @media (max-width: 768px) {
             header { flex-direction: column; gap: 1.5rem; padding: 1.5rem 1rem; }
             .header-left { flex-direction: column; gap: 1rem; text-align: center; }
             .main-nav { flex-wrap: wrap; justify-content: center; }
-            .main-title { font-size: 2.5rem; }
-            .project-catchphrase { font-size: 1.1rem; }
-            .content-title { font-size: 1.8rem; }
+            .main-title { font-size: 3rem; }
+            .project-catchphrase { font-size: 1.2rem; }
+            .content-title { font-size: 2rem; }
             .viz-grid { grid-template-columns: 1fr; }
-            .metric-value { font-size: 2rem; }
-            .next-project-name { font-size: 1.8rem; }
+            .metric-value { font-size: 2.5rem; }
+            .next-project-name { font-size: 2rem; }
             .styled-table-pro th, .styled-table-pro td { font-size: 1rem; padding: 0.8rem; }
             .styled-table-pro td:first-child { font-size: 0.9rem; }
+            .container { padding: 2rem 1rem; }
         }
     </style>
 </head>
@@ -363,37 +403,41 @@
 
     <div class="container">
         
-        <!-- HERO SECTION AVEC TL;DR -->
-        <div class="project-hero fade-in-section">
-            <div class="hero-left">
-                <h1 class="main-title" data-i18n="hero-title">Prédiction de Durée</h1>
-                <div class="project-catchphrase" data-i18n="hero-catch">"Une machine peut-elle deviner quand le générique va défiler ?"</div>
-                
-                <div class="project-tags">
-                    <span class="tag">Machine Learning</span>
-                    <span class="tag" data-i18n="tag-reg">Régression LASSO</span>
-                    <span class="tag">Python</span>
-                    <span class="tag" data-i18n="tag-date">Décembre 2025</span>
-                </div>
+        <!-- HEADER DU PROJET -->
+        <div class="project-header fade-in-section">
+            <h1 class="main-title" data-i18n="hero-title">Prédiction de Durée</h1>
+            <div class="project-catchphrase" data-i18n="hero-catch">"Une machine peut-elle deviner quand le générique va défiler ?"</div>
+            
+            <div class="project-tags">
+                <span class="tag">Machine Learning</span>
+                <span class="tag" data-i18n="tag-reg">Régression LASSO</span>
+                <span class="tag">Python</span>
+                <span class="tag" data-i18n="tag-date">Décembre 2025</span>
             </div>
+        </div>
 
-            <!-- TL;DR BOX -->
-            <div class="tldr-box">
-                <div class="tldr-title" data-i18n="tldr-title">EN BREF</div>
-                
+        <!-- BANNIÈRE IMAGE GEANTE -->
+        <div class="project-banner fade-in-section">
+            <img src="miniature_duree.jpg" alt="Aperçu du projet">
+        </div>
+
+        <!-- TL;DR BOX HORIZONTAL -->
+        <div class="tldr-box fade-in-section">
+            <div class="tldr-title" data-i18n="tldr-title">EN BREF</div>
+            <div class="tldr-grid">
                 <div class="tldr-item">
-                    <div class="tldr-label" data-i18n="tldr-l1">Problème</div>
-                    <div class="tldr-value" data-i18n="tldr-v1">Prédire la durée d'un film uniquement à partir de ses métadonnées (budget, genre, année...)</div>
+                    <div class="tldr-label" data-i18n="tldr-l1">01. Problème</div>
+                    <div class="tldr-value" data-i18n="tldr-v1">Prédire la durée d'un film uniquement à partir de ses métadonnées (budget, genre, année...) sans connaître son contenu.</div>
                 </div>
 
                 <div class="tldr-item">
-                    <div class="tldr-label" data-i18n="tldr-l2">Approche</div>
-                    <div class="tldr-value" data-i18n="tldr-v2">Comparaison de 3 algorithmes de régression sur 5 369 films (TMDB dataset)</div>
+                    <div class="tldr-label" data-i18n="tldr-l2">02. Approche</div>
+                    <div class="tldr-value" data-i18n="tldr-v2">Comparaison rigoureuse de 3 algorithmes de régression (Linéaire, Lasso, MLP) sur une base de 5 369 films tirée du dataset TMDB.</div>
                 </div>
 
                 <div class="tldr-item">
-                    <div class="tldr-label" data-i18n="tldr-l3">Résultat</div>
-                    <div class="tldr-value" data-i18n="tldr-v3">LASSO surpasse les réseaux de neurones : erreur de 16 minutes en moyenne</div>
+                    <div class="tldr-label" data-i18n="tldr-l3">03. Résultat</div>
+                    <div class="tldr-value" data-i18n="tldr-v3">La régularisation LASSO surpasse les réseaux de neurones complexes, offrant une marge d'erreur d'environ 16 minutes en moyenne.</div>
                 </div>
             </div>
         </div>
@@ -414,7 +458,7 @@
             </div>
         </div>
 
-        <!-- CONTINUOUS SCROLL LAYOUT (Remplace les tabs) -->
+        <!-- CONTINUOUS SCROLL LAYOUT (TOC Latéral) -->
         <div class="project-layout">
             
             <!-- Sommaire Latéral -->
@@ -648,10 +692,10 @@
                 "bread-home": "Accueil", "bread-proj": "Projets", "bread-current": "Prédiction de Durée",
                 "hero-title": "Prédiction de Durée", "hero-catch": "\"Une machine peut-elle deviner quand le générique va défiler ?\"",
                 "tag-reg": "Régression LASSO", "tag-date": "Décembre 2025",
-                "tldr-title": "EN BREF", "tldr-l1": "Problème", "tldr-l2": "Approche", "tldr-l3": "Résultat",
-                "tldr-v1": "Prédire la durée d'un film uniquement à partir de ses métadonnées (budget, genre, année...)",
-                "tldr-v2": "Comparaison de 3 algorithmes de régression sur 5 369 films (TMDB dataset)",
-                "tldr-v3": "LASSO surpasse les réseaux de neurones : erreur de 16 minutes en moyenne",
+                "tldr-title": "EN BREF", "tldr-l1": "01. Problème", "tldr-l2": "02. Approche", "tldr-l3": "03. Résultat",
+                "tldr-v1": "Prédire la durée d'un film uniquement à partir de ses métadonnées (budget, genre, année...) sans connaître son contenu.",
+                "tldr-v2": "Comparaison rigoureuse de 3 algorithmes de régression (Linéaire, Lasso, MLP) sur une base de 5 369 films tirée du dataset TMDB.",
+                "tldr-v3": "La régularisation LASSO surpasse les réseaux de neurones complexes, offrant une marge d'erreur d'environ 16 minutes en moyenne.",
                 "metric-1": "Minutes d'erreur (RMSE)", "metric-2": "Films analysés", "metric-3": "Algorithmes comparés",
                 "toc-title": "Sommaire", "toc-1": "01. Contexte", "toc-2": "02. Méthodologie", "toc-3": "03. Résultats", "toc-4": "04. Code & Data",
                 "s1-title": "01. Le Contexte",
@@ -684,10 +728,10 @@
                 "bread-home": "Home", "bread-proj": "Projects", "bread-current": "Runtime Prediction",
                 "hero-title": "Runtime Prediction", "hero-catch": "\"Can a machine guess when the credits will roll?\"",
                 "tag-reg": "LASSO Regression", "tag-date": "December 2025",
-                "tldr-title": "AT A GLANCE", "tldr-l1": "Problem", "tldr-l2": "Approach", "tldr-l3": "Result",
-                "tldr-v1": "Predicting a movie's runtime solely from its metadata (budget, genre, year...)",
-                "tldr-v2": "Comparison of 3 regression algorithms on 5,369 movies (TMDB dataset)",
-                "tldr-v3": "LASSO outperforms neural networks: average error of 16 minutes",
+                "tldr-title": "AT A GLANCE", "tldr-l1": "01. Problem", "tldr-l2": "02. Approach", "tldr-l3": "03. Result",
+                "tldr-v1": "Predicting a movie's runtime solely from its metadata (budget, genre, year...) without knowing its content.",
+                "tldr-v2": "Rigorous comparison of 3 regression algorithms (Linear, Lasso, MLP) on a database of 5,369 movies from the TMDB dataset.",
+                "tldr-v3": "LASSO regularization outperforms complex neural networks, offering a margin of error of about 16 minutes on average.",
                 "metric-1": "Minutes error (RMSE)", "metric-2": "Movies analyzed", "metric-3": "Algorithms compared",
                 "toc-title": "Contents", "toc-1": "01. Context", "toc-2": "02. Methodology", "toc-3": "03. Results", "toc-4": "04. Code & Data",
                 "s1-title": "01. The Context",
