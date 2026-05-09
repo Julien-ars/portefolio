@@ -55,7 +55,9 @@
         header {
             display: flex; justify-content: space-between; align-items: center;
             padding: 1.5rem 2rem; border-bottom: 2px solid var(--text-color);
-            font-family: 'Anton', sans-serif; position: relative; z-index: 100;
+            font-family: 'Anton', sans-serif; position: sticky; top: 0; z-index: 100;
+            background-color: var(--bg-color); /* Fond pour éviter la transparence au scroll */
+            transition: background-color 0.5s ease;
         }
 
         .header-left { display: flex; align-items: center; gap: 3rem; }
@@ -87,6 +89,7 @@
         .lang-switch span { opacity: 0.4; transition: opacity 0.3s; cursor: pointer; }
         .lang-switch span.active, .lang-switch span:hover { opacity: 1; text-decoration: underline; }
 
+        /* Icône bicolore de Thème */
         .theme-btn { 
             background: none; border: none; cursor: pointer; display: flex; align-items: center; 
             justify-content: center; padding: 0.5rem; outline: none;
@@ -202,7 +205,7 @@
         }
 
         /* Sommaire collant avec barre de progression */
-        .toc { position: sticky; top: 2rem; }
+        .toc { position: sticky; top: 6rem; /* Décalé pour ne pas coller au header sticky */ }
         
         .toc-title {
             font-family: 'Anton', sans-serif; font-size: 1.2rem; text-transform: uppercase; margin-bottom: 1.5rem; opacity: 0.5;
@@ -237,11 +240,17 @@
 
         /* --- SECTIONS TEXTUELLES --- */
         .project-content { display: flex; flex-direction: column; gap: 4rem; }
-        .content-section { scroll-margin-top: 2rem; }
-        .content-title { font-family: 'Anton', sans-serif; font-size: 2.5rem; text-transform: uppercase; margin-bottom: 1.5rem; }
+        
+        /* Mod 4: Ajout d'une marge de sécurité pour le scroll vers les ancres */
+        .content-section { scroll-margin-top: 6rem; }
+        
+        .content-title {
+            font-family: 'Anton', sans-serif; font-size: 2.5rem; text-transform: uppercase; margin-bottom: 1.5rem;
+        }
+
         .content-text { font-size: 1.15rem; line-height: 1.8; font-weight: 500; margin-bottom: 1.5rem; }
 
-        /* CORRECTION : Flèches alignées en absolue pour éviter la casse du texte */
+        /* Flèches alignées en absolue pour éviter la casse du texte */
         .styled-list { list-style: none; padding-left: 0; }
         .styled-list li {
             position: relative; padding-left: 2.5rem; margin-bottom: 1.5rem; 
@@ -337,6 +346,13 @@
         body.theme-light .next-project-btn { color: #b366ff; border-color: #b366ff; }
         body.theme-light .next-project-btn:hover { background-color: #b366ff; color: var(--text-color); box-shadow: 6px 6px 0px #b366ff; }
 
+        /* --- LIEN RETOUR PROJETS --- */
+        .card-link {
+            display: inline-block; font-family: 'Anton', sans-serif; text-decoration: none;
+            color: currentColor; border-bottom: 2px solid currentColor; font-size: 1.1rem; text-transform: uppercase; transition: opacity 0.2s;
+        }
+        .card-link:hover { opacity: 0.6; }
+
         /* --- BOUTON RETOUR EN HAUT CENTRÉ --- */
         .back-to-top-wrapper { text-align: center; padding: 4rem 0 3rem 0; position: relative; z-index: 50; width: 100%; }
         .btn-back-top {
@@ -373,42 +389,34 @@
             .main-nav { flex-wrap: wrap; justify-content: center; }
             .container { padding: 2rem 1rem; }
             
-            /* Réduction des tailles pour mobile */
             .main-title { font-size: 2.8rem; }
             .project-catchphrase { font-size: 1.1rem; }
             
-            /* Optimisation En Bref */
             .tldr-box { padding: 1.5rem; }
             .tldr-title { font-size: 1.5rem; margin-bottom: 1rem;}
             
-            /* Métriques */
             .metric-card { padding: 1.5rem 1rem; }
             .metric-value { font-size: 2.5rem; }
             
-            /* Textes & Listes */
             .content-title { font-size: 1.8rem; }
             .content-text { font-size: 1.05rem; }
             .styled-list li { font-size: 1.05rem; padding-left: 2rem; }
             .styled-list li::before { font-size: 1.2rem; top: 0; }
             
-            /* Grilles & Fichiers */
             .viz-grid { grid-template-columns: 1fr; gap: 1.5rem; }
             .viz-img-container { padding: 1rem; }
             
-            /* Fichiers en 2 colonnes sur mobile */
             .files-grid { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
             .file-card { padding: 1rem 0.5rem; }
             .file-icon { font-size: 2rem; margin-bottom: 0.3rem; }
             .file-name { font-size: 0.8rem; }
             .file-type { font-size: 0.65rem; margin-top: 0.3rem; }
 
-            /* Conclusion et Next Project */
             .conclusion-box { padding: 1.5rem; }
             .conclusion-box .content-text { font-size: 1.05rem; }
             .next-project { padding: 2rem 1.5rem; margin-top: 3rem; }
             .next-project-name { font-size: 1.8rem; }
             
-            /* Tableau */
             .styled-table-pro th, .styled-table-pro td { font-size: 1rem; padding: 0.8rem; }
             .styled-table-pro td:first-child { font-size: 0.9rem; }
         }
@@ -459,6 +467,7 @@
                 <span class="tag" data-i18n="tag-reg">Régression LASSO</span>
                 <span class="tag">Python</span>
                 <span class="tag" data-i18n="tag-date">Décembre 2025</span>
+                <span class="tag" data-i18n="tag-read">Lecture : 3 min</span>
             </div>
         </div>
 
@@ -488,17 +497,17 @@
             </div>
         </div>
 
-        <!-- MÉTRIQUES CLÉS -->
-        <div class="key-metrics fade-in-section">
-            <div class="metric-card">
+        <!-- MÉTRIQUES CLÉS AVEC STAGGER -->
+        <div class="key-metrics">
+            <div class="metric-card fade-in-section" style="transition-delay: 0s;">
                 <div class="metric-value">16.29</div>
                 <div class="metric-label" data-i18n="metric-1">Minutes d'erreur (RMSE)</div>
             </div>
-            <div class="metric-card">
+            <div class="metric-card fade-in-section" style="transition-delay: 0.15s;">
                 <div class="metric-value">5 369</div>
                 <div class="metric-label" data-i18n="metric-2">Films analysés</div>
             </div>
-            <div class="metric-card">
+            <div class="metric-card fade-in-section" style="transition-delay: 0.3s;">
                 <div class="metric-value">3</div>
                 <div class="metric-label" data-i18n="metric-3">Algorithmes comparés</div>
             </div>
@@ -657,6 +666,11 @@
             <div class="next-project-desc" data-i18n="next-desc">Un ordinateur peut-il ressentir la couleur d'un film ? Découvrez comment j'ai modélisé et prédit les palettes de couleurs des affiches cinématographiques.</div>
             <a href="projet_couleur.html" class="next-project-btn" data-i18n="next-btn">Voir le projet →</a>
         </div>
+        
+        <!-- RETOUR AUX PROJETS -->
+        <div style="text-align: center; margin-top: 2rem; margin-bottom: 4rem;" class="fade-in-section">
+            <a href="projects.html" class="card-link" style="color: var(--text-color); font-size: 1.2rem;" data-i18n="btn-back-projects">← Retour à tous les projets</a>
+        </div>
 
     </div>
 
@@ -688,6 +702,7 @@
 
         // --- ANIMATION SCROLL & SURBRILLANCE DU SOMMAIRE ---
         document.addEventListener("DOMContentLoaded", function() {
+            // Fade-in pour les éléments
             const fadeOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
             const fadeObserver = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
@@ -702,6 +717,7 @@
                 fadeObserver.observe(section);
             });
 
+            // Surbillance dynamique du sommaire avec Curseur Fluide
             const tocLinks = document.querySelectorAll('.toc-link');
             const sections = document.querySelectorAll('.content-section');
             const tocIndicator = document.getElementById('toc-indicator');
@@ -762,7 +778,7 @@
                 "nav-home": "Accueil", "nav-projects": "Projets", "nav-about": "À Propos", "nav-contact": "Contact",
                 "bread-home": "Accueil", "bread-proj": "Projets", "bread-current": "Prédiction de Durée",
                 "hero-title": "Prédiction de Durée", "hero-catch": "\"Une machine peut-elle deviner quand le générique va défiler ?\"",
-                "tag-reg": "Régression LASSO", "tag-date": "Décembre 2025",
+                "tag-reg": "Régression LASSO", "tag-date": "Décembre 2025", "tag-read": "Lecture : 3 min",
                 "tldr-title": "EN BREF", "tldr-l1": "01. Problème", "tldr-l2": "02. Approche", "tldr-l3": "03. Résultat",
                 "tldr-v1": "Prédire la durée d'un film uniquement à partir de ses métadonnées (budget, genre, année...) sans connaître son contenu.",
                 "tldr-v2": "Comparaison rigoureuse de 3 algorithmes de régression (Linéaire, Lasso, MLP) sur une base de 5 369 films tirée du dataset TMDB.",
@@ -791,6 +807,7 @@
                 "f1-n": "Rapport d'Étude", "f1-t": "Document Scientifique", "f2-n": "Code Source Python", "f2-t": "Jupyter Notebook",
                 "f3-n": "Base de Données", "f3-t": "Dataset TMDB (Kaggle)", "f4-n": "Dictionnaire de Variables", "f4-t": "Codebook",
                 "next-label": "Projet Suivant", "next-title": "Colorimétrie du Cinéma", "next-desc": "Un ordinateur peut-il ressentir la couleur d'un film ? Découvrez comment j'ai modélisé et prédit les palettes de couleurs des affiches cinématographiques.", "next-btn": "Voir le projet →",
+                "btn-back-projects": "← Retour à tous les projets",
                 "btn-back-top": "Remonter en haut",
                 "footer-text": "© 2026 Julien Arsena. Tout le contenu (code, données, rapports) est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite."
             },
@@ -798,7 +815,7 @@
                 "nav-home": "Home", "nav-projects": "Projects", "nav-about": "About", "nav-contact": "Contact",
                 "bread-home": "Home", "bread-proj": "Projects", "bread-current": "Runtime Prediction",
                 "hero-title": "Runtime Prediction", "hero-catch": "\"Can a machine guess when the credits will roll?\"",
-                "tag-reg": "LASSO Regression", "tag-date": "December 2025",
+                "tag-reg": "LASSO Regression", "tag-date": "December 2025", "tag-read": "3 min read",
                 "tldr-title": "AT A GLANCE", "tldr-l1": "01. Problem", "tldr-l2": "02. Approach", "tldr-l3": "03. Result",
                 "tldr-v1": "Predicting a movie's runtime solely from its metadata (budget, genre, year...) without knowing its content.",
                 "tldr-v2": "Rigorous comparison of 3 regression algorithms (Linear, Lasso, MLP) on a database of 5,369 movies from the TMDB dataset.",
@@ -827,6 +844,7 @@
                 "f1-n": "Study Report", "f1-t": "Scientific Document", "f2-n": "Python Source Code", "f2-t": "Jupyter Notebook",
                 "f3-n": "Database", "f3-t": "TMDB Dataset (Kaggle)", "f4-n": "Variable Dictionary", "f4-t": "Codebook",
                 "next-label": "Next Project", "next-title": "Cinema Colorimetry", "next-desc": "Can a computer feel the color of a movie? Discover how I modeled and predicted color palettes of movie posters.", "next-btn": "View project →",
+                "btn-back-projects": "← Back to all projects",
                 "btn-back-top": "Back to top",
                 "footer-text": "© 2026 Julien Arsena. All content (code, data, reports) is provided for review purposes. Any reuse requires explicit attribution."
             }
