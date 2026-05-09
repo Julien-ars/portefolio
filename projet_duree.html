@@ -201,7 +201,7 @@
             display: grid; grid-template-columns: 250px 1fr; gap: 4rem; align-items: start;
         }
 
-        /* Sommaire collant */
+        /* Sommaire collant avec barre de progression */
         .toc { position: sticky; top: 2rem; }
         
         .toc-title {
@@ -241,19 +241,19 @@
         .content-title { font-family: 'Anton', sans-serif; font-size: 2.5rem; text-transform: uppercase; margin-bottom: 1.5rem; }
         .content-text { font-size: 1.15rem; line-height: 1.8; font-weight: 500; margin-bottom: 1.5rem; }
 
-        /* CORRECTION: Alignement parfait des flèches avec Flexbox */
+        /* CORRECTION : Flèches alignées en absolue pour éviter la casse du texte */
         .styled-list { list-style: none; padding-left: 0; }
         .styled-list li {
-            display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.5rem; 
-            font-size: 1.15rem; line-height: 1.8; font-weight: 500;
+            position: relative; padding-left: 2.5rem; margin-bottom: 1.5rem; 
+            font-size: 1.15rem; line-height: 1.8; font-weight: 500; display: block;
         }
         .styled-list li::before {
-            content: "→"; 
+            content: "→"; position: absolute; left: 0; top: -2px; 
             font-family: 'Anton', sans-serif; font-size: 1.5rem; font-weight: bold;
-            color: var(--text-color); line-height: 1.4; margin-top: -2px; /* Ajustement optique */
+            color: var(--text-color);
         }
 
-        /* --- GRILLE VISUELLE & LIGHTBOX (NOUVEAU) --- */
+        /* --- GRILLE VISUELLE & LIGHTBOX --- */
         .viz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-top: 2rem; }
         .span-full { grid-column: 1 / -1; }
         .viz-card { display: flex; flex-direction: column; gap: 1rem; }
@@ -263,8 +263,6 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease; height: 100%; display: flex; flex-direction: column; justify-content: center;
         }
         .viz-img-container:hover { transform: translate(-5px, -5px); box-shadow: 12px 12px 0px var(--text-color); }
-        
-        /* Curseur zoom pour les images */
         .viz-img { width: 100%; height: auto; display: block; cursor: zoom-in; }
         
         .viz-caption {
@@ -273,7 +271,7 @@
         }
         body.theme-light .viz-caption { opacity: 0.95; }
 
-        /* --- LIGHTBOX (Plein Écran) --- */
+        /* --- LIGHTBOX --- */
         .lightbox {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background-color: rgba(5, 5, 5, 0.95); z-index: 9999;
@@ -301,7 +299,6 @@
         .styled-table-pro td:first-child { text-align: left; text-transform: uppercase; font-size: 1.1rem; }
         .styled-table-pro tr:hover td { background-color: rgba(0, 0, 0, 0.05); }
         body.theme-light .styled-table-pro tr:hover td { background-color: rgba(255, 255, 255, 0.3); }
-        
         .highlight-cell { background-color: var(--text-color) !important; color: var(--bg-color) !important; text-decoration: underline; }
 
         /* --- GRILLE DE FICHIERS --- */
@@ -366,7 +363,7 @@
             .tldr-grid { grid-template-columns: 1fr; gap: 1.5rem; }
             .key-metrics { grid-template-columns: 1fr; }
             .project-layout { grid-template-columns: 1fr; gap: 2rem; }
-            .toc { display: none; } /* Caché sur tablette/mobile */
+            .toc { display: none; }
             .project-banner { height: 35vh; min-height: 250px; }
         }
 
@@ -379,21 +376,39 @@
             /* Réduction des tailles pour mobile */
             .main-title { font-size: 2.8rem; }
             .project-catchphrase { font-size: 1.1rem; }
+            
+            /* Optimisation En Bref */
             .tldr-box { padding: 1.5rem; }
-            .tldr-title { font-size: 1.5rem; }
+            .tldr-title { font-size: 1.5rem; margin-bottom: 1rem;}
+            
+            /* Métriques */
             .metric-card { padding: 1.5rem 1rem; }
             .metric-value { font-size: 2.5rem; }
             
+            /* Textes & Listes */
             .content-title { font-size: 1.8rem; }
             .content-text { font-size: 1.05rem; }
-            .styled-list li { font-size: 1.05rem; }
+            .styled-list li { font-size: 1.05rem; padding-left: 2rem; }
+            .styled-list li::before { font-size: 1.2rem; top: 0; }
             
+            /* Grilles & Fichiers */
             .viz-grid { grid-template-columns: 1fr; gap: 1.5rem; }
             .viz-img-container { padding: 1rem; }
             
+            /* Fichiers en 2 colonnes sur mobile */
+            .files-grid { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
+            .file-card { padding: 1rem 0.5rem; }
+            .file-icon { font-size: 2rem; margin-bottom: 0.3rem; }
+            .file-name { font-size: 0.8rem; }
+            .file-type { font-size: 0.65rem; margin-top: 0.3rem; }
+
+            /* Conclusion et Next Project */
+            .conclusion-box { padding: 1.5rem; }
+            .conclusion-box .content-text { font-size: 1.05rem; }
             .next-project { padding: 2rem 1.5rem; margin-top: 3rem; }
             .next-project-name { font-size: 1.8rem; }
             
+            /* Tableau */
             .styled-table-pro th, .styled-table-pro td { font-size: 1rem; padding: 0.8rem; }
             .styled-table-pro td:first-child { font-size: 0.9rem; }
         }
@@ -499,8 +514,7 @@
                     <div class="toc-indicator" id="toc-indicator"></div>
                     <a href="#contexte" class="toc-link" data-i18n="toc-1">01. Contexte</a>
                     <a href="#methodologie" class="toc-link" data-i18n="toc-2">02. Méthodologie</a>
-                    <a href="#resultats" class="toc-link" data-i18n="toc-3">03.a Visualisations & Apprentissage</a>
-                    <a href="#performances" class="toc-link" data-i18n="toc-3b">03.b Performances Comparées</a>
+                    <a href="#resultats" class="toc-link" data-i18n="toc-3">03. Résultats</a>
                     <a href="#code" class="toc-link" data-i18n="toc-4">04. Code & Data</a>
                 </nav>
             </div>
@@ -519,7 +533,6 @@
                 <!-- SECTION 02 -->
                 <div id="methodologie" class="content-section fade-in-section">
                     <h2 class="content-title" data-i18n="s2-title">02. La Méthodologie</h2>
-                    <!-- Liste avec flexbox pour alignement parfait -->
                     <ul class="styled-list">
                         <li><strong data-i18n="s2-b1">Préparation des données :</strong> <span data-i18n="s2-t1">Utilisation de la base de données "The Movie Dataset" (TMDB) provenant de Kaggle, filtrée pour obtenir 5 369 films exploitables. Les distributions très asymétriques du budget et des revenus ont été normalisées à l'aide d'une transformation logarithmique.</span></li>
                         
@@ -529,9 +542,9 @@
                     </ul>
                 </div>
 
-                <!-- SECTION 03.a -->
+                <!-- SECTION 03 (Regroupement) -->
                 <div id="resultats" class="content-section fade-in-section">
-                    <h2 class="content-title" data-i18n="s3-title">03.a Visualisations & Apprentissage</h2>
+                    <h2 class="content-title" data-i18n="s3-title">03. Visualisations & Performances</h2>
                     <p class="content-text" data-i18n="s3-p1">
                         Les figures suivantes retracent l'évolution de l'analyse visuelle de nos données : la distribution initiale montre une très forte concentration des durées de films autour de la barre des 100 minutes (Fig. 1). En parallèle, la courbe d'erreur du réseau de neurones (Fig. 3) illustre la stabilisation de l'apprentissage du modèle au fil des itérations.
                     </p>
@@ -558,11 +571,8 @@
                             <p class="viz-caption" data-i18n="fig-2">Fig 2. Nuages de points des valeurs prédites par rapport aux valeurs réelles (Modèle Linéaire, LASSO et Réseau de Neurones)</p>
                         </div>
                     </div>
-                </div>
-                
-                <!-- SECTION 03.b -->
-                <div id="performances" class="content-section fade-in-section">
-                    <h2 class="content-title" data-i18n="s3-title2">03.b Performances Comparées</h2>
+
+                    <h2 class="content-title" style="margin-top: 4rem;" data-i18n="s3-title2">Performances Comparées</h2>
                     <p class="content-text" data-i18n="s3-p2">
                         Le tableau comparatif synthétise les erreurs (RMSE) de chaque algorithme. L'écart très réduit entre l'erreur d'entraînement et l'erreur de test (environ 1.6 minutes d'écart) indique une variance faible. De manière contre-intuitive, le réseau de neurones sous-performe face à la Régression LASSO, confirmant que la régularisation L1 est la méthode la plus efficace pour filtrer le bruit des métadonnées de notre échantillon.
                     </p>
@@ -678,7 +688,6 @@
 
         // --- ANIMATION SCROLL & SURBRILLANCE DU SOMMAIRE ---
         document.addEventListener("DOMContentLoaded", function() {
-            // Fade-in pour les éléments
             const fadeOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
             const fadeObserver = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
@@ -693,7 +702,6 @@
                 fadeObserver.observe(section);
             });
 
-            // Surbillance dynamique du sommaire avec Curseur Fluide
             const tocLinks = document.querySelectorAll('.toc-link');
             const sections = document.querySelectorAll('.content-section');
             const tocIndicator = document.getElementById('toc-indicator');
@@ -723,7 +731,7 @@
             setLanguage(currentLang);
         });
 
-        // RETOUR EN HAUT (Scroll doux)
+        // RETOUR EN HAUT
         document.getElementById('btn-back-top').addEventListener('click', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
@@ -739,7 +747,7 @@
             image.addEventListener('click', () => {
                 lightboxImg.src = image.src;
                 lightbox.classList.add('active');
-                document.body.style.overflow = 'hidden'; // Empêche le scroll en arrière plan
+                document.body.style.overflow = 'hidden'; 
             });
         });
 
@@ -760,19 +768,19 @@
                 "tldr-v2": "Comparaison rigoureuse de 3 algorithmes de régression (Linéaire, Lasso, MLP) sur une base de 5 369 films tirée du dataset TMDB.",
                 "tldr-v3": "La régularisation LASSO surpasse les réseaux de neurones complexes, offrant une marge d'erreur d'environ 16 minutes en moyenne.",
                 "metric-1": "Minutes d'erreur (RMSE)", "metric-2": "Films analysés", "metric-3": "Algorithmes comparés",
-                "toc-title": "Sommaire", "toc-1": "01. Contexte", "toc-2": "02. Méthodologie", "toc-3": "03.a Visualisations & Apprentissage", "toc-3b": "03.b Performances Comparées", "toc-4": "04. Code & Data",
+                "toc-title": "Sommaire", "toc-1": "01. Contexte", "toc-2": "02. Méthodologie", "toc-3": "03. Résultats", "toc-4": "04. Code & Data",
                 "s1-title": "01. Le Contexte",
                 "s1-p1": "La durée d'un film est un facteur clé de sa production et de sa distribution, influençant directement la programmation des salles de cinéma et l'engagement du public. L'objectif de ce projet est d'explorer la prédiction de la durée d'un film (une variable continue) en se basant sur ses métadonnées cinématographiques : le budget, les revenus, les genres, l'année de sortie, la langue ou encore les notes du public.",
                 "s2-title": "02. La Méthodologie",
                 "s2-b1": "Préparation des données :", "s2-t1": "Utilisation de la base de données \"The Movie Dataset\" (TMDB) provenant de Kaggle, filtrée pour obtenir 5 369 films exploitables. Les distributions très asymétriques du budget et des revenus ont été normalisées à l'aide d'une transformation logarithmique.",
                 "s2-b2": "Encodage et ingénierie :", "s2-t2": "Nouvelles variables créées en calculant le carré de chaque caractéristique quantitative pour capturer de potentielles relations non linéaires. Les variables catégorielles complexes (genres multiples, pays) ont été transformées en colonnes binaires (One-Hot Encoding).",
                 "s2-b3": "Modélisation :", "s2-t3": "Implémentation et comparaison de trois algorithmes (standardisés et évalués via une validation croisée à 5 plis) : Régression Linéaire classique, Régression LASSO (avec pénalisation L1), et Réseau de Neurones artificiels (MLPRegressor).",
-                "s3-title": "03.a Visualisations & Apprentissage",
+                "s3-title": "03. Visualisations & Performances",
                 "s3-p1": "Les figures suivantes retracent l'évolution de l'analyse visuelle de nos données : la distribution initiale montre une très forte concentration des durées de films autour de la barre des 100 minutes (Fig. 1). En parallèle, la courbe d'erreur du réseau de neurones (Fig. 3) illustre la stabilisation de l'apprentissage du modèle au fil des itérations.",
                 "fig-1": "Fig 1. Distribution de la variable cible (Durée des films en minutes)",
                 "fig-3": "Fig 3. Courbe d'apprentissage et d'erreur (RMSE) du réseau de neurones",
                 "fig-2": "Fig 2. Nuages de points des valeurs prédites par rapport aux valeurs réelles (Modèle Linéaire, LASSO et Réseau de Neurones)",
-                "s3-title2": "03.b Performances Comparées",
+                "s3-title2": "Performances Comparées",
                 "s3-p2": "Le tableau comparatif synthétise les erreurs (RMSE) de chaque algorithme. L'écart très réduit entre l'erreur d'entraînement et l'erreur de test (environ 1.6 minutes d'écart) indique une variance faible. De manière contre-intuitive, le réseau de neurones sous-performe face à la Régression LASSO, confirmant que la régularisation L1 est la méthode la plus efficace pour filtrer le bruit des métadonnées de notre échantillon.",
                 "tab-h1": "Algorithme Évalué", "tab-h2": "Erreur d'Entraînement (RMSE)", "tab-h3": "Erreur de Test (RMSE)",
                 "tab-r1": "Régression Linéaire", "tab-r2": "Régression LASSO (L1)", "tab-r3": "Réseau de Neurones (MLP)",
@@ -796,19 +804,19 @@
                 "tldr-v2": "Rigorous comparison of 3 regression algorithms (Linear, Lasso, MLP) on a database of 5,369 movies from the TMDB dataset.",
                 "tldr-v3": "LASSO regularization outperforms complex neural networks, offering a margin of error of about 16 minutes on average.",
                 "metric-1": "Minutes error (RMSE)", "metric-2": "Movies analyzed", "metric-3": "Algorithms compared",
-                "toc-title": "Contents", "toc-1": "01. Context", "toc-2": "02. Methodology", "toc-3": "03.a Visualizations & Learning", "toc-3b": "03.b Performance Comparison", "toc-4": "04. Code & Data",
+                "toc-title": "Contents", "toc-1": "01. Context", "toc-2": "02. Methodology", "toc-3": "03. Results", "toc-4": "04. Code & Data",
                 "s1-title": "01. The Context",
                 "s1-p1": "A movie's runtime is a key factor in its production and distribution, directly influencing theater programming and audience engagement. The goal of this project is to explore predicting a movie's runtime (a continuous variable) based on its cinematic metadata: budget, revenue, genres, release year, language, and audience ratings.",
                 "s2-title": "02. Methodology",
                 "s2-b1": "Data Preparation:", "s2-t1": "Using 'The Movie Dataset' (TMDB) from Kaggle, filtered to 5,369 usable movies. Highly skewed distributions of budget and revenue were normalized using a logarithmic transformation.",
                 "s2-b2": "Encoding & Feature Engineering:", "s2-t2": "New variables were created by calculating the square of each quantitative feature to capture potential non-linear relationships. Complex categorical variables (multiple genres, countries) were transformed into binary columns (One-Hot Encoding).",
                 "s2-b3": "Modeling:", "s2-t3": "Implementation and comparison of three algorithms (standardized and evaluated via 5-fold cross-validation): standard Linear Regression, LASSO Regression (with L1 penalty), and an Artificial Neural Network (MLPRegressor).",
-                "s3-title": "03.a Visualizations & Learning",
+                "s3-title": "03. Visualizations & Performance",
                 "s3-p1": "The following figures trace the evolution of our visual data analysis: the initial distribution shows a very strong concentration of movie runtimes around the 100-minute mark (Fig. 1). Concurrently, the neural network's error curve (Fig. 3) illustrates the model's learning stabilization over iterations.",
                 "fig-1": "Fig 1. Target variable distribution (Movie runtimes in minutes)",
                 "fig-3": "Fig 3. Neural network learning and error (RMSE) curve",
                 "fig-2": "Fig 2. Scatter plots of predicted vs actual values (Linear Model, LASSO, and Neural Network)",
-                "s3-title2": "03.b Performance Comparison",
+                "s3-title2": "Performance Comparison",
                 "s3-p2": "The comparative table synthesizes the errors (RMSE) of each algorithm. The very small gap between training and testing error (about 1.6 minutes difference) indicates low variance. Counterintuitively, the neural network underperforms compared to LASSO Regression, confirming that L1 regularization is the most effective method for filtering noise from our sample's metadata.",
                 "tab-h1": "Evaluated Algorithm", "tab-h2": "Training Error (RMSE)", "tab-h3": "Testing Error (RMSE)",
                 "tab-r1": "Linear Regression", "tab-r2": "LASSO Regression (L1)", "tab-r3": "Neural Network (MLP)",
