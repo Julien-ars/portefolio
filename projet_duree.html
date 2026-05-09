@@ -273,19 +273,23 @@
         }
         body.theme-light .viz-caption { opacity: 0.95; }
 
-        /* --- LIGHTBOX --- */
+        /* --- LIGHTBOX (MODIFIÉE) --- */
         .lightbox {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: rgba(5, 5, 5, 0.95); z-index: 9999;
+            background-color: rgba(5, 5, 5, 0.85); /* Légèrement plus transparent pour voir le blur */
+            backdrop-filter: blur(8px); /* Ajout de l'effet verre dépoli */
+            -webkit-backdrop-filter: blur(8px); /* Support Safari */
+            z-index: 9999;
             display: flex; align-items: center; justify-content: center;
-            opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+            opacity: 0; pointer-events: none; 
+            transition: opacity 0.4s ease, backdrop-filter 0.4s ease; /* Transition adoucie */
             cursor: zoom-out; padding: 2rem;
         }
         .lightbox.active { opacity: 1; pointer-events: auto; }
         .lightbox img {
             max-width: 100%; max-height: 100%; object-fit: contain;
             border: 4px solid #F2EFE9; box-shadow: 0 0 30px rgba(0,0,0,0.5);
-            transform: scale(0.95); transition: transform 0.3s ease;
+            transform: scale(0.95); transition: transform 0.4s ease;
         }
         .lightbox.active img { transform: scale(1); }
 
@@ -353,6 +357,11 @@
             background: var(--text-color); color: var(--bg-color); 
             transform: translateY(-4px); box-shadow: 4px 4px 0px var(--text-color); 
         }
+        /* MODIFICATION : Ajout de l'accessibilité au clavier */
+        .btn-bottom:focus-visible {
+            outline: 3px dashed var(--text-color);
+            outline-offset: 4px;
+        }
 
         /* --- FOOTER --- */
         .site-footer {
@@ -361,7 +370,7 @@
             background-color: #050505; color: rgba(179, 102, 255, 0.4); margin-top: auto;
         }
 
-        /* --- ANIMATION SCROLL (LA CORRECTION EST ICI) --- */
+        /* --- ANIMATION SCROLL --- */
         .fade-in-section {
             opacity: 0;
             transform: translateY(40px);
@@ -658,7 +667,7 @@
 
     <div class="bottom-actions fade-in-section">
         <a href="projects.html" class="btn-bottom" data-i18n="btn-back-projects">← Tous les projets</a>
-        <a id="btn-back-top" class="btn-bottom" data-i18n="btn-back-top">Remonter en haut ↑</a>
+        <a id="btn-back-top" class="btn-bottom" data-i18n="btn-back-top">Retour en haut ↑</a>
     </div>
 
     <footer class="site-footer">
@@ -784,7 +793,8 @@
                 "f3-n": "Base de Données", "f3-t": "Dataset TMDB (Kaggle)", "f4-n": "Dictionnaire de Variables", "f4-t": "Codebook",
                 "next-label": "Projet Suivant", "next-title": "Colorimétrie du Cinéma", "next-desc": "Un ordinateur peut-il ressentir la couleur d'un film ? Découvrez comment j'ai modélisé et prédit les palettes de couleurs des affiches cinématographiques.", "next-btn": "Voir le projet →",
                 "btn-back-projects": "← Tous les projets",
-                "btn-back-top": "Remonter en haut ↑",
+                /* MODIFICATION : Changement du texte ci-dessous */
+                "btn-back-top": "Retour en haut ↑",
                 "footer-text": "© 2026 Julien Arsena. Tout le contenu (code, données, rapports) est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite."
             },
             "en": {
@@ -821,7 +831,7 @@
                 "f3-n": "Database", "f3-t": "TMDB Dataset (Kaggle)", "f4-n": "Variable Dictionary", "f4-t": "Codebook",
                 "next-label": "Next Project", "next-title": "Cinema Colorimetry", "next-desc": "Can a computer feel the color of a movie? Discover how I modeled and predicted color palettes of movie posters.", "next-btn": "View project →",
                 "btn-back-projects": "← All projects",
-                "btn-back-top": "Back to top ↑",
+                "btn-back-top": "Back to top ↑", /* Traduction anglaise modifiée pour être cohérente */
                 "footer-text": "© 2026 Julien Arsena. All content (code, data, reports) is provided for review purposes. Any reuse requires explicit attribution."
             }
         };
