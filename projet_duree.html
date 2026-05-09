@@ -87,7 +87,6 @@
         .lang-switch span { opacity: 0.4; transition: opacity 0.3s; cursor: pointer; }
         .lang-switch span.active, .lang-switch span:hover { opacity: 1; text-decoration: underline; }
 
-        /* Icône bicolore de Thème */
         .theme-btn { 
             background: none; border: none; cursor: pointer; display: flex; align-items: center; 
             justify-content: center; padding: 0.5rem; outline: none;
@@ -139,7 +138,7 @@
             border-radius: 50px; text-transform: uppercase; font-weight: 800;
         }
 
-        /* --- BANNIÈRE IMAGE (DÉGRISÉE) --- */
+        /* --- BANNIÈRE IMAGE --- */
         .project-banner {
             width: 100%; height: 50vh; min-height: 400px; border: 4px solid var(--text-color);
             margin-bottom: 3rem; overflow: hidden; position: relative;
@@ -149,7 +148,7 @@
 
         .project-banner img {
             width: 100%; height: 100%; object-fit: cover;
-            filter: grayscale(15%) contrast(105%); /* Plus naturel par défaut */
+            filter: grayscale(15%) contrast(105%);
             transition: filter 0.6s ease, transform 0.6s ease;
             position: relative; z-index: 2; 
         }
@@ -194,7 +193,6 @@
             background-color: var(--text-color); color: var(--bg-color);
         }
         .metric-value { font-family: 'Anton', sans-serif; font-size: 3.5rem; line-height: 1; margin-bottom: 0.5rem; }
-        
         .metric-label { font-weight: 600; font-size: 0.9rem; text-transform: uppercase; opacity: 0.8; }
         body.theme-light .metric-label { opacity: 1; }
 
@@ -203,7 +201,7 @@
             display: grid; grid-template-columns: 250px 1fr; gap: 4rem; align-items: start;
         }
 
-        /* SOMMAIRE LIQUIDE (TOC) */
+        /* Sommaire collant */
         .toc { position: sticky; top: 2rem; }
         
         .toc-title {
@@ -215,13 +213,11 @@
             display: flex; flex-direction: column; gap: 1.2rem; position: relative; padding-left: 2px;
         }
         
-        /* Ligne grise de fond pour la jauge */
         .toc-nav::before {
             content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
             background-color: var(--text-color); opacity: 0.15;
         }
         
-        /* Curseur mobile noir */
         .toc-indicator {
             position: absolute; left: 0; top: 0; width: 3px; background-color: var(--text-color);
             transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), height 0.3s ease;
@@ -234,43 +230,42 @@
         }
         
         .toc-link:hover { opacity: 0.8; padding-left: 1.5rem; }
-        
-        /* État actif */
         .toc-link.active { opacity: 1; padding-left: 1.5rem; }
         
-        /* État actif en thème blanc (Plus foncé et gras) */
         body.theme-light .toc-link { opacity: 0.5; }
         body.theme-light .toc-link.active { opacity: 1; font-weight: 800; color: #1A1A1A; }
 
         /* --- SECTIONS TEXTUELLES --- */
         .project-content { display: flex; flex-direction: column; gap: 4rem; }
-        
         .content-section { scroll-margin-top: 2rem; }
-        
-        .content-title {
-            font-family: 'Anton', sans-serif; font-size: 2.5rem; text-transform: uppercase; margin-bottom: 1.5rem;
-        }
-
+        .content-title { font-family: 'Anton', sans-serif; font-size: 2.5rem; text-transform: uppercase; margin-bottom: 1.5rem; }
         .content-text { font-size: 1.15rem; line-height: 1.8; font-weight: 500; margin-bottom: 1.5rem; }
 
+        /* CORRECTION: Alignement parfait des flèches avec Flexbox */
         .styled-list { list-style: none; padding-left: 0; }
         .styled-list li {
-            padding-left: 2.5rem; margin-bottom: 1.5rem; position: relative; font-size: 1.15rem; line-height: 1.8; font-weight: 500;
+            display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.5rem; 
+            font-size: 1.15rem; line-height: 1.8; font-weight: 500;
         }
         .styled-list li::before {
-            content: "→"; position: absolute; left: 0; top: -2px; font-family: 'Anton', sans-serif; font-size: 1.5rem; font-weight: bold;
+            content: "→"; 
+            font-family: 'Anton', sans-serif; font-size: 1.5rem; font-weight: bold;
+            color: var(--text-color); line-height: 1.4; margin-top: -2px; /* Ajustement optique */
         }
 
-        /* --- GRILLE VISUELLE --- */
+        /* --- GRILLE VISUELLE & LIGHTBOX (NOUVEAU) --- */
         .viz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-top: 2rem; }
         .span-full { grid-column: 1 / -1; }
         .viz-card { display: flex; flex-direction: column; gap: 1rem; }
+        
         .viz-img-container {
             border: 4px solid var(--text-color); background-color: #fff; padding: 1.5rem; 
             transition: transform 0.3s ease, box-shadow 0.3s ease; height: 100%; display: flex; flex-direction: column; justify-content: center;
         }
         .viz-img-container:hover { transform: translate(-5px, -5px); box-shadow: 12px 12px 0px var(--text-color); }
-        .viz-img { width: 100%; height: auto; display: block; }
+        
+        /* Curseur zoom pour les images */
+        .viz-img { width: 100%; height: auto; display: block; cursor: zoom-in; }
         
         .viz-caption {
             font-family: 'Inter', sans-serif; font-size: 0.95rem; font-style: italic; font-weight: 600;
@@ -278,23 +273,31 @@
         }
         body.theme-light .viz-caption { opacity: 0.95; }
 
-        /* --- TABLEAU --- */
-        .table-wrapper {
-            border: 4px solid var(--text-color); background-color: transparent; transition: transform 0.3s ease, box-shadow 0.3s ease; overflow-x: auto;
+        /* --- LIGHTBOX (Plein Écran) --- */
+        .lightbox {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: rgba(5, 5, 5, 0.95); z-index: 9999;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+            cursor: zoom-out; padding: 2rem;
         }
+        .lightbox.active { opacity: 1; pointer-events: auto; }
+        .lightbox img {
+            max-width: 100%; max-height: 100%; object-fit: contain;
+            border: 4px solid #F2EFE9; box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            transform: scale(0.95); transition: transform 0.3s ease;
+        }
+        .lightbox.active img { transform: scale(1); }
+
+        /* --- TABLEAU --- */
+        .table-wrapper { border: 4px solid var(--text-color); background-color: transparent; transition: transform 0.3s ease, box-shadow 0.3s ease; overflow-x: auto; }
         .table-wrapper:hover { transform: translate(-5px, -5px); box-shadow: 12px 12px 0px var(--text-color); }
         .styled-table-pro { width: 100%; border-collapse: collapse; }
-        .styled-table-pro th, .styled-table-pro td {
-            padding: 1.2rem; text-align: center; border-bottom: 2px solid var(--text-color); border-right: 2px solid var(--text-color);
-        }
+        .styled-table-pro th, .styled-table-pro td { padding: 1.2rem; text-align: center; border-bottom: 2px solid var(--text-color); border-right: 2px solid var(--text-color); }
         .styled-table-pro th:last-child, .styled-table-pro td:last-child { border-right: none; }
         .styled-table-pro tr:last-child td { border-bottom: none; }
-        .styled-table-pro th {
-            font-family: 'Anton', sans-serif; font-size: 1.3rem; text-transform: uppercase; background-color: var(--text-color); color: var(--bg-color); letter-spacing: 1px;
-        }
-        .styled-table-pro td {
-            font-family: 'Inter', sans-serif; font-weight: 800; font-size: 1.2rem; color: var(--text-color); transition: background-color 0.2s ease;
-        }
+        .styled-table-pro th { font-family: 'Anton', sans-serif; font-size: 1.3rem; text-transform: uppercase; background-color: var(--text-color); color: var(--bg-color); letter-spacing: 1px; }
+        .styled-table-pro td { font-family: 'Inter', sans-serif; font-weight: 800; font-size: 1.2rem; color: var(--text-color); transition: background-color 0.2s ease; }
         .styled-table-pro td:first-child { text-align: left; text-transform: uppercase; font-size: 1.1rem; }
         .styled-table-pro tr:hover td { background-color: rgba(0, 0, 0, 0.05); }
         body.theme-light .styled-table-pro tr:hover td { background-color: rgba(255, 255, 255, 0.3); }
@@ -307,27 +310,21 @@
             border: 3px solid var(--text-color); padding: 1.5rem; display: flex; flex-direction: column; justify-content: center; align-items: center;
             text-align: center; text-decoration: none; color: var(--text-color); transition: all 0.3s ease; background-color: transparent;
         }
-        .file-card:hover {
-            transform: translate(-5px, -5px); box-shadow: 8px 8px 0px var(--text-color); background-color: var(--text-color); color: var(--bg-color);
-        }
+        .file-card:hover { transform: translate(-5px, -5px); box-shadow: 8px 8px 0px var(--text-color); background-color: var(--text-color); color: var(--bg-color); }
         .file-icon { font-family: 'Anton', sans-serif; font-size: 3rem; margin-bottom: 0.5rem; }
         .file-name { font-weight: 800; font-size: 1rem; text-transform: uppercase; }
         .file-type { font-size: 0.8rem; opacity: 0.8; margin-top: 0.5rem; }
 
         /* --- CONCLUSION HIGHLIGHT --- */
-        .conclusion-box {
-            background-color: var(--text-color); color: var(--bg-color); padding: 2.5rem; border: 4px solid var(--text-color); margin: 3rem 0;
-        }
+        .conclusion-box { background-color: var(--text-color); color: var(--bg-color); padding: 2.5rem; border: 4px solid var(--text-color); margin: 3rem 0; }
         .conclusion-box .content-text { color: var(--bg-color); font-size: 1.2rem; margin-bottom: 0; }
 
-        /* --- PROJET SUIVANT (VIOLET SUR THÈME CLAIR) --- */
+        /* --- PROJET SUIVANT --- */
         .next-project {
             background-color: var(--text-color); color: var(--bg-color); padding: 3rem; margin-top: 5rem; border: 4px solid var(--text-color);
             transition: all 0.5s ease;
         }
-        
         body.theme-light .next-project { color: #b366ff; }
-
         .next-project-title { font-family: 'Anton', sans-serif; font-size: 1.2rem; text-transform: uppercase; margin-bottom: 1rem; opacity: 0.7; }
         .next-project-name { font-family: 'Anton', sans-serif; font-size: 2.5rem; text-transform: uppercase; margin-bottom: 1rem; line-height: 1.1; }
         .next-project-desc { font-size: 1.1rem; margin-bottom: 2rem; font-weight: 600; opacity: 0.9; }
@@ -340,16 +337,11 @@
             background-color: var(--bg-color); color: var(--text-color); 
             transform: translate(-3px, -3px); box-shadow: 6px 6px 0px var(--bg-color); 
         }
-
         body.theme-light .next-project-btn { color: #b366ff; border-color: #b366ff; }
-        body.theme-light .next-project-btn:hover {
-            background-color: #b366ff; color: var(--text-color); box-shadow: 6px 6px 0px #b366ff;
-        }
+        body.theme-light .next-project-btn:hover { background-color: #b366ff; color: var(--text-color); box-shadow: 6px 6px 0px #b366ff; }
 
         /* --- BOUTON RETOUR EN HAUT CENTRÉ --- */
-        .back-to-top-wrapper {
-            text-align: center; padding: 4rem 0 3rem 0; position: relative; z-index: 50; width: 100%;
-        }
+        .back-to-top-wrapper { text-align: center; padding: 4rem 0 3rem 0; position: relative; z-index: 50; width: 100%; }
         .btn-back-top {
             display: inline-block; color: var(--text-color); border: 2px solid var(--text-color); 
             padding: 0.7rem 1.8rem; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 0.85rem; 
@@ -366,17 +358,15 @@
         }
 
         /* ANIMATION SCROLL */
-        .fade-in-section {
-            opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; will-change: opacity, visibility;
-        }
+        .fade-in-section { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; will-change: opacity, visibility; }
         .fade-in-section.is-visible { opacity: 1; transform: none; }
 
-        /* --- RESPONSIVE DESIGN --- */
+        /* --- OPTIMISATION MOBILE / TABLETTE --- */
         @media (max-width: 968px) {
             .tldr-grid { grid-template-columns: 1fr; gap: 1.5rem; }
             .key-metrics { grid-template-columns: 1fr; }
             .project-layout { grid-template-columns: 1fr; gap: 2rem; }
-            .toc { display: none; }
+            .toc { display: none; } /* Caché sur tablette/mobile */
             .project-banner { height: 35vh; min-height: 250px; }
         }
 
@@ -384,15 +374,28 @@
             header { flex-direction: column; gap: 1.5rem; padding: 1.5rem 1rem; }
             .header-left { flex-direction: column; gap: 1rem; text-align: center; }
             .main-nav { flex-wrap: wrap; justify-content: center; }
-            .main-title { font-size: 3rem; }
-            .project-catchphrase { font-size: 1.2rem; }
-            .content-title { font-size: 2rem; }
-            .viz-grid { grid-template-columns: 1fr; }
+            .container { padding: 2rem 1rem; }
+            
+            /* Réduction des tailles pour mobile */
+            .main-title { font-size: 2.8rem; }
+            .project-catchphrase { font-size: 1.1rem; }
+            .tldr-box { padding: 1.5rem; }
+            .tldr-title { font-size: 1.5rem; }
+            .metric-card { padding: 1.5rem 1rem; }
             .metric-value { font-size: 2.5rem; }
-            .next-project-name { font-size: 2rem; }
+            
+            .content-title { font-size: 1.8rem; }
+            .content-text { font-size: 1.05rem; }
+            .styled-list li { font-size: 1.05rem; }
+            
+            .viz-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .viz-img-container { padding: 1rem; }
+            
+            .next-project { padding: 2rem 1.5rem; margin-top: 3rem; }
+            .next-project-name { font-size: 1.8rem; }
+            
             .styled-table-pro th, .styled-table-pro td { font-size: 1rem; padding: 0.8rem; }
             .styled-table-pro td:first-child { font-size: 0.9rem; }
-            .container { padding: 2rem 1rem; }
         }
     </style>
 </head>
@@ -496,7 +499,8 @@
                     <div class="toc-indicator" id="toc-indicator"></div>
                     <a href="#contexte" class="toc-link" data-i18n="toc-1">01. Contexte</a>
                     <a href="#methodologie" class="toc-link" data-i18n="toc-2">02. Méthodologie</a>
-                    <a href="#resultats" class="toc-link" data-i18n="toc-3">03. Résultats</a>
+                    <a href="#resultats" class="toc-link" data-i18n="toc-3">03.a Visualisations & Apprentissage</a>
+                    <a href="#performances" class="toc-link" data-i18n="toc-3b">03.b Performances Comparées</a>
                     <a href="#code" class="toc-link" data-i18n="toc-4">04. Code & Data</a>
                 </nav>
             </div>
@@ -515,6 +519,7 @@
                 <!-- SECTION 02 -->
                 <div id="methodologie" class="content-section fade-in-section">
                     <h2 class="content-title" data-i18n="s2-title">02. La Méthodologie</h2>
+                    <!-- Liste avec flexbox pour alignement parfait -->
                     <ul class="styled-list">
                         <li><strong data-i18n="s2-b1">Préparation des données :</strong> <span data-i18n="s2-t1">Utilisation de la base de données "The Movie Dataset" (TMDB) provenant de Kaggle, filtrée pour obtenir 5 369 films exploitables. Les distributions très asymétriques du budget et des revenus ont été normalisées à l'aide d'une transformation logarithmique.</span></li>
                         
@@ -524,9 +529,9 @@
                     </ul>
                 </div>
 
-                <!-- SECTION 03 -->
+                <!-- SECTION 03.a -->
                 <div id="resultats" class="content-section fade-in-section">
-                    <h2 class="content-title" data-i18n="s3-title">03. Visualisations & Performances</h2>
+                    <h2 class="content-title" data-i18n="s3-title">03.a Visualisations & Apprentissage</h2>
                     <p class="content-text" data-i18n="s3-p1">
                         Les figures suivantes retracent l'évolution de l'analyse visuelle de nos données : la distribution initiale montre une très forte concentration des durées de films autour de la barre des 100 minutes (Fig. 1). En parallèle, la courbe d'erreur du réseau de neurones (Fig. 3) illustre la stabilisation de l'apprentissage du modèle au fil des itérations.
                     </p>
@@ -534,27 +539,30 @@
                     <div class="viz-grid">
                         <div class="viz-card">
                             <div class="viz-img-container">
-                                <img src="graphique_duree_1.png" alt="Distribution de la durée" class="viz-img">
+                                <img src="graphique_duree_1.png" alt="Distribution de la durée" class="viz-img" title="Cliquez pour agrandir">
                             </div>
                             <p class="viz-caption" data-i18n="fig-1">Fig 1. Distribution de la variable cible (Durée des films en minutes)</p>
                         </div>
                         
                         <div class="viz-card">
                             <div class="viz-img-container">
-                                <img src="graphique_duree_3.png" alt="Courbe d'erreur" class="viz-img">
+                                <img src="graphique_duree_3.png" alt="Courbe d'erreur" class="viz-img" title="Cliquez pour agrandir">
                             </div>
                             <p class="viz-caption" data-i18n="fig-3">Fig 3. Courbe d'apprentissage et d'erreur (RMSE) du réseau de neurones</p>
                         </div>
 
                         <div class="viz-card span-full">
                             <div class="viz-img-container">
-                                <img src="graphique_duree_2.png" alt="Comparaison des modèles" class="viz-img">
+                                <img src="graphique_duree_2.png" alt="Comparaison des modèles" class="viz-img" title="Cliquez pour agrandir">
                             </div>
                             <p class="viz-caption" data-i18n="fig-2">Fig 2. Nuages de points des valeurs prédites par rapport aux valeurs réelles (Modèle Linéaire, LASSO et Réseau de Neurones)</p>
                         </div>
                     </div>
-
-                    <h2 class="content-title" style="margin-top: 4rem;" data-i18n="s3-title2">03.b Performances Comparées</h2>
+                </div>
+                
+                <!-- SECTION 03.b -->
+                <div id="performances" class="content-section fade-in-section">
+                    <h2 class="content-title" data-i18n="s3-title2">03.b Performances Comparées</h2>
                     <p class="content-text" data-i18n="s3-p2">
                         Le tableau comparatif synthétise les erreurs (RMSE) de chaque algorithme. L'écart très réduit entre l'erreur d'entraînement et l'erreur de test (environ 1.6 minutes d'écart) indique une variance faible. De manière contre-intuitive, le réseau de neurones sous-performe face à la Régression LASSO, confirmant que la régularisation L1 est la méthode la plus efficace pour filtrer le bruit des métadonnées de notre échantillon.
                     </p>
@@ -632,7 +640,7 @@
             </div>
         </div>
 
-        <!-- PROJET SUIVANT (Modifié pour le thème clair) -->
+        <!-- PROJET SUIVANT -->
         <div class="next-project fade-in-section">
             <div class="next-project-title" data-i18n="next-label">Projet Suivant</div>
             <div class="next-project-name" data-i18n="next-title">Colorimétrie du Cinéma</div>
@@ -654,7 +662,6 @@
     <script>
         // --- MÉMOIRE GLOBALE : THÈME ET LANGUE ---
         
-        // GESTION DU THÈME
         const themeToggleBtn = document.getElementById('theme-toggle');
         const body = document.body;
         
@@ -667,7 +674,6 @@
             localStorage.setItem('theme', body.classList.contains('theme-light') ? 'light' : '');
         });
 
-        // GESTION DE LA LANGUE
         let currentLang = localStorage.getItem('lang') || 'fr';
 
         // --- ANIMATION SCROLL & SURBRILLANCE DU SOMMAIRE ---
@@ -692,7 +698,6 @@
             const sections = document.querySelectorAll('.content-section');
             const tocIndicator = document.getElementById('toc-indicator');
             
-            // Initialisation de la position du curseur
             if(tocLinks.length > 0) {
                 tocIndicator.style.transform = `translateY(${tocLinks[0].offsetTop}px)`;
                 tocIndicator.style.height = `${tocLinks[0].offsetHeight}px`;
@@ -706,7 +711,6 @@
                         
                         if(activeLink) {
                             activeLink.classList.add('active');
-                            // Déplacement fluide de la jauge noire
                             tocIndicator.style.transform = `translateY(${activeLink.offsetTop}px)`;
                             tocIndicator.style.height = `${activeLink.offsetHeight}px`;
                         }
@@ -716,13 +720,32 @@
 
             sections.forEach(section => tocObserver.observe(section));
 
-            // On applique la langue au chargement
             setLanguage(currentLang);
         });
 
         // RETOUR EN HAUT (Scroll doux)
         document.getElementById('btn-back-top').addEventListener('click', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // --- LIGHTBOX POUR LES IMAGES ---
+        const lightbox = document.createElement('div');
+        lightbox.className = 'lightbox';
+        const lightboxImg = document.createElement('img');
+        lightbox.appendChild(lightboxImg);
+        document.body.appendChild(lightbox);
+
+        document.querySelectorAll('.viz-img').forEach(image => {
+            image.addEventListener('click', () => {
+                lightboxImg.src = image.src;
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Empêche le scroll en arrière plan
+            });
+        });
+
+        lightbox.addEventListener('click', () => {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
         });
 
         // --- SYSTÈME DE TRADUCTION ---
@@ -737,14 +760,14 @@
                 "tldr-v2": "Comparaison rigoureuse de 3 algorithmes de régression (Linéaire, Lasso, MLP) sur une base de 5 369 films tirée du dataset TMDB.",
                 "tldr-v3": "La régularisation LASSO surpasse les réseaux de neurones complexes, offrant une marge d'erreur d'environ 16 minutes en moyenne.",
                 "metric-1": "Minutes d'erreur (RMSE)", "metric-2": "Films analysés", "metric-3": "Algorithmes comparés",
-                "toc-title": "Sommaire", "toc-1": "01. Contexte", "toc-2": "02. Méthodologie", "toc-3": "03. Résultats", "toc-4": "04. Code & Data",
+                "toc-title": "Sommaire", "toc-1": "01. Contexte", "toc-2": "02. Méthodologie", "toc-3": "03.a Visualisations & Apprentissage", "toc-3b": "03.b Performances Comparées", "toc-4": "04. Code & Data",
                 "s1-title": "01. Le Contexte",
                 "s1-p1": "La durée d'un film est un facteur clé de sa production et de sa distribution, influençant directement la programmation des salles de cinéma et l'engagement du public. L'objectif de ce projet est d'explorer la prédiction de la durée d'un film (une variable continue) en se basant sur ses métadonnées cinématographiques : le budget, les revenus, les genres, l'année de sortie, la langue ou encore les notes du public.",
                 "s2-title": "02. La Méthodologie",
                 "s2-b1": "Préparation des données :", "s2-t1": "Utilisation de la base de données \"The Movie Dataset\" (TMDB) provenant de Kaggle, filtrée pour obtenir 5 369 films exploitables. Les distributions très asymétriques du budget et des revenus ont été normalisées à l'aide d'une transformation logarithmique.",
                 "s2-b2": "Encodage et ingénierie :", "s2-t2": "Nouvelles variables créées en calculant le carré de chaque caractéristique quantitative pour capturer de potentielles relations non linéaires. Les variables catégorielles complexes (genres multiples, pays) ont été transformées en colonnes binaires (One-Hot Encoding).",
                 "s2-b3": "Modélisation :", "s2-t3": "Implémentation et comparaison de trois algorithmes (standardisés et évalués via une validation croisée à 5 plis) : Régression Linéaire classique, Régression LASSO (avec pénalisation L1), et Réseau de Neurones artificiels (MLPRegressor).",
-                "s3-title": "03. Visualisations & Performances",
+                "s3-title": "03.a Visualisations & Apprentissage",
                 "s3-p1": "Les figures suivantes retracent l'évolution de l'analyse visuelle de nos données : la distribution initiale montre une très forte concentration des durées de films autour de la barre des 100 minutes (Fig. 1). En parallèle, la courbe d'erreur du réseau de neurones (Fig. 3) illustre la stabilisation de l'apprentissage du modèle au fil des itérations.",
                 "fig-1": "Fig 1. Distribution de la variable cible (Durée des films en minutes)",
                 "fig-3": "Fig 3. Courbe d'apprentissage et d'erreur (RMSE) du réseau de neurones",
@@ -773,14 +796,14 @@
                 "tldr-v2": "Rigorous comparison of 3 regression algorithms (Linear, Lasso, MLP) on a database of 5,369 movies from the TMDB dataset.",
                 "tldr-v3": "LASSO regularization outperforms complex neural networks, offering a margin of error of about 16 minutes on average.",
                 "metric-1": "Minutes error (RMSE)", "metric-2": "Movies analyzed", "metric-3": "Algorithms compared",
-                "toc-title": "Contents", "toc-1": "01. Context", "toc-2": "02. Methodology", "toc-3": "03. Results", "toc-4": "04. Code & Data",
+                "toc-title": "Contents", "toc-1": "01. Context", "toc-2": "02. Methodology", "toc-3": "03.a Visualizations & Learning", "toc-3b": "03.b Performance Comparison", "toc-4": "04. Code & Data",
                 "s1-title": "01. The Context",
                 "s1-p1": "A movie's runtime is a key factor in its production and distribution, directly influencing theater programming and audience engagement. The goal of this project is to explore predicting a movie's runtime (a continuous variable) based on its cinematic metadata: budget, revenue, genres, release year, language, and audience ratings.",
                 "s2-title": "02. Methodology",
                 "s2-b1": "Data Preparation:", "s2-t1": "Using 'The Movie Dataset' (TMDB) from Kaggle, filtered to 5,369 usable movies. Highly skewed distributions of budget and revenue were normalized using a logarithmic transformation.",
                 "s2-b2": "Encoding & Feature Engineering:", "s2-t2": "New variables were created by calculating the square of each quantitative feature to capture potential non-linear relationships. Complex categorical variables (multiple genres, countries) were transformed into binary columns (One-Hot Encoding).",
                 "s2-b3": "Modeling:", "s2-t3": "Implementation and comparison of three algorithms (standardized and evaluated via 5-fold cross-validation): standard Linear Regression, LASSO Regression (with L1 penalty), and an Artificial Neural Network (MLPRegressor).",
-                "s3-title": "03. Visualizations & Performance",
+                "s3-title": "03.a Visualizations & Learning",
                 "s3-p1": "The following figures trace the evolution of our visual data analysis: the initial distribution shows a very strong concentration of movie runtimes around the 100-minute mark (Fig. 1). Concurrently, the neural network's error curve (Fig. 3) illustrates the model's learning stabilization over iterations.",
                 "fig-1": "Fig 1. Target variable distribution (Movie runtimes in minutes)",
                 "fig-3": "Fig 3. Neural network learning and error (RMSE) curve",
