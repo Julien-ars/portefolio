@@ -124,7 +124,7 @@
         .skill-tag { border: 2px solid var(--text-color); padding: 0.5rem 1.2rem; font-family: 'Anton', sans-serif; font-size: 1.2rem; text-transform: uppercase; border-radius: 50px; transition: all 0.3s ease; background-color: transparent; color: var(--text-color); cursor: default; }
         .skill-tag:hover { background-color: var(--text-color); color: var(--bg-color); transform: translate(-3px, -3px); box-shadow: 4px 4px 0px var(--text-color); }
 
-        /* --- SÉQUENCE HORIZONTALE GALERIE D'ART --- */
+        /* --- SÉQUENCE HORIZONTALE WODNIACK STRETCH (PROPRE) --- */
         .scroll-sequence { height: 500vh; position: relative; background-color: transparent; margin-bottom: 0; z-index: 5; }
         .scroll-sticky { position: sticky; top: 0; height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center; overflow: hidden; background-color: transparent; }
 
@@ -161,69 +161,53 @@
         .h-scroll-bg-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300vw; text-align: center; font-size: 25vw; line-height: 0.8; color: #2E004F; z-index: 1; pointer-events: none; white-space: nowrap; will-change: transform, opacity; }
         .h-scroll-fg-text { position: absolute; top: 70%; left: 50%; transform: translate(-50%, -50%); width: 300vw; text-align: center; font-size: 10vw; color: transparent; -webkit-text-stroke: 2px rgba(255, 255, 255, 0.15); z-index: 20; pointer-events: none; white-space: nowrap; will-change: transform, opacity; }
 
-        /* Conteneur principal */
+        /* Conteneur principal avec gap fixe pour éviter le chevauchement */
         .h-scroll-container {
             display: flex; align-items: center; 
-            gap: 0; /* Pas de gap global, on gère l'espacement et le chevauchement via margin-left */
+            gap: 4vw; /* Espace net entre les cartes */
             padding: 0 45vw; position: absolute; left: 0; top: 0; height: 100vh;
             width: max-content; will-change: transform, opacity; z-index: 15; pointer-events: none; 
         }
 
-        /* --- CARTES : RECTANGLES PARFAITS & CHEVAUCHEMENT MAÎTRISÉ --- */
+        /* --- CARTES : TOUTES RECTANGULAIRES, MÊME TAILLE --- */
         .h-card {
             flex: 0 0 auto; background-color: transparent; text-decoration: none; display: flex; flex-direction: column;
+            width: 32vw; min-width: 300px; max-width: 500px; 
             will-change: transform; position: relative;
             transform: translateY(var(--y-base, 0vh));
-            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), z-index 0s;
-            /* Z-index de base pour que la droite passe au dessus de la gauche */
-            z-index: 1; 
+            /* Point d'origine au centre pour que l'étirement se fasse proprement */
+            transform-origin: center center;
         }
 
-        /* Le chevauchement contrôlé (la carte de droite mord légèrement sur celle de gauche) */
-        .h-card + .h-card { margin-left: -3vw; }
+        /* Alternance douce de la hauteur */
+        .h-card:nth-child(odd) { --y-base: -4vh; }
+        .h-card:nth-child(even) { --y-base: 4vh; }
 
-        /* 1. Carte Standard Large */
-        .h-card:nth-child(4n+1) { width: 35vw; min-width: 320px; max-width: 500px; --y-base: -4vh; z-index: 2; }
-        .h-card:nth-child(4n+1) .h-card-img-wrapper { aspect-ratio: 16 / 10; }
+        .h-card-inner { 
+            display: flex; flex-direction: column; width: 100%;
+            /* C'est ce bloc qui va être étiré dynamiquement par le JS */
+            will-change: transform; transform-origin: center center;
+        }
         
-        /* 2. Carte Portrait (Plus haute) */
-        .h-card:nth-child(4n+2) { width: 25vw; min-width: 250px; max-width: 350px; --y-base: 8vh; z-index: 3; }
-        .h-card:nth-child(4n+2) .h-card-img-wrapper { aspect-ratio: 3 / 4; }
-
-        /* 3. Carte Cinéma (Très Large) */
-        .h-card:nth-child(4n+3) { width: 42vw; min-width: 400px; max-width: 600px; --y-base: -2vh; z-index: 4; }
-        .h-card:nth-child(4n+3) .h-card-img-wrapper { aspect-ratio: 16 / 9; }
-
-        /* 4. Carte Carrée (Bas) */
-        .h-card:nth-child(4n+4) { width: 28vw; min-width: 280px; max-width: 400px; --y-base: -8vh; z-index: 5; }
-        .h-card:nth-child(4n+4) .h-card-img-wrapper { aspect-ratio: 1 / 1; }
-
-        .h-card-inner { display: flex; flex-direction: column; width: 100%; }
-        
-        /* Cadre rigide et ombragé pour donner de la profondeur aux chevauchements */
+        /* Conteneur image 16/9 strictement respecté */
         .h-card-img-wrapper { 
-            width: 100%; height: auto; overflow: hidden; position: relative; 
-            background: #111; border-radius: 6px;
-            box-shadow: -10px 15px 35px rgba(0,0,0,0.6); /* Ombre portée directionnelle */
-            border: 1px solid rgba(255,255,255,0.1);
-            transition: box-shadow 0.4s ease, filter 0.4s ease;
+            width: 100%; aspect-ratio: 16 / 9; overflow: hidden; position: relative; 
+            background: #111; border-radius: 4px; border: 2px solid rgba(255,255,255,0.8);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5); 
         }
         
         .h-card img { 
-            width: 100%; height: 100%; object-fit: cover; filter: grayscale(15%); 
-            /* L'image est légèrement plus grande pour permettre le glissement parallax interne */
-            transform: scale(1.25);
-            will-change: transform; transition: filter 0.5s ease; 
+            width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%); 
+            transition: filter 0.5s ease; 
         }
         
         .h-card-info { padding-top: 1.2rem; text-align: left; }
         .h-card h3 { font-size: 1.5rem; margin-bottom: 0.5rem; line-height: 1.2; font-family: 'Inter', sans-serif; font-weight: 700; letter-spacing: -0.5px; text-transform: uppercase; color: #fff; transition: color 0.3s ease; }
         .h-card-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; font-family: 'Inter', sans-serif; }
-        .h-card-tags .tag { border: 1px solid rgba(255,255,255,0.2); padding: 0.2rem 0.5rem; font-size: 0.7rem; border-radius: 50px; text-transform: uppercase; font-weight: 600; color: rgba(255,255,255,0.7); backdrop-filter: blur(5px); }
+        .h-card-tags .tag { border: 1px solid rgba(255,255,255,0.3); padding: 0.2rem 0.5rem; font-size: 0.7rem; border-radius: 50px; text-transform: uppercase; font-weight: 600; color: rgba(255,255,255,0.8); }
 
-        /* Effet de survol : La carte passe au premier plan et s'illumine */
-        .h-card:hover { z-index: 100 !important; transform: translateY(calc(var(--y-base) - 10px)); }
-        .h-card:hover .h-card-img-wrapper { box-shadow: -15px 25px 45px rgba(0,0,0,0.8); filter: brightness(1.1); }
+        /* Effet de survol */
+        .h-card:hover .h-card-img-wrapper { box-shadow: 0 20px 45px rgba(0,0,0,0.8); border-color: #fff; }
         .h-card:hover img { filter: grayscale(0%); }
         .h-card:hover h3 { color: #b366ff; }
         
@@ -276,10 +260,8 @@
             .gate-text { font-size: 12vw; }
             .gate-crosshair, .topo-bg { display: none; }
             
-            .h-scroll-container { padding: 0 10vw; gap: 5vw; } 
-            /* Sur mobile, on enlève le chevauchement (marge négative) pour ne pas étouffer l'écran */
-            .h-card + .h-card { margin-left: 0; }
-            .h-card:nth-child(n) { width: 80vw; min-width: unset; max-width: unset; --y-base: 0; } 
+            .h-scroll-container { padding: 0 10vw; gap: 8vw; } 
+            .h-card { width: 80vw; min-width: unset; max-width: unset; --y-base: 0; } 
             .h-card-spacer { width: 10vw; }
             .intro-box { padding: 1.5rem; }
         }
@@ -678,7 +660,7 @@
             }
         }
 
-        // --- MOTEUR DE DÉFILEMENT PARALLAX INTERNE (ÉDITORIAL CLEAN) ---
+        // --- MOTEUR DE DÉFILEMENT (EFFET STRETCH WODNIACK) ---
         const seq = document.getElementById('scroll-sequence');
         const clipBox = document.getElementById('clip-box');
         const gateText = document.getElementById('gate-text');
@@ -749,26 +731,38 @@
             if(bgText) bgText.style.transform = `translate(-50%, -50%) translateX(${currentP * 20}vw)`;
             if(fgText) fgText.style.transform = `translate(-50%, -50%) translateX(-${currentP * 40}vw)`;
 
-            // --- L'EFFET PARALLAX INTERNE (PROPRE ET RECTANGULAIRE) ---
+            // --- L'EFFET D'ÉTIREMENT SUR LES BORDS (WODNIACK STYLE) ---
             if (contentOp > 0.1) {
                 const screenCenter = window.innerWidth / 2;
+                // Ajuster l'intensité de l'étirement ici
+                const maxStretch = window.innerWidth > 768 ? 0.7 : 0.2; 
 
                 cards.forEach((card) => {
                     const cardRect = card.getBoundingClientRect();
                     const cardCenter = cardRect.left + (cardRect.width / 2);
                     const distanceFromCenter = cardCenter - screenCenter;
                     
-                    // Normalisation de la distance (entre -1 et 1)
-                    let normalizedDist = distanceFromCenter / window.innerWidth;
+                    // Normalisation de la distance pour savoir si la carte est au bord ou au centre
+                    let normalizedDist = distanceFromCenter / (window.innerWidth / 1.5);
                     normalizedDist = Math.max(-1, Math.min(1, normalizedDist));
+                    
+                    // Courbe lisse (l'effet s'accélère vers les bords)
+                    let easeDist = Math.pow(Math.abs(normalizedDist), 2);
 
-                    // Mouvement subtil de l'image à l'intérieur du cadre (fenêtre parallax)
-                    const img = card.querySelector('img');
-                    if (img) {
-                        // Le scale(1.25) dans le CSS permet de bouger l'image sans révéler les bords
-                        let parallaxX = normalizedDist * -20; // L'image bouge à l'opposé du scroll
-                        img.style.transform = `scale(1.25) translateX(${parallaxX}%)`;
+                    // Calcul des distorsions
+                    let stretchX = 1 + (easeDist * maxStretch); // S'étire horizontalement
+                    let scaleAll = 1 - (easeDist * 0.15); // Rétrécit très légèrement globalement pour l'effet "zoom out"
+
+                    let yBase = getComputedStyle(card).getPropertyValue('--y-base').trim();
+
+                    // On applique la distorsion à l'intérieur de la carte
+                    const inner = card.querySelector('.h-card-inner');
+                    if(inner) {
+                        inner.style.transform = `scaleX(${stretchX}) scaleY(${scaleAll})`;
                     }
+                    
+                    // On maintient la carte à sa hauteur alternée de base
+                    card.style.transform = `translateY(${yBase})`;
                 });
             }
 
