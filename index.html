@@ -67,31 +67,36 @@
                 linear-gradient(90deg, rgba(0, 0, 0, 0.7) 1px, transparent 1px);
         }
 
-        /* --- HEADER --- */
+        /* --- HEADER RESPONSIVE --- */
         header {
-            display: flex; justify-content: space-between; align-items: center;
+            display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
             padding: 1.5rem 2rem; border-bottom: 2px solid var(--text-color); position: relative; z-index: 100;
+            gap: 1rem;
         }
-        .header-left { display: flex; align-items: center; gap: 3rem; }
+        .header-left { display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; }
         
+        /* Logo cliquable */
         .logo { 
             font-size: 1.5rem; text-transform: uppercase; letter-spacing: 1px; 
             text-decoration: none; color: var(--text-color); transition: opacity 0.3s ease;
+            white-space: nowrap;
         }
         .logo:hover { opacity: 0.7; }
 
-        .main-nav { display: flex; gap: 0.5rem; }
+        .main-nav { display: flex; gap: 0.5rem; flex-wrap: wrap; }
         .main-nav a {
             font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem; text-transform: uppercase; 
             text-decoration: none; color: var(--text-color); padding: 0.5rem 1rem; border: 2px solid transparent; transition: all 0.3s ease;
+            border-radius: 4px;
         }
         .main-nav a.active, .main-nav a:hover { background-color: var(--text-color); color: var(--bg-color); border: 2px solid var(--text-color); }
         
-        .header-right { display: flex; align-items: center; gap: 1.5rem; }
+        .header-right { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
         .lang-switch { display: flex; gap: 0.5rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem; }
         .lang-switch span { opacity: 0.4; transition: opacity 0.3s; cursor: pointer; }
         .lang-switch span.active, .lang-switch span:hover { opacity: 1; text-decoration: underline; }
         
+        /* Icône bicolore de Thème */
         .theme-btn { 
             background: none; border: none; cursor: pointer; display: flex; align-items: center; 
             justify-content: center; padding: 0.5rem; outline: none;
@@ -122,28 +127,21 @@
         .hero h1 span.letter { display: inline-block; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); will-change: transform; }
         
         .i-wrapper { position: relative; display: inline-block; pointer-events: none; }
+        
+        /* Modifs sur le + (Interactive Drag & Drop) */
         .dot-plus {
-            position: absolute; top: -1.3em; left: 50%; transform: translateX(-50%);
-            font-size: 0.55em; color: var(--text-color); transition: color 0.5s ease;
+            position: absolute; top: -1.3em; left: 50%; 
+            /* On gère le centering en JS dans translate */
+            transform: translateX(-50%);
+            font-size: 0.55em; color: var(--text-color); transition: color 0.3s ease;
             will-change: transform; pointer-events: auto; cursor: grab; z-index: 40;
             user-select: none; -webkit-user-select: none;
+            display: inline-block;
         }
-        .dot-plus.dragging { cursor: grabbing; }
-        .dot-plus.falling { 
-            animation: bounceDrop 1.8s cubic-bezier(0.28, 0.84, 0.42, 1) forwards; 
-            pointer-events: none;
-        }
-
-        @keyframes bounceDrop {
-            0% { transform: translateX(-50%) translateY(var(--start-y, 0)) rotate(0); }
-            20% { transform: translateX(-50%) translateY(calc(var(--drop-dist, 0px) - 15px)) rotate(60deg); }
-            35% { transform: translateX(-50%) translateY(calc(var(--drop-dist, 0px) + 80px)) rotate(120deg); }
-            50% { transform: translateX(-50%) translateY(calc(var(--drop-dist, 0px) - 10px)) rotate(180deg); }
-            62% { transform: translateX(-50%) translateY(calc(var(--drop-dist, 0px) + 40px)) rotate(210deg); }
-            72% { transform: translateX(-50%) translateY(calc(var(--drop-dist, 0px) - 5px)) rotate(230deg); }
-            82% { transform: translateX(-50%) translateY(calc(var(--drop-dist, 0px) + 15px)) rotate(245deg); }
-            92% { transform: translateX(-50%) translateY(calc(var(--drop-dist, 0px) - 2px)) rotate(255deg); }
-            100% { transform: translateX(-50%) translateY(var(--drop-dist, 0px)) rotate(260deg); }
+        .dot-plus:active { cursor: grabbing; }
+        /* Zone de clic élargie pour le mobile */
+        .dot-plus::after {
+            content: ''; position: absolute; top: -20px; left: -20px; right: -20px; bottom: -20px;
         }
 
         /* --- BANDEAU DEFILEMENT --- */
@@ -201,7 +199,7 @@
             transform: translate(-3px, -3px); box-shadow: 4px 4px 0px var(--text-color);
         }
 
-        /* --- SÉQUENCE ZOOM & HORIZONTAL SCROLL --- */
+        /* --- SÉQUENCE ZOOM & HORIZONTAL SCROLL (Style Wodniack) --- */
         .scroll-sequence { height: 500vh; position: relative; background-color: transparent; margin-bottom: 0; z-index: 5; }
         .scroll-sticky { position: sticky; top: 0; height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center; overflow: hidden; background-color: transparent; }
 
@@ -218,7 +216,6 @@
             clip-path: inset(25% 25% round 15px); will-change: clip-path; z-index: 20;
             background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
             background-size: 40px 40px; 
-            perspective: 1200px; /* Pour l'effet 3D */
         }
 
         .topo-bg { position: absolute; width: 110%; height: 110%; top: -5%; left: -5%; z-index: 10; pointer-events: none; opacity: 0; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); }
@@ -250,33 +247,47 @@
         }
 
         .h-scroll-container {
-            display: flex; align-items: center; gap: 5vw; padding: 0 45vw; position: absolute; left: 0; top: 0; height: 100vh;
+            display: flex; align-items: center; gap: 4vw; padding: 0 45vw; position: absolute; left: 0; top: 0; height: 100vh;
             width: max-content; will-change: transform, opacity; z-index: 15; pointer-events: none; 
-            transform-style: preserve-3d;
         }
 
-        /* EFFET 3D NATUREL (remplace le skew) */
+        /* Modifications Cartes Wodniack-style */
         .h-card {
-            flex: 0 0 auto; width: 32vw; min-width: 300px; max-width: 500px; background-color: transparent; text-decoration: none; display: flex; flex-direction: column;
-            opacity: var(--op-val, 1); 
-            transform: translateY(var(--y-base, 0)) scale(var(--scale-val, 1)) rotateY(var(--rotate-y, 0deg)) translateZ(var(--translate-z, 0px));
-            will-change: transform, opacity;
-            transition: transform 0.15s cubic-bezier(0.25, 0.8, 0.25, 1);
+            flex: 0 0 auto; width: 32vw; min-width: 320px; max-width: 500px; background-color: transparent; text-decoration: none; display: flex; flex-direction: column;
+            opacity: 1; transform: translateY(var(--y-base, 0)) skewX(var(--skew-vel, 0deg)); will-change: transform;
+            transition: filter 0.3s ease;
         }
         
-        .h-card:nth-child(odd) { --y-base: -6vh; }
-        .h-card:nth-child(even) { --y-base: 6vh; }
+        .h-card:nth-child(odd) { --y-base: -4vh; }
+        .h-card:nth-child(even) { --y-base: 4vh; }
 
-        .h-card-inner { transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); display: flex; flex-direction: column; width: 100%; }
-        .h-card-img-wrapper { width: 100%; aspect-ratio: 16 / 9; height: auto; overflow: hidden; border: 2px solid rgba(255,255,255,0.8); position: relative; box-shadow: 0 15px 35px rgba(0,0,0,0.5); border-radius: 4px; }
-        .h-card img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%); transition: transform 0.7s cubic-bezier(0.25, 0.8, 0.25, 1), filter 0.5s ease; }
+        .h-card-inner { transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); display: flex; flex-direction: column; width: 100%; }
+        
+        .h-card-img-wrapper { 
+            width: 100%; aspect-ratio: 16 / 9; height: auto; overflow: hidden; 
+            position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border-radius: 6px; 
+            background: #111;
+        }
+        /* Voile doux sur l'image pour le côté premium */
+        .h-card-img-wrapper::after {
+            content: ''; position: absolute; inset: 0; 
+            background: linear-gradient(to top, rgba(0,0,0,0.3) 0%, transparent 50%); 
+            pointer-events: none; transition: opacity 0.5s ease;
+        }
+        
+        .h-card img { 
+            width: 100%; height: 100%; object-fit: cover; filter: grayscale(15%); 
+            transition: transform 0.7s cubic-bezier(0.25, 0.8, 0.25, 1), filter 0.5s ease; 
+        }
+        
         .h-card-info { padding-top: 1.2rem; text-align: left; }
         .h-card h3 { font-size: 1.5rem; margin-bottom: 0.5rem; line-height: 1.2; font-family: 'Inter', sans-serif; font-weight: 700; letter-spacing: -0.5px; text-transform: uppercase; color: #fff; transition: color 0.3s ease; }
         .h-card-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; font-family: 'Inter', sans-serif; }
-        .h-card-tags .tag { border: 1px solid rgba(255,255,255,0.3); padding: 0.2rem 0.5rem; font-size: 0.7rem; border-radius: 50px; text-transform: uppercase; font-weight: 600; color: rgba(255,255,255,0.8); }
+        .h-card-tags .tag { border: 1px solid rgba(255,255,255,0.2); padding: 0.2rem 0.5rem; font-size: 0.7rem; border-radius: 50px; text-transform: uppercase; font-weight: 600; color: rgba(255,255,255,0.7); }
 
-        .h-card:hover .h-card-inner { transform: scale(1.03) translateY(-5px); }
-        .h-card:hover img { transform: scale(1.08); filter: grayscale(0%); }
+        .h-card:hover .h-card-inner { transform: translateY(-8px); }
+        .h-card:hover .h-card-img-wrapper::after { opacity: 0; }
+        .h-card:hover img { transform: scale(1.06); filter: grayscale(0%); }
         .h-card:hover h3 { color: #b366ff; }
         .h-card-spacer { flex: 0 0 auto; width: 25vw; } 
 
@@ -317,40 +328,41 @@
         .fade-in-section { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; will-change: opacity, visibility; }
         .fade-in-section.is-visible { opacity: 1; transform: none; }
 
-        /* --- RESPONSIVE --- */
+        /* --- RESPONSIVE OPTIMISÉ --- */
+        @media (max-width: 1024px) {
+            header { padding: 1.5rem; justify-content: center; text-align: center; }
+            .header-left { width: 100%; justify-content: center; gap: 1.5rem; }
+            .logo { width: 100%; }
+            .main-nav { width: 100%; justify-content: center; }
+            .header-right { width: 100%; justify-content: center; margin-top: 0.5rem; }
+            .intro-grid { gap: 2rem; }
+        }
+
         @media (max-width: 900px) {
-            .intro-grid { grid-template-columns: 1fr; gap: 3rem; }
-            .h-card { width: 70vw; }
+            .intro-grid { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 768px) {
-            header { flex-direction: column; gap: 1.5rem; padding: 1.5rem 1rem; }
-            .header-left { flex-direction: column; gap: 1rem; text-align: center; }
-            .main-nav { flex-wrap: wrap; justify-content: center; }
-            .hero h1 { font-size: 15vw; } 
+            header { padding: 1rem; }
+            .header-left { gap: 1rem; }
+            .main-nav a { font-size: 0.85rem; padding: 0.4rem 0.6rem; }
+            
+            .hero h1 { font-size: 13vw; } 
             .marquee-text { font-size: 2rem; } 
             .section-heading { font-size: 2.5rem; }
             .clip-box { clip-path: inset(20% 5% round 10px); }
             .gate-text { font-size: 12vw; }
             .gate-crosshair, .topo-bg { display: none; }
-            .h-scroll-container { padding: 0 10vw; gap: 3vw; } 
-            .h-card { width: 80vw; min-width: 280px; } 
+            .h-scroll-container { padding: 0 10vw; gap: 8vw; } 
+            .h-card { width: 80vw; min-width: unset; } 
             .h-card:nth-child(odd), .h-card:nth-child(even) { --y-base: 0; } 
             .h-card-spacer { width: 10vw; }
             .intro-box { padding: 1.5rem; }
-            .intro-text { font-size: 1.05rem; }
-            .btn-primary { font-size: 1.2rem; padding: 0.6rem 1.2rem; }
-            .skill-tag { font-size: 1rem; padding: 0.4rem 1rem; }
-            .cta-section h2 { font-size: 2.5rem; }
-            .cta-text { font-size: 1rem; }
         }
-
-        /* iPad optimizations */
-        @media (min-width: 769px) and (max-width: 1024px) {
-            .hero h1 { font-size: 10vw; }
-            .h-scroll-container { padding: 0 30vw; }
-            .h-card { width: 50vw; }
-            .intro-box { padding: 2rem; }
+        
+        @media (max-width: 480px) {
+            .main-nav gap { gap: 0.3rem; }
+            .main-nav a { font-size: 0.75rem; padding: 0.3rem 0.4rem; }
         }
     </style>
 </head>
@@ -391,7 +403,7 @@
             <span class="letter">L</span>
             <span class="i-wrapper">
                 <span class="letter">I</span>
-                <span class="dot-plus" id="dot-plus">+</span>
+                <span class="dot-plus">+</span>
             </span>
             <span class="letter">O</span>
         </h1>
@@ -596,39 +608,30 @@
     </footer>
 
     <script>
-        // --- THÈME ET LANGUE ---
+        // GESTION DU THÈME
         const themeToggleBtn = document.getElementById('theme-toggle');
         const body = document.body;
-        
-        if (localStorage.getItem('theme') === 'light') {
-            body.classList.add('theme-light');
-        }
-        
+        if (localStorage.getItem('theme') === 'light') body.classList.add('theme-light');
         themeToggleBtn.addEventListener('click', () => {
             body.classList.toggle('theme-light');
             localStorage.setItem('theme', body.classList.contains('theme-light') ? 'light' : '');
         });
 
+        // GESTION DE LA LANGUE
         let currentLang = localStorage.getItem('lang') || 'fr';
-        
         function setLanguage(lang) {
             currentLang = lang;
             localStorage.setItem('lang', lang); 
-            
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const k = el.getAttribute('data-i18n'); 
                 if (translations[lang] && translations[lang][k]) {
                     el.innerHTML = translations[lang][k];
                 }
             });
-            
             document.getElementById('btn-fr').classList.toggle('active', lang === 'fr');
             document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-            
             const eLetter = document.getElementById('letter-e');
-            if (eLetter) {
-                eLetter.style.display = lang === 'en' ? 'none' : 'inline-block';
-            }
+            if (eLetter) eLetter.style.display = lang === 'en' ? 'none' : 'inline-block';
         }
 
         // RETOUR EN HAUT
@@ -639,7 +642,6 @@
         // EFFET LAMPE TORCHE
         const heroSection = document.getElementById('hero-section');
         const globalGridHover = document.getElementById('global-grid-hover');
-        
         heroSection.addEventListener('mousemove', (e) => {
             globalGridHover.style.setProperty('--grid-overlay-op', '1');
             globalGridHover.style.setProperty('--mouse-x', `${e.pageX}px`);
@@ -649,97 +651,113 @@
             globalGridHover.style.setProperty('--grid-overlay-op', '0');
         });
 
-        // --- DRAG & DROP DU "+" AVEC SUPPORT TACTILE ---
-        const dotPlus = document.getElementById('dot-plus');
+        // --- CASSURE DU PLUS (MOTEUR PHYSIQUE ET DRAG & DROP) ---
+        const dotPlus = document.querySelector('.dot-plus');
         const marqueeBanner = document.getElementById('marquee-banner');
-        let isDragging = false;
-        let initialX = 0, initialY = 0;
-        let currentX = 0, currentY = 0;
 
-        function startDrag(e) {
-            if (dotPlus.classList.contains('falling')) return;
-            
-            isDragging = true;
-            dotPlus.classList.add('dragging');
-            
-            const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-            const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
-            
-            const rect = dotPlus.getBoundingClientRect();
-            initialX = clientX - rect.left;
-            initialY = clientY - rect.top;
-            
-            dotPlus.style.position = 'fixed';
-            dotPlus.style.zIndex = '1000';
-            
-            e.preventDefault();
-        }
+        let isDragging = false, hasDropped = false;
+        let startPosX, startPosY, currentX = 0, currentY = 0;
+        let velocityY = 0, velocityX = 0;
+        let gravity = 0.8, bounceFactor = -0.5, friction = 0.95;
+        let lastMouseX, lastMouseY, animationFrameId;
 
-        function drag(e) {
-            if (!isDragging) return;
-            
-            const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-            const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
-            
-            currentX = clientX - initialX;
-            currentY = clientY - initialY;
-            
-            dotPlus.style.left = currentX + 'px';
-            dotPlus.style.top = currentY + 'px';
-            dotPlus.style.transform = 'none';
-            
-            e.preventDefault();
-        }
-
-        function endDrag(e) {
-            if (!isDragging) return;
-            
-            isDragging = false;
-            dotPlus.classList.remove('dragging');
-            
-            // Calcul de la distance jusqu'au bandeau
-            const marqueeRect = marqueeBanner.getBoundingClientRect();
-            const plusRect = dotPlus.getBoundingClientRect();
-            
-            // Distance de chute = haut du bandeau - bas du "+"
-            const dropDistance = marqueeRect.top - plusRect.bottom;
-            
-            // Position Y de départ pour l'animation
-            const startY = plusRect.top - dotPlus.parentElement.getBoundingClientRect().top;
-            
-            // Appliquer les variables CSS pour l'animation
-            dotPlus.style.setProperty('--drop-dist', `${dropDistance + startY}px`);
-            dotPlus.style.setProperty('--start-y', `${startY}px`);
-            
-            // Reset le style inline
-            dotPlus.style.position = '';
-            dotPlus.style.left = '';
-            dotPlus.style.top = '';
-            dotPlus.style.zIndex = '';
-            
-            // Déclencher l'animation
-            dotPlus.classList.add('falling');
-            
-            // Reset après l'animation
+        if (dotPlus && marqueeBanner) {
+            // Chute initiale automatique
             setTimeout(() => {
-                dotPlus.classList.remove('falling');
-                dotPlus.style.transform = '';
-            }, 1800);
-            
-            e.preventDefault();
+                if (!isDragging && currentY === 0 && !hasDropped) {
+                    hasDropped = true;
+                    physicsLoop();
+                }
+            }, 1000);
+
+            // Événements Drag & Drop
+            dotPlus.addEventListener('mousedown', startDrag);
+            dotPlus.addEventListener('touchstart', startDrag, { passive: false });
+
+            function startDrag(e) {
+                e.preventDefault();
+                isDragging = true;
+                hasDropped = true;
+                cancelAnimationFrame(animationFrameId);
+
+                let clientX = e.clientX || (e.touches && e.touches[0].clientX);
+                let clientY = e.clientY || (e.touches && e.touches[0].clientY);
+
+                startPosX = clientX - currentX;
+                startPosY = clientY - currentY;
+                lastMouseX = clientX;
+                lastMouseY = clientY;
+
+                document.addEventListener('mousemove', drag);
+                document.addEventListener('touchmove', drag, { passive: false });
+                document.addEventListener('mouseup', endDrag);
+                document.addEventListener('touchend', endDrag);
+            }
+
+            function drag(e) {
+                if (!isDragging) return;
+                e.preventDefault();
+                
+                let clientX = e.clientX || (e.touches && e.touches[0].clientX);
+                let clientY = e.clientY || (e.touches && e.touches[0].clientY);
+
+                velocityX = clientX - lastMouseX;
+                velocityY = clientY - lastMouseY;
+                lastMouseX = clientX;
+                lastMouseY = clientY;
+
+                currentX = clientX - startPosX;
+                currentY = clientY - startPosY;
+
+                dotPlus.style.transform = `translate(calc(-50% + ${currentX}px), ${currentY}px) rotate(${velocityX * 2}deg)`;
+            }
+
+            function endDrag() {
+                isDragging = false;
+                document.removeEventListener('mousemove', drag);
+                document.removeEventListener('touchmove', drag);
+                document.removeEventListener('mouseup', endDrag);
+                document.removeEventListener('touchend', endDrag);
+                physicsLoop();
+            }
+
+            function physicsLoop() {
+                if (isDragging) return;
+
+                velocityY += gravity;
+                currentX += velocityX;
+                currentY += velocityY;
+                velocityX *= friction;
+
+                let rect = dotPlus.getBoundingClientRect();
+                let mRect = marqueeBanner.getBoundingClientRect();
+                
+                // Collision avec le bandeau noir
+                if (rect.bottom >= mRect.top && velocityY > 0) {
+                    let overlap = rect.bottom - mRect.top;
+                    currentY -= overlap;
+                    velocityY *= bounceFactor;
+                    velocityX *= 0.8;
+
+                    if (Math.abs(velocityY) < 1.5) {
+                        velocityY = 0;
+                        rect = dotPlus.getBoundingClientRect();
+                        currentY -= (rect.bottom - mRect.top);
+                    }
+                }
+
+                let rot = Math.max(-90, Math.min(90, velocityX * 2));
+                if(velocityY === 0 && Math.abs(velocityX) < 0.5) rot = 0; 
+
+                dotPlus.style.transform = `translate(calc(-50% + ${currentX}px), ${currentY}px) rotate(${rot}deg)`;
+                
+                if (Math.abs(velocityY) > 0 || Math.abs(velocityX) > 0.5) {
+                    animationFrameId = requestAnimationFrame(physicsLoop);
+                }
+            }
         }
 
-        // Events souris
-        dotPlus.addEventListener('mousedown', startDrag);
-        document.addEventListener('mousemove', drag);
-        document.addEventListener('mouseup', endDrag);
-
-        // Events tactiles
-        dotPlus.addEventListener('touchstart', startDrag, { passive: false });
-        document.addEventListener('touchmove', drag, { passive: false });
-        document.addEventListener('touchend', endDrag, { passive: false });
-
-        // --- MOTEUR DE DÉFILEMENT AVEC EFFET 3D NATUREL ---
+        // --- MOTEUR DE DÉFILEMENT (Style Wodniack) ---
         const seq = document.getElementById('scroll-sequence');
         const clipBox = document.getElementById('clip-box');
         const gateText = document.getElementById('gate-text');
@@ -751,9 +769,7 @@
         const btnAll = document.getElementById('h-btn-all');
         const cards = document.querySelectorAll('.h-card');
 
-        let targetP = 0;
-        let currentP = 0;
-        let isInitialized = false;
+        let targetP = 0, currentP = 0, isInitialized = false;
 
         function updateTargetP() {
             if(!seq) return;
@@ -761,10 +777,7 @@
             const scrollable = rect.height - window.innerHeight;
             let pRaw = -rect.top / scrollable;
             targetP = Math.max(0, Math.min(1, pRaw));
-            if(!isInitialized) {
-                currentP = targetP;
-                isInitialized = true;
-            }
+            if(!isInitialized) { currentP = targetP; isInitialized = true; }
         }
         
         window.addEventListener('scroll', updateTargetP);
@@ -799,7 +812,6 @@
             }
 
             clipBox.style.clipPath = `inset(${clipY}% ${clipX}% round ${radius}px)`;
-            
             if(gateText) gateText.style.opacity = Math.max(0, gateOp);
             if(topoBg) topoBg.style.opacity = Math.max(0, topoOp);
             crosshairs.forEach(c => c.style.opacity = Math.max(0, gateOp));
@@ -816,34 +828,15 @@
             if(bgText) bgText.style.transform = `translate(-50%, -50%) translateX(${currentP * 20}vw)`;
             if(fgText) fgText.style.transform = `translate(-50%, -50%) translateX(-${currentP * 40}vw)`;
 
-            // EFFET 3D NATUREL (inspiré des meilleurs portfolios)
+            // Effet skew plus doux et pro pendant le défilement (Wodniack style)
             if (contentOp > 0.1) {
-                const screenCenter = window.innerWidth / 2;
+                let velocity = (targetP - currentP) * 500; 
+                let skewAngle = velocity * -0.04; 
+                skewAngle = Math.max(-8, Math.min(8, skewAngle)); 
 
                 cards.forEach(card => {
-                    const cardRect = card.getBoundingClientRect();
-                    const cardCenter = cardRect.left + (cardRect.width / 2);
-                    const distanceFromCenter = cardCenter - screenCenter;
-                    
-                    // Normaliser la distance (-1 à 1)
-                    const normalizedDist = Math.max(-1, Math.min(1, distanceFromCenter / (window.innerWidth / 2)));
-                    
-                    // Scale: plus proche du centre = plus grand
-                    const scaleFactor = 1 - (Math.abs(normalizedDist) * 0.2);
-                    
-                    // Opacity: fade sur les côtés
-                    const opacityFactor = 1 - (Math.abs(normalizedDist) * 0.5);
-                    
-                    // Rotation Y 3D: donne de la profondeur
-                    const rotateY = normalizedDist * 15; // -15deg à +15deg
-                    
-                    // TranslateZ: effet de profondeur
-                    const translateZ = -Math.abs(normalizedDist) * 50;
-
-                    card.style.setProperty('--scale-val', scaleFactor);
-                    card.style.setProperty('--op-val', opacityFactor);
-                    card.style.setProperty('--rotate-y', `${rotateY}deg`);
-                    card.style.setProperty('--translate-z', `${translateZ}px`);
+                    card.style.setProperty('--skew-vel', `${skewAngle}deg`);
+                    // On ne modifie plus l'opacité ni l'échelle en fonction de la position
                 });
             }
 
@@ -851,17 +844,16 @@
         }
         renderAnimation();
 
-        // FADE IN
+        // FADE IN CLASSIQUE
         document.addEventListener("DOMContentLoaded", function() {
             const obs = new IntersectionObserver((entries, obs) => {
                 entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); obs.unobserve(e.target); } });
             }, { threshold: 0.15 });
             document.querySelectorAll('.fade-in-section').forEach(s => obs.observe(s));
-            
             setLanguage(currentLang);
         });
 
-        // SOURIS ESQUIVE LETTRES
+        // SOURIS ESQUIVE SUR LES LETTRES UNIQUEMENT
         const letters = document.querySelectorAll('.letter');
         heroSection.addEventListener('mousemove', (e) => {
             letters.forEach(letter => {
@@ -896,11 +888,7 @@
                 "h-intro1": "01. Profil Hybride", 
                 "h-intro2": "02. Outils & Démarche", 
                 "p-intro": "Étudiant en Sciences des Données et Arts (Université PSL & Lycée Louis Le Grand), je combine la grande rigueur des mathématiques et de l'algorithmique avec une solide sensibilité aux humanités numériques et à l'analyse culturelle.",
-                "tag-ml": "Machine Learning",
-                "tag-nlp": "NLP",
-                "tag-dataviz": "Data Visualization",
-                "tag-cult": "Analyse Culturelle",
-                "tag-stat": "Statistiques",
+                "tag-ml": "Machine Learning", "tag-nlp": "NLP", "tag-dataviz": "Data Visualization", "tag-cult": "Analyse Culturelle", "tag-stat": "Statistiques",
                 "btn-about": "Découvrir mon parcours ->", 
                 "btn-skills": "Voir les cas d'études ->",
                 "gate-title": "Mes Projets", "bg-projects": "PROJETS PROJETS PROJETS PROJETS PROJETS PROJETS",
@@ -919,11 +907,7 @@
                 "h-intro1": "01. Hybrid Profile", 
                 "h-intro2": "02. Tools & Approach", 
                 "p-intro": "Data Science and Arts student (PSL University & Louis Le Grand), combining the strict rigor of mathematics and algorithms with a deep sensitivity for digital humanities and cultural analysis.",
-                "tag-ml": "Machine Learning",
-                "tag-nlp": "NLP",
-                "tag-dataviz": "Dataviz",
-                "tag-cult": "Cultural Analysis",
-                "tag-stat": "Statistics",
+                "tag-ml": "Machine Learning", "tag-nlp": "NLP", "tag-dataviz": "Dataviz", "tag-cult": "Cultural Analysis", "tag-stat": "Statistics",
                 "btn-about": "Discover my background ->", 
                 "btn-skills": "View case studies ->",
                 "gate-title": "My Projects", "bg-projects": "PROJECTS PROJECTS PROJECTS PROJECTS PROJECTS",
