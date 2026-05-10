@@ -124,7 +124,7 @@
         .skill-tag { border: 2px solid var(--text-color); padding: 0.5rem 1.2rem; font-family: 'Anton', sans-serif; font-size: 1.2rem; text-transform: uppercase; border-radius: 50px; transition: all 0.3s ease; background-color: transparent; color: var(--text-color); cursor: default; }
         .skill-tag:hover { background-color: var(--text-color); color: var(--bg-color); transform: translate(-3px, -3px); box-shadow: 4px 4px 0px var(--text-color); }
 
-        /* --- SÉQUENCE HORIZONTALE CARROUSEL 3D (CYLINDRE PROPRE) --- */
+        /* --- SÉQUENCE HORIZONTALE (LENTILLE CONCAVE & PARALLAX) --- */
         .scroll-sequence { height: 500vh; position: relative; background-color: transparent; margin-bottom: 0; z-index: 5; }
         .scroll-sticky { position: sticky; top: 0; height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center; overflow: hidden; background-color: transparent; }
 
@@ -141,8 +141,8 @@
             clip-path: inset(25% 25% round 15px); will-change: clip-path; z-index: 20;
             background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
             background-size: 40px 40px; 
-            /* AJOUT DE LA PERSPECTIVE POUR LA 3D */
-            perspective: 1500px;
+            /* PERSPECTIVE POUR L'EFFET CONCAVE */
+            perspective: 1200px;
         }
 
         .topo-bg { position: absolute; width: 110%; height: 110%; top: -5%; left: -5%; z-index: 10; pointer-events: none; opacity: 0; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); }
@@ -163,68 +163,60 @@
         .h-scroll-bg-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300vw; text-align: center; font-size: 25vw; line-height: 0.8; color: #2E004F; z-index: 1; pointer-events: none; white-space: nowrap; will-change: transform, opacity; }
         .h-scroll-fg-text { position: absolute; top: 70%; left: 50%; transform: translate(-50%, -50%); width: 300vw; text-align: center; font-size: 10vw; color: transparent; -webkit-text-stroke: 2px rgba(255, 255, 255, 0.15); z-index: 20; pointer-events: none; white-space: nowrap; will-change: transform, opacity; }
 
-        /* Conteneur principal propre avec grand gap pour éviter l'effet pile */
+        /* Conteneur avec espacement ajusté (gap) */
         .h-scroll-container {
             display: flex; align-items: center; 
-            gap: 15vw; /* Grand espacement pour la clarté */
+            gap: 5vw; /* Rapprochement propre sans chevauchement */
             padding: 0 45vw; position: absolute; left: 0; top: 0; height: 100vh;
             width: max-content; will-change: transform, opacity; z-index: 15; pointer-events: none; 
-            /* Nécessaire pour la 3D des enfants */
             transform-style: preserve-3d;
         }
 
-        /* --- CARTES : UNIFORMES, RECTANGULAIRES, SANS CHEVAUCHEMENT --- */
+        /* --- CARTES RECTANGULAIRES --- */
         .h-card {
             flex: 0 0 auto; background-color: transparent; text-decoration: none; display: flex; flex-direction: column;
             width: 32vw; min-width: 300px; max-width: 500px; 
-            will-change: transform, opacity; position: relative;
-            /* Point d'origine pour les rotations JS */
+            will-change: transform; position: relative;
             transform-origin: center center;
-            /* La transformation 3D se fait en JS */
-            transform: translateY(var(--y-base, 0vh));
-            transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         /* Légère alternance verticale naturelle */
-        .h-card:nth-child(odd) { --y-base: -3vh; }
-        .h-card:nth-child(even) { --y-base: 3vh; }
+        .h-card:nth-child(odd) { --y-base: -4vh; }
+        .h-card:nth-child(even) { --y-base: 4vh; }
 
+        /* Le conteneur interne gère l'animation de survol fluide */
         .h-card-inner { 
             display: flex; flex-direction: column; width: 100%;
-            /* Nécessaire pour la 3D */
-            transform-style: preserve-3d;
+            transform: scale(1);
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Transition de survol restaurée */
         }
         
-        /* Conteneur image rectangulaire parfait */
         .h-card-img-wrapper { 
             width: 100%; aspect-ratio: 16 / 10; overflow: hidden; position: relative; 
-            background: #111; border-radius: 4px; border: 2px solid rgba(255,255,255,0.8);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6); 
-            /* Nécessaire pour la 3D */
-            transform-style: preserve-3d;
+            background: #111; border-radius: 6px; border: 2px solid rgba(255,255,255,0.8);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
             transition: box-shadow 0.4s ease, border-color 0.4s ease;
         }
         
         .h-card img { 
-            width: 100%; height: 100%; object-fit: cover; filter: grayscale(15%); 
-            will-change: transform; transition: filter 0.5s ease; 
+            width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%); 
+            /* L'image est plus grande pour permettre le parallax par le JS */
+            transform: scale(1.25);
+            /* Important : on ne transitionne que le filtre ici, sinon le parallax JS saccade */
+            transition: filter 0.4s ease; 
         }
         
-        .h-card-info { 
-            padding-top: 1.2rem; text-align: left; 
-            /* Légère 3D pour faire ressortir le texte */
-            transform: translateZ(20px);
-        }
+        .h-card-info { padding-top: 1.2rem; text-align: left; }
         .h-card h3 { font-size: 1.5rem; margin-bottom: 0.5rem; line-height: 1.2; font-family: 'Inter', sans-serif; font-weight: 700; letter-spacing: -0.5px; text-transform: uppercase; color: #fff; transition: color 0.3s ease; }
         .h-card-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; font-family: 'Inter', sans-serif; }
-        .h-card-tags .tag { border: 1px solid rgba(255,255,255,0.3); padding: 0.2rem 0.5rem; font-size: 0.7rem; border-radius: 50px; text-transform: uppercase; font-weight: 600; color: rgba(255,255,255,0.8); }
+        .h-card-tags .tag { border: 1px solid rgba(255,255,255,0.3); padding: 0.2rem 0.5rem; font-size: 0.7rem; border-radius: 50px; text-transform: uppercase; font-weight: 600; color: rgba(255,255,255,0.8); transition: border-color 0.3s ease; }
 
-        /* Effet de survol : La carte se rapproche de l'utilisateur */
-        .h-card:hover { z-index: 200 !important; } /* S'assure que la carte est au dessus de tout */
-        .h-card:hover .h-card-inner { transform: scale(1.08) translateZ(50px); }
-        .h-card:hover .h-card-img-wrapper { box-shadow: 0 25px 60px rgba(0,0,0,0.9); border-color: #fff; }
-        .h-card:hover img { filter: grayscale(0%); }
+        /* EFFETS DE SURVOL DOUX ET PROPRES */
+        .h-card:hover .h-card-inner { transform: scale(1.05); } /* La carte grossit doucement */
+        .h-card:hover .h-card-img-wrapper { box-shadow: 0 20px 45px rgba(0,0,0,0.8); border-color: #b366ff; }
+        .h-card:hover img { filter: grayscale(0%); } /* La couleur revient */
         .h-card:hover h3 { color: #b366ff; }
+        .h-card:hover .h-card-tags .tag { border-color: rgba(179, 102, 255, 0.6); }
         
         .h-card-spacer { flex: 0 0 auto; width: 25vw; } 
 
@@ -271,7 +263,7 @@
             .hero h1 { font-size: 13vw; } 
             .marquee-text { font-size: 2rem; } 
             .section-heading { font-size: 2.5rem; }
-            .clip-box { clip-path: inset(20% 5% round 10px); perspective: 1000px; /* Perspective moins forte sur mobile */ }
+            .clip-box { clip-path: inset(20% 5% round 10px); perspective: 1000px; }
             .gate-text { font-size: 12vw; }
             .gate-crosshair, .topo-bg { display: none; }
             
@@ -675,7 +667,7 @@
             }
         }
 
-        // --- MOTEUR DE DÉFILEMENT (CYLINDRE 3D GLOBAL / EFFET LOUPE) ---
+        // --- MOTEUR DE DÉFILEMENT (LENTILLE CONCAVE & PARALLAX) ---
         const seq = document.getElementById('scroll-sequence');
         const clipBox = document.getElementById('clip-box');
         const gateText = document.getElementById('gate-text');
@@ -703,12 +695,10 @@
         updateTargetP();
 
         function renderAnimation() {
-            // Interpolation pour la fluidité (Wodniack-like)
             currentP += (targetP - currentP) * 0.06; 
             
             let clipY = 25, clipX = 25, radius = 15, gateOp = 1, hTrans = 0, topoOp = 0.8;
             let contentOp = 0; 
-            // Calcul du scroll max propre
             const maxScroll = hContainer.scrollWidth - window.innerWidth + window.innerWidth * 0.15; 
 
             if (currentP < 0.15) {
@@ -748,46 +738,40 @@
             if(bgText) bgText.style.transform = `translate(-50%, -50%) translateX(${currentP * 20}vw)`;
             if(fgText) fgText.style.transform = `translate(-50%, -50%) translateX(-${currentP * 40}vw)`;
 
-            // --- L'EFFET LOUPE GLOBAL (CYLINDRE 3D) ---
+            // --- L'EFFET LENTILLE CONCAVE & PARALLAX ---
             if (contentOp > 0.1) {
                 const screenCenter = window.innerWidth / 2;
-                // Ajuster la puissance de la courbure ici (plus c'est bas, plus c'est bombé)
-                const curvePower = window.innerWidth > 768 ? 600 : 300; 
 
                 cards.forEach((card) => {
-                    // Position de la carte par rapport au centre de l'écran
                     const cardRect = card.getBoundingClientRect();
                     const cardCenter = cardRect.left + (cardRect.width / 2);
                     const distanceFromCenter = cardCenter - screenCenter;
                     
                     // Normalisation de la distance (entre -1 et 1)
-                    let normalizedDist = distanceFromCenter / (window.innerWidth / 2);
+                    let normalizedDist = distanceFromCenter / (window.innerWidth * 0.6);
                     normalizedDist = Math.max(-1, Math.min(1, normalizedDist));
                     
-                    // Courbe lisse pour l'effet
                     let easeDist = Math.pow(Math.abs(normalizedDist), 1.5);
 
-                    // --- CALCULS 3D ---
-                    // 1. Rotation pour faire pivoter la carte (Effet Loupe)
-                    let rotateY = normalizedDist * 40; // 40 degrés max sur les bords
-                    // 2. Recul pour donner l'effet bombé du cylindre
-                    let translateZ = -easeDist * 350; // Recule de 350px max
-                    // 3. Spacing naturel : on réduit légèrement l'échelle sur les bords
-                    let scaleAll = 1 - (easeDist * 0.1); 
+                    // --- 1. L'EFFET CONCAVE 3D ---
+                    // La carte centrale est normale, les côtés "s'avancent" vers l'utilisateur et pivotent vers le centre
+                    // Cela crée l'effet d'étirement en haut et en bas dû à la perspective
+                    let rotateY = normalizedDist * -35; 
+                    let translateZ = easeDist * 350; // Positif : la carte vient vers nous sur les bords
 
-                    // Récupération de la hauteur de base CSS
-                    let yBase = getComputedStyle(card).getPropertyValue('--y-base').trim();
+                    let yBase = getComputedStyle(card).getPropertyValue('--y-base').trim() || '0px';
 
-                    // Application des transformations 3D
-                    card.style.transform = `translateY(${yBase}) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scaleAll})`;
-                    
-                    // Gestion dynamique du Z-index pour que la carte centrale soit toujours au dessus
-                    // (Indispensable quand on supprime les chevauchements abusifs)
-                    let zIndex = Math.round(100 - (Math.abs(normalizedDist) * 50));
-                    card.style.zIndex = zIndex;
-                    
-                    // Optionnel : Légère opacité sur les bords pour le réalisme
-                    // card.style.opacity = 1 - (easeDist * 0.2); 
+                    // Le JS applique uniquement la 3D à la base, laissant le hover CSS gérer le scale tranquillement
+                    card.style.transform = `translateY(${yBase}) translateZ(${translateZ}px) rotateY(${rotateY}deg)`;
+                    card.style.zIndex = Math.round(100 - (Math.abs(normalizedDist) * 50));
+
+                    // --- 2. LE PARALLAX INTERNE ---
+                    const img = card.querySelector('img');
+                    if (img) {
+                        // L'image "glisse" à l'intérieur du cadre dans la direction opposée au scroll
+                        let parallaxX = normalizedDist * -15; 
+                        img.style.transform = `scale(1.25) translateX(${parallaxX}%)`;
+                    }
                 });
             }
 
