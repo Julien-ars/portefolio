@@ -51,12 +51,13 @@
             transition: background-color 0.5s ease, color 0.5s ease;
         }
 
-        /* --- HEADER --- */
+        /* --- HEADER (MODIFIÉ pour fond transparent) --- */
         header {
             display: flex; justify-content: space-between; align-items: center;
             padding: 1.5rem 2rem; border-bottom: 2px solid var(--text-color);
             font-family: 'Anton', sans-serif; position: sticky; top: 0; z-index: 100;
-            background-color: var(--bg-color); 
+            /* Changement ici pour avoir le quadrillage */
+            background-color: transparent; 
             transition: background-color 0.5s ease;
         }
 
@@ -115,7 +116,7 @@
 
         /* --- CONTENU --- */
         .container {
-            max-width: 1200px; margin: 0 auto; padding: 2rem 2rem 4rem 2rem;
+            max-width: 1200px; margin: 0 auto; padding: 2rem 2rem 0 2rem;
             flex-grow: 1; width: 100%;
         }
 
@@ -141,7 +142,7 @@
             border-radius: 50px; text-transform: uppercase; font-weight: 800;
         }
 
-        /* --- BANNIÈRE IMAGE --- */
+        /* --- BANNIÈRE IMAGE (MODIFIÉE pour descendre l'image) --- */
         .project-banner {
             width: 100%; height: 50vh; min-height: 400px; border: 4px solid var(--text-color);
             margin-bottom: 3rem; overflow: hidden; position: relative;
@@ -151,13 +152,17 @@
 
         .project-banner img {
             width: 100%; height: 100%; object-fit: cover;
+            /* AJOUT ICI : Descend l'image de 10% par rapport au centre */
+            object-position: center 10%; 
             filter: grayscale(15%) contrast(105%);
-            transition: filter 0.6s ease, transform 0.6s ease;
+            transition: filter 0.6s ease, transform 0.6s ease, object-position 0.6s ease;
             position: relative; z-index: 2; 
         }
 
         .project-banner:hover img {
             filter: grayscale(0%) contrast(100%); transform: scale(1.03);
+            /* Optionnel : tu peux aussi changer la position au survol si tu veux */
+            /* object-position: center 15%; */
         }
 
         /* --- TL;DR BOX HORIZONTAL --- */
@@ -187,7 +192,6 @@
         .key-metrics {
             display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 5rem;
         }
-        
         .metric-card {
             background-color: transparent; color: var(--text-color); padding: 2rem; text-align: center;
             border: 4px solid var(--text-color); 
@@ -207,7 +211,8 @@
             display: grid; grid-template-columns: 250px 1fr; gap: 4rem; align-items: start;
         }
 
-        .toc { position: sticky; top: 6rem; }
+        /* Sommaire collant avec barre de progression */
+        .toc { position: sticky; top: 6rem; /* Ajusté pour le header */ }
         
         .toc-title {
             font-family: 'Anton', sans-serif; font-size: 1.2rem; text-transform: uppercase; margin-bottom: 1.5rem; opacity: 0.5;
@@ -242,7 +247,7 @@
 
         /* --- SECTIONS TEXTUELLES --- */
         .project-content { display: flex; flex-direction: column; gap: 4rem; }
-        .content-section { scroll-margin-top: 6rem; }
+        .content-section { scroll-margin-top: 6rem; /* Ajusté pour le header */ }
         .content-title { font-family: 'Anton', sans-serif; font-size: 2.5rem; text-transform: uppercase; margin-bottom: 1.5rem; }
         .content-text { font-size: 1.15rem; line-height: 1.8; font-weight: 500; margin-bottom: 1.5rem; }
 
@@ -343,7 +348,7 @@
 
         /* --- BOUTONS D'ACTION BAS DE PAGE --- */
         .bottom-actions {
-            display: flex; justify-content: center; gap: 2rem; padding: 4rem 0; width: 100%; position: relative; z-index: 50;
+            display: flex; justify-content: center; gap: 2rem; padding: 4rem 0 0 0; width: 100%; position: relative; z-index: 50;
         }
         .btn-bottom {
             display: inline-block; color: var(--text-color); border: 2px solid var(--text-color); 
@@ -356,23 +361,23 @@
             transform: translateY(-4px); box-shadow: 4px 4px 0px var(--text-color); 
         }
 
-        /* --- FOOTER --- */
+        /* --- FOOTER (Intégré dans le flux) --- */
         .site-footer {
             border-top: 2px solid var(--text-color); padding: 1.5rem 2rem; text-align: center;
             font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; opacity: 0.8;
             background-color: #050505; color: rgba(179, 102, 255, 0.4); margin-top: auto;
         }
 
-        /* --- ANIMATION SCROLL CORRIGÉE --- */
-        .fade-in-section { 
-            opacity: 0; 
-            transform: translateY(40px); 
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out; 
-            will-change: opacity, transform; 
+        /* --- ANIMATION SCROLL --- */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
         }
-        .fade-in-section.is-visible { 
-            opacity: 1; 
-            transform: translateY(0); 
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* --- OPTIMISATION MOBILE / TABLETTE --- */
@@ -626,10 +631,15 @@
                             <div class="file-name" data-i18n="f2-n">Modèle & Scripts Python</div>
                             <div class="file-type" data-i18n="f2-t">Jupyter Notebooks</div>
                         </a>
+                        <a href="Projet_n1_partie_scrapping_Arsena_Julien.ipynb" target="_blank" class="file-card">
+                            <div class="file-icon">WEB</div>
+                            <div class="file-name" data-i18n="f-scrap">Script de Scraping</div>
+                            <div class="file-type" data-i18n="f-scrap-t">Jupyter Notebook</div>
+                        </a>
                         <a href="movie_posters_subset_with_palettes.csv" target="_blank" class="file-card">
                             <div class="file-icon">CSV</div>
                             <div class="file-name" data-i18n="f3-n">Base de Données</div>
-                            <div class="file-type" data-i18n="f3-t">Dataset de 3000 films</div>
+                            <div class="file-type" data-i18n="f3-t">Dataset TMDB (Kaggle)</div>
                         </a>
                         <a href="Codebook_Project1.txt" target="_blank" class="file-card">
                             <div class="file-icon">TXT</div>
@@ -772,16 +782,17 @@
                 "s4-title": "04. Fichiers & Code Source",
                 "s4-p1": "Consultez mon rapport scientifique, explorez mes données ou lisez mon code Python directement via les liens ci-dessous :",
                 "f1-n": "Rapport d'Étude", "f1-t": "Document Scientifique", "f2-n": "Modèle & Scripts Python", "f2-t": "Jupyter Notebooks",
-                "f3-n": "Base de Données", "f3-t": "Dataset de 3000 films", "f4-n": "Dictionnaire de Variables", "f4-t": "Codebook",
+                "f-scrap": "Script de Scraping", "f-scrap-t": "Jupyter Notebook",
+                "f3-n": "Base de Données", "f3-t": "Dataset TMDB (Kaggle)", "f4-n": "Dictionnaire de Variables", "f4-t": "Codebook",
                 "next-label": "Projet Suivant", "next-title": "Violence & Animation", "next-desc": "Les animés les mieux notés sont-ils statistiquement les plus violents ? Une analyse par Web Scraping et Pandas.", "next-btn": "Voir le projet →",
-                "btn-back-projects": "← Retour à tous les projets",
+                "btn-back-projects": "← Tous les projets",
                 "btn-back-top": "Remonter en haut ↑",
                 "footer-text": "© 2026 Julien Arsena. Tout le contenu (code, données, rapports) est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite."
             },
             "en": {
                 "nav-home": "Home", "nav-projects": "Projects", "nav-about": "About", "nav-contact": "Contact",
                 "bread-home": "Home", "bread-proj": "Projects", "bread-current": "Cinema Colorimetry",
-                "hero-title": "Cinema Colorimetry", "hero-catch": "\"Can a Computer Feel the Color of a Movie?\"",
+                "hero-title": "Cinema Colorimetry", "hero-catch": "\"Can a Computer Feel the Color of Cinema?\"",
                 "tag-reg": "Web Scraping", "tag-date": "October 2025", "tag-read": "4 min read",
                 "tldr-title": "AT A GLANCE", "tldr-l1": "01. Problem", "tldr-l2": "02. Approach", "tldr-l3": "03. Result",
                 "tldr-v1": "Predicting the dominant color of a poster using factual metadata (budget, genre...) without ever analyzing the image.",
@@ -807,8 +818,9 @@
                 "conclu-h": "Key takeaway:", "conclu-t": "The Ridge regression model achieves a 34.78% accuracy on the test data, which is well above a pure random probability (about 16%). This demonstrates that a computer can correctly guess the dominant color of a poster in 1 out of 3 cases, proving that the invisible characteristics of a movie (budget, genre) measurably dictate its visual identity.",
                 "s4-title": "04. Files & Source Code",
                 "s4-p1": "Read my scientific report, explore the data, or view my Python code directly via the links below:",
-                "f1-n": "Scientific Report", "f1-t": "Research Document", "f2-n": "Python Scripts & Model", "f2-t": "Jupyter Notebooks",
-                "f3-n": "Database", "f3-t": "3,000 entries dataset", "f4-n": "Variables Dictionary", "f4-t": "Codebook",
+                "f1-n": "Scientific Report", "f1-t": "Research Document", "f2-n": "Scripts & Model", "f2-t": "Jupyter Notebooks",
+                "f-scrap": "Scraping Script", "f-scrap-t": "Jupyter Notebook",
+                "f3-n": "Database", "f3-t": "TMDB Dataset (Kaggle)", "f4-n": "Variables Dictionary", "f4-t": "Codebook",
                 "next-label": "Next Project", "next-title": "Violence & Animation", "next-desc": "Are the highest-rated anime statistically the most violent? An analysis using Web Scraping and Pandas.", "next-btn": "View project →",
                 "btn-back-projects": "← All projects",
                 "btn-back-top": "Back to top ↑",
