@@ -75,7 +75,6 @@
         }
         .header-left { display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; }
         
-        /* Logo cliquable */
         .logo { 
             font-size: 1.5rem; text-transform: uppercase; letter-spacing: 1px; 
             text-decoration: none; color: var(--text-color); transition: opacity 0.3s ease;
@@ -96,7 +95,6 @@
         .lang-switch span { opacity: 0.4; transition: opacity 0.3s; cursor: pointer; }
         .lang-switch span.active, .lang-switch span:hover { opacity: 1; text-decoration: underline; }
         
-        /* Icône bicolore de Thème */
         .theme-btn { 
             background: none; border: none; cursor: pointer; display: flex; align-items: center; 
             justify-content: center; padding: 0.5rem; outline: none;
@@ -128,10 +126,8 @@
         
         .i-wrapper { position: relative; display: inline-block; pointer-events: none; }
         
-        /* Modifs sur le + (Interactive Drag & Drop) */
         .dot-plus {
             position: absolute; top: -1.3em; left: 50%; 
-            /* On gère le centering en JS dans translate */
             transform: translateX(-50%);
             font-size: 0.55em; color: var(--text-color); transition: color 0.3s ease;
             will-change: transform; pointer-events: auto; cursor: grab; z-index: 40;
@@ -139,10 +135,7 @@
             display: inline-block;
         }
         .dot-plus:active { cursor: grabbing; }
-        /* Zone de clic élargie pour le mobile */
-        .dot-plus::after {
-            content: ''; position: absolute; top: -20px; left: -20px; right: -20px; bottom: -20px;
-        }
+        .dot-plus::after { content: ''; position: absolute; top: -20px; left: -20px; right: -20px; bottom: -20px; }
 
         /* --- BANDEAU DEFILEMENT --- */
         .marquee-container {
@@ -153,13 +146,11 @@
         .marquee-text { font-size: 3rem; animation: scroll-left 15s linear infinite; }
         @keyframes scroll-left { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-        /* --- CONTENEUR GLOBAL INTRO & GRILLE 2 COLONNES --- */
+        /* --- CONTENEUR GLOBAL INTRO & GRILLE --- */
         .content-wrapper { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem 2rem 2rem; width: 100%; position: relative; z-index: 5; }
         .section-heading { font-size: 3rem; margin-bottom: 2rem; border-bottom: 4px solid var(--text-color); padding-bottom: 0.5rem; text-transform: uppercase; transition: border-color 0.5s ease; }
         
-        .intro-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: stretch; margin-bottom: 2rem;
-        }
+        .intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: stretch; margin-bottom: 2rem; }
         .intro-col { display: flex; flex-direction: column; }
 
         .intro-box {
@@ -183,23 +174,15 @@
             background-color: var(--text-color); color: var(--bg-color); 
         }
 
-        .skills-tags {
-            display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; align-items: center;
-            margin-bottom: auto; margin-top: auto; width: 100%;
-        }
+        .skills-tags { display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; align-items: center; margin-bottom: auto; margin-top: auto; width: 100%; }
         .skill-tag {
             border: 2px solid var(--text-color); padding: 0.5rem 1.2rem;
-            font-family: 'Anton', sans-serif; font-size: 1.2rem; text-transform: uppercase;
-            border-radius: 50px; 
-            transition: all 0.3s ease; background-color: transparent; color: var(--text-color);
-            cursor: default;
+            font-family: 'Anton', sans-serif; font-size: 1.2rem; text-transform: uppercase; border-radius: 50px; 
+            transition: all 0.3s ease; background-color: transparent; color: var(--text-color); cursor: default;
         }
-        .skill-tag:hover {
-            background-color: var(--text-color); color: var(--bg-color);
-            transform: translate(-3px, -3px); box-shadow: 4px 4px 0px var(--text-color);
-        }
+        .skill-tag:hover { background-color: var(--text-color); color: var(--bg-color); transform: translate(-3px, -3px); box-shadow: 4px 4px 0px var(--text-color); }
 
-        /* --- SÉQUENCE ZOOM & HORIZONTAL SCROLL (Style Wodniack) --- */
+        /* --- SÉQUENCE ZOOM & HORIZONTAL SCROLL 3D (WODNIACK STYLE) --- */
         .scroll-sequence { height: 500vh; position: relative; background-color: transparent; margin-bottom: 0; z-index: 5; }
         .scroll-sticky { position: sticky; top: 0; height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center; overflow: hidden; background-color: transparent; }
 
@@ -216,6 +199,8 @@
             clip-path: inset(25% 25% round 15px); will-change: clip-path; z-index: 20;
             background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
             background-size: 40px 40px; 
+            /* Ajout de la perspective pour l'effet 3D */
+            perspective: 1500px;
         }
 
         .topo-bg { position: absolute; width: 110%; height: 110%; top: -5%; left: -5%; z-index: 10; pointer-events: none; opacity: 0; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); }
@@ -230,9 +215,7 @@
         @keyframes layerFloat2 { 0% { transform: translate(0, 0) scale(1) rotate(0deg); } 100% { transform: translate(-2%, 2%) scale(1.03) rotate(-1deg); } }
         @keyframes layerFloat3 { 0% { transform: translate(0, 0) scale(1) rotate(0deg); } 100% { transform: translate(1%, 2%) scale(1.01) rotate(0.5deg); } }
 
-        .gate-text {
-            position: absolute; font-size: 6vw; text-transform: uppercase; z-index: 50; pointer-events: none; transition: opacity 0.2s ease, color 0.5s ease; letter-spacing: 2px; color: #e60023;
-        }
+        .gate-text { position: absolute; font-size: 6vw; text-transform: uppercase; z-index: 50; pointer-events: none; transition: opacity 0.2s ease, color 0.5s ease; letter-spacing: 2px; color: #e60023; }
         body.theme-light .gate-text { color: #b366ff; }
 
         .h-scroll-bg-text, .h-scroll-fg-text, .h-scroll-container, .h-btn-all { opacity: 0; }
@@ -247,48 +230,61 @@
         }
 
         .h-scroll-container {
-            display: flex; align-items: center; gap: 4vw; padding: 0 45vw; position: absolute; left: 0; top: 0; height: 100vh;
+            display: flex; align-items: center; gap: 5vw; padding: 0 45vw; position: absolute; left: 0; top: 0; height: 100vh;
             width: max-content; will-change: transform, opacity; z-index: 15; pointer-events: none; 
+            /* Conservation de la 3D pour les enfants */
+            transform-style: preserve-3d;
         }
 
-        /* Modifications Cartes Wodniack-style */
+        /* --- CARTES DE PROJETS DYNAMIQUES & VARIÉES --- */
         .h-card {
-            flex: 0 0 auto; width: 32vw; min-width: 320px; max-width: 500px; background-color: transparent; text-decoration: none; display: flex; flex-direction: column;
-            opacity: 1; transform: translateY(var(--y-base, 0)) skewX(var(--skew-vel, 0deg)); will-change: transform;
-            transition: filter 0.3s ease;
+            flex: 0 0 auto; background-color: transparent; text-decoration: none; display: flex; flex-direction: column;
+            will-change: transform, opacity; transform-style: preserve-3d;
+            /* La transformation 3D se fait en JS, mais on définit une base Y */
+            --y-base: 0vh; 
         }
-        
-        .h-card:nth-child(odd) { --y-base: -4vh; }
-        .h-card:nth-child(even) { --y-base: 4vh; }
 
-        .h-card-inner { transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); display: flex; flex-direction: column; width: 100%; }
+        /* Tailles et formats organiques alternés */
+        /* Carte standard */
+        .h-card:nth-child(3n+1) { width: 30vw; min-width: 320px; max-width: 500px; --y-base: -4vh; }
+        .h-card:nth-child(3n+1) .h-card-img-wrapper { aspect-ratio: 4 / 3; }
+        
+        /* Carte "Portrait" (plus fine) */
+        .h-card:nth-child(3n+2) { width: 24vw; min-width: 280px; max-width: 400px; --y-base: 6vh; }
+        .h-card:nth-child(3n+2) .h-card-img-wrapper { aspect-ratio: 1 / 1.1; }
+
+        /* Carte "Cinéma" (plus large) */
+        .h-card:nth-child(3n) { width: 38vw; min-width: 360px; max-width: 600px; --y-base: -2vh; }
+        .h-card:nth-child(3n) .h-card-img-wrapper { aspect-ratio: 16 / 9; }
+
+        .h-card-inner { transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); display: flex; flex-direction: column; width: 100%; transform-style: preserve-3d; }
         
         .h-card-img-wrapper { 
-            width: 100%; aspect-ratio: 16 / 9; height: auto; overflow: hidden; 
-            position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border-radius: 6px; 
-            background: #111;
+            width: 100%; height: auto; overflow: hidden; position: relative; 
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4); border-radius: 8px; background: #111;
+            /* Liseré discret */
+            border: 1px solid rgba(255,255,255,0.15);
         }
-        /* Voile doux sur l'image pour le côté premium */
+        
+        /* Voile sombre qui se dissipe au hover */
         .h-card-img-wrapper::after {
             content: ''; position: absolute; inset: 0; 
-            background: linear-gradient(to top, rgba(0,0,0,0.3) 0%, transparent 50%); 
+            background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 60%); 
             pointer-events: none; transition: opacity 0.5s ease;
         }
         
-        .h-card img { 
-            width: 100%; height: 100%; object-fit: cover; filter: grayscale(15%); 
-            transition: transform 0.7s cubic-bezier(0.25, 0.8, 0.25, 1), filter 0.5s ease; 
-        }
+        .h-card img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%); transition: transform 0.7s cubic-bezier(0.25, 0.8, 0.25, 1), filter 0.5s ease; }
         
-        .h-card-info { padding-top: 1.2rem; text-align: left; }
+        .h-card-info { padding-top: 1.2rem; text-align: left; transform: translateZ(20px); /* L'info ressort un peu en 3D */ }
         .h-card h3 { font-size: 1.5rem; margin-bottom: 0.5rem; line-height: 1.2; font-family: 'Inter', sans-serif; font-weight: 700; letter-spacing: -0.5px; text-transform: uppercase; color: #fff; transition: color 0.3s ease; }
         .h-card-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; font-family: 'Inter', sans-serif; }
-        .h-card-tags .tag { border: 1px solid rgba(255,255,255,0.2); padding: 0.2rem 0.5rem; font-size: 0.7rem; border-radius: 50px; text-transform: uppercase; font-weight: 600; color: rgba(255,255,255,0.7); }
+        .h-card-tags .tag { border: 1px solid rgba(255,255,255,0.2); padding: 0.2rem 0.5rem; font-size: 0.7rem; border-radius: 50px; text-transform: uppercase; font-weight: 600; color: rgba(255,255,255,0.7); backdrop-filter: blur(5px); }
 
-        .h-card:hover .h-card-inner { transform: translateY(-8px); }
+        .h-card:hover .h-card-inner { transform: translateY(-12px) translateZ(30px); }
         .h-card:hover .h-card-img-wrapper::after { opacity: 0; }
-        .h-card:hover img { transform: scale(1.06); filter: grayscale(0%); }
+        .h-card:hover img { transform: scale(1.08); filter: grayscale(0%); }
         .h-card:hover h3 { color: #b366ff; }
+        
         .h-card-spacer { flex: 0 0 auto; width: 25vw; } 
 
         .h-btn-all {
@@ -296,7 +292,7 @@
             padding: 0.7rem 1.8rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; text-decoration: none; border-radius: 50px; backdrop-filter: blur(10px); 
             transition: all 0.3s ease; will-change: opacity, transform; pointer-events: none; 
         }
-        .h-btn-all:hover { background: #fff; color: #000; transform: translateX(-50%) scale(1.05); }
+        .h-btn-all:hover { background: #fff; color: #000; transform: translateX(-50%) scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
 
         /* --- SECTION CONTACT --- */
         .cta-section { background-color: #050505; padding: 8rem 2rem 3rem 2rem; text-align: center; width: 100%; position: relative; z-index: 50; }
@@ -312,15 +308,8 @@
         }
         .btn-contact-violet:hover { transform: translate(-5px, -5px); box-shadow: 8px 8px 0px #b366ff; background-color: #b366ff; color: #050505; }
 
-        .back-to-top-wrapper {
-            background-color: #050505; text-align: center; padding-bottom: 3rem; position: relative; z-index: 50; width: 100%;
-        }
-        .btn-back-top {
-            display: inline-block; color: #fff; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.2); 
-            padding: 0.7rem 1.8rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; 
-            text-transform: uppercase; text-decoration: none; border-radius: 50px; backdrop-filter: blur(10px); 
-            transition: all 0.3s ease; cursor: pointer;
-        }
+        .back-to-top-wrapper { background-color: #050505; text-align: center; padding-bottom: 3rem; position: relative; z-index: 50; width: 100%; }
+        .btn-back-top { display: inline-block; color: #fff; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.2); padding: 0.7rem 1.8rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; text-decoration: none; border-radius: 50px; backdrop-filter: blur(10px); transition: all 0.3s ease; cursor: pointer; }
         .btn-back-top:hover { background: #fff; color: #000; transform: translateY(-3px); }
 
         .site-footer { background-color: #050505; color: rgba(179, 102, 255, 0.4); padding: 1.5rem 2rem 2rem 2rem; text-align: center; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; position: relative; }
@@ -338,9 +327,7 @@
             .intro-grid { gap: 2rem; }
         }
 
-        @media (max-width: 900px) {
-            .intro-grid { grid-template-columns: 1fr; }
-        }
+        @media (max-width: 900px) { .intro-grid { grid-template-columns: 1fr; } }
 
         @media (max-width: 768px) {
             header { padding: 1rem; }
@@ -350,12 +337,16 @@
             .hero h1 { font-size: 13vw; } 
             .marquee-text { font-size: 2rem; } 
             .section-heading { font-size: 2.5rem; }
-            .clip-box { clip-path: inset(20% 5% round 10px); }
+            .clip-box { clip-path: inset(20% 5% round 10px); perspective: 800px; /* Moins intense sur mobile */ }
             .gate-text { font-size: 12vw; }
             .gate-crosshair, .topo-bg { display: none; }
-            .h-scroll-container { padding: 0 10vw; gap: 8vw; } 
-            .h-card { width: 80vw; min-width: unset; } 
-            .h-card:nth-child(odd), .h-card:nth-child(even) { --y-base: 0; } 
+            
+            .h-scroll-container { padding: 0 10vw; gap: 10vw; } 
+            
+            /* Sur mobile, on annule les variations complexes de largeur pour garantir la lisibilité */
+            .h-card:nth-child(n) { width: 80vw; min-width: unset; max-width: unset; --y-base: 0; } 
+            .h-card:nth-child(n) .h-card-img-wrapper { aspect-ratio: 16 / 10; }
+            
             .h-card-spacer { width: 10vw; }
             .intro-box { padding: 1.5rem; }
         }
@@ -662,7 +653,6 @@
         let lastMouseX, lastMouseY, animationFrameId;
 
         if (dotPlus && marqueeBanner) {
-            // Chute initiale automatique
             setTimeout(() => {
                 if (!isDragging && currentY === 0 && !hasDropped) {
                     hasDropped = true;
@@ -670,7 +660,6 @@
                 }
             }, 1000);
 
-            // Événements Drag & Drop
             dotPlus.addEventListener('mousedown', startDrag);
             dotPlus.addEventListener('touchstart', startDrag, { passive: false });
 
@@ -732,7 +721,6 @@
                 let rect = dotPlus.getBoundingClientRect();
                 let mRect = marqueeBanner.getBoundingClientRect();
                 
-                // Collision avec le bandeau noir
                 if (rect.bottom >= mRect.top && velocityY > 0) {
                     let overlap = rect.bottom - mRect.top;
                     currentY -= overlap;
@@ -757,7 +745,7 @@
             }
         }
 
-        // --- MOTEUR DE DÉFILEMENT (Style Wodniack) ---
+        // --- MOTEUR DE DÉFILEMENT 3D (WODNIACK STYLE) ---
         const seq = document.getElementById('scroll-sequence');
         const clipBox = document.getElementById('clip-box');
         const gateText = document.getElementById('gate-text');
@@ -785,7 +773,8 @@
         updateTargetP();
 
         function renderAnimation() {
-            currentP += (targetP - currentP) * 0.05;
+            // Interpolation pour rendre le défilement ultra-fluide
+            currentP += (targetP - currentP) * 0.06; 
             
             let clipY = 25, clipX = 25, radius = 15, gateOp = 1, hTrans = 0, topoOp = 0.8;
             let contentOp = 0; 
@@ -803,6 +792,7 @@
                 hTrans = scrollProgress * maxScroll;
             } 
 
+            // Désactiver le clic quand ce n'est pas complètement visible
             if (contentOp > 0.9) {
                 hContainer.style.pointerEvents = 'auto';
                 if(btnAll) btnAll.style.pointerEvents = 'auto';
@@ -828,15 +818,35 @@
             if(bgText) bgText.style.transform = `translate(-50%, -50%) translateX(${currentP * 20}vw)`;
             if(fgText) fgText.style.transform = `translate(-50%, -50%) translateX(-${currentP * 40}vw)`;
 
-            // Effet skew plus doux et pro pendant le défilement (Wodniack style)
+            // --- L'EFFET CYLINDRE 3D ---
             if (contentOp > 0.1) {
-                let velocity = (targetP - currentP) * 500; 
-                let skewAngle = velocity * -0.04; 
-                skewAngle = Math.max(-8, Math.min(8, skewAngle)); 
+                const screenCenter = window.innerWidth / 2;
+                // Ajuster la courbure (plus le chiffre est bas, plus la courbure est forte)
+                const curveWidth = window.innerWidth * 0.6; 
 
-                cards.forEach(card => {
-                    card.style.setProperty('--skew-vel', `${skewAngle}deg`);
-                    // On ne modifie plus l'opacité ni l'échelle en fonction de la position
+                cards.forEach((card) => {
+                    const cardRect = card.getBoundingClientRect();
+                    const cardCenter = cardRect.left + (cardRect.width / 2);
+                    const distanceFromCenter = cardCenter - screenCenter;
+                    
+                    // Ratio de -1 (bord gauche) à 1 (bord droit)
+                    let normalizedDist = distanceFromCenter / curveWidth; 
+                    
+                    // Calcul des paramètres 3D
+                    // On fait pivoter la carte face au centre
+                    let rotateY = normalizedDist * -40; 
+                    // On repousse les cartes vers le fond au fur et à mesure qu'elles s'éloignent
+                    let translateZ = Math.abs(normalizedDist) * -400; 
+                    // On réduit légèrement l'opacité et l'échelle sur les bords pour l'effet de flou de distance
+                    let opacity = Math.max(0.3, 1 - Math.abs(normalizedDist) * 0.5);
+                    
+                    // On récupère le "décalage Y" natif de la carte défini dans le CSS (le côté asymétrique)
+                    let yBase = getComputedStyle(card).getPropertyValue('--y-base').trim();
+
+                    card.style.transform = `translateY(${yBase}) translateZ(${translateZ}px) rotateY(${rotateY}deg)`;
+                    card.style.opacity = opacity;
+                    // On s'assure que la carte du milieu passe par-dessus les autres
+                    card.style.zIndex = Math.round(100 - Math.abs(distanceFromCenter));
                 });
             }
 
