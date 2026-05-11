@@ -66,22 +66,23 @@
         }
 
         /* --- HEADER RESPONSIVE --- */
+        /* CRUCIAL : Z-index énorme pour passer au-dessus du voile gris */
         header {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 1.5rem 2rem; border-bottom: 2px solid var(--text-color); position: relative; z-index: 100;
+            padding: 1.5rem 2rem; border-bottom: 2px solid var(--text-color); position: relative; z-index: 2000;
         }
         .header-left { display: flex; align-items: center; gap: 3rem; }
-        .logo { font-size: 1.5rem; text-transform: uppercase; letter-spacing: 1px; text-decoration: none; color: var(--text-color); transition: opacity 0.3s ease; white-space: nowrap; position: relative; z-index: 1002; }
+        .logo { font-size: 1.5rem; text-transform: uppercase; letter-spacing: 1px; text-decoration: none; color: var(--text-color); transition: opacity 0.3s ease; white-space: nowrap; position: relative; z-index: 2002; }
         .logo:hover { opacity: 0.7; }
         
-        .main-nav { display: flex; gap: 0.5rem; }
+        .main-nav { display: flex; gap: 0.5rem; z-index: 2001; }
         .main-nav a {
             font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem; text-transform: uppercase; 
             text-decoration: none; color: var(--text-color); padding: 0.5rem 1rem; border: 2px solid transparent; transition: all 0.3s ease; border-radius: 4px;
         }
         .main-nav a.active, .main-nav a:hover { background-color: var(--text-color); color: var(--bg-color); border: 2px solid var(--text-color); }
         
-        .header-right { display: flex; align-items: center; gap: 1.5rem; position: relative; z-index: 1002; }
+        .header-right { display: flex; align-items: center; gap: 1.5rem; position: relative; z-index: 2001; }
         .lang-switch { display: flex; gap: 0.5rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem; }
         .lang-switch span { opacity: 0.4; transition: opacity 0.3s; cursor: pointer; }
         .lang-switch span.active, .lang-switch span:hover { opacity: 1; text-decoration: underline; }
@@ -94,11 +95,11 @@
         body.theme-dark .theme-indicator { background: linear-gradient(to right, #F2EFE9 50%, #0a0a0a 50%); border-color: #0a0a0a; transform: rotate(180deg); }
 
         /* MENU HAMBURGER (Mobile) */
-        .hamburger { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 1002; background: none; border: none; padding: 0.5rem; position: relative; }
+        .hamburger { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 2005; background: none; border: none; padding: 0.5rem; position: relative; }
         .hamburger span { width: 30px; height: 3px; background-color: var(--text-color); transition: transform 0.3s ease, opacity 0.3s ease; border-radius: 2px; }
 
-        /* Overlay Sombre pour le menu mobile corrigé */
-        .menu-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); opacity: 0; visibility: hidden; transition: opacity 0.4s ease; z-index: 998; backdrop-filter: blur(4px); }
+        /* Overlay Sombre pour le menu mobile (Z-index inférieur au header) */
+        .menu-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); opacity: 0; visibility: hidden; transition: opacity 0.4s ease; z-index: 1500; backdrop-filter: blur(4px); }
         .menu-overlay.open { opacity: 1; visibility: visible; }
 
         /* --- HERO SECTION --- */
@@ -153,7 +154,6 @@
             perspective: 1200px;
         }
 
-        /* LIGNES SVG RESTAURÉES ET ANIMÉES */
         .topo-bg { position: absolute; width: 110%; height: 110%; top: -5%; left: -5%; z-index: 10; pointer-events: none; opacity: 0; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); }
         .topo-bg svg { width: 100%; height: 100%; }
         .topo-bg path { stroke: rgba(255, 255, 255, 0.4); stroke-width: 1.5px; fill: none; }
@@ -171,11 +171,11 @@
         .h-scroll-bg-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300vw; text-align: center; font-size: 25vw; line-height: 0.8; color: #2E004F; z-index: 1; pointer-events: none; white-space: nowrap; will-change: transform, opacity; }
         .h-scroll-fg-text { position: absolute; top: 70%; left: 50%; transform: translate(-50%, -50%); width: 300vw; text-align: center; font-size: 10vw; color: transparent; -webkit-text-stroke: 2px rgba(255, 255, 255, 0.15); z-index: 20; pointer-events: none; white-space: nowrap; will-change: transform, opacity; }
 
-        /* Conteneur principal 3D */
+        /* Conteneur principal 3D (Zéro opacité ici pour sauver la 3D PC) */
         .h-scroll-container {
             display: flex; align-items: center; gap: 5vw; 
             padding: 0 45vw; position: absolute; left: 0; top: 0; height: 100vh;
-            width: max-content; will-change: transform, opacity; z-index: 15; pointer-events: none; 
+            width: max-content; will-change: transform; z-index: 15; pointer-events: none; 
             transform-style: preserve-3d;
         }
 
@@ -185,17 +185,17 @@
             width: 35vw; min-width: 300px; max-width: 600px; 
             position: relative;
             transform-origin: center center;
-            /* CRUCIAL : Pas de transition sur le transform ici pour éviter le conflit avec le JS sur PC */
             transform-style: preserve-3d; 
+            /* L'opacité est gérée par JS individuellement pour ne pas aplatir le conteneur */
         }
 
         .h-card:nth-child(odd) { --y-base: -3vh; }
         .h-card:nth-child(even) { --y-base: 3vh; }
 
-        /* Le conteneur interne gère l'animation de Hover sans bloquer la 3D du parent */
+        /* Conteneur interne : Animations CSS uniquement pour éviter les conflits JS */
         .h-card-inner { 
             display: flex; flex-direction: column; width: 100%;
-            transform: scale(1);
+            transform: scale(1) translateZ(0); /* Sécurisation 3D */
             transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         
@@ -208,7 +208,7 @@
         
         .h-card img { 
             width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%); 
-            transform: scale(1.25);
+            transform: scale(1.25); /* Marge pour le parallax */
             transition: filter 0.4s ease; 
         }
         
@@ -226,7 +226,7 @@
         
         .h-card-spacer { flex: 0 0 auto; width: 25vw; } 
 
-        /* Bouton "Voir tous les projets" (Violet) */
+        /* Bouton "Voir tous les projets" (Violet Lumineux) */
         .h-btn-all { 
             position: absolute; bottom: 3.5rem; left: 50%; transform: translateX(-50%); z-index: 30; 
             color: #b366ff !important; background: rgba(179, 102, 255, 0.05); border: 2px solid rgba(179, 102, 255, 0.6); 
@@ -247,8 +247,13 @@
         .btn-contact-violet:hover { transform: translate(-5px, -5px); box-shadow: 8px 8px 0px #b366ff; background-color: #b366ff; color: #050505; }
 
         .back-to-top-wrapper { background-color: #050505; text-align: center; padding-bottom: 3rem; position: relative; z-index: 50; width: 100%; }
-        .btn-back-top { display: inline-block; color: #fff; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.2); padding: 0.7rem 1.8rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; text-decoration: none; border-radius: 50px; backdrop-filter: blur(10px); transition: all 0.3s ease; cursor: pointer; }
-        .btn-back-top:hover { background: #fff; color: #000; transform: translateY(-3px); }
+        
+        /* Bouton Remonter (Avec effet Violet Lumineux demandé) */
+        .btn-back-top { 
+            display: inline-block; color: #b366ff; background: rgba(179, 102, 255, 0.05); border: 2px solid rgba(179, 102, 255, 0.6); 
+            padding: 0.7rem 1.8rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; text-decoration: none; border-radius: 50px; backdrop-filter: blur(10px); transition: all 0.3s ease; cursor: pointer; 
+        }
+        .btn-back-top:hover { background: #b366ff; color: #fff; transform: translateY(-3px) scale(1.05); box-shadow: 0 10px 20px rgba(179, 102, 255, 0.3); }
 
         .site-footer { background-color: #050505; color: rgba(179, 102, 255, 0.4); padding: 1.5rem 2rem 2rem 2rem; text-align: center; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; position: relative; }
 
@@ -260,7 +265,7 @@
         /* iPad & Tablettes (768px -> 1024px) */
         @media (max-width: 1024px) {
             .intro-grid { grid-template-columns: 1fr; gap: 2rem; }
-            .h-card { width: 45vw; } /* Cartes plus larges pour remplir l'iPad */
+            .h-card { width: 45vw; } 
             .h-scroll-container { gap: 6vw; }
         }
 
@@ -283,7 +288,7 @@
                 background-color: var(--bg-color); box-shadow: -10px 0 30px rgba(0,0,0,0.1);
                 flex-direction: column; justify-content: flex-start; align-items: flex-start;
                 padding: 6rem 2rem 2rem 2rem; transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-                z-index: 999; gap: 0.5rem;
+                z-index: 2001; gap: 0.5rem;
             }
             .theme-dark .main-nav { box-shadow: -10px 0 30px rgba(0,0,0,0.5); }
             .main-nav.open { right: 0; }
@@ -295,7 +300,7 @@
             
             .mobile-extras { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem; align-items: flex-start; width: 100%; }
 
-            /* Titre énorme sur mobile */
+            /* Titre énorme sur mobile (18vw) */
             .hero h1 { font-size: 18vw; } 
             
             .marquee-text { font-size: 2rem; } 
@@ -306,7 +311,7 @@
             
             .h-scroll-container { padding: 0 10vw; gap: 8vw; } 
             .h-card { width: 75vw; min-width: unset; max-width: unset; --y-base: 0; } 
-            .h-card:nth-child(odd), .h-card:nth-child(even) { --y-base: 0; } /* On retire le zigzag vertical sur mobile pour la clarté */
+            .h-card:nth-child(odd), .h-card:nth-child(even) { --y-base: 0; } 
             .h-card-spacer { width: 10vw; }
             .intro-box { padding: 1.5rem; }
         }
@@ -566,7 +571,7 @@
     </footer>
 
     <script>
-        // --- MENU MOBILE HAMBURGER (SIDEBAR FLUIDE) ---
+        // --- MENU MOBILE HAMBURGER (SIDEBAR FLUIDE & FIX Z-INDEX) ---
         const hamburger = document.getElementById('hamburger');
         const mainNav = document.getElementById('main-nav');
         const mobileExtras = document.getElementById('mobile-extras');
@@ -759,7 +764,7 @@
             }
         }
 
-        // --- MOTEUR DE DÉFILEMENT (LENTILLE CONCAVE PC/MOBILE CORRECT) ---
+        // --- MOTEUR DE DÉFILEMENT (LENTILLE CONCAVE PC RESTAURÉE) ---
         const seq = document.getElementById('scroll-sequence');
         const clipBox = document.getElementById('clip-box');
         const gateText = document.getElementById('gate-text');
@@ -818,7 +823,7 @@
             if(topoBg) topoBg.style.opacity = Math.max(0, topoOp);
             crosshairs.forEach(c => c.style.opacity = Math.max(0, gateOp));
             
-            hContainer.style.opacity = Math.max(0, contentOp);
+            // On ne touche JAMAIS à l'opacité globale du container pour préserver la 3D
             if(bgText) bgText.style.opacity = Math.max(0, contentOp * 0.5); 
             if(fgText) fgText.style.opacity = Math.max(0, contentOp);
             
@@ -834,10 +839,10 @@
             if (contentOp > 0.1) {
                 const screenCenter = window.innerWidth / 2;
 
-                // Limitation de la force de l'effet sur mobile pour que ça ne soit pas "violent"
-                let maxRot = window.innerWidth > 768 ? -30 : -15;
-                let maxZ = window.innerWidth > 768 ? 400 : 150;
-                let divider = window.innerWidth > 768 ? window.innerWidth / 1.5 : window.innerWidth / 1.2;
+                // Paramètres optimisés : Fort sur PC, léger sur mobile
+                let maxRot = window.innerWidth > 768 ? -45 : -15;
+                let maxZ = window.innerWidth > 768 ? 500 : 150;
+                let divider = window.innerWidth > 768 ? window.innerWidth / 1.8 : window.innerWidth / 1.2;
 
                 cards.forEach((card) => {
                     const cardRect = card.getBoundingClientRect();
@@ -846,19 +851,18 @@
                     
                     let normalizedDist = distanceFromCenter / divider;
                     normalizedDist = Math.max(-1, Math.min(1, normalizedDist));
-                    let easeDist = Math.pow(Math.abs(normalizedDist), 1.5);
+                    let easeDist = Math.pow(Math.abs(normalizedDist), 2);
 
-                    // Calcul 3D Lentille Concave (Plus doux et garanti sur PC)
                     let rotateY = normalizedDist * maxRot; 
                     let translateZ = easeDist * maxZ; 
-
                     let yBase = getComputedStyle(card).getPropertyValue('--y-base').trim() || '0px';
 
-                    // Le transform s'applique proprement car .h-card n'a plus de conflit "transition: transform"
+                    // L'opacité est gérée par carte pour préserver la 3D du parent
+                    card.style.opacity = Math.max(0, contentOp);
                     card.style.transform = `translateY(${yBase}) translateZ(${translateZ}px) rotateY(${rotateY}deg)`;
                     card.style.zIndex = Math.round(100 - (Math.abs(normalizedDist) * 50));
 
-                    // Parallax interne (Glissement de l'image inverse au mouvement)
+                    // Parallax interne (Glissement de l'image)
                     const img = card.querySelector('img');
                     if (img) {
                         let parallaxX = normalizedDist * -15; 
