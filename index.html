@@ -97,29 +97,37 @@
         .hamburger { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 9999; background: none; border: none; padding: 0.5rem; position: relative; }
         .hamburger span { width: 32px; height: 2px; background-color: var(--text-color); transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease; border-radius: 2px; transform-origin: center; }
 
-        /* MENU MOBILE PLEIN ECRAN (STYLE PRO APPLE/HARVARD) */
+        /* MENU MOBILE LATÉRAL (APPLE/HARVARD STYLE) */
         .mobile-menu-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: var(--bg-color); z-index: 9000;
-            display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
-            padding: 2rem 10vw; opacity: 0; visibility: hidden; pointer-events: none;
+            background-color: var(--bg-color); z-index: 9500;
+            display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;
+            padding: 6rem 10vw 2rem 10vw; opacity: 0; visibility: hidden; pointer-events: none;
             transition: opacity 0.4s ease, visibility 0.4s ease;
         }
         .mobile-menu-overlay.open { opacity: 1; visibility: visible; pointer-events: auto; }
         
+        /* La Croix de fermeture */
+        .close-menu-btn {
+            position: absolute; top: 2rem; right: 2rem; background: none; border: none; 
+            color: var(--text-color); cursor: pointer; transition: transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0; transform: rotate(-90deg);
+        }
+        .mobile-menu-overlay.open .close-menu-btn { opacity: 1; transform: rotate(0deg); }
+        .close-menu-btn:hover { transform: scale(1.1) rotate(90deg); }
+
         .mobile-menu-overlay a {
-            font-family: 'Inter', sans-serif; font-weight: 500; font-size: 3rem; letter-spacing: -1px;
-            color: var(--text-color); text-decoration: none; margin: 0.8rem 0;
-            transform: translateY(20px); opacity: 0; transition: transform 0.4s ease, opacity 0.4s ease;
+            font-family: 'Inter', sans-serif; font-weight: 500; font-size: 2.2rem; /* Taille réduite */
+            color: var(--text-color); text-decoration: none; margin: 0.6rem 0;
+            transform: translateY(15px); opacity: 0; transition: transform 0.4s ease, opacity 0.4s ease;
         }
         .mobile-menu-overlay.open a { transform: translateY(0); opacity: 1; }
-        /* Décalage d'apparition pour un bel effet en cascade */
-        .mobile-menu-overlay.open a:nth-child(1) { transition-delay: 0.1s; }
-        .mobile-menu-overlay.open a:nth-child(2) { transition-delay: 0.15s; }
-        .mobile-menu-overlay.open a:nth-child(3) { transition-delay: 0.2s; }
-        .mobile-menu-overlay.open a:nth-child(4) { transition-delay: 0.25s; }
+        .mobile-menu-overlay.open a:nth-child(2) { transition-delay: 0.1s; }
+        .mobile-menu-overlay.open a:nth-child(3) { transition-delay: 0.15s; }
+        .mobile-menu-overlay.open a:nth-child(4) { transition-delay: 0.2s; }
+        .mobile-menu-overlay.open a:nth-child(5) { transition-delay: 0.25s; }
         
-        .mobile-extras { display: none; margin-top: 3rem; gap: 2rem; align-items: center; transform: translateY(20px); opacity: 0; transition: transform 0.4s ease 0.3s, opacity 0.4s ease 0.3s; }
+        .mobile-extras { display: none; margin-top: 2rem; gap: 2rem; align-items: center; transform: translateY(15px); opacity: 0; transition: transform 0.4s ease 0.3s, opacity 0.4s ease 0.3s; border-top: 1px solid rgba(128,128,128,0.3); padding-top: 2rem; width: 100%; }
         .mobile-menu-overlay.open .mobile-extras { transform: translateY(0); opacity: 1; }
 
         /* --- HERO SECTION --- */
@@ -154,7 +162,7 @@
         .skill-tag { border: 2px solid var(--text-color); padding: 0.5rem 1.2rem; font-family: 'Anton', sans-serif; font-size: 1.2rem; text-transform: uppercase; border-radius: 50px; transition: all 0.3s ease; background-color: transparent; color: var(--text-color); cursor: default; }
         .skill-tag:hover { background-color: var(--text-color); color: var(--bg-color); transform: translate(-3px, -3px); box-shadow: 4px 4px 0px var(--text-color); }
 
-        /* --- SÉQUENCE HORIZONTALE CARROUSEL 3D --- */
+        /* --- SÉQUENCE HORIZONTALE CARROUSEL 3D (LENTILLE CONCAVE) --- */
         .scroll-sequence { height: 500vh; position: relative; background-color: transparent; margin-bottom: 0; z-index: 5; }
         .scroll-sticky { position: sticky; top: 0; height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center; overflow: hidden; background-color: transparent; }
 
@@ -171,12 +179,11 @@
             clip-path: inset(25% 25% round 15px); will-change: clip-path; z-index: 20;
             background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
             background-size: 40px 40px; 
-            /* PERSPECTIVE FIXÉE SUR LE CONTENEUR PRINCIPAL */
-            perspective: 1500px;
-            transform-style: preserve-3d;
+            /* PERSPECTIVE SOLIDE POUR ASSURER LA 3D PC/MOBILE */
+            perspective: 1200px;
         }
 
-        /* LIGNES SVG TOPOGRAPHIQUES COMPLETEMENT RESTAUREES */
+        /* LIGNES TOPOGRAPHIQUES */
         .topo-bg { position: absolute; width: 110%; height: 110%; top: -5%; left: -5%; z-index: 10; pointer-events: none; opacity: 0; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); }
         .topo-bg svg { width: 100%; height: 100%; }
         .topo-bg path { stroke: rgba(255, 255, 255, 0.4); stroke-width: 1.5px; fill: none; }
@@ -194,26 +201,26 @@
         .h-scroll-bg-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300vw; text-align: center; font-size: 25vw; line-height: 0.8; color: #2E004F; z-index: 1; pointer-events: none; white-space: nowrap; will-change: transform, opacity; }
         .h-scroll-fg-text { position: absolute; top: 70%; left: 50%; transform: translate(-50%, -50%); width: 300vw; text-align: center; font-size: 10vw; color: transparent; -webkit-text-stroke: 2px rgba(255, 255, 255, 0.15); z-index: 20; pointer-events: none; white-space: nowrap; will-change: transform, opacity; }
 
-        /* CONTENEUR DES CARTES - SANS preserve-3d POUR NE PAS FAIRE DISPARAÎTRE LES CARTES SUR PC */
+        /* Le conteneur preserve-3d est essentiel pour les sous-éléments */
         .h-scroll-container {
             display: flex; align-items: center; gap: 5vw; 
             padding: 0 45vw; position: absolute; left: 0; top: 0; height: 100vh;
             width: max-content; will-change: transform; z-index: 15; pointer-events: none; 
+            transform-style: preserve-3d;
         }
 
-        /* --- CARTES RECTANGULAIRES --- */
+        /* --- CARTES --- */
         .h-card {
             flex: 0 0 auto; background-color: transparent; text-decoration: none; display: flex; flex-direction: column;
             width: 35vw; min-width: 300px; max-width: 600px; 
-            position: relative;
-            transform-origin: center center;
-            will-change: transform;
-            /* Pas de transition ni d'opacité ici, contrôlé uniquement par JS */
+            position: relative; transform-origin: center center;
+            /* La transformation 3D est pilotée 100% par le JS, on supprime la transition ici pour PC */
         }
 
-        .h-card:nth-child(odd) { --y-base: -4vh; }
-        .h-card:nth-child(even) { --y-base: 4vh; }
+        .h-card:nth-child(odd) { --y-base: -3vh; }
+        .h-card:nth-child(even) { --y-base: 3vh; }
 
+        /* Conteneur interne gérant l'animation CSS (Zoom de survol) */
         .h-card-inner { 
             display: flex; flex-direction: column; width: 100%;
             transform: scale(1);
@@ -269,7 +276,7 @@
 
         .back-to-top-wrapper { background-color: #050505; text-align: center; padding-bottom: 3rem; position: relative; z-index: 50; width: 100%; }
         
-        /* Bouton Remonter (Avec l'effet Violet Lumineux) */
+        /* Bouton Remonter (Avec effet Violet Lumineux demandé) */
         .btn-back-top { 
             display: inline-block; color: #b366ff; background: rgba(179, 102, 255, 0.05); border: 2px solid rgba(179, 102, 255, 0.6); 
             padding: 0.7rem 1.8rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; text-decoration: none; border-radius: 50px; backdrop-filter: blur(10px); transition: all 0.3s ease; cursor: pointer; 
@@ -319,10 +326,14 @@
             .gate-crosshair, .topo-bg { display: none; }
             
             .h-scroll-container { padding: 0 10vw; gap: 8vw; } 
-            .h-card { width: 80vw; min-width: unset; max-width: unset; --y-base: 0; } 
+            .h-card { width: 75vw; min-width: unset; max-width: unset; --y-base: 0; } 
             .h-card:nth-child(odd), .h-card:nth-child(even) { --y-base: 0; } 
             .h-card-spacer { width: 10vw; }
             .intro-box { padding: 1.5rem; }
+
+            /* Réduction Contact Mobile */
+            .cta-section h2 { font-size: 2.2rem; }
+            .cta-text { font-size: 1rem; padding: 0 1rem; }
         }
     </style>
 </head>
@@ -357,6 +368,10 @@
     </header>
 
     <div class="mobile-menu-overlay" id="mobile-menu">
+        <button class="close-menu-btn" onclick="toggleMenu()" aria-label="Fermer le menu">
+            <svg viewBox="0 0 24 24" width="40" height="40" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+        
         <a href="index.html" onclick="toggleMenu()" class="active" data-i18n="nav-home">Accueil</a>
         <a href="projects.html" onclick="toggleMenu()" data-i18n="nav-projects">Projets</a>
         <a href="about.html" onclick="toggleMenu()" data-i18n="nav-about">À Propos</a>
@@ -586,7 +601,7 @@
     </footer>
 
     <script>
-        // --- MENU MOBILE HAMBURGER (APPLE/HARVARD STYLE) ---
+        // --- MENU MOBILE HAMBURGER (SIDEBAR FLUIDE & CROIX) ---
         const hamburger = document.getElementById('hamburger');
         const mobileMenu = document.getElementById('mobile-menu');
 
@@ -756,7 +771,7 @@
             }
         }
 
-        // --- MOTEUR DE DÉFILEMENT (LENTILLE CONCAVE PC RESTAURÉE) ---
+        // --- MOTEUR DE DÉFILEMENT (LENTILLE CONCAVE PC/MOBILE CORRECT) ---
         const seq = document.getElementById('scroll-sequence');
         const clipBox = document.getElementById('clip-box');
         const gateText = document.getElementById('gate-text');
@@ -815,7 +830,7 @@
             if(topoBg) topoBg.style.opacity = Math.max(0, topoOp);
             crosshairs.forEach(c => c.style.opacity = Math.max(0, gateOp));
             
-            // Fait apparaître l'intérieur progressivement sans bloquer le rendu 3D
+            hContainer.style.opacity = Math.max(0, contentOp);
             if(bgText) bgText.style.opacity = Math.max(0, contentOp * 0.5); 
             if(fgText) fgText.style.opacity = Math.max(0, contentOp);
             
@@ -828,11 +843,12 @@
             if(fgText) fgText.style.transform = `translate(-50%, -50%) translateX(-${currentP * 40}vw)`;
 
             // --- L'EFFET CONCAVE 3D ---
+            // Pour éviter les disparitions, on garde un Z négatif ! Le centre est repoussé, les bords sont à 0.
             if (contentOp > 0.1) {
                 const screenCenter = window.innerWidth / 2;
 
-                let maxRot = window.innerWidth > 768 ? -45 : -15;
-                let maxZ = window.innerWidth > 768 ? 450 : 150;
+                let maxRot = window.innerWidth > 768 ? -45 : -25;
+                let pushBack = window.innerWidth > 768 ? -400 : -100;
                 let divider = window.innerWidth > 768 ? window.innerWidth / 1.8 : window.innerWidth / 1.2;
 
                 cards.forEach((card) => {
@@ -845,11 +861,13 @@
                     let easeDist = Math.pow(Math.abs(normalizedDist), 2);
 
                     let rotateY = normalizedDist * maxRot; 
-                    let translateZ = easeDist * maxZ; 
+                    
+                    // La carte centrale est la plus loin (-400px), les côtés reviennent vers 0.
+                    let translateZ = (1 - easeDist) * pushBack; 
+
                     let yBase = getComputedStyle(card).getPropertyValue('--y-base').trim() || '0px';
 
-                    // L'opacité sur chaque carte (sauve la 3D PC)
-                    card.style.opacity = Math.max(0, contentOp - easeDist*0.3); // Légèrement plus transparent sur les bords extrêmes
+                    card.style.opacity = Math.max(0, contentOp);
                     card.style.transform = `translateY(${yBase}) translateZ(${translateZ}px) rotateY(${rotateY}deg)`;
                     card.style.zIndex = Math.round(100 - (Math.abs(normalizedDist) * 50));
 
