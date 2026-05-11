@@ -164,7 +164,7 @@
         .skill-tag:hover { background-color: var(--text-color); color: var(--bg-color); transform: translate(-3px, -3px); box-shadow: 4px 4px 0px var(--text-color); }
 
         /* --- SÉQUENCE HORIZONTALE CARROUSEL 3D LENTILLE CONCAVE --- */
-        /* HAUTEUR AUGMENTÉE POUR RALENTIR L'ANIMATION DE SCROLL */
+        /* Hauteur plus importante pour un défilement moins brutal */
         .scroll-sequence { height: 650vh; position: relative; background-color: transparent; margin-bottom: 0; z-index: 5; }
         .scroll-sticky { position: sticky; top: 0; height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center; overflow: hidden; background-color: transparent; }
         
@@ -211,19 +211,17 @@
             padding: 0 45vw; position: absolute; left: 0; top: 0; height: 100vh;
             width: max-content; will-change: transform; z-index: 15;
             transform-style: preserve-3d;
-            backface-visibility: hidden; 
         }
 
         /* --- CARTES AVEC EFFET LENTILLE CONCAVE --- */
         .h-card {
             flex: 0 0 auto; background-color: transparent; text-decoration: none; display: flex; flex-direction: column;
-            width: 42vw; /* LARGEUR AUGMENTÉE (était 35vw) */
-            min-width: 320px; max-width: 700px; 
+            width: 38vw; /* Projets globalement plus grands */
+            min-width: 300px; max-width: 650px; 
             position: relative;
             cursor: pointer; 
             pointer-events: auto !important;
             transform-style: preserve-3d;
-            backface-visibility: hidden; 
         }
         .h-card-inner { 
             display: flex; flex-direction: column; width: 100%;
@@ -248,15 +246,14 @@
         .h-card-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; font-family: 'Inter', sans-serif; }
         .h-card-tags .tag { border: 1px solid rgba(255,255,255,0.3); padding: 0.2rem 0.5rem; font-size: 0.7rem; border-radius: 50px; text-transform: uppercase; font-weight: 600; color: rgba(255,255,255,0.8); transition: border-color 0.3s ease, color 0.3s ease; }
         
-        /* EFFETS DE SURVOL (Hover) */
-        /* Translation Z légère juste au survol pour l'effet "pop" */
+        /* EFFETS DE SURVOL */
         .h-card:hover .h-card-inner { transform: scale(1.05) translateZ(30px); } 
         .h-card:hover .h-card-img-wrapper { box-shadow: 0 30px 60px rgba(179, 102, 255, 0.4); border-color: rgba(179, 102, 255, 0.8); }
-        .h-card:hover img { filter: grayscale(0%) brightness(1.1); transform: scale(1.15) !important; } 
+        .h-card:hover img { filter: grayscale(0%) brightness(1.1); transform: scale(1.18) !important; } 
         .h-card:hover h3 { color: #b366ff; }
         .h-card:hover .h-card-tags .tag { border-color: rgba(179, 102, 255, 0.6); color: rgba(179, 102, 255, 1); }
         
-        .h-card-spacer { flex: 0 0 auto; width: 45vw; pointer-events: none; } 
+        .h-card-spacer { flex: 0 0 auto; width: 35vw; pointer-events: none; } 
         
         /* BOUTON VIOLET LUMINEUX */
         .h-btn-all { 
@@ -297,7 +294,7 @@
         /* --- RESPONSIVE OPTIMISÉ --- */
         @media (max-width: 1024px) {
             .intro-grid { grid-template-columns: 1fr; gap: 2rem; }
-            .h-card { width: 50vw; } 
+            .h-card { width: 45vw; } 
             .h-scroll-container { gap: 6vw; }
             .hero h1 { font-size: 15vw; } 
             .clip-box { perspective: 1500px; }
@@ -330,8 +327,8 @@
             .gate-crosshair { display: none; } 
             
             .h-scroll-container { padding: 0 10vw; gap: 8vw; } 
-            .h-card { width: 80vw; min-width: unset; max-width: unset; } 
-            .h-card-spacer { width: 20vw; }
+            .h-card { width: 75vw; min-width: unset; max-width: unset; } 
+            .h-card-spacer { width: 10vw; }
             
             .h-btn-all { white-space: nowrap; font-size: 0.75rem; padding: 0.6rem 1rem; bottom: 2rem; }
             
@@ -801,12 +798,13 @@
         updateTargetP();
 
         function renderAnimation() {
-            // Interpolation ADOUCIE (0.07) = Défilement des projets plus "smooth" et posé
+            // Interpolation ADOUCIE (0.07) = Animation plus lente et fluide
             currentP += (targetP - currentP) * 0.07; 
             
             let clipY = 25, clipX = 25, radius = 15, gateOp = 1, hTrans = 0, currentTopoOp = 0.8;
             let contentOp = 0; 
             
+            // Calcul précis pour s'arrêter juste au bout, empêchant d'afficher du noir
             const maxScroll = hContainer.scrollWidth - window.innerWidth; 
 
             // Phase d'ouverture
@@ -858,13 +856,14 @@
             if(bgText) bgText.style.transform = `translate(-50%, -50%) translateX(${currentP * 20}vw)`;
             if(fgText) fgText.style.transform = `translate(-50%, -50%) translateX(-${currentP * 40}vw)`;
 
-            // --- NOUVEL EFFET LENTILLE CONCAVE 100% CLIQUABLE ---
+            // --- VRAI EFFET 3D CONCAVE ET 100% CLIQUABLE ---
             if (contentOp > 0) {
                 const screenCenter = window.innerWidth / 2;
                 const isMobile = window.innerWidth <= 768;
                 
-                const maxRotation = isMobile ? 25 : 35; 
-                const divider = isMobile ? window.innerWidth / 1.2 : window.innerWidth / 1.8;
+                const maxRotation = isMobile ? 35 : 45; 
+                const depthCurve = isMobile ? 200 : 350; // Profondeur maximale de l'effet
+                const divider = isMobile ? window.innerWidth / 1.2 : window.innerWidth / 2;
 
                 cards.forEach((card) => {
                     const cardRect = card.getBoundingClientRect();
@@ -877,32 +876,37 @@
                     const absNormDist = Math.abs(normalizedDist);
                     const easedDist = Math.pow(absNormDist, 1.5); 
                     
-                    // Rotation vers l'intérieur
+                    // Rotation vers l'intérieur (effet concave)
                     const rotateY = -normalizedDist * maxRotation;
                     
-                    // Simulation de la profondeur via Scale au lieu de translateZ (empêche les bugs de clics CSS 3D)
-                    // Le projet au centre (easedDist = 0) a son échelle de base (1).
-                    // Les projets sur les bords (easedDist = 1) sont très légèrement "grossis" par la perspective (1.08)
-                    const scale = 1 + (easedDist * 0.08); 
+                    // ASTUCE DU CLIC : Pour garder le visuel "U" (concave) sans le bug des Z négatifs :
+                    // On place le projet du centre à Z = 0 (au lieu de Z = -350).
+                    // Et on fait avancer les projets des bords vers l'utilisateur (jusqu'à Z = +350).
+                    // La forme 3D reste exactement la même qu'avant, mais elle est physiquement devant le fond !
+                    const translateZ = easedDist * depthCurve; 
                     
-                    const opacity = Math.max(0.4, 1 - (easedDist * 0.6));
+                    // Léger ajustement d'échelle pour éviter que les bords (qui sont plus proches) ne grossissent trop
+                    const scale = 1 - (easedDist * 0.1); 
+                    
+                    const opacity = Math.max(0.3, 1 - (easedDist * 0.6));
                     
                     card.style.opacity = opacity * contentOp;
                     card.style.transform = `
+                        translateZ(${translateZ}px) 
                         rotateY(${rotateY}deg) 
                         scale(${scale})
                     `;
                     
-                    // Les cartes au centre ont la priorité Z la plus haute
-                    card.style.zIndex = Math.round(100 - (absNormDist * 10));
+                    // Les cartes proches de nous passent au-dessus des autres visuellement
+                    card.style.zIndex = Math.round(100 + translateZ);
                     
-                    // Parallax de l'image (sans bandes noires)
+                    // Parallax de l'image (Ajusté pour ENLEVER les bandes noires)
                     const img = card.querySelector('img');
                     if (img) {
-                        // Le décalage est réduit (4 au lieu de 20) et le scale augmenté (1.12)
-                        // Il est donc physiquement impossible de voir les bandes noires du conteneur.
-                        const parallaxX = normalizedDist * 4; 
-                        img.style.transform = `scale(1.12) translateX(${parallaxX}%)`;
+                        // Le mouvement latéral est réduit (8) et le zoom augmenté (1.15)
+                        // L'image dépasse suffisamment de son conteneur pour ne jamais laisser de vide.
+                        const parallaxX = normalizedDist * 8; 
+                        img.style.transform = `scale(1.15) translateX(${parallaxX}%)`;
                     }
                 });
             }
