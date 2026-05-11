@@ -29,7 +29,6 @@
 
         html { background-color: #050505; scroll-behavior: smooth; }
 
-        /* --- SELECTION DE TEXTE --- */
         ::selection { background-color: #b366ff; color: #fff; }
         ::-moz-selection { background-color: #b366ff; color: #fff; }
         body.theme-dark ::selection { background-color: #0a0a0a; color: #e60023; }
@@ -98,6 +97,10 @@
         .hamburger { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 200; background: none; border: none; padding: 0.5rem; }
         .hamburger span { width: 30px; height: 3px; background-color: var(--text-color); transition: transform 0.3s ease, opacity 0.3s ease; border-radius: 2px; }
 
+        /* Overlay Sombre pour le menu mobile */
+        .menu-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.4); opacity: 0; visibility: hidden; transition: opacity 0.4s ease; z-index: 140; backdrop-filter: blur(3px); }
+        .menu-overlay.open { opacity: 1; visibility: visible; }
+
         /* --- HERO SECTION --- */
         .hero { height: 75vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-bottom: 2px solid var(--text-color); position: relative; overflow: visible; z-index: 20; }
         .hero h1 { font-size: 11vw; line-height: 0.9; text-transform: uppercase; letter-spacing: -2px; position: relative; z-index: 30; pointer-events: none; display: flex; justify-content: center; }
@@ -147,16 +150,15 @@
             clip-path: inset(25% 25% round 15px); will-change: clip-path; z-index: 20;
             background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
             background-size: 40px 40px; 
-            perspective: 1200px;
+            perspective: 1500px;
         }
 
         .topo-bg { position: absolute; width: 110%; height: 110%; top: -5%; left: -5%; z-index: 10; pointer-events: none; opacity: 0; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); }
         .topo-bg svg { width: 100%; height: 100%; }
         .topo-bg path { stroke: rgba(255, 255, 255, 0.4); stroke-width: 1.5px; fill: none; }
 
-        .gate-text { position: absolute; font-size: 6vw; text-transform: uppercase; z-index: 50; pointer-events: none; transition: opacity 0.2s ease, color 0.5s ease; letter-spacing: 2px; color: #e60023; }
-        body.theme-light .gate-text { color: #b366ff; }
-
+        .gate-text { position: absolute; font-size: 6vw; text-transform: uppercase; z-index: 50; pointer-events: none; transition: opacity 0.2s ease, color 0.5s ease; letter-spacing: 2px; color: #b366ff; }
+        
         .h-scroll-bg-text, .h-scroll-fg-text, .h-scroll-container, .h-btn-all { opacity: 0; }
         
         .h-scroll-bg-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300vw; text-align: center; font-size: 25vw; line-height: 0.8; color: #2E004F; z-index: 1; pointer-events: none; white-space: nowrap; will-change: transform, opacity; }
@@ -173,11 +175,15 @@
         .h-card {
             flex: 0 0 auto; background-color: transparent; text-decoration: none; display: flex; flex-direction: column;
             width: 35vw; min-width: 300px; max-width: 600px; 
-            will-change: transform; position: relative;
+            position: relative;
             transform-origin: center center;
+            /* Pas de "transition: transform" ici pour éviter les bugs sur PC avec le JS */
         }
 
-        /* Conteneur pour l'animation de Hover */
+        .h-card:nth-child(odd) { --y-base: -3vh; }
+        .h-card:nth-child(even) { --y-base: 3vh; }
+
+        /* Le conteneur interne gère l'animation de Hover pour ne pas perturber la 3D du parent */
         .h-card-inner { 
             display: flex; flex-direction: column; width: 100%;
             transform: scale(1);
@@ -186,7 +192,7 @@
         
         .h-card-img-wrapper { 
             width: 100%; aspect-ratio: 16 / 10; overflow: hidden; position: relative; 
-            background: #111; border-radius: 6px; border: 2px solid rgba(255,255,255,0.8);
+            background: #111; border-radius: 6px; border: 2px solid rgba(255,255,255,0.2);
             box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
             transition: box-shadow 0.4s ease, border-color 0.4s ease;
         }
@@ -202,7 +208,7 @@
         .h-card-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; font-family: 'Inter', sans-serif; }
         .h-card-tags .tag { border: 1px solid rgba(255,255,255,0.3); padding: 0.2rem 0.5rem; font-size: 0.7rem; border-radius: 50px; text-transform: uppercase; font-weight: 600; color: rgba(255,255,255,0.8); transition: border-color 0.3s ease; }
 
-        /* EFFETS DE SURVOL DOUX ET PROPRES */
+        /* EFFETS DE SURVOL DOUX */
         .h-card:hover .h-card-inner { transform: scale(1.05); } 
         .h-card:hover .h-card-img-wrapper { box-shadow: 0 20px 45px rgba(0,0,0,0.8); border-color: #b366ff; }
         .h-card:hover img { filter: grayscale(0%); } 
@@ -211,8 +217,13 @@
         
         .h-card-spacer { flex: 0 0 auto; width: 25vw; } 
 
-        .h-btn-all { position: absolute; bottom: 3.5rem; left: 50%; transform: translateX(-50%); z-index: 30; color: #fff; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.2); padding: 0.7rem 1.8rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; text-decoration: none; border-radius: 50px; backdrop-filter: blur(10px); transition: all 0.3s ease; will-change: opacity, transform; pointer-events: none; }
-        .h-btn-all:hover { background: #fff; color: #000; transform: translateX(-50%) scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+        /* Bouton "Voir tous les projets" toujours Violet */
+        .h-btn-all { 
+            position: absolute; bottom: 3.5rem; left: 50%; transform: translateX(-50%); z-index: 30; 
+            color: #b366ff; background: rgba(179, 102, 255, 0.05); border: 1px solid rgba(179, 102, 255, 0.4); 
+            padding: 0.7rem 1.8rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; text-decoration: none; border-radius: 50px; backdrop-filter: blur(10px); transition: all 0.3s ease; will-change: opacity, transform; pointer-events: none; 
+        }
+        .h-btn-all:hover { background: #b366ff; color: #fff; transform: translateX(-50%) scale(1.05); box-shadow: 0 10px 20px rgba(179, 102, 255, 0.3); }
 
         /* --- SECTION CONTACT --- */
         .cta-section { background-color: #050505; padding: 8rem 2rem 3rem 2rem; text-align: center; width: 100%; position: relative; z-index: 50; }
@@ -235,12 +246,16 @@
         .fade-in-section { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; will-change: opacity, visibility; }
         .fade-in-section.is-visible { opacity: 1; transform: none; }
 
-        /* --- RESPONSIVE OPTIMISÉ (AVEC MENU HAMBURGER) --- */
+        /* --- RESPONSIVE OPTIMISÉ (AVEC MENU LATÉRAL SIDEBAR) --- */
+        @media (max-width: 1024px) {
+            .intro-grid { gap: 2rem; }
+        }
+
         @media (max-width: 768px) {
             header { padding: 1rem 1.5rem; }
             .header-left { gap: 1rem; width: 100%; justify-content: space-between; }
             .logo { width: auto; }
-            .header-right { display: none; } /* On cache l'ancien bloc droit */
+            .header-right { display: none; } 
             
             /* Apparition du Hamburger */
             .hamburger { display: flex; }
@@ -248,18 +263,23 @@
             .hamburger.open span:nth-child(2) { opacity: 0; }
             .hamburger.open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
 
-            /* Menu Plein Écran */
+            /* Menu Latéral Élégant (Sidebar droite) */
             .main-nav {
-                position: fixed; top: 0; right: -100%; width: 100vw; height: 100vh;
-                background-color: var(--bg-color); flex-direction: column; justify-content: center;
-                align-items: center; transition: right 0.5s cubic-bezier(0.25, 1, 0.5, 1); z-index: 150; gap: 2rem;
+                position: fixed; top: 0; right: -300px; width: 280px; height: 100vh;
+                background-color: var(--bg-color); box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+                flex-direction: column; justify-content: flex-start; align-items: flex-start;
+                padding: 6rem 2rem 2rem 2rem; transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+                z-index: 150; gap: 0.5rem;
             }
+            .theme-dark .main-nav { box-shadow: -10px 0 30px rgba(0,0,0,0.5); }
             .main-nav.open { right: 0; }
-            .main-nav a { font-size: 2rem; padding: 1rem; border: none; }
-            .main-nav a.active, .main-nav a:hover { background: none; color: var(--text-color); text-decoration: underline; }
+            .main-nav a { 
+                font-size: 1.2rem; padding: 1rem 0; width: 100%; border: none; 
+                border-bottom: 1px solid rgba(128,128,128,0.2); border-radius: 0;
+            }
+            .main-nav a.active, .main-nav a:hover { background: none; color: var(--text-color); padding-left: 10px; border-bottom: 1px solid var(--text-color); }
             
-            /* On réinjecte les boutons thème et langue dans le menu mobile */
-            .mobile-extras { display: flex; gap: 2rem; margin-top: 2rem; align-items: center; }
+            .mobile-extras { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem; align-items: flex-start; width: 100%; }
 
             .hero h1 { font-size: 13vw; } 
             .marquee-text { font-size: 2rem; } 
@@ -268,7 +288,7 @@
             .gate-text { font-size: 12vw; }
             .gate-crosshair, .topo-bg { display: none; }
             
-            .h-scroll-container { padding: 0 10vw; gap: 10vw; } 
+            .h-scroll-container { padding: 0 10vw; gap: 8vw; } 
             .h-card { width: 80vw; min-width: unset; max-width: unset; } 
             .h-card-spacer { width: 10vw; }
             .intro-box { padding: 1.5rem; }
@@ -279,6 +299,7 @@
 <body id="top">
 
     <div class="global-grid-hover" id="global-grid-hover"></div>
+    <div class="menu-overlay" id="menu-overlay"></div>
 
     <header>
         <div class="header-left">
@@ -453,6 +474,33 @@
                             </div>
                         </div>
                     </a>
+                    <a href="#" class="h-card">
+                        <div class="h-card-inner">
+                            <div class="h-card-img-wrapper"><img src="miniature_linguistique.jpg" alt="Évolution Linguistique"></div>
+                            <div class="h-card-info">
+                                <h3 data-i18n="proj-lang">Évolution Linguistique</h3>
+                                <div class="h-card-tags"><span class="tag">NLP</span> <span class="tag">Data Science</span></div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#" class="h-card">
+                        <div class="h-card-inner">
+                            <div class="h-card-img-wrapper"><img src="miniature_geopolitique.jpg" alt="Régimes Politiques"></div>
+                            <div class="h-card-info">
+                                <h3 data-i18n="proj-geo">Régimes Politiques</h3>
+                                <div class="h-card-tags"><span class="tag">Géopolitique</span> <span class="tag">Statistiques</span></div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="https://hunt-it.github.io/Accueil/?" target="_blank" class="h-card">
+                        <div class="h-card-inner">
+                            <div class="h-card-img-wrapper"><img src="miniature_huntit.jpg" alt="Hunt-It Chasse au trésor"></div>
+                            <div class="h-card-info">
+                                <h3 data-i18n="proj-hunt">Hunt-It : Chasse au Trésor</h3>
+                                <div class="h-card-tags"><span class="tag">JS</span> <span class="tag">Game Design</span></div>
+                            </div>
+                        </div>
+                    </a>
                     <a href="https://julien-ars.github.io/article-paradoxe-littoral/" target="_blank" class="h-card">
                         <div class="h-card-inner">
                             <div class="h-card-img-wrapper"><img src="miniature_paradoxe.jpg" alt="Le Paradoxe du Littoral"></div>
@@ -494,29 +542,38 @@
     </footer>
 
     <script>
-        // --- MENU MOBILE HAMBURGER ---
+        // --- MENU MOBILE HAMBURGER (SIDEBAR FLUIDE) ---
         const hamburger = document.getElementById('hamburger');
         const mainNav = document.getElementById('main-nav');
         const mobileExtras = document.getElementById('mobile-extras');
+        const menuOverlay = document.getElementById('menu-overlay');
 
         if (window.innerWidth <= 768) mobileExtras.style.display = 'flex';
         
         window.addEventListener('resize', () => {
             if (window.innerWidth <= 768) mobileExtras.style.display = 'flex';
-            else { mobileExtras.style.display = 'none'; mainNav.classList.remove('open'); hamburger.classList.remove('open'); document.body.style.overflow = ''; }
+            else { 
+                mobileExtras.style.display = 'none'; 
+                mainNav.classList.remove('open'); 
+                hamburger.classList.remove('open'); 
+                menuOverlay.classList.remove('open');
+                document.body.style.overflow = ''; 
+            }
         });
 
-        hamburger.addEventListener('click', () => {
+        function toggleMenu() {
             hamburger.classList.toggle('open');
             mainNav.classList.toggle('open');
+            menuOverlay.classList.toggle('open');
             document.body.style.overflow = mainNav.classList.contains('open') ? 'hidden' : '';
-        });
+        }
+
+        hamburger.addEventListener('click', toggleMenu);
+        menuOverlay.addEventListener('click', toggleMenu);
 
         mainNav.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
-                hamburger.classList.remove('open');
-                mainNav.classList.remove('open');
-                document.body.style.overflow = '';
+                if (window.innerWidth <= 768) toggleMenu();
             });
         });
 
@@ -567,7 +624,7 @@
             globalGridHover.style.setProperty('--grid-overlay-op', '0');
         });
 
-        // --- CASSURE DU PLUS (MOTEUR PHYSIQUE & EFFET PAC-MAN) ---
+        // --- CASSURE DU PLUS (MOTEUR PHYSIQUE & BOUCLE PAC-MAN) ---
         const dotPlus = document.querySelector('.dot-plus');
         const marqueeBanner = document.getElementById('marquee-banner');
 
@@ -643,7 +700,6 @@
                 currentY += velocityY;
                 velocityX *= friction;
 
-                // Collision avec le bandeau noir
                 let rect = dotPlus.getBoundingClientRect();
                 let mRect = marqueeBanner.getBoundingClientRect();
                 
@@ -660,8 +716,7 @@
                     }
                 }
 
-                // --- EFFET PAC-MAN (BOUCLE INFINIE HORIZONTALE) ---
-                // Si la coordonnée X globale dépasse la largeur de l'écran, on téléporte
+                // --- EFFET PAC-MAN ---
                 let globalX = rect.left + rect.width / 2;
                 if (globalX > window.innerWidth + 30) {
                     currentX -= (window.innerWidth + 60);
@@ -680,7 +735,7 @@
             }
         }
 
-        // --- MOTEUR DE DÉFILEMENT (LENTILLE CONCAVE & PARALLAX) ---
+        // --- MOTEUR DE DÉFILEMENT (LENTILLE CONCAVE PC/MOBILE) ---
         const seq = document.getElementById('scroll-sequence');
         const clipBox = document.getElementById('clip-box');
         const gateText = document.getElementById('gate-text');
@@ -751,7 +806,7 @@
             if(bgText) bgText.style.transform = `translate(-50%, -50%) translateX(${currentP * 20}vw)`;
             if(fgText) fgText.style.transform = `translate(-50%, -50%) translateX(-${currentP * 40}vw)`;
 
-            // --- L'EFFET LENTILLE CONCAVE & PARALLAX ---
+            // --- L'EFFET CONCAVE 3D & PARALLAX INTERNE ---
             if (contentOp > 0.1) {
                 const screenCenter = window.innerWidth / 2;
 
@@ -760,29 +815,27 @@
                     const cardCenter = cardRect.left + (cardRect.width / 2);
                     const distanceFromCenter = cardCenter - screenCenter;
                     
-                    // Normalisation de la distance (entre -1 et 1)
-                    let normalizedDist = distanceFromCenter / (window.innerWidth * 0.6);
+                    // Ratio de distance, on augmente le diviseur sur PC pour un effet plus ample
+                    let divider = window.innerWidth > 768 ? window.innerWidth / 1.8 : window.innerWidth / 1.2;
+                    let normalizedDist = distanceFromCenter / divider;
                     normalizedDist = Math.max(-1, Math.min(1, normalizedDist));
                     
-                    let easeDist = Math.pow(Math.abs(normalizedDist), 1.5);
+                    let easeDist = Math.pow(Math.abs(normalizedDist), 2);
 
-                    // --- 1. L'EFFET CONCAVE 3D ---
-                    // La carte centrale est normale, les côtés "s'avancent" vers l'utilisateur et pivotent vers le centre
-                    // Cela crée l'effet d'étirement en haut et en bas dû à la perspective
-                    let rotateY = normalizedDist * -35; 
-                    let translateZ = easeDist * 350; // Positif : la carte vient vers nous sur les bords
+                    // Calcul 3D Lentille Concave (Plus puissant sur PC pour qu'il soit bien visible)
+                    let rotateY = normalizedDist * -45; 
+                    let translateZ = easeDist * 500; // Les cartes sur les bords s'avancent et "s'étirent" vers le spectateur
 
                     let yBase = getComputedStyle(card).getPropertyValue('--y-base').trim() || '0px';
 
-                    // Le JS applique uniquement la 3D à la base
+                    // On applique le transform uniquement à la racine de la carte
                     card.style.transform = `translateY(${yBase}) translateZ(${translateZ}px) rotateY(${rotateY}deg)`;
                     card.style.zIndex = Math.round(100 - (Math.abs(normalizedDist) * 50));
 
-                    // --- 2. LE PARALLAX INTERNE ---
+                    // Parallax interne
                     const img = card.querySelector('img');
                     if (img) {
-                        // L'image "glisse" à l'intérieur du cadre dans la direction opposée au scroll
-                        let parallaxX = normalizedDist * -15; 
+                        let parallaxX = normalizedDist * -20; 
                         img.style.transform = `scale(1.25) translateX(${parallaxX}%)`;
                     }
                 });
@@ -801,7 +854,7 @@
             setLanguage(currentLang);
         });
 
-        // SOURIS ESQUIVE SUR LES LETTRES UNIQUEMENT
+        // SOURIS ESQUIVE SUR LES LETTRES
         const letters = document.querySelectorAll('.letter');
         heroSection.addEventListener('mousemove', (e) => {
             letters.forEach(letter => {
