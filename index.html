@@ -71,7 +71,7 @@
             padding: 1.5rem 2rem; border-bottom: 2px solid var(--text-color); position: relative; z-index: 100;
         }
         .header-left { display: flex; align-items: center; gap: 3rem; }
-        .logo { font-size: 1.5rem; text-transform: uppercase; letter-spacing: 1px; text-decoration: none; color: var(--text-color); transition: opacity 0.3s ease; white-space: nowrap; position: relative; z-index: 200; }
+        .logo { font-size: 1.5rem; text-transform: uppercase; letter-spacing: 1px; text-decoration: none; color: var(--text-color); transition: opacity 0.3s ease; white-space: nowrap; position: relative; z-index: 1002; }
         .logo:hover { opacity: 0.7; }
         
         .main-nav { display: flex; gap: 0.5rem; }
@@ -81,7 +81,7 @@
         }
         .main-nav a.active, .main-nav a:hover { background-color: var(--text-color); color: var(--bg-color); border: 2px solid var(--text-color); }
         
-        .header-right { display: flex; align-items: center; gap: 1.5rem; position: relative; z-index: 200; }
+        .header-right { display: flex; align-items: center; gap: 1.5rem; position: relative; z-index: 1002; }
         .lang-switch { display: flex; gap: 0.5rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem; }
         .lang-switch span { opacity: 0.4; transition: opacity 0.3s; cursor: pointer; }
         .lang-switch span.active, .lang-switch span:hover { opacity: 1; text-decoration: underline; }
@@ -94,16 +94,16 @@
         body.theme-dark .theme-indicator { background: linear-gradient(to right, #F2EFE9 50%, #0a0a0a 50%); border-color: #0a0a0a; transform: rotate(180deg); }
 
         /* MENU HAMBURGER (Mobile) */
-        .hamburger { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 200; background: none; border: none; padding: 0.5rem; }
+        .hamburger { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 1002; background: none; border: none; padding: 0.5rem; position: relative; }
         .hamburger span { width: 30px; height: 3px; background-color: var(--text-color); transition: transform 0.3s ease, opacity 0.3s ease; border-radius: 2px; }
 
-        /* Overlay Sombre pour le menu mobile */
-        .menu-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.4); opacity: 0; visibility: hidden; transition: opacity 0.4s ease; z-index: 140; backdrop-filter: blur(3px); }
+        /* Overlay Sombre pour le menu mobile corrigé */
+        .menu-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); opacity: 0; visibility: hidden; transition: opacity 0.4s ease; z-index: 998; backdrop-filter: blur(4px); }
         .menu-overlay.open { opacity: 1; visibility: visible; }
 
         /* --- HERO SECTION --- */
         .hero { height: 75vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-bottom: 2px solid var(--text-color); position: relative; overflow: visible; z-index: 20; }
-        .hero h1 { font-size: 11vw; line-height: 0.9; text-transform: uppercase; letter-spacing: -2px; position: relative; z-index: 30; pointer-events: none; display: flex; justify-content: center; }
+        .hero h1 { font-size: 11vw; line-height: 0.9; text-transform: uppercase; letter-spacing: -2px; position: relative; z-index: 30; pointer-events: none; display: flex; justify-content: center; width: 100%; }
         .hero h1 span.letter { display: inline-block; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); will-change: transform; }
         .i-wrapper { position: relative; display: inline-block; pointer-events: none; }
         .dot-plus {
@@ -150,12 +150,19 @@
             clip-path: inset(25% 25% round 15px); will-change: clip-path; z-index: 20;
             background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
             background-size: 40px 40px; 
-            perspective: 1500px;
+            perspective: 1200px;
         }
 
+        /* LIGNES SVG RESTAURÉES ET ANIMÉES */
         .topo-bg { position: absolute; width: 110%; height: 110%; top: -5%; left: -5%; z-index: 10; pointer-events: none; opacity: 0; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); }
         .topo-bg svg { width: 100%; height: 100%; }
         .topo-bg path { stroke: rgba(255, 255, 255, 0.4); stroke-width: 1.5px; fill: none; }
+        .layer-1 { animation: layerFloat1 8s ease-in-out infinite alternate; transform-origin: center; }
+        .layer-2 { animation: layerFloat2 12s ease-in-out infinite alternate-reverse; transform-origin: center; }
+        .layer-3 { animation: layerFloat3 10s ease-in-out infinite alternate; transform-origin: center; }
+        @keyframes layerFloat1 { 0% { transform: translate(0, 0) scale(1) rotate(0deg); } 100% { transform: translate(2%, -1%) scale(1.02) rotate(1deg); } }
+        @keyframes layerFloat2 { 0% { transform: translate(0, 0) scale(1) rotate(0deg); } 100% { transform: translate(-2%, 2%) scale(1.03) rotate(-1deg); } }
+        @keyframes layerFloat3 { 0% { transform: translate(0, 0) scale(1) rotate(0deg); } 100% { transform: translate(1%, 2%) scale(1.01) rotate(0.5deg); } }
 
         .gate-text { position: absolute; font-size: 6vw; text-transform: uppercase; z-index: 50; pointer-events: none; transition: opacity 0.2s ease, color 0.5s ease; letter-spacing: 2px; color: #b366ff; }
         
@@ -164,6 +171,7 @@
         .h-scroll-bg-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300vw; text-align: center; font-size: 25vw; line-height: 0.8; color: #2E004F; z-index: 1; pointer-events: none; white-space: nowrap; will-change: transform, opacity; }
         .h-scroll-fg-text { position: absolute; top: 70%; left: 50%; transform: translate(-50%, -50%); width: 300vw; text-align: center; font-size: 10vw; color: transparent; -webkit-text-stroke: 2px rgba(255, 255, 255, 0.15); z-index: 20; pointer-events: none; white-space: nowrap; will-change: transform, opacity; }
 
+        /* Conteneur principal 3D */
         .h-scroll-container {
             display: flex; align-items: center; gap: 5vw; 
             padding: 0 45vw; position: absolute; left: 0; top: 0; height: 100vh;
@@ -177,13 +185,14 @@
             width: 35vw; min-width: 300px; max-width: 600px; 
             position: relative;
             transform-origin: center center;
-            /* Pas de "transition: transform" ici pour éviter les bugs sur PC avec le JS */
+            /* CRUCIAL : Pas de transition sur le transform ici pour éviter le conflit avec le JS sur PC */
+            transform-style: preserve-3d; 
         }
 
         .h-card:nth-child(odd) { --y-base: -3vh; }
         .h-card:nth-child(even) { --y-base: 3vh; }
 
-        /* Le conteneur interne gère l'animation de Hover pour ne pas perturber la 3D du parent */
+        /* Le conteneur interne gère l'animation de Hover sans bloquer la 3D du parent */
         .h-card-inner { 
             display: flex; flex-direction: column; width: 100%;
             transform: scale(1);
@@ -217,13 +226,13 @@
         
         .h-card-spacer { flex: 0 0 auto; width: 25vw; } 
 
-        /* Bouton "Voir tous les projets" toujours Violet */
+        /* Bouton "Voir tous les projets" (Violet) */
         .h-btn-all { 
             position: absolute; bottom: 3.5rem; left: 50%; transform: translateX(-50%); z-index: 30; 
-            color: #b366ff; background: rgba(179, 102, 255, 0.05); border: 1px solid rgba(179, 102, 255, 0.4); 
+            color: #b366ff !important; background: rgba(179, 102, 255, 0.05); border: 2px solid rgba(179, 102, 255, 0.6); 
             padding: 0.7rem 1.8rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; text-decoration: none; border-radius: 50px; backdrop-filter: blur(10px); transition: all 0.3s ease; will-change: opacity, transform; pointer-events: none; 
         }
-        .h-btn-all:hover { background: #b366ff; color: #fff; transform: translateX(-50%) scale(1.05); box-shadow: 0 10px 20px rgba(179, 102, 255, 0.3); }
+        .h-btn-all:hover { background: #b366ff; color: #fff !important; transform: translateX(-50%) scale(1.05); box-shadow: 0 10px 20px rgba(179, 102, 255, 0.3); }
 
         /* --- SECTION CONTACT --- */
         .cta-section { background-color: #050505; padding: 8rem 2rem 3rem 2rem; text-align: center; width: 100%; position: relative; z-index: 50; }
@@ -246,30 +255,35 @@
         .fade-in-section { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; will-change: opacity, visibility; }
         .fade-in-section.is-visible { opacity: 1; transform: none; }
 
-        /* --- RESPONSIVE OPTIMISÉ (AVEC MENU LATÉRAL SIDEBAR) --- */
+        /* --- RESPONSIVE OPTIMISÉ --- */
+
+        /* iPad & Tablettes (768px -> 1024px) */
         @media (max-width: 1024px) {
-            .intro-grid { gap: 2rem; }
+            .intro-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .h-card { width: 45vw; } /* Cartes plus larges pour remplir l'iPad */
+            .h-scroll-container { gap: 6vw; }
         }
 
+        /* Mobile Strict (Max 768px) */
         @media (max-width: 768px) {
             header { padding: 1rem 1.5rem; }
             .header-left { gap: 1rem; width: 100%; justify-content: space-between; }
             .logo { width: auto; }
             .header-right { display: none; } 
             
-            /* Apparition du Hamburger */
+            /* Hamburger animé */
             .hamburger { display: flex; }
             .hamburger.open span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
             .hamburger.open span:nth-child(2) { opacity: 0; }
             .hamburger.open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
 
-            /* Menu Latéral Élégant (Sidebar droite) */
+            /* Menu Latéral Élégant */
             .main-nav {
                 position: fixed; top: 0; right: -300px; width: 280px; height: 100vh;
                 background-color: var(--bg-color); box-shadow: -10px 0 30px rgba(0,0,0,0.1);
                 flex-direction: column; justify-content: flex-start; align-items: flex-start;
                 padding: 6rem 2rem 2rem 2rem; transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-                z-index: 150; gap: 0.5rem;
+                z-index: 999; gap: 0.5rem;
             }
             .theme-dark .main-nav { box-shadow: -10px 0 30px rgba(0,0,0,0.5); }
             .main-nav.open { right: 0; }
@@ -281,7 +295,9 @@
             
             .mobile-extras { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem; align-items: flex-start; width: 100%; }
 
-            .hero h1 { font-size: 13vw; } 
+            /* Titre énorme sur mobile */
+            .hero h1 { font-size: 18vw; } 
+            
             .marquee-text { font-size: 2rem; } 
             .section-heading { font-size: 2.5rem; }
             .clip-box { clip-path: inset(20% 5% round 10px); perspective: 1000px; }
@@ -289,10 +305,10 @@
             .gate-crosshair, .topo-bg { display: none; }
             
             .h-scroll-container { padding: 0 10vw; gap: 8vw; } 
-            .h-card { width: 80vw; min-width: unset; max-width: unset; } 
+            .h-card { width: 75vw; min-width: unset; max-width: unset; --y-base: 0; } 
+            .h-card:nth-child(odd), .h-card:nth-child(even) { --y-base: 0; } /* On retire le zigzag vertical sur mobile pour la clarté */
             .h-card-spacer { width: 10vw; }
             .intro-box { padding: 1.5rem; }
-            .intro-grid { grid-template-columns: 1fr; gap: 2rem; }
         }
     </style>
 </head>
@@ -410,10 +426,18 @@
                             <path d="M-200,100 C100,200 400,-100 800,200 S1100,50 1300,300" />
                             <path d="M-200,250 C160,350 460,50 860,350 S1160,200 1300,450" />
                             <path d="M-200,500 C140,600 440,300 740,600 S1040,400 1300,700" />
+                            <path d="M-200,750 C120,850 520,550 820,850 S1120,650 1300,950" />
                         </g>
                         <g class="layer-2">
                             <path d="M-200,150 C120,250 420,-50 820,250 S1120,100 1300,350" />
                             <path d="M-200,400 C100,500 400,200 700,500 S1000,300 1300,600" />
+                            <path d="M-200,550 C160,650 460,350 760,650 S1060,450 1300,750" />
+                            <path d="M-200,800 C140,900 540,600 840,900 S1140,700 1300,1000" />
+                        </g>
+                        <g class="layer-3">
+                            <path d="M-200,200 C140,300 440,0 840,300 S1140,150 1300,400" />
+                            <path d="M-200,450 C120,550 420,250 720,550 S1020,350 1300,650" />
+                            <path d="M-200,700 C100,800 500,500 800,800 S1100,600 1300,900" />
                         </g>
                     </svg>
                 </div>
@@ -735,7 +759,7 @@
             }
         }
 
-        // --- MOTEUR DE DÉFILEMENT (LENTILLE CONCAVE PC/MOBILE) ---
+        // --- MOTEUR DE DÉFILEMENT (LENTILLE CONCAVE PC/MOBILE CORRECT) ---
         const seq = document.getElementById('scroll-sequence');
         const clipBox = document.getElementById('clip-box');
         const gateText = document.getElementById('gate-text');
@@ -810,32 +834,34 @@
             if (contentOp > 0.1) {
                 const screenCenter = window.innerWidth / 2;
 
+                // Limitation de la force de l'effet sur mobile pour que ça ne soit pas "violent"
+                let maxRot = window.innerWidth > 768 ? -30 : -15;
+                let maxZ = window.innerWidth > 768 ? 400 : 150;
+                let divider = window.innerWidth > 768 ? window.innerWidth / 1.5 : window.innerWidth / 1.2;
+
                 cards.forEach((card) => {
                     const cardRect = card.getBoundingClientRect();
                     const cardCenter = cardRect.left + (cardRect.width / 2);
                     const distanceFromCenter = cardCenter - screenCenter;
                     
-                    // Ratio de distance, on augmente le diviseur sur PC pour un effet plus ample
-                    let divider = window.innerWidth > 768 ? window.innerWidth / 1.8 : window.innerWidth / 1.2;
                     let normalizedDist = distanceFromCenter / divider;
                     normalizedDist = Math.max(-1, Math.min(1, normalizedDist));
-                    
-                    let easeDist = Math.pow(Math.abs(normalizedDist), 2);
+                    let easeDist = Math.pow(Math.abs(normalizedDist), 1.5);
 
-                    // Calcul 3D Lentille Concave (Plus puissant sur PC pour qu'il soit bien visible)
-                    let rotateY = normalizedDist * -45; 
-                    let translateZ = easeDist * 500; // Les cartes sur les bords s'avancent et "s'étirent" vers le spectateur
+                    // Calcul 3D Lentille Concave (Plus doux et garanti sur PC)
+                    let rotateY = normalizedDist * maxRot; 
+                    let translateZ = easeDist * maxZ; 
 
                     let yBase = getComputedStyle(card).getPropertyValue('--y-base').trim() || '0px';
 
-                    // On applique le transform uniquement à la racine de la carte
+                    // Le transform s'applique proprement car .h-card n'a plus de conflit "transition: transform"
                     card.style.transform = `translateY(${yBase}) translateZ(${translateZ}px) rotateY(${rotateY}deg)`;
                     card.style.zIndex = Math.round(100 - (Math.abs(normalizedDist) * 50));
 
-                    // Parallax interne
+                    // Parallax interne (Glissement de l'image inverse au mouvement)
                     const img = card.querySelector('img');
                     if (img) {
-                        let parallaxX = normalizedDist * -20; 
+                        let parallaxX = normalizedDist * -15; 
                         img.style.transform = `scale(1.25) translateX(${parallaxX}%)`;
                     }
                 });
