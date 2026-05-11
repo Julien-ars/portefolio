@@ -161,7 +161,7 @@
         .skill-tag { border: 2px solid var(--text-color); padding: 0.5rem 1.2rem; font-family: 'Anton', sans-serif; font-size: 1.2rem; text-transform: uppercase; border-radius: 50px; transition: all 0.3s ease; background-color: transparent; color: var(--text-color); cursor: default; }
         .skill-tag:hover { background-color: var(--text-color); color: var(--bg-color); transform: translate(-3px, -3px); box-shadow: 4px 4px 0px var(--text-color); }
 
-        /* --- SÉQUENCE HORIZONTALE CARROUSEL 3D --- */
+        /* --- SÉQUENCE HORIZONTALE CARROUSEL 3D LENTILLE CONCAVE --- */
         .scroll-sequence { height: 500vh; position: relative; background-color: transparent; margin-bottom: 0; z-index: 5; }
         .scroll-sticky { position: sticky; top: 0; height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center; overflow: hidden; background-color: transparent; }
 
@@ -178,7 +178,7 @@
             clip-path: inset(25% 25% round 15px); will-change: clip-path; z-index: 20;
             background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
             background-size: 40px 40px; 
-            perspective: 1400px; 
+            perspective: 2000px; /* Perspective augmentée pour l'effet de lentille */
         }
 
         .topo-bg { 
@@ -209,68 +209,57 @@
             transform-style: preserve-3d;
         }
 
-        /* --- CARTES & STRUCTURE 3D CORRIGÉE --- */
-        /* 1. La balise cliquable reste parfaitement plate en 2D pour une zone de clic infaillible */
+        /* --- CARTES AVEC EFFET LENTILLE CONCAVE --- */
         .h-card {
             flex: 0 0 auto; background-color: transparent; text-decoration: none; display: flex; flex-direction: column;
             width: 35vw; min-width: 300px; max-width: 600px; 
             position: relative;
-            cursor: pointer; pointer-events: auto !important; 
-        }
-
-        .h-card:nth-child(odd) { --y-base: -3vh; }
-        .h-card:nth-child(even) { --y-base: 3vh; }
-
-        /* 2. Ce wrapper encaisse la distorsion 3D Javascript sans casser le clic au dessus */
-        .h-card-3d-wrapper {
-            width: 100%; height: 100%;
-            transform-origin: center center;
+            cursor: pointer; 
+            pointer-events: auto !important;
             transform-style: preserve-3d;
-            will-change: transform;
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        /* 3. L'intérieur gère l'animation de survol CSS pure */
         .h-card-inner { 
             display: flex; flex-direction: column; width: 100%;
-            transform: scale(1);
-            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             transform-style: preserve-3d;
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         
         .h-card-img-wrapper { 
             width: 100%; aspect-ratio: 16 / 10; overflow: hidden; position: relative; 
-            background: #111; border-radius: 6px; border: 2px solid rgba(255,255,255,0.2);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
-            transition: box-shadow 0.4s ease, border-color 0.4s ease;
+            background: #111; border-radius: 8px; border: 2px solid rgba(255,255,255,0.15);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6); 
+            transition: box-shadow 0.4s ease, border-color 0.4s ease, transform 0.4s ease;
         }
         
         .h-card img { 
-            width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%); 
-            transform: scale(1.25); 
-            transition: filter 0.4s ease; 
+            width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%) brightness(0.9); 
+            transform: scale(1.05); 
+            transition: filter 0.4s ease, transform 0.4s ease; 
         }
         
         .h-card-info { padding-top: 1.2rem; text-align: left; }
         .h-card h3 { font-size: 1.5rem; margin-bottom: 0.5rem; line-height: 1.2; font-family: 'Inter', sans-serif; font-weight: 700; letter-spacing: -0.5px; text-transform: uppercase; color: #fff; transition: color 0.3s ease; }
         .h-card-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; font-family: 'Inter', sans-serif; }
-        .h-card-tags .tag { border: 1px solid rgba(255,255,255,0.3); padding: 0.2rem 0.5rem; font-size: 0.7rem; border-radius: 50px; text-transform: uppercase; font-weight: 600; color: rgba(255,255,255,0.8); transition: border-color 0.3s ease; }
+        .h-card-tags .tag { border: 1px solid rgba(255,255,255,0.3); padding: 0.2rem 0.5rem; font-size: 0.7rem; border-radius: 50px; text-transform: uppercase; font-weight: 600; color: rgba(255,255,255,0.8); transition: border-color 0.3s ease, color 0.3s ease; }
 
-        /* EFFETS DE SURVOL CSS FLUIDES */
-        .h-card:hover .h-card-inner { transform: scale(1.08) translateZ(30px); } 
-        .h-card:hover .h-card-img-wrapper { box-shadow: 0 25px 50px rgba(0,0,0,0.9); border-color: #b366ff; }
-        .h-card:hover img { filter: grayscale(0%); } 
+        /* EFFETS DE SURVOL */
+        .h-card:hover .h-card-inner { transform: scale(1.05) translateZ(20px); } 
+        .h-card:hover .h-card-img-wrapper { box-shadow: 0 30px 60px rgba(179, 102, 255, 0.4); border-color: rgba(179, 102, 255, 0.8); }
+        .h-card:hover img { filter: grayscale(0%) brightness(1.1); transform: scale(1.08); } 
         .h-card:hover h3 { color: #b366ff; }
-        .h-card:hover .h-card-tags .tag { border-color: rgba(179, 102, 255, 0.6); }
+        .h-card:hover .h-card-tags .tag { border-color: rgba(179, 102, 255, 0.6); color: rgba(179, 102, 255, 1); }
         
         .h-card-spacer { flex: 0 0 auto; width: 25vw; pointer-events: none; } 
 
         /* BOUTON VIOLET LUMINEUX */
         .h-btn-all { 
             position: absolute; bottom: 3.5rem; left: 50%; transform: translateX(-50%); z-index: 30; 
-            color: #b366ff !important; background: rgba(179, 102, 255, 0.05); border: 2px solid rgba(179, 102, 255, 0.6); 
+            color: #b366ff !important; background: rgba(179, 102, 255, 0.08); border: 2px solid rgba(179, 102, 255, 0.6); 
             padding: 0.7rem 1.8rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; text-decoration: none; border-radius: 50px; backdrop-filter: blur(10px); transition: all 0.3s ease; will-change: opacity, transform; 
         }
-        .h-btn-all:hover { background: #b366ff; color: #fff !important; transform: translateX(-50%) scale(1.05); box-shadow: 0 10px 20px rgba(179, 102, 255, 0.4); }
+        .h-btn-all:hover { background: #b366ff; color: #fff !important; transform: translateX(-50%) scale(1.05); box-shadow: 0 10px 25px rgba(179, 102, 255, 0.5); }
 
         /* --- SECTION CONTACT --- */
         .cta-section { 
@@ -307,6 +296,7 @@
             .h-card { width: 45vw; } 
             .h-scroll-container { gap: 6vw; }
             .hero h1 { font-size: 15vw; } 
+            .clip-box { perspective: 1500px; }
         }
 
         @media (max-width: 768px) {
@@ -332,13 +322,12 @@
             .skill-tag { font-size: 1rem; padding: 0.4rem 0.8rem; }
             .btn-primary { font-size: 1.2rem; padding: 0.6rem 1rem; }
 
-            .clip-box { clip-path: inset(20% 5% round 10px); perspective: 800px; }
+            .clip-box { clip-path: inset(20% 5% round 10px); perspective: 1000px; }
             .gate-text { font-size: 12vw; }
             .gate-crosshair { display: none; } 
             
             .h-scroll-container { padding: 0 10vw; gap: 8vw; } 
-            .h-card { width: 75vw; min-width: unset; max-width: unset; --y-base: 0; } 
-            .h-card:nth-child(odd), .h-card:nth-child(even) { --y-base: 0; } 
+            .h-card { width: 75vw; min-width: unset; max-width: unset; } 
             .h-card-spacer { width: 10vw; }
 
             .h-btn-all {
@@ -501,111 +490,92 @@
                 </div>
 
                 <div class="h-scroll-container" id="h-scroll-container">
-                    <!-- STRUCTURE MODIFIÉE POUR CHAQUE CARTE : l'ajout du wrapper-3d est la clé du fix -->
                     <a href="projet_duree.html" class="h-card">
-                        <div class="h-card-3d-wrapper">
-                            <div class="h-card-inner">
-                                <div class="h-card-img-wrapper"><img src="miniature_duree.jpg" alt="Prédiction de Durée"></div>
-                                <div class="h-card-info">
-                                    <h3 data-i18n="proj-duree">Prédiction de Durée</h3>
-                                    <div class="h-card-tags"><span class="tag">Régression L1</span> <span class="tag">Machine Learning</span></div>
-                                </div>
+                        <div class="h-card-inner">
+                            <div class="h-card-img-wrapper"><img src="miniature_duree.jpg" alt="Prédiction de Durée"></div>
+                            <div class="h-card-info">
+                                <h3 data-i18n="proj-duree">Prédiction de Durée</h3>
+                                <div class="h-card-tags"><span class="tag">Régression L1</span> <span class="tag">Machine Learning</span></div>
                             </div>
                         </div>
                     </a>
                     
                     <a href="projet_couleur.html" class="h-card">
-                        <div class="h-card-3d-wrapper">
-                            <div class="h-card-inner">
-                                <div class="h-card-img-wrapper"><img src="miniature_couleur.jpg" alt="Colorimétrie du Cinéma"></div>
-                                <div class="h-card-info">
-                                    <h3 data-i18n="proj-couleur">Colorimétrie du Cinéma</h3>
-                                    <div class="h-card-tags"><span class="tag">Classification</span> <span class="tag">Python</span></div>
-                                </div>
+                        <div class="h-card-inner">
+                            <div class="h-card-img-wrapper"><img src="miniature_couleur.jpg" alt="Colorimétrie du Cinéma"></div>
+                            <div class="h-card-info">
+                                <h3 data-i18n="proj-couleur">Colorimétrie du Cinéma</h3>
+                                <div class="h-card-tags"><span class="tag">Classification</span> <span class="tag">Python</span></div>
                             </div>
                         </div>
                     </a>
                     
                     <a href="projet_animes.html" class="h-card">
-                        <div class="h-card-3d-wrapper">
-                            <div class="h-card-inner">
-                                <div class="h-card-img-wrapper"><img src="miniature_anime.jpg" alt="Violence & Animation"></div>
-                                <div class="h-card-info">
-                                    <h3 data-i18n="proj-anime">Violence & Animation</h3>
-                                    <div class="h-card-tags"><span class="tag">Statistiques</span> <span class="tag">Pandas</span></div>
-                                </div>
+                        <div class="h-card-inner">
+                            <div class="h-card-img-wrapper"><img src="miniature_anime.jpg" alt="Violence & Animation"></div>
+                            <div class="h-card-info">
+                                <h3 data-i18n="proj-anime">Violence & Animation</h3>
+                                <div class="h-card-tags"><span class="tag">Statistiques</span> <span class="tag">Pandas</span></div>
                             </div>
                         </div>
                     </a>
                     
                     <a href="#" class="h-card">
-                        <div class="h-card-3d-wrapper">
-                            <div class="h-card-inner">
-                                <div class="h-card-img-wrapper"><img src="miniature_voyage.jpg" alt="Générations & Voyages"></div>
-                                <div class="h-card-info">
-                                    <h3 data-i18n="proj-voyage">Générations & Voyages</h3>
-                                    <div class="h-card-tags"><span class="tag">Sondages</span> <span class="tag">Statistiques</span></div>
-                                </div>
+                        <div class="h-card-inner">
+                            <div class="h-card-img-wrapper"><img src="miniature_voyage.jpg" alt="Générations & Voyages"></div>
+                            <div class="h-card-info">
+                                <h3 data-i18n="proj-voyage">Générations & Voyages</h3>
+                                <div class="h-card-tags"><span class="tag">Sondages</span> <span class="tag">Statistiques</span></div>
                             </div>
                         </div>
                     </a>
                     
                     <a href="#" class="h-card">
-                        <div class="h-card-3d-wrapper">
-                            <div class="h-card-inner">
-                                <div class="h-card-img-wrapper"><img src="miniature_ens.jpg" alt="Analyse Littéraire ENS"></div>
-                                <div class="h-card-info">
-                                    <h3 data-i18n="proj-ens">Analyse Littéraire (ENS)</h3>
-                                    <div class="h-card-tags"><span class="tag">NLP</span> <span class="tag">Humanités</span></div>
-                                </div>
+                        <div class="h-card-inner">
+                            <div class="h-card-img-wrapper"><img src="miniature_ens.jpg" alt="Analyse Littéraire ENS"></div>
+                            <div class="h-card-info">
+                                <h3 data-i18n="proj-ens">Analyse Littéraire (ENS)</h3>
+                                <div class="h-card-tags"><span class="tag">NLP</span> <span class="tag">Humanités</span></div>
                             </div>
                         </div>
                     </a>
                     
                     <a href="#" class="h-card">
-                        <div class="h-card-3d-wrapper">
-                            <div class="h-card-inner">
-                                <div class="h-card-img-wrapper"><img src="miniature_linguistique.jpg" alt="Évolution Linguistique"></div>
-                                <div class="h-card-info">
-                                    <h3 data-i18n="proj-lang">Évolution Linguistique</h3>
-                                    <div class="h-card-tags"><span class="tag">NLP</span> <span class="tag">Data Science</span></div>
-                                </div>
+                        <div class="h-card-inner">
+                            <div class="h-card-img-wrapper"><img src="miniature_linguistique.jpg" alt="Évolution Linguistique"></div>
+                            <div class="h-card-info">
+                                <h3 data-i18n="proj-lang">Évolution Linguistique</h3>
+                                <div class="h-card-tags"><span class="tag">NLP</span> <span class="tag">Data Science</span></div>
                             </div>
                         </div>
                     </a>
                     
                     <a href="#" class="h-card">
-                        <div class="h-card-3d-wrapper">
-                            <div class="h-card-inner">
-                                <div class="h-card-img-wrapper"><img src="miniature_geopolitique.jpg" alt="Régimes Politiques"></div>
-                                <div class="h-card-info">
-                                    <h3 data-i18n="proj-geo">Régimes Politiques</h3>
-                                    <div class="h-card-tags"><span class="tag">Géopolitique</span> <span class="tag">Statistiques</span></div>
-                                </div>
+                        <div class="h-card-inner">
+                            <div class="h-card-img-wrapper"><img src="miniature_geopolitique.jpg" alt="Régimes Politiques"></div>
+                            <div class="h-card-info">
+                                <h3 data-i18n="proj-geo">Régimes Politiques</h3>
+                                <div class="h-card-tags"><span class="tag">Géopolitique</span> <span class="tag">Statistiques</span></div>
                             </div>
                         </div>
                     </a>
                     
                     <a href="https://hunt-it.github.io/Accueil/?" target="_blank" class="h-card">
-                        <div class="h-card-3d-wrapper">
-                            <div class="h-card-inner">
-                                <div class="h-card-img-wrapper"><img src="miniature_huntit.jpg" alt="Hunt-It Chasse au trésor"></div>
-                                <div class="h-card-info">
-                                    <h3 data-i18n="proj-hunt">Hunt-It : Chasse au Trésor</h3>
-                                    <div class="h-card-tags"><span class="tag">JS</span> <span class="tag">Game Design</span></div>
-                                </div>
+                        <div class="h-card-inner">
+                            <div class="h-card-img-wrapper"><img src="miniature_huntit.jpg" alt="Hunt-It Chasse au trésor"></div>
+                            <div class="h-card-info">
+                                <h3 data-i18n="proj-hunt">Hunt-It : Chasse au Trésor</h3>
+                                <div class="h-card-tags"><span class="tag">JS</span> <span class="tag">Game Design</span></div>
                             </div>
                         </div>
                     </a>
                     
                     <a href="https://julien-ars.github.io/article-paradoxe-littoral/" target="_blank" class="h-card">
-                        <div class="h-card-3d-wrapper">
-                            <div class="h-card-inner">
-                                <div class="h-card-img-wrapper"><img src="miniature_paradoxe.jpg" alt="Le Paradoxe du Littoral"></div>
-                                <div class="h-card-info">
-                                    <h3 data-i18n="proj-fractal">Le Paradoxe du Littoral</h3>
-                                    <div class="h-card-tags"><span class="tag">Mathématiques</span> <span class="tag">Web Design</span></div>
-                                </div>
+                        <div class="h-card-inner">
+                            <div class="h-card-img-wrapper"><img src="miniature_paradoxe.jpg" alt="Le Paradoxe du Littoral"></div>
+                            <div class="h-card-info">
+                                <h3 data-i18n="proj-fractal">Le Paradoxe du Littoral</h3>
+                                <div class="h-card-tags"><span class="tag">Mathématiques</span> <span class="tag">Web Design</span></div>
                             </div>
                         </div>
                     </a>
@@ -821,7 +791,7 @@
             }
         }
 
-        // --- MOTEUR DE DÉFILEMENT (3D LENTILLE CONCAVE BOOSTE & FIX CLIQUABILITE) ---
+        // --- MOTEUR DE DÉFILEMENT AVEC EFFET LENTILLE CONCAVE FLUIDE ---
         const seq = document.getElementById('scroll-sequence');
         const clipBox = document.getElementById('clip-box');
         const gateText = document.getElementById('gate-text');
@@ -848,16 +818,20 @@
         updateTargetP();
 
         function renderAnimation() {
-            currentP += (targetP - currentP) * 0.06; 
+            // Interpolation fluide
+            currentP += (targetP - currentP) * 0.08; 
             
             let clipY = 25, clipX = 25, radius = 15, gateOp = 1, hTrans = 0, currentTopoOp = 0.8;
             let contentOp = 0; 
             const maxScroll = hContainer.scrollWidth - window.innerWidth + window.innerWidth * 0.15; 
 
+            // Phase d'ouverture
             if (currentP < 0.15) {
                 let ease = (currentP / 0.15); 
-                clipY = 25 * (1 - ease); clipX = window.innerWidth > 768 ? 25 * (1 - ease) : 10 * (1 - ease);
-                radius = 15 * (1 - ease); gateOp = 1 - (ease * 1.5);
+                clipY = 25 * (1 - ease); 
+                clipX = window.innerWidth > 768 ? 25 * (1 - ease) : 10 * (1 - ease);
+                radius = 15 * (1 - ease); 
+                gateOp = 1 - (ease * 1.5);
                 currentTopoOp = 0.8 * (1 - ease); 
                 if (currentP > 0.05) contentOp = (currentP - 0.05) / 0.10; 
             } else {
@@ -866,7 +840,7 @@
                 hTrans = scrollProgress * maxScroll;
             } 
 
-            // Cliquable IMMÉDIATEMENT dès que l'opacité commence à apparaître (contentOp > 0.01)
+            // Gestion de la cliquabilité
             if (contentOp > 0.01) {
                 hContainer.style.visibility = 'visible';
                 hContainer.style.pointerEvents = 'auto';
@@ -883,6 +857,7 @@
                 }
             }
 
+            // Application des styles d'ouverture
             clipBox.style.clipPath = `inset(${clipY}% ${clipX}% round ${radius}px)`;
             if(gateText) gateText.style.opacity = Math.max(0, gateOp);
             if(topoBg) topoBg.style.opacity = Math.max(0, currentTopoOp);
@@ -900,50 +875,58 @@
             if(bgText) bgText.style.transform = `translate(-50%, -50%) translateX(${currentP * 20}vw)`;
             if(fgText) fgText.style.transform = `translate(-50%, -50%) translateX(-${currentP * 40}vw)`;
 
-            // --- MATHS DE L'EFFET LENTILLE (CONCAVE RESTAURÉ & BOOSTÉ) ---
+            // --- EFFET LENTILLE CONCAVE 3D FLUIDE ---
             if (contentOp > 0.1) {
                 const screenCenter = window.innerWidth / 2;
-
-                let maxRot = window.innerWidth > 768 ? -45 : -35; 
+                const isMobile = window.innerWidth <= 768;
                 
-                // Un recul en négatif (pushBack) : le centre sera poussé vers le fond.
-                // Sur mobile on a mis -250px pour que ça soit vraiment visible. Sur PC -400px.
-                let pushBack = window.innerWidth > 768 ? -400 : -250; 
-                
-                let divider = window.innerWidth > 768 ? window.innerWidth / 1.8 : window.innerWidth / 1.1;
+                // Paramètres ajustés pour l'effet de lentille concave
+                const maxRotation = isMobile ? 35 : 45; // Rotation maximale sur les côtés
+                const maxDepth = isMobile ? 250 : 350; // Profondeur maximale (éloignement)
+                const maxScale = 0.85; // Échelle minimale sur les côtés
+                const divider = isMobile ? window.innerWidth / 1.2 : window.innerWidth / 2;
 
                 cards.forEach((card) => {
                     const cardRect = card.getBoundingClientRect();
                     const cardCenter = cardRect.left + (cardRect.width / 2);
                     const distanceFromCenter = cardCenter - screenCenter;
                     
+                    // Normalisation de la distance (-1 à 1)
                     let normalizedDist = distanceFromCenter / divider;
-                    normalizedDist = Math.max(-1.2, Math.min(1.2, normalizedDist)); 
+                    normalizedDist = Math.max(-1.5, Math.min(1.5, normalizedDist));
                     
-                    let easeDist = Math.pow(Math.abs(normalizedDist), 2); // 0 au centre, ~1 sur les côtés
-
-                    let rotateY = normalizedDist * maxRot; 
+                    // Fonction d'easing pour une transition plus douce
+                    const absNormDist = Math.abs(normalizedDist);
+                    const easedDist = Math.pow(absNormDist, 1.5); // Courbe plus douce
                     
-                    // Si easeDist = 0 (centre) -> translateZ = -400px (il s'éloigne)
-                    // Si easeDist = 1 (côtés) -> translateZ = 0px (ils sont gros)
-                    let translateZ = (1 - easeDist) * pushBack; 
+                    // Rotation Y (courbure de la lentille)
+                    const rotateY = normalizedDist * maxRotation;
                     
-                    let yBase = getComputedStyle(card).getPropertyValue('--y-base').trim() || '0px';
-
-                    card.style.opacity = Math.max(0, contentOp);
-                    // Le centre doit visuellement passer en-dessous des bords s'ils se chevauchent
-                    card.style.zIndex = Math.round(100 - (Math.abs(normalizedDist) * 50));
+                    // Profondeur Z (concave: centre proche, côtés loin)
+                    const translateZ = -easedDist * maxDepth; // Négatif = éloignement
                     
-                    // C'est UNIQUEMENT le wrapper qui prend la 3D, préservant la zone de clic intacte sur la carte parent
-                    const wrapper = card.querySelector('.h-card-3d-wrapper');
-                    if (wrapper) {
-                        wrapper.style.transform = `translateY(${yBase}) translateZ(${translateZ}px) rotateY(${rotateY}deg)`;
-                    }
-
+                    // Échelle (les éléments éloignés sont plus petits)
+                    const scale = 1 - (easedDist * (1 - maxScale));
+                    
+                    // Opacité (légère baisse sur les côtés)
+                    const opacity = Math.max(0.3, 1 - (easedDist * 0.4));
+                    
+                    // Application de la transformation 3D
+                    card.style.opacity = opacity * contentOp;
+                    card.style.transform = `
+                        translateZ(${translateZ}px) 
+                        rotateY(${rotateY}deg) 
+                        scale(${scale})
+                    `;
+                    
+                    // Gestion du z-index pour l'empilement correct
+                    card.style.zIndex = Math.round(100 + translateZ);
+                    
+                    // Effet parallax sur l'image
                     const img = card.querySelector('img');
                     if (img) {
-                        let parallaxX = normalizedDist * -15; 
-                        img.style.transform = `scale(1.25) translateX(${parallaxX}%)`;
+                        const parallaxX = normalizedDist * -20;
+                        img.style.transform = `scale(1.05) translateX(${parallaxX}%)`;
                     }
                 });
             }
