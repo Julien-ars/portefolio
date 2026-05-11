@@ -289,18 +289,21 @@
         .fade-in-section { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; will-change: opacity, visibility; }
         .fade-in-section.is-visible { opacity: 1; transform: none; }
 
-        /* --- CLASSES POUR LA TRANSITION DE PAGE FLUIDE --- */
+        /* --- CLASSES POUR LA NOUVELLE TRANSITION DOUCE --- */
         .page-transition-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: #050505; z-index: 99998; opacity: 0; pointer-events: none;
-            transition: opacity 0.4s ease;
+            /* La couleur s'adapte automatiquement au thème (clair/sombre) */
+            background-color: var(--bg-color); 
+            z-index: 99998; opacity: 0; pointer-events: none;
+            transition: opacity 0.6s ease;
         }
         .page-transition-clone {
             position: fixed; z-index: 99999; pointer-events: none;
             background-size: cover; background-position: center; border-radius: 8px;
-            transition: all 0.6s cubic-bezier(0.8, 0, 0.2, 1);
+            /* Animation très fluide du mouvement et de la transparence */
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease 0.2s;
             margin: 0; padding: 0;
-            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
         }
 
         /* --- RESPONSIVE OPTIMISÉ --- */
@@ -905,7 +908,7 @@
         }
         renderAnimation();
 
-        // --- TRANSITION FLUIDE ENTRE PAGES ---
+        // --- TRANSITION FLUIDE ET DOUCE ENTRE PAGES ---
         const projectLinks = document.querySelectorAll('.h-card');
         projectLinks.forEach(link => {
             link.addEventListener('click', function(e) {
@@ -928,12 +931,12 @@
                 // On récupère la position exacte de l'image sur l'écran
                 const rect = imgContainer.getBoundingClientRect();
                 
-                // Overlay sombre pour cacher l'arrière-plan
+                // Overlay qui va fondre vers la couleur du thème actuel
                 const overlay = document.createElement('div');
                 overlay.className = 'page-transition-overlay';
                 document.body.appendChild(overlay);
                 
-                // Clone de l'image (pour l'animation d'ouverture)
+                // Clone de l'image (pour l'animation de mouvement doux)
                 const clone = document.createElement('div');
                 clone.className = 'page-transition-clone';
                 clone.style.top = rect.top + 'px';
@@ -946,16 +949,20 @@
                 // Lancer l'animation au prochain rafraîchissement d'écran
                 requestAnimationFrame(() => {
                     requestAnimationFrame(() => {
-                        overlay.style.opacity = '1'; // Le noir apparaît
-                        clone.style.top = '0'; // L'image monte
-                        clone.style.left = '0'; // S'étend à gauche
-                        clone.style.width = '100vw'; // Prend tout l'écran
-                        clone.style.height = '100vh'; 
-                        clone.style.borderRadius = '0'; // Perd ses bords arrondis
+                        // 1. Le fond devient de la couleur du thème pour masquer le site
+                        overlay.style.opacity = '1'; 
+                        
+                        // 2. Calcul du déplacement pour centrer l'image
+                        const centerX = (window.innerWidth / 2) - (rect.left + rect.width / 2);
+                        const centerY = (window.innerHeight / 2) - (rect.top + rect.height / 2);
+                        
+                        // 3. L'image se déplace au centre, s'agrandit légèrement (sans être violente), et se fond dans le décor
+                        clone.style.transform = `translate(${centerX}px, ${centerY}px) scale(1.6)`;
+                        clone.style.opacity = '0';
                     });
                 });
                 
-                // Rediriger la page exactement quand l'animation CSS est terminée (0.6s)
+                // Rediriger la page exactement quand tout est fondu dans la couleur du thème (0.6s)
                 setTimeout(() => {
                     window.location.href = targetUrl;
                 }, 600); 
