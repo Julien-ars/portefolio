@@ -101,7 +101,7 @@
         .mobile-menu-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background-color: var(--bg-color); z-index: 9500;
-            display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-start;
+            display: flex; flex-direction: column; justify: flex-start; align: flex-start;
             padding: 6rem 10vw 2rem 10vw; opacity: 0; visibility: hidden; pointer-events: none;
             transition: opacity 0.4s ease, visibility 0.4s ease;
         }
@@ -126,12 +126,12 @@
         .mobile-menu-overlay.open a:nth-child(4) { transition-delay: 0.2s; }
         .mobile-menu-overlay.open a:nth-child(5) { transition-delay: 0.25s; }
         
-        .mobile-extras { display: none; margin-top: 2rem; gap: 2rem; align-items: center; transform: translateY(15px); opacity: 0; transition: transform 0.4s ease 0.3s, opacity 0.4s ease 0.3s; border-top: 1px solid rgba(128,128,128,0.3); padding-top: 2rem; width: 100%; }
+        .mobile-extras { display: none; margin-top: 2rem; gap: 2rem; align: center; transform: translateY(15px); opacity: 0; transition: transform 0.4s ease 0.3s, opacity 0.4s ease 0.3s; border-top: 1px solid rgba(128,128,128,0.3); padding-top: 2rem; width: 100%; }
         .mobile-menu-overlay.open .mobile-extras { transform: translateY(0); opacity: 1; }
 
         /* --- HERO SECTION --- */
-        .hero { height: 75vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-bottom: 2px solid var(--text-color); position: relative; overflow: visible; z-index: 20; }
-        .hero h1 { font-size: 11vw; line-height: 0.9; text-transform: uppercase; letter-spacing: -2px; position: relative; z-index: 30; pointer-events: none; display: flex; justify-content: center; width: 100%; }
+        .hero { height: 75vh; display: flex; flex-direction: column; justify: center; align: center; text-align: center; border-bottom: 2px solid var(--text-color); position: relative; overflow: visible; z-index: 20; }
+        .hero h1 { font-size: 11vw; line-height: 0.9; text-transform: uppercase; letter-spacing: -2px; position: relative; z-index: 30; pointer-events: none; display: flex; justify: center; width: 100%; }
         .hero h1 span.letter { display: inline-block; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); will-change: transform; }
         .i-wrapper { position: relative; display: inline-block; pointer-events: none; }
         .dot-plus {
@@ -149,21 +149,21 @@
         /* --- INTRO --- */
         .content-wrapper { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem 2rem 2rem; width: 100%; position: relative; z-index: 5; }
         .section-heading { font-size: 3rem; margin-bottom: 2rem; border-bottom: 4px solid var(--text-color); padding-bottom: 0.5rem; text-transform: uppercase; transition: border-color 0.5s ease; }
-        .intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: stretch; margin-bottom: 2rem; }
+        .intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align: stretch; margin-bottom: 2rem; }
         .intro-col { display: flex; flex-direction: column; }
-        .intro-box { border: 4px solid var(--text-color); padding: 2.5rem 3rem; transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.5s ease; text-align: center; display: flex; flex-direction: column; align-items: center; background-color: var(--bg-color); height: 100%; }
+        .intro-box { border: 4px solid var(--text-color); padding: 2.5rem 3rem; transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.5s ease; text-align: center; display: flex; flex-direction: column; align: center; background-color: var(--bg-color); height: 100%; }
         .intro-box:hover { transform: translate(-5px, -5px); box-shadow: 12px 12px 0px var(--text-color); }
         .intro-text { font-family: 'Inter', sans-serif; font-size: 1.2rem; line-height: 1.6; font-weight: 600; margin-bottom: 1rem; }
-        .btn-container { display: flex; margin-top: auto; padding-top: 2rem; width: 100%; justify-content: center; }
+        .btn-container { display: flex; margin-top: auto; padding-top: 2rem; width: 100%; justify: center; }
         .btn-primary { font-family: 'Anton', sans-serif; font-size: 1.5rem; text-transform: uppercase; text-decoration: none; color: var(--text-color); border: 3px solid var(--text-color); padding: 0.8rem 1.5rem; transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease; background-color: transparent; display: inline-block; cursor: pointer; }
         .btn-primary:hover { transform: translate(-5px, -5px); box-shadow: 8px 8px 0px var(--text-color); background-color: var(--text-color); color: var(--bg-color); }
-        .skills-tags { display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; align-items: center; margin-bottom: auto; margin-top: auto; width: 100%; }
+        .skills-tags { display: flex; flex-wrap: wrap; gap: 0.8rem; justify: center; align: center; margin-bottom: auto; margin-top: auto; width: 100%; }
         .skill-tag { border: 2px solid var(--text-color); padding: 0.5rem 1.2rem; font-family: 'Anton', sans-serif; font-size: 1.2rem; text-transform: uppercase; border-radius: 50px; transition: all 0.3s ease; background-color: transparent; color: var(--text-color); cursor: default; }
         .skill-tag:hover { background-color: var(--text-color); color: var(--bg-color); transform: translate(-3px, -3px); box-shadow: 4px 4px 0px var(--text-color); }
 
         /* --- SÉQUENCE HORIZONTALE CARROUSEL 3D --- */
         .scroll-sequence { height: 500vh; position: relative; background-color: transparent; margin-bottom: 0; z-index: 5; }
-        .scroll-sticky { position: sticky; top: 0; height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center; overflow: hidden; background-color: transparent; }
+        .scroll-sticky { position: sticky; top: 0; height: 100vh; width: 100vw; display: flex; align: center; justify: center; overflow: hidden; background-color: transparent; }
 
         .gate-crosshair { position: absolute; width: 30px; height: 30px; z-index: 40; pointer-events: none; transition: opacity 0.3s ease; opacity: 0.7; }
         .gate-crosshair::before, .gate-crosshair::after { content: ''; position: absolute; background-color: var(--text-color); }
@@ -174,11 +174,11 @@
 
         .clip-box {
             position: absolute; width: 100%; height: 100%; background-color: #050505; 
-            display: flex; align-items: center; justify-content: center; overflow: hidden;
+            display: flex; align: center; justify: center; overflow: hidden;
             clip-path: inset(25% 25% round 15px); will-change: clip-path; z-index: 20;
             background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
             background-size: 40px 40px; 
-            perspective: 1400px; 
+            perspective: 1600px; /* Perspective augmentée pour un meilleur rendu 3D de la loupe concave */
         }
 
         .topo-bg { 
@@ -203,14 +203,14 @@
         .h-scroll-fg-text { position: absolute; top: 70%; left: 50%; transform: translate(-50%, -50%); width: 300vw; text-align: center; font-size: 10vw; color: transparent; -webkit-text-stroke: 2px rgba(255, 255, 255, 0.15); z-index: 20; pointer-events: none; white-space: nowrap; will-change: transform, opacity; }
 
         .h-scroll-container {
-            display: flex; align-items: center; gap: 5vw; 
+            display: flex; align: center; gap: 5vw; 
             padding: 0 45vw; position: absolute; left: 0; top: 0; height: 100vh;
             width: max-content; will-change: transform; z-index: 15;
             transform-style: preserve-3d;
         }
 
-        /* --- CARTES & STRUCTURE 3D CORRIGÉE --- */
-        /* 1. La balise cliquable reste parfaitement plate en 2D pour une zone de clic infaillible */
+        /* --- CARTES & STRUCTURE 3D CORRIGÉE ET BOOSTÉE --- */
+        /* 1. La balise cliquable reste plate en 2D pour une zone de clic parfaite */
         .h-card {
             flex: 0 0 auto; background-color: transparent; text-decoration: none; display: flex; flex-direction: column;
             width: 35vw; min-width: 300px; max-width: 600px; 
@@ -221,7 +221,7 @@
         .h-card:nth-child(odd) { --y-base: -3vh; }
         .h-card:nth-child(even) { --y-base: 3vh; }
 
-        /* 2. Ce wrapper encaisse la distorsion 3D Javascript sans casser le clic au dessus */
+        /* 2. Le wrapper prend la distorsion 3D Javascript (rotation, recul, zoom) */
         .h-card-3d-wrapper {
             width: 100%; height: 100%;
             transform-origin: center center;
@@ -246,7 +246,7 @@
         
         .h-card img { 
             width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%); 
-            transform: scale(1.25); 
+            transform: scale(1.3); 
             transition: filter 0.4s ease; 
         }
         
@@ -256,9 +256,9 @@
         .h-card-tags .tag { border: 1px solid rgba(255,255,255,0.3); padding: 0.2rem 0.5rem; font-size: 0.7rem; border-radius: 50px; text-transform: uppercase; font-weight: 600; color: rgba(255,255,255,0.8); transition: border-color 0.3s ease; }
 
         /* EFFETS DE SURVOL CSS FLUIDES */
-        .h-card:hover .h-card-inner { transform: scale(1.08) translateZ(30px); } 
-        .h-card:hover .h-card-img-wrapper { box-shadow: 0 25px 50px rgba(0,0,0,0.9); border-color: #b366ff; }
-        .h-card:hover img { filter: grayscale(0%); } 
+        .h-card:hover .h-card-inner { transform: scale(1.1) translateZ(40px); } 
+        .h-card:hover .h-card-img-wrapper { box-shadow: 0 25px 60px rgba(0,0,0,0.95); border-color: #b366ff; }
+        .h-card:hover img { filter: grayscale(0%); scale(1.1); } 
         .h-card:hover h3 { color: #b366ff; }
         .h-card:hover .h-card-tags .tag { border-color: rgba(179, 102, 255, 0.6); }
         
@@ -279,7 +279,7 @@
         }
         .cta-section h2 { font-size: 4rem; margin-bottom: 1rem; color: #b366ff; } 
         .cta-text { font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 600; max-width: 750px; margin: 0 auto 2rem auto; color: rgba(179, 102, 255, 0.8); }
-        .cta-socials { display: flex; justify-content: center; gap: 1.5rem; margin-top: 2rem; margin-bottom: 3rem; }
+        .cta-socials { display: flex; justify: center; gap: 1.5rem; margin-top: 2rem; margin-bottom: 3rem; }
         .cta-socials a { color: #b366ff; transition: all 0.3s ease; }
         .cta-socials a:hover { transform: translateY(-3px); color: #fff; }
         .cta-socials svg { width: 35px; height: 35px; fill: currentColor; }
@@ -321,7 +321,7 @@
             .hamburger.open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
 
             .main-nav { display: none; } 
-            .mobile-extras { display: flex; flex-direction: row; gap: 1.5rem; margin-top: 3rem; align-items: center; width: 100%; justify-content: flex-start; }
+            .mobile-extras { display: flex; flex-direction: row; gap: 1.5rem; margin-top: 3rem; align: center; width: 100%; justify: flex-start; }
 
             .hero h1 { font-size: 22vw; } 
             .marquee-text { font-size: 2rem; } 
@@ -332,7 +332,8 @@
             .skill-tag { font-size: 1rem; padding: 0.4rem 0.8rem; }
             .btn-primary { font-size: 1.2rem; padding: 0.6rem 1rem; }
 
-            .clip-box { clip-path: inset(20% 5% round 10px); perspective: 800px; }
+            /* Perspective réduite sur mobile pour accentuer la distorsion concave de la loupe */
+            .clip-box { clip-path: inset(20% 5% round 10px); perspective: 1000px; }
             .gate-text { font-size: 12vw; }
             .gate-crosshair { display: none; } 
             
@@ -468,6 +469,12 @@
             <div class="gate-crosshair cross-br"></div>
 
             <div class="clip-box" id="clip-box">
+                <div class="distorted-bg-pattern">
+                    <div class="pattern-col p-w">W</div><div class="pattern-col p-o">O</div><div class="pattern-col p-r">R</div><div class="pattern-col p-k">K</div>
+                    <div class="pattern-col p-d">D</div><div class="pattern-col p-a">A</div><div class="pattern-col p-t">T</div><div class="pattern-col p-a">A</div>
+                    <div class="pattern-col p-a">A</div><div class="pattern-col p-r">R</div><div class="pattern-col p-t">T</div><div class="pattern-col p-s">S</div>
+                </div>
+
                 <div class="topo-bg" id="topo-bg">
                     <svg width="100%" height="100%" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice">
                         <g class="layer-1">
@@ -501,7 +508,6 @@
                 </div>
 
                 <div class="h-scroll-container" id="h-scroll-container">
-                    <!-- STRUCTURE MODIFIÉE POUR CHAQUE CARTE : l'ajout du wrapper-3d est la clé du fix -->
                     <a href="projet_duree.html" class="h-card">
                         <div class="h-card-3d-wrapper">
                             <div class="h-card-inner">
@@ -642,7 +648,7 @@
     </footer>
 
     <script>
-        // --- MENU MOBILE HAMBURGER ---
+        // --- MENU MOBILE HAMBURGER (SIDEBAR FLUIDE & CROIX) ---
         const hamburger = document.getElementById('hamburger');
         const mobileMenu = document.getElementById('mobile-menu');
 
@@ -821,7 +827,7 @@
             }
         }
 
-        // --- MOTEUR DE DÉFILEMENT (3D LENTILLE CONCAVE BOOSTE & FIX CLIQUABILITE) ---
+        // --- MOTEUR DE DÉFILEMENT (3D LENTILLE CONCAVE GÉANTE "SORTANT DE L'ÉCRAN" & FIX CLIQUABILITE) ---
         const seq = document.getElementById('scroll-sequence');
         const clipBox = document.getElementById('clip-box');
         const gateText = document.getElementById('gate-text');
@@ -831,6 +837,7 @@
         const fgText = document.getElementById('h-scroll-fg');
         const btnAll = document.getElementById('h-btn-all');
         const cards = document.querySelectorAll('.h-card');
+        const patternBg = document.querySelector('.distorted-bg-pattern'); // Pour distordre le motif d'arrière-plan
 
         let targetP = 0, currentP = 0, isInitialized = false;
 
@@ -866,7 +873,7 @@
                 hTrans = scrollProgress * maxScroll;
             } 
 
-            // Cliquable IMMÉDIATEMENT dès que l'opacité commence à apparaître (contentOp > 0.01)
+            // Zone cliquable dès qu'elle commence à apparaître
             if (contentOp > 0.01) {
                 hContainer.style.visibility = 'visible';
                 hContainer.style.pointerEvents = 'auto';
@@ -891,6 +898,7 @@
             hContainer.style.opacity = Math.max(0, contentOp);
             if(bgText) bgText.style.opacity = Math.max(0, contentOp * 0.5); 
             if(fgText) fgText.style.opacity = Math.max(0, contentOp);
+            if(patternBg) patternBg.style.opacity = Math.max(0, contentOp * 0.15); // Motif d'arrière-plan très subtil
             
             let btnOp = contentOp;
             if (currentP > 0.95) btnOp = 1 - ((currentP - 0.95) / 0.05);
@@ -900,17 +908,23 @@
             if(bgText) bgText.style.transform = `translate(-50%, -50%) translateX(${currentP * 20}vw)`;
             if(fgText) fgText.style.transform = `translate(-50%, -50%) translateX(-${currentP * 40}vw)`;
 
-            // --- MATHS DE L'EFFET LENTILLE (CONCAVE RESTAURÉ & BOOSTÉ) ---
+            // --- MATHS DE L'EFFET GÉANT LOUPE CONCAVE ("SORTANT DE L'ÉCRAN" BOOSTÉ) ---
             if (contentOp > 0.1) {
                 const screenCenter = window.innerWidth / 2;
+                
+                let maxRot = window.innerWidth > 768 ? -55 : -45; // Degrés de rotation augmentés
+                let pushBack = window.innerWidth > 768 ? -500 : -350; // Le centre s'enfonce violemment
+                let zoomFactorSides = window.innerWidth > 768 ? 1.4 : 1.3; // Les bords ressortent beaucoup plus (étirement)
 
-                let maxRot = window.innerWidth > 768 ? -45 : -35; 
-                
-                // Un recul en négatif (pushBack) : le centre sera poussé vers le fond.
-                // Sur mobile on a mis -250px pour que ça soit vraiment visible. Sur PC -400px.
-                let pushBack = window.innerWidth > 768 ? -400 : -250; 
-                
-                let divider = window.innerWidth > 768 ? window.innerWidth / 1.8 : window.innerWidth / 1.1;
+                let divider = window.innerWidth > 768 ? window.innerWidth / 1.7 : window.innerWidth / 1.1;
+
+                // 1. Distordre le motif de texte d'arrière-plan pour renforcer la sensation globale de loupe
+                if(patternBg) {
+                    const patternDist = Math.max(-1.5, Math.min(1.5, currentP * 2 - 1)); // -1 -> 1
+                    const pZ = Math.pow(Math.abs(patternDist), 2) * pushBack * 0.5; // Distorsion du fond un peu plus douce
+                    const pRot = patternDist * -20;
+                    patternBg.style.transform = `translateZ(${pZ}px) rotateY(${pRot}deg)`;
+                }
 
                 cards.forEach((card) => {
                     const cardRect = card.getBoundingClientRect();
@@ -924,25 +938,30 @@
 
                     let rotateY = normalizedDist * maxRot; 
                     
-                    // Si easeDist = 0 (centre) -> translateZ = -400px (il s'éloigne)
+                    // Si easeDist = 0 (centre) -> translateZ = -500px (il s'éloigne violemment)
                     // Si easeDist = 1 (côtés) -> translateZ = 0px (ils sont gros)
                     let translateZ = (1 - easeDist) * pushBack; 
                     
+                    // Zoom agressif sur les bords pour créer l'impression qu'ils "sortent de l'écran"
+                    // Si easeDist = 0 (centre) -> scale = 1
+                    // Si easeDist = 1 (côtés) -> scale = ~1.4 (PC)
+                    let scaleSides = 1 + easeDist * (zoomFactorSides - 1);
+
                     let yBase = getComputedStyle(card).getPropertyValue('--y-base').trim() || '0px';
 
                     card.style.opacity = Math.max(0, contentOp);
-                    // Le centre doit visuellement passer en-dessous des bords s'ils se chevauchent
-                    card.style.zIndex = Math.round(100 - (Math.abs(normalizedDist) * 50));
+                    // Le centre s'enfonçant, les bords doivent physiquement s'empiler par-dessus
+                    card.style.zIndex = Math.round(100 - (Math.abs(normalizedDist) * 60));
                     
-                    // C'est UNIQUEMENT le wrapper qui prend la 3D, préservant la zone de clic intacte sur la carte parent
+                    // C'est UNIQUEMENT le wrapper qui prend la 3D, préservant la zone de clic intacte sur la carte parent 2D
                     const wrapper = card.querySelector('.h-card-3d-wrapper');
                     if (wrapper) {
-                        wrapper.style.transform = `translateY(${yBase}) translateZ(${translateZ}px) rotateY(${rotateY}deg)`;
+                        wrapper.style.transform = `translateY(${yBase}) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(${scaleSides})`;
                     }
 
                     const img = card.querySelector('img');
                     if (img) {
-                        let parallaxX = normalizedDist * -15; 
+                        let parallaxX = normalizedDist * -18; 
                         img.style.transform = `scale(1.25) translateX(${parallaxX}%)`;
                     }
                 });
