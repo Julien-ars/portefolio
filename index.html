@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Julien Arsena | Data Scientist & Arts</title>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         /* --- VARIABLES DE BASE (THEME CLAIR PAR DEFAUT) --- */
@@ -66,23 +66,22 @@
         }
 
         /* --- HEADER RESPONSIVE --- */
-        /* CRUCIAL : Z-index énorme pour passer au-dessus du voile gris */
         header {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 1.5rem 2rem; border-bottom: 2px solid var(--text-color); position: relative; z-index: 2000;
+            padding: 1.5rem 2rem; border-bottom: 2px solid var(--text-color); position: relative; z-index: 9000;
         }
         .header-left { display: flex; align-items: center; gap: 3rem; }
-        .logo { font-size: 1.5rem; text-transform: uppercase; letter-spacing: 1px; text-decoration: none; color: var(--text-color); transition: opacity 0.3s ease; white-space: nowrap; position: relative; z-index: 2002; }
+        .logo { font-size: 1.5rem; text-transform: uppercase; letter-spacing: 1px; text-decoration: none; color: var(--text-color); transition: opacity 0.3s ease; white-space: nowrap; position: relative; z-index: 9002; }
         .logo:hover { opacity: 0.7; }
         
-        .main-nav { display: flex; gap: 0.5rem; z-index: 2001; }
+        .main-nav { display: flex; gap: 0.5rem; z-index: 9001; }
         .main-nav a {
             font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem; text-transform: uppercase; 
             text-decoration: none; color: var(--text-color); padding: 0.5rem 1rem; border: 2px solid transparent; transition: all 0.3s ease; border-radius: 4px;
         }
         .main-nav a.active, .main-nav a:hover { background-color: var(--text-color); color: var(--bg-color); border: 2px solid var(--text-color); }
         
-        .header-right { display: flex; align-items: center; gap: 1.5rem; position: relative; z-index: 2001; }
+        .header-right { display: flex; align-items: center; gap: 1.5rem; position: relative; z-index: 9001; }
         .lang-switch { display: flex; gap: 0.5rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem; }
         .lang-switch span { opacity: 0.4; transition: opacity 0.3s; cursor: pointer; }
         .lang-switch span.active, .lang-switch span:hover { opacity: 1; text-decoration: underline; }
@@ -94,13 +93,34 @@
         }
         body.theme-dark .theme-indicator { background: linear-gradient(to right, #F2EFE9 50%, #0a0a0a 50%); border-color: #0a0a0a; transform: rotate(180deg); }
 
-        /* MENU HAMBURGER (Mobile) */
-        .hamburger { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 2005; background: none; border: none; padding: 0.5rem; position: relative; }
-        .hamburger span { width: 30px; height: 3px; background-color: var(--text-color); transition: transform 0.3s ease, opacity 0.3s ease; border-radius: 2px; }
+        /* BOUTON HAMBURGER (Mobile) */
+        .hamburger { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 9999; background: none; border: none; padding: 0.5rem; position: relative; }
+        .hamburger span { width: 32px; height: 2px; background-color: var(--text-color); transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease; border-radius: 2px; transform-origin: center; }
 
-        /* Overlay Sombre pour le menu mobile (Z-index inférieur au header) */
-        .menu-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.5); opacity: 0; visibility: hidden; transition: opacity 0.4s ease; z-index: 1500; backdrop-filter: blur(4px); }
-        .menu-overlay.open { opacity: 1; visibility: visible; }
+        /* MENU MOBILE PLEIN ECRAN (STYLE PRO APPLE/HARVARD) */
+        .mobile-menu-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: var(--bg-color); z-index: 9000;
+            display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+            padding: 2rem 10vw; opacity: 0; visibility: hidden; pointer-events: none;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+        .mobile-menu-overlay.open { opacity: 1; visibility: visible; pointer-events: auto; }
+        
+        .mobile-menu-overlay a {
+            font-family: 'Inter', sans-serif; font-weight: 500; font-size: 3rem; letter-spacing: -1px;
+            color: var(--text-color); text-decoration: none; margin: 0.8rem 0;
+            transform: translateY(20px); opacity: 0; transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+        .mobile-menu-overlay.open a { transform: translateY(0); opacity: 1; }
+        /* Décalage d'apparition pour un bel effet en cascade */
+        .mobile-menu-overlay.open a:nth-child(1) { transition-delay: 0.1s; }
+        .mobile-menu-overlay.open a:nth-child(2) { transition-delay: 0.15s; }
+        .mobile-menu-overlay.open a:nth-child(3) { transition-delay: 0.2s; }
+        .mobile-menu-overlay.open a:nth-child(4) { transition-delay: 0.25s; }
+        
+        .mobile-extras { display: none; margin-top: 3rem; gap: 2rem; align-items: center; transform: translateY(20px); opacity: 0; transition: transform 0.4s ease 0.3s, opacity 0.4s ease 0.3s; }
+        .mobile-menu-overlay.open .mobile-extras { transform: translateY(0); opacity: 1; }
 
         /* --- HERO SECTION --- */
         .hero { height: 75vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-bottom: 2px solid var(--text-color); position: relative; overflow: visible; z-index: 20; }
@@ -134,7 +154,7 @@
         .skill-tag { border: 2px solid var(--text-color); padding: 0.5rem 1.2rem; font-family: 'Anton', sans-serif; font-size: 1.2rem; text-transform: uppercase; border-radius: 50px; transition: all 0.3s ease; background-color: transparent; color: var(--text-color); cursor: default; }
         .skill-tag:hover { background-color: var(--text-color); color: var(--bg-color); transform: translate(-3px, -3px); box-shadow: 4px 4px 0px var(--text-color); }
 
-        /* --- SÉQUENCE HORIZONTALE CARROUSEL 3D (LENTILLE CONCAVE) --- */
+        /* --- SÉQUENCE HORIZONTALE CARROUSEL 3D --- */
         .scroll-sequence { height: 500vh; position: relative; background-color: transparent; margin-bottom: 0; z-index: 5; }
         .scroll-sticky { position: sticky; top: 0; height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center; overflow: hidden; background-color: transparent; }
 
@@ -151,9 +171,12 @@
             clip-path: inset(25% 25% round 15px); will-change: clip-path; z-index: 20;
             background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
             background-size: 40px 40px; 
-            perspective: 1200px;
+            /* PERSPECTIVE FIXÉE SUR LE CONTENEUR PRINCIPAL */
+            perspective: 1500px;
+            transform-style: preserve-3d;
         }
 
+        /* LIGNES SVG TOPOGRAPHIQUES COMPLETEMENT RESTAUREES */
         .topo-bg { position: absolute; width: 110%; height: 110%; top: -5%; left: -5%; z-index: 10; pointer-events: none; opacity: 0; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); }
         .topo-bg svg { width: 100%; height: 100%; }
         .topo-bg path { stroke: rgba(255, 255, 255, 0.4); stroke-width: 1.5px; fill: none; }
@@ -171,12 +194,11 @@
         .h-scroll-bg-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300vw; text-align: center; font-size: 25vw; line-height: 0.8; color: #2E004F; z-index: 1; pointer-events: none; white-space: nowrap; will-change: transform, opacity; }
         .h-scroll-fg-text { position: absolute; top: 70%; left: 50%; transform: translate(-50%, -50%); width: 300vw; text-align: center; font-size: 10vw; color: transparent; -webkit-text-stroke: 2px rgba(255, 255, 255, 0.15); z-index: 20; pointer-events: none; white-space: nowrap; will-change: transform, opacity; }
 
-        /* Conteneur principal 3D (Zéro opacité ici pour sauver la 3D PC) */
+        /* CONTENEUR DES CARTES - SANS preserve-3d POUR NE PAS FAIRE DISPARAÎTRE LES CARTES SUR PC */
         .h-scroll-container {
             display: flex; align-items: center; gap: 5vw; 
             padding: 0 45vw; position: absolute; left: 0; top: 0; height: 100vh;
             width: max-content; will-change: transform; z-index: 15; pointer-events: none; 
-            transform-style: preserve-3d;
         }
 
         /* --- CARTES RECTANGULAIRES --- */
@@ -185,17 +207,16 @@
             width: 35vw; min-width: 300px; max-width: 600px; 
             position: relative;
             transform-origin: center center;
-            transform-style: preserve-3d; 
-            /* L'opacité est gérée par JS individuellement pour ne pas aplatir le conteneur */
+            will-change: transform;
+            /* Pas de transition ni d'opacité ici, contrôlé uniquement par JS */
         }
 
-        .h-card:nth-child(odd) { --y-base: -3vh; }
-        .h-card:nth-child(even) { --y-base: 3vh; }
+        .h-card:nth-child(odd) { --y-base: -4vh; }
+        .h-card:nth-child(even) { --y-base: 4vh; }
 
-        /* Conteneur interne : Animations CSS uniquement pour éviter les conflits JS */
         .h-card-inner { 
             display: flex; flex-direction: column; width: 100%;
-            transform: scale(1) translateZ(0); /* Sécurisation 3D */
+            transform: scale(1);
             transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         
@@ -217,7 +238,7 @@
         .h-card-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; font-family: 'Inter', sans-serif; }
         .h-card-tags .tag { border: 1px solid rgba(255,255,255,0.3); padding: 0.2rem 0.5rem; font-size: 0.7rem; border-radius: 50px; text-transform: uppercase; font-weight: 600; color: rgba(255,255,255,0.8); transition: border-color 0.3s ease; }
 
-        /* EFFETS DE SURVOL DOUX */
+        /* EFFETS DE SURVOL */
         .h-card:hover .h-card-inner { transform: scale(1.05); } 
         .h-card:hover .h-card-img-wrapper { box-shadow: 0 20px 45px rgba(0,0,0,0.8); border-color: #b366ff; }
         .h-card:hover img { filter: grayscale(0%); } 
@@ -226,13 +247,13 @@
         
         .h-card-spacer { flex: 0 0 auto; width: 25vw; } 
 
-        /* Bouton "Voir tous les projets" (Violet Lumineux) */
+        /* BOUTON VIOLET LUMINEUX */
         .h-btn-all { 
             position: absolute; bottom: 3.5rem; left: 50%; transform: translateX(-50%); z-index: 30; 
             color: #b366ff !important; background: rgba(179, 102, 255, 0.05); border: 2px solid rgba(179, 102, 255, 0.6); 
             padding: 0.7rem 1.8rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; text-decoration: none; border-radius: 50px; backdrop-filter: blur(10px); transition: all 0.3s ease; will-change: opacity, transform; pointer-events: none; 
         }
-        .h-btn-all:hover { background: #b366ff; color: #fff !important; transform: translateX(-50%) scale(1.05); box-shadow: 0 10px 20px rgba(179, 102, 255, 0.3); }
+        .h-btn-all:hover { background: #b366ff; color: #fff !important; transform: translateX(-50%) scale(1.05); box-shadow: 0 10px 20px rgba(179, 102, 255, 0.4); }
 
         /* --- SECTION CONTACT --- */
         .cta-section { background-color: #050505; padding: 8rem 2rem 3rem 2rem; text-align: center; width: 100%; position: relative; z-index: 50; }
@@ -248,12 +269,12 @@
 
         .back-to-top-wrapper { background-color: #050505; text-align: center; padding-bottom: 3rem; position: relative; z-index: 50; width: 100%; }
         
-        /* Bouton Remonter (Avec effet Violet Lumineux demandé) */
+        /* Bouton Remonter (Avec l'effet Violet Lumineux) */
         .btn-back-top { 
             display: inline-block; color: #b366ff; background: rgba(179, 102, 255, 0.05); border: 2px solid rgba(179, 102, 255, 0.6); 
             padding: 0.7rem 1.8rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; text-decoration: none; border-radius: 50px; backdrop-filter: blur(10px); transition: all 0.3s ease; cursor: pointer; 
         }
-        .btn-back-top:hover { background: #b366ff; color: #fff; transform: translateY(-3px) scale(1.05); box-shadow: 0 10px 20px rgba(179, 102, 255, 0.3); }
+        .btn-back-top:hover { background: #b366ff; color: #fff; transform: translateY(-3px) scale(1.05); box-shadow: 0 10px 20px rgba(179, 102, 255, 0.4); }
 
         .site-footer { background-color: #050505; color: rgba(179, 102, 255, 0.4); padding: 1.5rem 2rem 2rem 2rem; text-align: center; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; position: relative; }
 
@@ -267,6 +288,7 @@
             .intro-grid { grid-template-columns: 1fr; gap: 2rem; }
             .h-card { width: 45vw; } 
             .h-scroll-container { gap: 6vw; }
+            .hero h1 { font-size: 15vw; } 
         }
 
         /* Mobile Strict (Max 768px) */
@@ -282,26 +304,13 @@
             .hamburger.open span:nth-child(2) { opacity: 0; }
             .hamburger.open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
 
-            /* Menu Latéral Élégant */
-            .main-nav {
-                position: fixed; top: 0; right: -300px; width: 280px; height: 100vh;
-                background-color: var(--bg-color); box-shadow: -10px 0 30px rgba(0,0,0,0.1);
-                flex-direction: column; justify-content: flex-start; align-items: flex-start;
-                padding: 6rem 2rem 2rem 2rem; transition: right 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-                z-index: 2001; gap: 0.5rem;
-            }
-            .theme-dark .main-nav { box-shadow: -10px 0 30px rgba(0,0,0,0.5); }
-            .main-nav.open { right: 0; }
-            .main-nav a { 
-                font-size: 1.2rem; padding: 1rem 0; width: 100%; border: none; 
-                border-bottom: 1px solid rgba(128,128,128,0.2); border-radius: 0;
-            }
-            .main-nav a.active, .main-nav a:hover { background: none; color: var(--text-color); padding-left: 10px; border-bottom: 1px solid var(--text-color); }
+            /* Apparition du menu d'ordinateur */
+            .main-nav { display: none; } 
             
-            .mobile-extras { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem; align-items: flex-start; width: 100%; }
+            .mobile-extras { display: flex; flex-direction: row; gap: 1.5rem; margin-top: 3rem; align-items: center; width: 100%; justify-content: flex-start; }
 
-            /* Titre énorme sur mobile (18vw) */
-            .hero h1 { font-size: 18vw; } 
+            /* Titre géant sur mobile */
+            .hero h1 { font-size: 22vw; } 
             
             .marquee-text { font-size: 2rem; } 
             .section-heading { font-size: 2.5rem; }
@@ -310,7 +319,7 @@
             .gate-crosshair, .topo-bg { display: none; }
             
             .h-scroll-container { padding: 0 10vw; gap: 8vw; } 
-            .h-card { width: 75vw; min-width: unset; max-width: unset; --y-base: 0; } 
+            .h-card { width: 80vw; min-width: unset; max-width: unset; --y-base: 0; } 
             .h-card:nth-child(odd), .h-card:nth-child(even) { --y-base: 0; } 
             .h-card-spacer { width: 10vw; }
             .intro-box { padding: 1.5rem; }
@@ -320,7 +329,6 @@
 <body id="top">
 
     <div class="global-grid-hover" id="global-grid-hover"></div>
-    <div class="menu-overlay" id="menu-overlay"></div>
 
     <header>
         <div class="header-left">
@@ -335,16 +343,6 @@
                 <a href="projects.html" data-i18n="nav-projects">Projets</a>
                 <a href="about.html" data-i18n="nav-about">À Propos</a>
                 <a href="contact.html" data-i18n="nav-contact">Contact</a>
-                
-                <div class="mobile-extras d-none-desktop" id="mobile-extras" style="display: none;">
-                    <div class="lang-switch">
-                        <span id="btn-fr-mob" class="active" onclick="setLanguage('fr')">FR</span> / 
-                        <span id="btn-en-mob" onclick="setLanguage('en')">EN</span>
-                    </div>
-                    <button class="theme-btn theme-toggle-btn" aria-label="Changer le thème">
-                        <div class="theme-indicator"></div>
-                    </button>
-                </div>
             </nav>
         </div>
         <div class="header-right">
@@ -357,6 +355,23 @@
             </button>
         </div>
     </header>
+
+    <div class="mobile-menu-overlay" id="mobile-menu">
+        <a href="index.html" onclick="toggleMenu()" class="active" data-i18n="nav-home">Accueil</a>
+        <a href="projects.html" onclick="toggleMenu()" data-i18n="nav-projects">Projets</a>
+        <a href="about.html" onclick="toggleMenu()" data-i18n="nav-about">À Propos</a>
+        <a href="contact.html" onclick="toggleMenu()" data-i18n="nav-contact">Contact</a>
+        
+        <div class="mobile-extras">
+            <div class="lang-switch">
+                <span id="btn-fr-mob" class="active" onclick="setLanguage('fr'); toggleMenu();">FR</span> / 
+                <span id="btn-en-mob" onclick="setLanguage('en'); toggleMenu();">EN</span>
+            </div>
+            <button class="theme-btn theme-toggle-btn" aria-label="Changer le thème">
+                <div class="theme-indicator"></div>
+            </button>
+        </div>
+    </div>
 
     <section class="hero fade-in-section" id="hero-section">
         <h1 id="hero-text">
@@ -571,40 +586,17 @@
     </footer>
 
     <script>
-        // --- MENU MOBILE HAMBURGER (SIDEBAR FLUIDE & FIX Z-INDEX) ---
+        // --- MENU MOBILE HAMBURGER (APPLE/HARVARD STYLE) ---
         const hamburger = document.getElementById('hamburger');
-        const mainNav = document.getElementById('main-nav');
-        const mobileExtras = document.getElementById('mobile-extras');
-        const menuOverlay = document.getElementById('menu-overlay');
-
-        if (window.innerWidth <= 768) mobileExtras.style.display = 'flex';
-        
-        window.addEventListener('resize', () => {
-            if (window.innerWidth <= 768) mobileExtras.style.display = 'flex';
-            else { 
-                mobileExtras.style.display = 'none'; 
-                mainNav.classList.remove('open'); 
-                hamburger.classList.remove('open'); 
-                menuOverlay.classList.remove('open');
-                document.body.style.overflow = ''; 
-            }
-        });
+        const mobileMenu = document.getElementById('mobile-menu');
 
         function toggleMenu() {
             hamburger.classList.toggle('open');
-            mainNav.classList.toggle('open');
-            menuOverlay.classList.toggle('open');
-            document.body.style.overflow = mainNav.classList.contains('open') ? 'hidden' : '';
+            mobileMenu.classList.toggle('open');
+            document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
         }
 
         hamburger.addEventListener('click', toggleMenu);
-        menuOverlay.addEventListener('click', toggleMenu);
-
-        mainNav.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                if (window.innerWidth <= 768) toggleMenu();
-            });
-        });
 
         // --- GESTION DU THÈME ---
         const themeToggleBtns = document.querySelectorAll('.theme-toggle-btn');
@@ -823,7 +815,7 @@
             if(topoBg) topoBg.style.opacity = Math.max(0, topoOp);
             crosshairs.forEach(c => c.style.opacity = Math.max(0, gateOp));
             
-            // On ne touche JAMAIS à l'opacité globale du container pour préserver la 3D
+            // Fait apparaître l'intérieur progressivement sans bloquer le rendu 3D
             if(bgText) bgText.style.opacity = Math.max(0, contentOp * 0.5); 
             if(fgText) fgText.style.opacity = Math.max(0, contentOp);
             
@@ -835,13 +827,12 @@
             if(bgText) bgText.style.transform = `translate(-50%, -50%) translateX(${currentP * 20}vw)`;
             if(fgText) fgText.style.transform = `translate(-50%, -50%) translateX(-${currentP * 40}vw)`;
 
-            // --- L'EFFET CONCAVE 3D & PARALLAX INTERNE ---
+            // --- L'EFFET CONCAVE 3D ---
             if (contentOp > 0.1) {
                 const screenCenter = window.innerWidth / 2;
 
-                // Paramètres optimisés : Fort sur PC, léger sur mobile
                 let maxRot = window.innerWidth > 768 ? -45 : -15;
-                let maxZ = window.innerWidth > 768 ? 500 : 150;
+                let maxZ = window.innerWidth > 768 ? 450 : 150;
                 let divider = window.innerWidth > 768 ? window.innerWidth / 1.8 : window.innerWidth / 1.2;
 
                 cards.forEach((card) => {
@@ -857,12 +848,12 @@
                     let translateZ = easeDist * maxZ; 
                     let yBase = getComputedStyle(card).getPropertyValue('--y-base').trim() || '0px';
 
-                    // L'opacité est gérée par carte pour préserver la 3D du parent
-                    card.style.opacity = Math.max(0, contentOp);
+                    // L'opacité sur chaque carte (sauve la 3D PC)
+                    card.style.opacity = Math.max(0, contentOp - easeDist*0.3); // Légèrement plus transparent sur les bords extrêmes
                     card.style.transform = `translateY(${yBase}) translateZ(${translateZ}px) rotateY(${rotateY}deg)`;
                     card.style.zIndex = Math.round(100 - (Math.abs(normalizedDist) * 50));
 
-                    // Parallax interne (Glissement de l'image)
+                    // Parallax interne
                     const img = card.querySelector('img');
                     if (img) {
                         let parallaxX = normalizedDist * -15; 
