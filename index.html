@@ -210,6 +210,7 @@
             padding: 0 45vw; position: absolute; left: 0; top: 0; height: 100vh;
             width: max-content; will-change: transform; z-index: 15;
             transform-style: preserve-3d;
+            backface-visibility: hidden; /* Prévient les bugs de rendu rapides */
         }
 
         /* --- CARTES AVEC EFFET LENTILLE CONCAVE --- */
@@ -220,7 +221,7 @@
             cursor: pointer; 
             pointer-events: auto !important;
             transform-style: preserve-3d;
-            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+            backface-visibility: hidden; /* Fix performance scroll */
         }
         .h-card-inner { 
             display: flex; flex-direction: column; width: 100%;
@@ -253,7 +254,8 @@
         .h-card:hover h3 { color: #b366ff; }
         .h-card:hover .h-card-tags .tag { border-color: rgba(179, 102, 255, 0.6); color: rgba(179, 102, 255, 1); }
         
-        .h-card-spacer { flex: 0 0 auto; width: 25vw; pointer-events: none; } 
+        /* Modifié pour éviter les trous noirs à la fin du scroll */
+        .h-card-spacer { flex: 0 0 auto; width: 45vw; pointer-events: none; } 
         
         /* BOUTON VIOLET LUMINEUX */
         .h-btn-all { 
@@ -328,7 +330,7 @@
             
             .h-scroll-container { padding: 0 10vw; gap: 8vw; } 
             .h-card { width: 75vw; min-width: unset; max-width: unset; } 
-            .h-card-spacer { width: 10vw; }
+            .h-card-spacer { width: 20vw; }
             
             .h-btn-all { white-space: nowrap; font-size: 0.75rem; padding: 0.6rem 1rem; bottom: 2rem; }
             
@@ -798,12 +800,14 @@
         updateTargetP();
 
         function renderAnimation() {
-            // Interpolation fluide
-            currentP += (targetP - currentP) * 0.08; 
+            // Interpolation plus rapide (0.12 au lieu de 0.08) pour éviter le décalage visible en scroll rapide
+            currentP += (targetP - currentP) * 0.12; 
             
             let clipY = 25, clipX = 25, radius = 15, gateOp = 1, hTrans = 0, currentTopoOp = 0.8;
             let contentOp = 0; 
-            const maxScroll = hContainer.scrollWidth - window.innerWidth + window.innerWidth * 0.15; 
+            
+            // Nouveau calcul du point d'arrêt pour éviter d'aller trop loin et voir le fond noir
+            const maxScroll = hContainer.scrollWidth - window.innerWidth; 
 
             // Phase d'ouverture
             if (currentP < 0.15) {
@@ -814,8 +818,6 @@
                 gateOp = 1 - (ease * 1.5);
                 currentTopoOp = 0.8 * (1 - ease); 
                 
-                // MODIFICATION : Rendu cliquable et visible beaucoup plus tôt pour que 
-                // l'utilisateur puisse interagir dès l'ouverture de la séquence
                 if (currentP > 0.01) contentOp = (currentP - 0.01) / 0.14; 
             } else {
                 clipY = 0; clipX = 0; radius = 0; gateOp = 0; contentOp = 1; currentTopoOp = 0;
@@ -823,7 +825,6 @@
                 hTrans = scrollProgress * maxScroll;
             }
 
-            // Gestion de la cliquabilité (pointer-events activés dès que > 0)
             if (contentOp > 0) {
                 hContainer.style.visibility = 'visible';
                 hContainer.style.pointerEvents = 'auto';
@@ -840,7 +841,6 @@
                 }
             }
 
-            // Application des styles d'ouverture
             clipBox.style.clipPath = `inset(${clipY}% ${clipX}% round ${radius}px)`;
             if(gateText) gateText.style.opacity = Math.max(0, gateOp);
             if(topoBg) topoBg.style.opacity = Math.max(0, currentTopoOp);
@@ -863,10 +863,9 @@
                 const screenCenter = window.innerWidth / 2;
                 const isMobile = window.innerWidth <= 768;
                 
-                // Paramètres ajustés pour l'effet de lentille concave
                 const maxRotation = isMobile ? 35 : 45; 
-                const maxDepth = isMobile ? 250 : 400; // Plus de profondeur au centre (effet lointain)
-                const minScale = 0.85; // Échelle réduite au centre
+                const maxDepth = isMobile ? 250 : 400; 
+                const minScale = 0.85; 
                 const divider = isMobile ? window.innerWidth / 1.2 : window.innerWidth / 2;
 
                 cards.forEach((card) => {
@@ -874,24 +873,15 @@
                     const cardCenter = cardRect.left + (cardRect.width / 2);
                     const distanceFromCenter = cardCenter - screenCenter;
                     
-                    // Normalisation de la distance (-1 à 1)
                     let normalizedDist = distanceFromCenter / divider;
                     normalizedDist = Math.max(-1.5, Math.min(1.5, normalizedDist));
                     
-                    // Fonction d'easing pour une transition plus douce
                     const absNormDist = Math.abs(normalizedDist);
                     const easedDist = Math.pow(absNormDist, 1.5); 
                     
-                    // MODIFICATION CONCAVE : La rotation Y est inversée pour que les cartes sur les côtés tournent vers l'intérieur
                     const rotateY = -normalizedDist * maxRotation;
-                    
-                    // MODIFICATION CONCAVE : Le centre (easedDist = 0) recule vers -maxDepth, les bords reviennent à Z=0
                     const translateZ = -(1 - easedDist) * maxDepth; 
-                    
-                    // MODIFICATION CONCAVE : Le centre (loin) est plus petit, les bords (proches) retrouvent leur taille d'origine
                     const scale = minScale + (easedDist * (1 - minScale));
-                    
-                    // Opacité : parfaitement clair au centre, légèrement estompé sur les côtés extrêmes
                     const opacity = Math.max(0.3, 1 - (easedDist * 0.6));
                     
                     card.style.opacity = opacity * contentOp;
@@ -901,10 +891,9 @@
                         scale(${scale})
                     `;
                     
-                    // Gestion du z-index : Les cartes sur les côtés (qui se rapprochent de Z=0) passent au-dessus des cartes du centre (-Z)
-                    card.style.zIndex = Math.round(100 + translateZ);
+                    // CORRECTION DU CLIC : Un Z-index élevé (+1000) garantit que les cartes restent toujours au-dessus du fond, même avec un translateZ très négatif
+                    card.style.zIndex = Math.round(1000 + translateZ);
                     
-                    // Effet parallax inversé sur l'image pour coller à la nouvelle courbure
                     const img = card.querySelector('img');
                     if (img) {
                         const parallaxX = normalizedDist * 20; 
