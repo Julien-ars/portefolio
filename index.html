@@ -164,7 +164,6 @@
         .skill-tag:hover { background-color: var(--text-color); color: var(--bg-color); transform: translate(-3px, -3px); box-shadow: 4px 4px 0px var(--text-color); }
 
         /* --- SÉQUENCE HORIZONTALE CARROUSEL 3D LENTILLE CONCAVE --- */
-        /* Hauteur plus importante pour un défilement moins brutal */
         .scroll-sequence { height: 650vh; position: relative; background-color: transparent; margin-bottom: 0; z-index: 5; }
         .scroll-sticky { position: sticky; top: 0; height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center; overflow: hidden; background-color: transparent; }
         
@@ -216,7 +215,7 @@
         /* --- CARTES AVEC EFFET LENTILLE CONCAVE --- */
         .h-card {
             flex: 0 0 auto; background-color: transparent; text-decoration: none; display: flex; flex-direction: column;
-            width: 38vw; /* Projets globalement plus grands */
+            width: 38vw; 
             min-width: 300px; max-width: 650px; 
             position: relative;
             cursor: pointer; 
@@ -246,7 +245,6 @@
         .h-card-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; font-family: 'Inter', sans-serif; }
         .h-card-tags .tag { border: 1px solid rgba(255,255,255,0.3); padding: 0.2rem 0.5rem; font-size: 0.7rem; border-radius: 50px; text-transform: uppercase; font-weight: 600; color: rgba(255,255,255,0.8); transition: border-color 0.3s ease, color 0.3s ease; }
         
-        /* EFFETS DE SURVOL */
         .h-card:hover .h-card-inner { transform: scale(1.05) translateZ(30px); } 
         .h-card:hover .h-card-img-wrapper { box-shadow: 0 30px 60px rgba(179, 102, 255, 0.4); border-color: rgba(179, 102, 255, 0.8); }
         .h-card:hover img { filter: grayscale(0%) brightness(1.1); transform: scale(1.18) !important; } 
@@ -290,6 +288,20 @@
         
         .fade-in-section { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; will-change: opacity, visibility; }
         .fade-in-section.is-visible { opacity: 1; transform: none; }
+
+        /* --- CLASSES POUR LA TRANSITION DE PAGE FLUIDE --- */
+        .page-transition-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: #050505; z-index: 99998; opacity: 0; pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+        .page-transition-clone {
+            position: fixed; z-index: 99999; pointer-events: none;
+            background-size: cover; background-position: center; border-radius: 8px;
+            transition: all 0.6s cubic-bezier(0.8, 0, 0.2, 1);
+            margin: 0; padding: 0;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+        }
 
         /* --- RESPONSIVE OPTIMISÉ --- */
         @media (max-width: 1024px) {
@@ -674,7 +686,7 @@
             }
         });
 
-        // --- CASSURE DU PLUS (MOTEUR PHYSIQUE & BOUCLE PAC-MAN) ---
+        // --- CASSURE DU PLUS (MOTEUR PHYSIQUE) ---
         const dotPlus = document.querySelector('.dot-plus');
         const marqueeBanner = document.getElementById('marquee-banner');
         let isDragging = false, hasDropped = false;
@@ -772,7 +784,7 @@
             }
         }
 
-        // --- MOTEUR DE DÉFILEMENT AVEC EFFET LENTILLE CONCAVE FLUIDE ---
+        // --- MOTEUR DE DÉFILEMENT 3D CONCAVE ---
         const seq = document.getElementById('scroll-sequence');
         const clipBox = document.getElementById('clip-box');
         const gateText = document.getElementById('gate-text');
@@ -798,16 +810,12 @@
         updateTargetP();
 
         function renderAnimation() {
-            // Interpolation ADOUCIE (0.07) = Animation plus lente et fluide
             currentP += (targetP - currentP) * 0.07; 
             
             let clipY = 25, clipX = 25, radius = 15, gateOp = 1, hTrans = 0, currentTopoOp = 0.8;
             let contentOp = 0; 
-            
-            // Calcul précis pour s'arrêter juste au bout, empêchant d'afficher du noir
             const maxScroll = hContainer.scrollWidth - window.innerWidth; 
 
-            // Phase d'ouverture
             if (currentP < 0.15) {
                 let ease = (currentP / 0.15); 
                 clipY = 25 * (1 - ease); 
@@ -815,7 +823,6 @@
                 radius = 15 * (1 - ease); 
                 gateOp = 1 - (ease * 1.5);
                 currentTopoOp = 0.8 * (1 - ease); 
-                
                 if (currentP > 0.01) contentOp = (currentP - 0.01) / 0.14; 
             } else {
                 clipY = 0; clipX = 0; radius = 0; gateOp = 0; contentOp = 1; currentTopoOp = 0;
@@ -856,13 +863,11 @@
             if(bgText) bgText.style.transform = `translate(-50%, -50%) translateX(${currentP * 20}vw)`;
             if(fgText) fgText.style.transform = `translate(-50%, -50%) translateX(-${currentP * 40}vw)`;
 
-            // --- VRAI EFFET 3D CONCAVE ET 100% CLIQUABLE ---
             if (contentOp > 0) {
                 const screenCenter = window.innerWidth / 2;
                 const isMobile = window.innerWidth <= 768;
-                
                 const maxRotation = isMobile ? 35 : 45; 
-                const depthCurve = isMobile ? 200 : 350; // Profondeur maximale de l'effet
+                const depthCurve = isMobile ? 200 : 350; 
                 const divider = isMobile ? window.innerWidth / 1.2 : window.innerWidth / 2;
 
                 cards.forEach((card) => {
@@ -876,18 +881,9 @@
                     const absNormDist = Math.abs(normalizedDist);
                     const easedDist = Math.pow(absNormDist, 1.5); 
                     
-                    // Rotation vers l'intérieur (effet concave)
                     const rotateY = -normalizedDist * maxRotation;
-                    
-                    // ASTUCE DU CLIC : Pour garder le visuel "U" (concave) sans le bug des Z négatifs :
-                    // On place le projet du centre à Z = 0 (au lieu de Z = -350).
-                    // Et on fait avancer les projets des bords vers l'utilisateur (jusqu'à Z = +350).
-                    // La forme 3D reste exactement la même qu'avant, mais elle est physiquement devant le fond !
                     const translateZ = easedDist * depthCurve; 
-                    
-                    // Léger ajustement d'échelle pour éviter que les bords (qui sont plus proches) ne grossissent trop
                     const scale = 1 - (easedDist * 0.1); 
-                    
                     const opacity = Math.max(0.3, 1 - (easedDist * 0.6));
                     
                     card.style.opacity = opacity * contentOp;
@@ -896,15 +892,10 @@
                         rotateY(${rotateY}deg) 
                         scale(${scale})
                     `;
-                    
-                    // Les cartes proches de nous passent au-dessus des autres visuellement
                     card.style.zIndex = Math.round(100 + translateZ);
                     
-                    // Parallax de l'image (Ajusté pour ENLEVER les bandes noires)
                     const img = card.querySelector('img');
                     if (img) {
-                        // Le mouvement latéral est réduit (8) et le zoom augmenté (1.15)
-                        // L'image dépasse suffisamment de son conteneur pour ne jamais laisser de vide.
                         const parallaxX = normalizedDist * 8; 
                         img.style.transform = `scale(1.15) translateX(${parallaxX}%)`;
                     }
@@ -913,6 +904,70 @@
             requestAnimationFrame(renderAnimation);
         }
         renderAnimation();
+
+        // --- TRANSITION FLUIDE ENTRE PAGES ---
+        const projectLinks = document.querySelectorAll('.h-card');
+        projectLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const targetUrl = this.getAttribute('href');
+                
+                // Si pas de lien valide ou si c'est un lien sortant / target="_blank"
+                if (!targetUrl || targetUrl === '#' || this.getAttribute('target') === '_blank') return;
+                
+                // On bloque le changement de page immédiat
+                e.preventDefault(); 
+                
+                const imgContainer = this.querySelector('.h-card-img-wrapper');
+                const img = this.querySelector('img');
+                
+                if (!imgContainer || !img) {
+                    window.location.href = targetUrl;
+                    return;
+                }
+                
+                // On récupère la position exacte de l'image sur l'écran
+                const rect = imgContainer.getBoundingClientRect();
+                
+                // Overlay sombre pour cacher l'arrière-plan
+                const overlay = document.createElement('div');
+                overlay.className = 'page-transition-overlay';
+                document.body.appendChild(overlay);
+                
+                // Clone de l'image (pour l'animation d'ouverture)
+                const clone = document.createElement('div');
+                clone.className = 'page-transition-clone';
+                clone.style.top = rect.top + 'px';
+                clone.style.left = rect.left + 'px';
+                clone.style.width = rect.width + 'px';
+                clone.style.height = rect.height + 'px';
+                clone.style.backgroundImage = `url(${img.src})`;
+                document.body.appendChild(clone);
+                
+                // Lancer l'animation au prochain rafraîchissement d'écran
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        overlay.style.opacity = '1'; // Le noir apparaît
+                        clone.style.top = '0'; // L'image monte
+                        clone.style.left = '0'; // S'étend à gauche
+                        clone.style.width = '100vw'; // Prend tout l'écran
+                        clone.style.height = '100vh'; 
+                        clone.style.borderRadius = '0'; // Perd ses bords arrondis
+                    });
+                });
+                
+                // Rediriger la page exactement quand l'animation CSS est terminée (0.6s)
+                setTimeout(() => {
+                    window.location.href = targetUrl;
+                }, 600); 
+            });
+        });
+
+        // Nettoyage de l'animation si l'utilisateur clique sur le bouton "Retour" de son navigateur
+        window.addEventListener('pageshow', (event) => {
+            if (event.persisted) {
+                document.querySelectorAll('.page-transition-overlay, .page-transition-clone').forEach(el => el.remove());
+            }
+        });
 
         // FADE IN CLASSIQUE
         document.addEventListener("DOMContentLoaded", function() {
