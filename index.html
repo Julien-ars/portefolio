@@ -7,17 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        /* --- VARIABLES DE BASE --- */
+        /* --- VARIABLES DE BASE (THEME CLAIR PAR DEFAUT) --- */
         :root {
-            --bg-color: #e60023; 
-            --text-color: #0a0a0a; 
-            --accent-bg: #0a0a0a; 
-            --accent-text: #e60023; 
-            --grid-opacity: 0.05; 
-        }
-
-        /* --- THEME CLAIR --- */
-        body.theme-light {
             --bg-color: #F2EFE9; 
             --text-color: #1A1A1A; 
             --accent-bg: #1A1A1A; 
@@ -25,15 +16,24 @@
             --grid-opacity: 0.09; 
         }
 
+        /* --- THEME SOMBRE (ROUGE) --- */
+        body.theme-dark {
+            --bg-color: #e60023; 
+            --text-color: #0a0a0a; 
+            --accent-bg: #0a0a0a; 
+            --accent-text: #e60023; 
+            --grid-opacity: 0.05; 
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         html { background-color: #050505; scroll-behavior: smooth; }
 
         /* --- SELECTION DE TEXTE --- */
-        ::selection { background-color: #0a0a0a; color: #e60023; }
-        ::-moz-selection { background-color: #0a0a0a; color: #e60023; }
-        body.theme-light ::selection { background-color: #b366ff; color: #fff; }
-        body.theme-light ::-moz-selection { background-color: #b366ff; color: #fff; }
+        ::selection { background-color: #b366ff; color: #fff; }
+        ::-moz-selection { background-color: #b366ff; color: #fff; }
+        body.theme-dark ::selection { background-color: #0a0a0a; color: #e60023; }
+        body.theme-dark ::-moz-selection { background-color: #0a0a0a; color: #e60023; }
 
         /* --- FOND GLOBAL --- */
         body {
@@ -51,8 +51,8 @@
         .global-grid-hover {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
-                linear-gradient(rgba(0, 0, 0, 0.5) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 0, 0, 0.5) 1px, transparent 1px);
+                linear-gradient(rgba(0, 0, 0, 0.7) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.7) 1px, transparent 1px);
             background-size: 40px 40px;
             pointer-events: none; z-index: 1; 
             opacity: var(--grid-overlay-op, 0);
@@ -60,37 +60,43 @@
             mask-image: radial-gradient(circle 180px at var(--mouse-x, -100px) var(--mouse-y, -100px), black, transparent);
             transition: opacity 0.3s ease;
         }
-        body.theme-light .global-grid-hover {
+        body.theme-dark .global-grid-hover {
             background-image: 
-                linear-gradient(rgba(0, 0, 0, 0.7) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 0, 0, 0.7) 1px, transparent 1px);
+                linear-gradient(rgba(0, 0, 0, 0.5) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.5) 1px, transparent 1px);
         }
 
         /* --- HEADER RESPONSIVE --- */
         header {
-            display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
+            display: flex; justify-content: space-between; align-items: center;
             padding: 1.5rem 2rem; border-bottom: 2px solid var(--text-color); position: relative; z-index: 100;
-            gap: 1rem;
         }
-        .header-left { display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; }
-        .logo { font-size: 1.5rem; text-transform: uppercase; letter-spacing: 1px; text-decoration: none; color: var(--text-color); transition: opacity 0.3s ease; white-space: nowrap; }
+        .header-left { display: flex; align-items: center; gap: 3rem; }
+        .logo { font-size: 1.5rem; text-transform: uppercase; letter-spacing: 1px; text-decoration: none; color: var(--text-color); transition: opacity 0.3s ease; white-space: nowrap; position: relative; z-index: 200; }
         .logo:hover { opacity: 0.7; }
-        .main-nav { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        
+        .main-nav { display: flex; gap: 0.5rem; }
         .main-nav a {
             font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem; text-transform: uppercase; 
             text-decoration: none; color: var(--text-color); padding: 0.5rem 1rem; border: 2px solid transparent; transition: all 0.3s ease; border-radius: 4px;
         }
         .main-nav a.active, .main-nav a:hover { background-color: var(--text-color); color: var(--bg-color); border: 2px solid var(--text-color); }
-        .header-right { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+        
+        .header-right { display: flex; align-items: center; gap: 1.5rem; position: relative; z-index: 200; }
         .lang-switch { display: flex; gap: 0.5rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem; }
         .lang-switch span { opacity: 0.4; transition: opacity 0.3s; cursor: pointer; }
         .lang-switch span.active, .lang-switch span:hover { opacity: 1; text-decoration: underline; }
+        
         .theme-btn { background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0.5rem; outline: none; }
         .theme-indicator {
             width: 24px; height: 24px; border-radius: 50%;
-            background: linear-gradient(to right, #F2EFE9 50%, #0a0a0a 50%); border: 2px solid #0a0a0a; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            background: linear-gradient(to right, #e60023 50%, #0a0a0a 50%); border: 2px solid #1A1A1A; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
         }
-        body.theme-light .theme-indicator { background: linear-gradient(to right, #e60023 50%, #0a0a0a 50%); border-color: #1A1A1A; transform: rotate(180deg); }
+        body.theme-dark .theme-indicator { background: linear-gradient(to right, #F2EFE9 50%, #0a0a0a 50%); border-color: #0a0a0a; transform: rotate(180deg); }
+
+        /* MENU HAMBURGER (Mobile) */
+        .hamburger { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 200; background: none; border: none; padding: 0.5rem; }
+        .hamburger span { width: 30px; height: 3px; background-color: var(--text-color); transition: transform 0.3s ease, opacity 0.3s ease; border-radius: 2px; }
 
         /* --- HERO SECTION --- */
         .hero { height: 75vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-bottom: 2px solid var(--text-color); position: relative; overflow: visible; z-index: 20; }
@@ -124,7 +130,7 @@
         .skill-tag { border: 2px solid var(--text-color); padding: 0.5rem 1.2rem; font-family: 'Anton', sans-serif; font-size: 1.2rem; text-transform: uppercase; border-radius: 50px; transition: all 0.3s ease; background-color: transparent; color: var(--text-color); cursor: default; }
         .skill-tag:hover { background-color: var(--text-color); color: var(--bg-color); transform: translate(-3px, -3px); box-shadow: 4px 4px 0px var(--text-color); }
 
-        /* --- SÉQUENCE HORIZONTALE (LENTILLE CONCAVE & PARALLAX) --- */
+        /* --- SÉQUENCE HORIZONTALE CARROUSEL 3D (LENTILLE CONCAVE) --- */
         .scroll-sequence { height: 500vh; position: relative; background-color: transparent; margin-bottom: 0; z-index: 5; }
         .scroll-sticky { position: sticky; top: 0; height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center; overflow: hidden; background-color: transparent; }
 
@@ -141,19 +147,12 @@
             clip-path: inset(25% 25% round 15px); will-change: clip-path; z-index: 20;
             background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
             background-size: 40px 40px; 
-            /* PERSPECTIVE POUR L'EFFET CONCAVE */
             perspective: 1200px;
         }
 
         .topo-bg { position: absolute; width: 110%; height: 110%; top: -5%; left: -5%; z-index: 10; pointer-events: none; opacity: 0; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); }
         .topo-bg svg { width: 100%; height: 100%; }
         .topo-bg path { stroke: rgba(255, 255, 255, 0.4); stroke-width: 1.5px; fill: none; }
-        .layer-1 { animation: layerFloat1 8s ease-in-out infinite alternate; transform-origin: center; }
-        .layer-2 { animation: layerFloat2 12s ease-in-out infinite alternate-reverse; transform-origin: center; }
-        .layer-3 { animation: layerFloat3 10s ease-in-out infinite alternate; transform-origin: center; }
-        @keyframes layerFloat1 { 0% { transform: translate(0, 0) scale(1) rotate(0deg); } 100% { transform: translate(2%, -1%) scale(1.02) rotate(1deg); } }
-        @keyframes layerFloat2 { 0% { transform: translate(0, 0) scale(1) rotate(0deg); } 100% { transform: translate(-2%, 2%) scale(1.03) rotate(-1deg); } }
-        @keyframes layerFloat3 { 0% { transform: translate(0, 0) scale(1) rotate(0deg); } 100% { transform: translate(1%, 2%) scale(1.01) rotate(0.5deg); } }
 
         .gate-text { position: absolute; font-size: 6vw; text-transform: uppercase; z-index: 50; pointer-events: none; transition: opacity 0.2s ease, color 0.5s ease; letter-spacing: 2px; color: #e60023; }
         body.theme-light .gate-text { color: #b366ff; }
@@ -163,10 +162,8 @@
         .h-scroll-bg-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300vw; text-align: center; font-size: 25vw; line-height: 0.8; color: #2E004F; z-index: 1; pointer-events: none; white-space: nowrap; will-change: transform, opacity; }
         .h-scroll-fg-text { position: absolute; top: 70%; left: 50%; transform: translate(-50%, -50%); width: 300vw; text-align: center; font-size: 10vw; color: transparent; -webkit-text-stroke: 2px rgba(255, 255, 255, 0.15); z-index: 20; pointer-events: none; white-space: nowrap; will-change: transform, opacity; }
 
-        /* Conteneur avec espacement ajusté (gap) */
         .h-scroll-container {
-            display: flex; align-items: center; 
-            gap: 5vw; /* Rapprochement propre sans chevauchement */
+            display: flex; align-items: center; gap: 5vw; 
             padding: 0 45vw; position: absolute; left: 0; top: 0; height: 100vh;
             width: max-content; will-change: transform, opacity; z-index: 15; pointer-events: none; 
             transform-style: preserve-3d;
@@ -175,20 +172,16 @@
         /* --- CARTES RECTANGULAIRES --- */
         .h-card {
             flex: 0 0 auto; background-color: transparent; text-decoration: none; display: flex; flex-direction: column;
-            width: 32vw; min-width: 300px; max-width: 500px; 
+            width: 35vw; min-width: 300px; max-width: 600px; 
             will-change: transform; position: relative;
             transform-origin: center center;
         }
 
-        /* Légère alternance verticale naturelle */
-        .h-card:nth-child(odd) { --y-base: -4vh; }
-        .h-card:nth-child(even) { --y-base: 4vh; }
-
-        /* Le conteneur interne gère l'animation de survol fluide */
+        /* Conteneur pour l'animation de Hover */
         .h-card-inner { 
             display: flex; flex-direction: column; width: 100%;
             transform: scale(1);
-            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Transition de survol restaurée */
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         
         .h-card-img-wrapper { 
@@ -200,9 +193,7 @@
         
         .h-card img { 
             width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%); 
-            /* L'image est plus grande pour permettre le parallax par le JS */
             transform: scale(1.25);
-            /* Important : on ne transitionne que le filtre ici, sinon le parallax JS saccade */
             transition: filter 0.4s ease; 
         }
         
@@ -212,9 +203,9 @@
         .h-card-tags .tag { border: 1px solid rgba(255,255,255,0.3); padding: 0.2rem 0.5rem; font-size: 0.7rem; border-radius: 50px; text-transform: uppercase; font-weight: 600; color: rgba(255,255,255,0.8); transition: border-color 0.3s ease; }
 
         /* EFFETS DE SURVOL DOUX ET PROPRES */
-        .h-card:hover .h-card-inner { transform: scale(1.05); } /* La carte grossit doucement */
+        .h-card:hover .h-card-inner { transform: scale(1.05); } 
         .h-card:hover .h-card-img-wrapper { box-shadow: 0 20px 45px rgba(0,0,0,0.8); border-color: #b366ff; }
-        .h-card:hover img { filter: grayscale(0%); } /* La couleur revient */
+        .h-card:hover img { filter: grayscale(0%); } 
         .h-card:hover h3 { color: #b366ff; }
         .h-card:hover .h-card-tags .tag { border-color: rgba(179, 102, 255, 0.6); }
         
@@ -244,22 +235,32 @@
         .fade-in-section { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; will-change: opacity, visibility; }
         .fade-in-section.is-visible { opacity: 1; transform: none; }
 
-        /* --- RESPONSIVE OPTIMISÉ --- */
-        @media (max-width: 1024px) {
-            header { padding: 1.5rem; justify-content: center; text-align: center; }
-            .header-left { width: 100%; justify-content: center; gap: 1.5rem; }
-            .logo { width: 100%; }
-            .main-nav { width: 100%; justify-content: center; }
-            .header-right { width: 100%; justify-content: center; margin-top: 0.5rem; }
-            .intro-grid { gap: 2rem; }
-        }
-
-        @media (max-width: 900px) { .intro-grid { grid-template-columns: 1fr; } }
-
+        /* --- RESPONSIVE OPTIMISÉ (AVEC MENU HAMBURGER) --- */
         @media (max-width: 768px) {
-            header { padding: 1rem; }
-            .header-left { gap: 1rem; }
-            .main-nav a { font-size: 0.85rem; padding: 0.4rem 0.6rem; }
+            header { padding: 1rem 1.5rem; }
+            .header-left { gap: 1rem; width: 100%; justify-content: space-between; }
+            .logo { width: auto; }
+            .header-right { display: none; } /* On cache l'ancien bloc droit */
+            
+            /* Apparition du Hamburger */
+            .hamburger { display: flex; }
+            .hamburger.open span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+            .hamburger.open span:nth-child(2) { opacity: 0; }
+            .hamburger.open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+            /* Menu Plein Écran */
+            .main-nav {
+                position: fixed; top: 0; right: -100%; width: 100vw; height: 100vh;
+                background-color: var(--bg-color); flex-direction: column; justify-content: center;
+                align-items: center; transition: right 0.5s cubic-bezier(0.25, 1, 0.5, 1); z-index: 150; gap: 2rem;
+            }
+            .main-nav.open { right: 0; }
+            .main-nav a { font-size: 2rem; padding: 1rem; border: none; }
+            .main-nav a.active, .main-nav a:hover { background: none; color: var(--text-color); text-decoration: underline; }
+            
+            /* On réinjecte les boutons thème et langue dans le menu mobile */
+            .mobile-extras { display: flex; gap: 2rem; margin-top: 2rem; align-items: center; }
+
             .hero h1 { font-size: 13vw; } 
             .marquee-text { font-size: 2rem; } 
             .section-heading { font-size: 2.5rem; }
@@ -267,15 +268,11 @@
             .gate-text { font-size: 12vw; }
             .gate-crosshair, .topo-bg { display: none; }
             
-            .h-scroll-container { padding: 0 10vw; gap: 8vw; } 
-            .h-card { width: 80vw; min-width: unset; max-width: unset; --y-base: 0; } 
+            .h-scroll-container { padding: 0 10vw; gap: 10vw; } 
+            .h-card { width: 80vw; min-width: unset; max-width: unset; } 
             .h-card-spacer { width: 10vw; }
             .intro-box { padding: 1.5rem; }
-        }
-        
-        @media (max-width: 480px) {
-            .main-nav gap { gap: 0.3rem; }
-            .main-nav a { font-size: 0.75rem; padding: 0.3rem 0.4rem; }
+            .intro-grid { grid-template-columns: 1fr; gap: 2rem; }
         }
     </style>
 </head>
@@ -286,11 +283,26 @@
     <header>
         <div class="header-left">
             <a href="index.html" class="logo">/// Julien Arsena</a>
-            <nav class="main-nav">
+            
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+
+            <nav class="main-nav" id="main-nav">
                 <a href="index.html" class="active" data-i18n="nav-home">Accueil</a>
                 <a href="projects.html" data-i18n="nav-projects">Projets</a>
                 <a href="about.html" data-i18n="nav-about">À Propos</a>
                 <a href="contact.html" data-i18n="nav-contact">Contact</a>
+                
+                <div class="mobile-extras d-none-desktop" id="mobile-extras" style="display: none;">
+                    <div class="lang-switch">
+                        <span id="btn-fr-mob" class="active" onclick="setLanguage('fr')">FR</span> / 
+                        <span id="btn-en-mob" onclick="setLanguage('en')">EN</span>
+                    </div>
+                    <button class="theme-btn theme-toggle-btn" aria-label="Changer le thème">
+                        <div class="theme-indicator"></div>
+                    </button>
+                </div>
             </nav>
         </div>
         <div class="header-right">
@@ -298,7 +310,7 @@
                 <span id="btn-fr" class="active" onclick="setLanguage('fr')">FR</span> / 
                 <span id="btn-en" onclick="setLanguage('en')">EN</span>
             </div>
-            <button id="theme-toggle" class="theme-btn" aria-label="Changer le thème">
+            <button class="theme-btn theme-toggle-btn" aria-label="Changer le thème">
                 <div class="theme-indicator"></div>
             </button>
         </div>
@@ -331,7 +343,6 @@
     <div class="content-wrapper">
         <section class="intro-section fade-in-section">
             <div class="intro-grid">
-                
                 <div class="intro-col">
                     <h2 class="section-heading" data-i18n="h-intro1">01. Profil Hybride</h2>
                     <div class="intro-box">
@@ -360,39 +371,28 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </section>
     </div>
 
     <div class="scroll-sequence" id="scroll-sequence">
         <div class="scroll-sticky">
-            
             <div class="gate-crosshair cross-tl"></div>
             <div class="gate-crosshair cross-tr"></div>
             <div class="gate-crosshair cross-bl"></div>
             <div class="gate-crosshair cross-br"></div>
 
             <div class="clip-box" id="clip-box">
-                
                 <div class="topo-bg" id="topo-bg">
                     <svg width="100%" height="100%" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice">
                         <g class="layer-1">
                             <path d="M-200,100 C100,200 400,-100 800,200 S1100,50 1300,300" />
                             <path d="M-200,250 C160,350 460,50 860,350 S1160,200 1300,450" />
                             <path d="M-200,500 C140,600 440,300 740,600 S1040,400 1300,700" />
-                            <path d="M-200,750 C120,850 520,550 820,850 S1120,650 1300,950" />
                         </g>
                         <g class="layer-2">
                             <path d="M-200,150 C120,250 420,-50 820,250 S1120,100 1300,350" />
                             <path d="M-200,400 C100,500 400,200 700,500 S1000,300 1300,600" />
-                            <path d="M-200,550 C160,650 460,350 760,650 S1060,450 1300,750" />
-                            <path d="M-200,800 C140,900 540,600 840,900 S1140,700 1300,1000" />
-                        </g>
-                        <g class="layer-3">
-                            <path d="M-200,200 C140,300 440,0 840,300 S1140,150 1300,400" />
-                            <path d="M-200,450 C120,550 420,250 720,550 S1020,350 1300,650" />
-                            <path d="M-200,700 C100,800 500,500 800,800 S1100,600 1300,900" />
                         </g>
                     </svg>
                 </div>
@@ -453,33 +453,6 @@
                             </div>
                         </div>
                     </a>
-                    <a href="#" class="h-card">
-                        <div class="h-card-inner">
-                            <div class="h-card-img-wrapper"><img src="miniature_linguistique.jpg" alt="Évolution Linguistique"></div>
-                            <div class="h-card-info">
-                                <h3 data-i18n="proj-lang">Évolution Linguistique</h3>
-                                <div class="h-card-tags"><span class="tag">NLP</span> <span class="tag">Data Science</span></div>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="#" class="h-card">
-                        <div class="h-card-inner">
-                            <div class="h-card-img-wrapper"><img src="miniature_geopolitique.jpg" alt="Régimes Politiques"></div>
-                            <div class="h-card-info">
-                                <h3 data-i18n="proj-geo">Régimes Politiques</h3>
-                                <div class="h-card-tags"><span class="tag">Géopolitique</span> <span class="tag">Statistiques</span></div>
-                            </div>
-                        </div>
-                    </a>
-                    <a href="https://hunt-it.github.io/Accueil/?" target="_blank" class="h-card">
-                        <div class="h-card-inner">
-                            <div class="h-card-img-wrapper"><img src="miniature_huntit.jpg" alt="Hunt-It Chasse au trésor"></div>
-                            <div class="h-card-info">
-                                <h3 data-i18n="proj-hunt">Hunt-It : Chasse au Trésor</h3>
-                                <div class="h-card-tags"><span class="tag">JS</span> <span class="tag">Game Design</span></div>
-                            </div>
-                        </div>
-                    </a>
                     <a href="https://julien-ars.github.io/article-paradoxe-littoral/" target="_blank" class="h-card">
                         <div class="h-card-inner">
                             <div class="h-card-img-wrapper"><img src="miniature_paradoxe.jpg" alt="Le Paradoxe du Littoral"></div>
@@ -521,16 +494,45 @@
     </footer>
 
     <script>
-        // GESTION DU THÈME
-        const themeToggleBtn = document.getElementById('theme-toggle');
-        const body = document.body;
-        if (localStorage.getItem('theme') === 'light') body.classList.add('theme-light');
-        themeToggleBtn.addEventListener('click', () => {
-            body.classList.toggle('theme-light');
-            localStorage.setItem('theme', body.classList.contains('theme-light') ? 'light' : '');
+        // --- MENU MOBILE HAMBURGER ---
+        const hamburger = document.getElementById('hamburger');
+        const mainNav = document.getElementById('main-nav');
+        const mobileExtras = document.getElementById('mobile-extras');
+
+        if (window.innerWidth <= 768) mobileExtras.style.display = 'flex';
+        
+        window.addEventListener('resize', () => {
+            if (window.innerWidth <= 768) mobileExtras.style.display = 'flex';
+            else { mobileExtras.style.display = 'none'; mainNav.classList.remove('open'); hamburger.classList.remove('open'); document.body.style.overflow = ''; }
         });
 
-        // GESTION DE LA LANGUE
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('open');
+            mainNav.classList.toggle('open');
+            document.body.style.overflow = mainNav.classList.contains('open') ? 'hidden' : '';
+        });
+
+        mainNav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('open');
+                mainNav.classList.remove('open');
+                document.body.style.overflow = '';
+            });
+        });
+
+        // --- GESTION DU THÈME ---
+        const themeToggleBtns = document.querySelectorAll('.theme-toggle-btn');
+        const body = document.body;
+        if (localStorage.getItem('theme') === 'dark') body.classList.add('theme-dark');
+        
+        themeToggleBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                body.classList.toggle('theme-dark');
+                localStorage.setItem('theme', body.classList.contains('theme-dark') ? 'dark' : 'light');
+            });
+        });
+
+        // --- GESTION DE LA LANGUE ---
         let currentLang = localStorage.getItem('lang') || 'fr';
         function setLanguage(lang) {
             currentLang = lang;
@@ -543,11 +545,12 @@
             });
             document.getElementById('btn-fr').classList.toggle('active', lang === 'fr');
             document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+            document.getElementById('btn-fr-mob').classList.toggle('active', lang === 'fr');
+            document.getElementById('btn-en-mob').classList.toggle('active', lang === 'en');
             const eLetter = document.getElementById('letter-e');
             if (eLetter) eLetter.style.display = lang === 'en' ? 'none' : 'inline-block';
         }
 
-        // RETOUR EN HAUT
         document.getElementById('btn-back-top').addEventListener('click', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
@@ -564,7 +567,7 @@
             globalGridHover.style.setProperty('--grid-overlay-op', '0');
         });
 
-        // --- CASSURE DU PLUS (MOTEUR PHYSIQUE ET DRAG & DROP) ---
+        // --- CASSURE DU PLUS (MOTEUR PHYSIQUE & EFFET PAC-MAN) ---
         const dotPlus = document.querySelector('.dot-plus');
         const marqueeBanner = document.getElementById('marquee-banner');
 
@@ -640,6 +643,7 @@
                 currentY += velocityY;
                 velocityX *= friction;
 
+                // Collision avec le bandeau noir
                 let rect = dotPlus.getBoundingClientRect();
                 let mRect = marqueeBanner.getBoundingClientRect();
                 
@@ -654,6 +658,15 @@
                         rect = dotPlus.getBoundingClientRect();
                         currentY -= (rect.bottom - mRect.top);
                     }
+                }
+
+                // --- EFFET PAC-MAN (BOUCLE INFINIE HORIZONTALE) ---
+                // Si la coordonnée X globale dépasse la largeur de l'écran, on téléporte
+                let globalX = rect.left + rect.width / 2;
+                if (globalX > window.innerWidth + 30) {
+                    currentX -= (window.innerWidth + 60);
+                } else if (globalX < -30) {
+                    currentX += (window.innerWidth + 60);
                 }
 
                 let rot = Math.max(-90, Math.min(90, velocityX * 2));
@@ -761,7 +774,7 @@
 
                     let yBase = getComputedStyle(card).getPropertyValue('--y-base').trim() || '0px';
 
-                    // Le JS applique uniquement la 3D à la base, laissant le hover CSS gérer le scale tranquillement
+                    // Le JS applique uniquement la 3D à la base
                     card.style.transform = `translateY(${yBase}) translateZ(${translateZ}px) rotateY(${rotateY}deg)`;
                     card.style.zIndex = Math.round(100 - (Math.abs(normalizedDist) * 50));
 
@@ -802,18 +815,6 @@
             });
         });
         heroSection.addEventListener('mouseleave', () => { letters.forEach(l => l.style.transform = `translate(0, 0)`); });
-
-        // SOURIS POUSSE TOPOGRAPHIE
-        if(clipBox && topoBg) {
-            clipBox.addEventListener('mousemove', (e) => {
-                const x = (e.clientX / window.innerWidth - 0.5) * 80;
-                const y = (e.clientY / window.innerHeight - 0.5) * 80;
-                topoBg.style.transform = `translate(${x}px, ${y}px) scale(1.05)`;
-            });
-            clipBox.addEventListener('mouseleave', () => {
-                topoBg.style.transform = `translate(0px, 0px) scale(1)`;
-            });
-        }
 
         // TRADUCTIONS
         const translations = {
