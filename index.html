@@ -26,9 +26,7 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         html { background-color: #050505; scroll-behavior: smooth; }
-
         ::selection { background-color: #b366ff; color: #fff; }
         ::-moz-selection { background-color: #b366ff; color: #fff; }
         body.theme-dark ::selection { background-color: #0a0a0a; color: #e60023; }
@@ -133,6 +131,7 @@
         .hero { height: 75vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border-bottom: 2px solid var(--text-color); position: relative; overflow: visible; z-index: 20; }
         .hero h1 { font-size: 11vw; line-height: 0.9; text-transform: uppercase; letter-spacing: -2px; position: relative; z-index: 30; pointer-events: none; display: flex; justify-content: center; width: 100%; }
         .hero h1 span.letter { display: inline-block; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); will-change: transform; }
+        
         .i-wrapper { position: relative; display: inline-block; pointer-events: none; }
         .dot-plus {
             position: absolute; top: -1.3em; left: 50%; transform: translateX(-50%); font-size: 0.55em; color: var(--text-color); transition: color 0.3s ease;
@@ -149,14 +148,17 @@
         /* --- INTRO --- */
         .content-wrapper { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem 2rem 2rem; width: 100%; position: relative; z-index: 5; }
         .section-heading { font-size: 3rem; margin-bottom: 2rem; border-bottom: 4px solid var(--text-color); padding-bottom: 0.5rem; text-transform: uppercase; transition: border-color 0.5s ease; }
+        
         .intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: stretch; margin-bottom: 2rem; }
         .intro-col { display: flex; flex-direction: column; }
         .intro-box { border: 4px solid var(--text-color); padding: 2.5rem 3rem; transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.5s ease; text-align: center; display: flex; flex-direction: column; align-items: center; background-color: var(--bg-color); height: 100%; }
         .intro-box:hover { transform: translate(-5px, -5px); box-shadow: 12px 12px 0px var(--text-color); }
         .intro-text { font-family: 'Inter', sans-serif; font-size: 1.2rem; line-height: 1.6; font-weight: 600; margin-bottom: 1rem; }
+        
         .btn-container { display: flex; margin-top: auto; padding-top: 2rem; width: 100%; justify-content: center; }
         .btn-primary { font-family: 'Anton', sans-serif; font-size: 1.5rem; text-transform: uppercase; text-decoration: none; color: var(--text-color); border: 3px solid var(--text-color); padding: 0.8rem 1.5rem; transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease; background-color: transparent; display: inline-block; cursor: pointer; }
         .btn-primary:hover { transform: translate(-5px, -5px); box-shadow: 8px 8px 0px var(--text-color); background-color: var(--text-color); color: var(--bg-color); }
+        
         .skills-tags { display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; align-items: center; margin-bottom: auto; margin-top: auto; width: 100%; }
         .skill-tag { border: 2px solid var(--text-color); padding: 0.5rem 1.2rem; font-family: 'Anton', sans-serif; font-size: 1.2rem; text-transform: uppercase; border-radius: 50px; transition: all 0.3s ease; background-color: transparent; color: var(--text-color); cursor: default; }
         .skill-tag:hover { background-color: var(--text-color); color: var(--bg-color); transform: translate(-3px, -3px); box-shadow: 4px 4px 0px var(--text-color); }
@@ -164,23 +166,23 @@
         /* --- SÉQUENCE HORIZONTALE CARROUSEL 3D LENTILLE CONCAVE --- */
         .scroll-sequence { height: 500vh; position: relative; background-color: transparent; margin-bottom: 0; z-index: 5; }
         .scroll-sticky { position: sticky; top: 0; height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center; overflow: hidden; background-color: transparent; }
-
+        
         .gate-crosshair { position: absolute; width: 30px; height: 30px; z-index: 40; pointer-events: none; transition: opacity 0.3s ease; opacity: 0.7; }
         .gate-crosshair::before, .gate-crosshair::after { content: ''; position: absolute; background-color: var(--text-color); }
         .gate-crosshair::before { width: 100%; height: 2px; top: 50%; transform: translateY(-50%); }
         .gate-crosshair::after { height: 100%; width: 2px; left: 50%; transform: translateX(-50%); }
         .cross-tl { top: 15%; left: 15%; } .cross-tr { top: 15%; right: 15%; }
         .cross-bl { bottom: 15%; left: 15%; } .cross-br { bottom: 15%; right: 15%; }
-
+        
         .clip-box {
             position: absolute; width: 100%; height: 100%; background-color: #050505; 
             display: flex; align-items: center; justify-content: center; overflow: hidden;
             clip-path: inset(25% 25% round 15px); will-change: clip-path; z-index: 20;
             background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
             background-size: 40px 40px; 
-            perspective: 2000px; /* Perspective augmentée pour l'effet de lentille */
+            perspective: 2000px; 
         }
-
+        
         .topo-bg { 
             position: absolute; width: 110%; height: 110%; top: -5%; left: -5%; z-index: 10; pointer-events: none; opacity: 0; 
             transform: translate(var(--mouse-x-topo, 0px), var(--mouse-y-topo, 0px));
@@ -191,17 +193,18 @@
         .layer-1 { animation: layerFloat1 8s ease-in-out infinite alternate; transform-origin: center; }
         .layer-2 { animation: layerFloat2 12s ease-in-out infinite alternate-reverse; transform-origin: center; }
         .layer-3 { animation: layerFloat3 10s ease-in-out infinite alternate; transform-origin: center; }
+        
         @keyframes layerFloat1 { 0% { transform: translate(0, 0) scale(1) rotate(0deg); } 100% { transform: translate(2%, -1%) scale(1.02) rotate(1deg); } }
         @keyframes layerFloat2 { 0% { transform: translate(0, 0) scale(1) rotate(0deg); } 100% { transform: translate(-2%, 2%) scale(1.03) rotate(-1deg); } }
         @keyframes layerFloat3 { 0% { transform: translate(0, 0) scale(1) rotate(0deg); } 100% { transform: translate(1%, 2%) scale(1.01) rotate(0.5deg); } }
-
+        
         .gate-text { position: absolute; font-size: 6vw; text-transform: uppercase; z-index: 50; pointer-events: none; transition: opacity 0.2s ease, color 0.5s ease; letter-spacing: 2px; color: #b366ff; }
         
         .h-scroll-bg-text, .h-scroll-fg-text, .h-scroll-container, .h-btn-all { opacity: 0; }
         
         .h-scroll-bg-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 300vw; text-align: center; font-size: 25vw; line-height: 0.8; color: #2E004F; z-index: 1; pointer-events: none; white-space: nowrap; will-change: transform, opacity; }
         .h-scroll-fg-text { position: absolute; top: 70%; left: 50%; transform: translate(-50%, -50%); width: 300vw; text-align: center; font-size: 10vw; color: transparent; -webkit-text-stroke: 2px rgba(255, 255, 255, 0.15); z-index: 20; pointer-events: none; white-space: nowrap; will-change: transform, opacity; }
-
+        
         .h-scroll-container {
             display: flex; align-items: center; gap: 5vw; 
             padding: 0 45vw; position: absolute; left: 0; top: 0; height: 100vh;
@@ -219,7 +222,6 @@
             transform-style: preserve-3d;
             transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
         }
-
         .h-card-inner { 
             display: flex; flex-direction: column; width: 100%;
             transform-style: preserve-3d;
@@ -243,7 +245,7 @@
         .h-card h3 { font-size: 1.5rem; margin-bottom: 0.5rem; line-height: 1.2; font-family: 'Inter', sans-serif; font-weight: 700; letter-spacing: -0.5px; text-transform: uppercase; color: #fff; transition: color 0.3s ease; }
         .h-card-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; font-family: 'Inter', sans-serif; }
         .h-card-tags .tag { border: 1px solid rgba(255,255,255,0.3); padding: 0.2rem 0.5rem; font-size: 0.7rem; border-radius: 50px; text-transform: uppercase; font-weight: 600; color: rgba(255,255,255,0.8); transition: border-color 0.3s ease, color 0.3s ease; }
-
+        
         /* EFFETS DE SURVOL */
         .h-card:hover .h-card-inner { transform: scale(1.05) translateZ(20px); } 
         .h-card:hover .h-card-img-wrapper { box-shadow: 0 30px 60px rgba(179, 102, 255, 0.4); border-color: rgba(179, 102, 255, 0.8); }
@@ -252,7 +254,7 @@
         .h-card:hover .h-card-tags .tag { border-color: rgba(179, 102, 255, 0.6); color: rgba(179, 102, 255, 1); }
         
         .h-card-spacer { flex: 0 0 auto; width: 25vw; pointer-events: none; } 
-
+        
         /* BOUTON VIOLET LUMINEUX */
         .h-btn-all { 
             position: absolute; bottom: 3.5rem; left: 50%; transform: translateX(-50%); z-index: 30; 
@@ -272,10 +274,10 @@
         .cta-socials a { color: #b366ff; transition: all 0.3s ease; }
         .cta-socials a:hover { transform: translateY(-3px); color: #fff; }
         .cta-socials svg { width: 35px; height: 35px; fill: currentColor; }
-
+        
         .btn-contact-violet { font-family: 'Anton', sans-serif; font-size: 1.5rem; text-transform: uppercase; text-decoration: none; color: #b366ff; border: 3px solid #b366ff; padding: 0.8rem 1.5rem; transition: all 0.3s ease; background-color: transparent; display: inline-block; cursor: pointer; }
         .btn-contact-violet:hover { transform: translate(-5px, -5px); box-shadow: 8px 8px 0px #b366ff; background-color: #b366ff; color: #050505; }
-
+        
         .back-to-top-wrapper { background-color: #050505; text-align: center; padding-bottom: 3rem; position: relative; z-index: 50; width: 100%; }
         
         .btn-back-top { 
@@ -283,14 +285,13 @@
             padding: 0.7rem 1.8rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; text-decoration: none; border-radius: 50px; backdrop-filter: blur(10px); transition: all 0.3s ease; cursor: pointer; 
         }
         .btn-back-top:hover { background: #b366ff; color: #fff; transform: translateY(-3px) scale(1.05); box-shadow: 0 10px 20px rgba(179, 102, 255, 0.4); }
-
+        
         .site-footer { background-color: #050505; color: rgba(179, 102, 255, 0.4); padding: 1.5rem 2rem 2rem 2rem; text-align: center; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; position: relative; }
-
+        
         .fade-in-section { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; will-change: opacity, visibility; }
         .fade-in-section.is-visible { opacity: 1; transform: none; }
 
         /* --- RESPONSIVE OPTIMISÉ --- */
-
         @media (max-width: 1024px) {
             .intro-grid { grid-template-columns: 1fr; gap: 2rem; }
             .h-card { width: 45vw; } 
@@ -298,7 +299,6 @@
             .hero h1 { font-size: 15vw; } 
             .clip-box { perspective: 1500px; }
         }
-
         @media (max-width: 768px) {
             header { padding: 1rem 1.5rem; }
             .header-left { gap: 1rem; width: 100%; justify-content: space-between; }
@@ -309,10 +309,10 @@
             .hamburger.open span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
             .hamburger.open span:nth-child(2) { opacity: 0; }
             .hamburger.open span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
-
+            
             .main-nav { display: none; } 
             .mobile-extras { display: flex; flex-direction: row; gap: 1.5rem; margin-top: 3rem; align-items: center; width: 100%; justify-content: flex-start; }
-
+            
             .hero h1 { font-size: 22vw; } 
             .marquee-text { font-size: 2rem; } 
             
@@ -321,7 +321,7 @@
             .intro-text { font-size: 1.05rem; margin-bottom: 1.2rem; }
             .skill-tag { font-size: 1rem; padding: 0.4rem 0.8rem; }
             .btn-primary { font-size: 1.2rem; padding: 0.6rem 1rem; }
-
+            
             .clip-box { clip-path: inset(20% 5% round 10px); perspective: 1000px; }
             .gate-text { font-size: 12vw; }
             .gate-crosshair { display: none; } 
@@ -329,20 +329,16 @@
             .h-scroll-container { padding: 0 10vw; gap: 8vw; } 
             .h-card { width: 75vw; min-width: unset; max-width: unset; } 
             .h-card-spacer { width: 10vw; }
-
-            .h-btn-all {
-                white-space: nowrap; font-size: 0.75rem; padding: 0.6rem 1rem; bottom: 2rem;
-            }
-
+            
+            .h-btn-all { white-space: nowrap; font-size: 0.75rem; padding: 0.6rem 1rem; bottom: 2rem; }
+            
             .cta-section h2 { font-size: 2.2rem; }
             .cta-text { font-size: 1rem; padding: 0 1rem; }
         }
     </style>
 </head>
 <body id="top">
-
     <div class="global-grid-hover" id="global-grid-hover"></div>
-
     <header>
         <div class="header-left">
             <a href="index.html" class="logo">/// Julien Arsena</a>
@@ -350,7 +346,6 @@
             <button class="hamburger" id="hamburger" aria-label="Menu">
                 <span></span><span></span><span></span>
             </button>
-
             <nav class="main-nav" id="main-nav">
                 <a href="index.html" class="active" data-i18n="nav-home">Accueil</a>
                 <a href="projects.html" data-i18n="nav-projects">Projets</a>
@@ -428,7 +423,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="intro-col">
                     <h2 class="section-heading" data-i18n="h-intro2">02. Outils & Démarche</h2>
                     <div class="intro-box">
@@ -455,7 +449,7 @@
             <div class="gate-crosshair cross-tr"></div>
             <div class="gate-crosshair cross-bl"></div>
             <div class="gate-crosshair cross-br"></div>
-
+            
             <div class="clip-box" id="clip-box">
                 <div class="topo-bg" id="topo-bg">
                     <svg width="100%" height="100%" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice">
@@ -478,17 +472,16 @@
                         </g>
                     </svg>
                 </div>
-
+                
                 <h2 class="gate-text" id="gate-text" data-i18n="gate-title">Mes Projets</h2>
                 
                 <div class="h-scroll-bg-text" id="h-scroll-bg" data-i18n="bg-projects">
                     PROJETS PROJETS PROJETS PROJETS PROJETS PROJETS
                 </div>
-
                 <div class="h-scroll-fg-text" id="h-scroll-fg">
                     DATA / ARTS DATA / ARTS DATA / ARTS DATA / ARTS
                 </div>
-
+                
                 <div class="h-scroll-container" id="h-scroll-container">
                     <a href="projet_duree.html" class="h-card">
                         <div class="h-card-inner">
@@ -582,6 +575,7 @@
                     
                     <div class="h-card-spacer"></div>
                 </div>
+                
                 <a href="projects.html" class="h-btn-all" id="h-btn-all" data-i18n="btn-all-tiny">Voir tous les projets</a>
             </div>
         </div>
@@ -615,18 +609,18 @@
         // --- MENU MOBILE HAMBURGER ---
         const hamburger = document.getElementById('hamburger');
         const mobileMenu = document.getElementById('mobile-menu');
-
+        
         function toggleMenu() {
             hamburger.classList.toggle('open');
             mobileMenu.classList.toggle('open');
             document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
         }
-
         hamburger.addEventListener('click', toggleMenu);
 
         // --- GESTION DU THÈME ---
         const themeToggleBtns = document.querySelectorAll('.theme-toggle-btn');
         const body = document.body;
+        
         if (localStorage.getItem('theme') === 'dark') body.classList.add('theme-dark');
         
         themeToggleBtns.forEach(btn => {
@@ -663,7 +657,7 @@
         const heroSection = document.getElementById('hero-section');
         const globalGridHover = document.getElementById('global-grid-hover');
         const topoBg = document.getElementById('topo-bg');
-
+        
         document.addEventListener('mousemove', (e) => {
             if(heroSection.matches(':hover')){
                 globalGridHover.style.setProperty('--grid-overlay-op', '1');
@@ -672,7 +666,6 @@
             } else {
                 globalGridHover.style.setProperty('--grid-overlay-op', '0');
             }
-
             if(topoBg && topoBg.style.opacity > 0) {
                 const x = (e.clientX / window.innerWidth - 0.5) * 40; 
                 const y = (e.clientY / window.innerHeight - 0.5) * 40;
@@ -684,7 +677,6 @@
         // --- CASSURE DU PLUS (MOTEUR PHYSIQUE & BOUCLE PAC-MAN) ---
         const dotPlus = document.querySelector('.dot-plus');
         const marqueeBanner = document.getElementById('marquee-banner');
-
         let isDragging = false, hasDropped = false;
         let startPosX, startPosY, currentX = 0, currentY = 0;
         let velocityY = 0, velocityX = 0;
@@ -698,7 +690,6 @@
                     physicsLoop();
                 }
             }, 1000);
-
             dotPlus.addEventListener('mousedown', startDrag);
             dotPlus.addEventListener('touchstart', startDrag, { passive: false });
 
@@ -707,15 +698,12 @@
                 isDragging = true;
                 hasDropped = true;
                 cancelAnimationFrame(animationFrameId);
-
                 let clientX = e.clientX || (e.touches && e.touches[0].clientX);
                 let clientY = e.clientY || (e.touches && e.touches[0].clientY);
-
                 startPosX = clientX - currentX;
                 startPosY = clientY - currentY;
                 lastMouseX = clientX;
                 lastMouseY = clientY;
-
                 document.addEventListener('mousemove', drag);
                 document.addEventListener('touchmove', drag, { passive: false });
                 document.addEventListener('mouseup', endDrag);
@@ -725,18 +713,14 @@
             function drag(e) {
                 if (!isDragging) return;
                 e.preventDefault();
-                
                 let clientX = e.clientX || (e.touches && e.touches[0].clientX);
                 let clientY = e.clientY || (e.touches && e.touches[0].clientY);
-
                 velocityX = clientX - lastMouseX;
                 velocityY = clientY - lastMouseY;
                 lastMouseX = clientX;
                 lastMouseY = clientY;
-
                 currentX = clientX - startPosX;
                 currentY = clientY - startPosY;
-
                 dotPlus.style.transform = `translate(calc(-50% + ${currentX}px), ${currentY}px) rotate(${velocityX * 2}deg)`;
             }
 
@@ -751,12 +735,11 @@
 
             function physicsLoop() {
                 if (isDragging) return;
-
                 velocityY += gravity;
                 currentX += velocityX;
                 currentY += velocityY;
                 velocityX *= friction;
-
+                
                 let rect = dotPlus.getBoundingClientRect();
                 let mRect = marqueeBanner.getBoundingClientRect();
                 
@@ -765,24 +748,22 @@
                     currentY -= overlap;
                     velocityY *= bounceFactor;
                     velocityX *= 0.8;
-
                     if (Math.abs(velocityY) < 1.5) {
                         velocityY = 0;
                         rect = dotPlus.getBoundingClientRect();
                         currentY -= (rect.bottom - mRect.top);
                     }
                 }
-
+                
                 let globalX = rect.left + rect.width / 2;
                 if (globalX > window.innerWidth + 30) {
                     currentX -= (window.innerWidth + 60);
                 } else if (globalX < -30) {
                     currentX += (window.innerWidth + 60);
                 }
-
+                
                 let rot = Math.max(-90, Math.min(90, velocityX * 2));
                 if(velocityY === 0 && Math.abs(velocityX) < 0.5) rot = 0; 
-
                 dotPlus.style.transform = `translate(calc(-50% + ${currentX}px), ${currentY}px) rotate(${rot}deg)`;
                 
                 if (Math.abs(velocityY) > 0 || Math.abs(velocityX) > 0.5) {
@@ -801,7 +782,6 @@
         const fgText = document.getElementById('h-scroll-fg');
         const btnAll = document.getElementById('h-btn-all');
         const cards = document.querySelectorAll('.h-card');
-
         let targetP = 0, currentP = 0, isInitialized = false;
 
         function updateTargetP() {
@@ -833,15 +813,18 @@
                 radius = 15 * (1 - ease); 
                 gateOp = 1 - (ease * 1.5);
                 currentTopoOp = 0.8 * (1 - ease); 
-                if (currentP > 0.05) contentOp = (currentP - 0.05) / 0.10; 
+                
+                // MODIFICATION : Rendu cliquable et visible beaucoup plus tôt pour que 
+                // l'utilisateur puisse interagir dès l'ouverture de la séquence
+                if (currentP > 0.01) contentOp = (currentP - 0.01) / 0.14; 
             } else {
                 clipY = 0; clipX = 0; radius = 0; gateOp = 0; contentOp = 1; currentTopoOp = 0;
                 let scrollProgress = Math.min(1, (currentP - 0.15) / 0.85);
                 hTrans = scrollProgress * maxScroll;
-            } 
+            }
 
-            // Gestion de la cliquabilité
-            if (contentOp > 0.01) {
+            // Gestion de la cliquabilité (pointer-events activés dès que > 0)
+            if (contentOp > 0) {
                 hContainer.style.visibility = 'visible';
                 hContainer.style.pointerEvents = 'auto';
                 if(btnAll) {
@@ -876,14 +859,14 @@
             if(fgText) fgText.style.transform = `translate(-50%, -50%) translateX(-${currentP * 40}vw)`;
 
             // --- EFFET LENTILLE CONCAVE 3D FLUIDE ---
-            if (contentOp > 0.1) {
+            if (contentOp > 0) {
                 const screenCenter = window.innerWidth / 2;
                 const isMobile = window.innerWidth <= 768;
                 
                 // Paramètres ajustés pour l'effet de lentille concave
-                const maxRotation = isMobile ? 35 : 45; // Rotation maximale sur les côtés
-                const maxDepth = isMobile ? 250 : 350; // Profondeur maximale (éloignement)
-                const maxScale = 0.85; // Échelle minimale sur les côtés
+                const maxRotation = isMobile ? 35 : 45; 
+                const maxDepth = isMobile ? 250 : 400; // Plus de profondeur au centre (effet lointain)
+                const minScale = 0.85; // Échelle réduite au centre
                 const divider = isMobile ? window.innerWidth / 1.2 : window.innerWidth / 2;
 
                 cards.forEach((card) => {
@@ -897,21 +880,20 @@
                     
                     // Fonction d'easing pour une transition plus douce
                     const absNormDist = Math.abs(normalizedDist);
-                    const easedDist = Math.pow(absNormDist, 1.5); // Courbe plus douce
+                    const easedDist = Math.pow(absNormDist, 1.5); 
                     
-                    // Rotation Y (courbure de la lentille)
-                    const rotateY = normalizedDist * maxRotation;
+                    // MODIFICATION CONCAVE : La rotation Y est inversée pour que les cartes sur les côtés tournent vers l'intérieur
+                    const rotateY = -normalizedDist * maxRotation;
                     
-                    // Profondeur Z (concave: centre proche, côtés loin)
-                    const translateZ = -easedDist * maxDepth; // Négatif = éloignement
+                    // MODIFICATION CONCAVE : Le centre (easedDist = 0) recule vers -maxDepth, les bords reviennent à Z=0
+                    const translateZ = -(1 - easedDist) * maxDepth; 
                     
-                    // Échelle (les éléments éloignés sont plus petits)
-                    const scale = 1 - (easedDist * (1 - maxScale));
+                    // MODIFICATION CONCAVE : Le centre (loin) est plus petit, les bords (proches) retrouvent leur taille d'origine
+                    const scale = minScale + (easedDist * (1 - minScale));
                     
-                    // Opacité (légère baisse sur les côtés)
-                    const opacity = Math.max(0.3, 1 - (easedDist * 0.4));
+                    // Opacité : parfaitement clair au centre, légèrement estompé sur les côtés extrêmes
+                    const opacity = Math.max(0.3, 1 - (easedDist * 0.6));
                     
-                    // Application de la transformation 3D
                     card.style.opacity = opacity * contentOp;
                     card.style.transform = `
                         translateZ(${translateZ}px) 
@@ -919,18 +901,17 @@
                         scale(${scale})
                     `;
                     
-                    // Gestion du z-index pour l'empilement correct
+                    // Gestion du z-index : Les cartes sur les côtés (qui se rapprochent de Z=0) passent au-dessus des cartes du centre (-Z)
                     card.style.zIndex = Math.round(100 + translateZ);
                     
-                    // Effet parallax sur l'image
+                    // Effet parallax inversé sur l'image pour coller à la nouvelle courbure
                     const img = card.querySelector('img');
                     if (img) {
-                        const parallaxX = normalizedDist * -20;
+                        const parallaxX = normalizedDist * 20; 
                         img.style.transform = `scale(1.05) translateX(${parallaxX}%)`;
                     }
                 });
             }
-
             requestAnimationFrame(renderAnimation);
         }
         renderAnimation();
