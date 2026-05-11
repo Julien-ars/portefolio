@@ -178,13 +178,12 @@
             clip-path: inset(25% 25% round 15px); will-change: clip-path; z-index: 20;
             background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
             background-size: 40px 40px; 
-            perspective: 1200px;
+            perspective: 1400px; /* Perspective ajustée pour un meilleur rendu 3D de la lentille */
         }
 
         /* LIGNES TOPOGRAPHIQUES & INTERACTIVITE SOURIS */
         .topo-bg { 
             position: absolute; width: 110%; height: 110%; top: -5%; left: -5%; z-index: 10; pointer-events: none; opacity: 0; 
-            /* On combine la translation souris via variables CSS avec la transition d'opacité existante */
             transform: translate(var(--mouse-x-topo, 0px), var(--mouse-y-topo, 0px));
             transition: opacity 0.2s cubic-bezier(0.25, 1, 0.5, 1), transform 0.15s ease-out; 
         }
@@ -216,18 +215,18 @@
             flex: 0 0 auto; background-color: transparent; text-decoration: none; display: flex; flex-direction: column;
             width: 35vw; min-width: 300px; max-width: 600px; 
             position: relative; transform-origin: center center;
-            cursor: pointer; pointer-events: auto !important; /* Force la cliquabilité */
-            transition: z-index 0.3s ease;
+            cursor: pointer; pointer-events: auto !important; 
         }
 
         .h-card:nth-child(odd) { --y-base: -3vh; }
         .h-card:nth-child(even) { --y-base: 3vh; }
 
-        /* Conteneur interne gérant l'animation CSS (Zoom de survol) */
+        /* Conteneur interne : crucial pour que le survol CSS passe outre la transformation JS */
         .h-card-inner { 
             display: flex; flex-direction: column; width: 100%;
             transform: scale(1) translateZ(0);
             transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transform-style: preserve-3d;
         }
         
         .h-card-img-wrapper { 
@@ -248,10 +247,9 @@
         .h-card-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; font-family: 'Inter', sans-serif; }
         .h-card-tags .tag { border: 1px solid rgba(255,255,255,0.3); padding: 0.2rem 0.5rem; font-size: 0.7rem; border-radius: 50px; text-transform: uppercase; font-weight: 600; color: rgba(255,255,255,0.8); transition: border-color 0.3s ease; }
 
-        /* EFFETS DE SURVOL RESTAURÉS & AMÉLIORÉS */
-        .h-card:hover { z-index: 1000 !important; } /* Passe devant les autres en 3D */
-        .h-card:hover .h-card-inner { transform: scale(1.08) translateZ(20px); } 
-        .h-card:hover .h-card-img-wrapper { box-shadow: 0 20px 45px rgba(0,0,0,0.9); border-color: #b366ff; }
+        /* EFFETS DE SURVOL RESTAURÉS */
+        .h-card:hover .h-card-inner { transform: scale(1.08) translateZ(30px); } 
+        .h-card:hover .h-card-img-wrapper { box-shadow: 0 25px 50px rgba(0,0,0,0.9); border-color: #b366ff; }
         .h-card:hover img { filter: grayscale(0%); } 
         .h-card:hover h3 { color: #b366ff; }
         .h-card:hover .h-card-tags .tag { border-color: rgba(179, 102, 255, 0.6); }
@@ -269,7 +267,7 @@
         /* --- SECTION CONTACT --- */
         .cta-section { 
             background-color: #050505; padding: 8rem 2rem 3rem 2rem; text-align: center; width: 100%; position: relative; z-index: 50; 
-            margin-top: -2px; /* Supprime l'artefact de ligne blanche sur mobile/tablette */
+            margin-top: -2px;
         }
         .cta-section h2 { font-size: 4rem; margin-bottom: 1rem; color: #b366ff; } 
         .cta-text { font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 600; max-width: 750px; margin: 0 auto 2rem auto; color: rgba(179, 102, 255, 0.8); }
@@ -322,23 +320,22 @@
             .hero h1 { font-size: 22vw; } 
             .marquee-text { font-size: 2rem; } 
             
-            /* Optimisation des tailles des blocs d'intro sur mobile */
             .section-heading { font-size: 2rem; margin-bottom: 1.2rem; }
             .intro-box { padding: 1.5rem 1.2rem; }
             .intro-text { font-size: 1.05rem; margin-bottom: 1.2rem; }
             .skill-tag { font-size: 1rem; padding: 0.4rem 0.8rem; }
             .btn-primary { font-size: 1.2rem; padding: 0.6rem 1rem; }
 
-            .clip-box { clip-path: inset(20% 5% round 10px); perspective: 1000px; }
+            /* Perspective réduite sur mobile pour accentuer violemment la 3D */
+            .clip-box { clip-path: inset(20% 5% round 10px); perspective: 800px; }
             .gate-text { font-size: 12vw; }
-            .gate-crosshair { display: none; } /* On cache les croix, mais ON GARDE .topo-bg ! */
+            .gate-crosshair { display: none; } 
             
             .h-scroll-container { padding: 0 10vw; gap: 8vw; } 
             .h-card { width: 75vw; min-width: unset; max-width: unset; --y-base: 0; } 
             .h-card:nth-child(odd), .h-card:nth-child(even) { --y-base: 0; } 
             .h-card-spacer { width: 10vw; }
 
-            /* Bouton "Voir tous les projets" ajusté pour tenir sur 1 ligne */
             .h-btn-all {
                 white-space: nowrap;
                 font-size: 0.75rem;
@@ -668,7 +665,6 @@
         const topoBg = document.getElementById('topo-bg');
 
         document.addEventListener('mousemove', (e) => {
-            // Pour la lampe torche (Héro)
             if(heroSection.matches(':hover')){
                 globalGridHover.style.setProperty('--grid-overlay-op', '1');
                 globalGridHover.style.setProperty('--mouse-x', `${e.pageX}px`);
@@ -677,9 +673,8 @@
                 globalGridHover.style.setProperty('--grid-overlay-op', '0');
             }
 
-            // Pour l'effet parallaxe de la topographie (déplace légèrement le SVG)
             if(topoBg && topoBg.style.opacity > 0) {
-                const x = (e.clientX / window.innerWidth - 0.5) * 40; // max 20px de mouv
+                const x = (e.clientX / window.innerWidth - 0.5) * 40; 
                 const y = (e.clientY / window.innerHeight - 0.5) * 40;
                 topoBg.style.setProperty('--mouse-x-topo', `${x}px`);
                 topoBg.style.setProperty('--mouse-y-topo', `${y}px`);
@@ -778,7 +773,6 @@
                     }
                 }
 
-                // --- EFFET PAC-MAN ---
                 let globalX = rect.left + rect.width / 2;
                 if (globalX > window.innerWidth + 30) {
                     currentX -= (window.innerWidth + 60);
@@ -797,7 +791,7 @@
             }
         }
 
-        // --- MOTEUR DE DÉFILEMENT ---
+        // --- MOTEUR DE DÉFILEMENT (3D CORRIGÉE ET BOOSTÉE) ---
         const seq = document.getElementById('scroll-sequence');
         const clipBox = document.getElementById('clip-box');
         const gateText = document.getElementById('gate-text');
@@ -842,13 +836,21 @@
                 hTrans = scrollProgress * maxScroll;
             } 
 
-            // Remplacement de pointer-events par visibility pour une UX bulletproof (évite les bugs de clics inattendus)
+            // Cliquabilité ultra robuste : on active le pointeur uniquement quand le conteneur est ouvert
             if (contentOp > 0.9) {
                 hContainer.style.visibility = 'visible';
-                if(btnAll) btnAll.style.visibility = 'visible';
+                hContainer.style.pointerEvents = 'auto';
+                if(btnAll) {
+                    btnAll.style.visibility = 'visible';
+                    btnAll.style.pointerEvents = 'auto';
+                }
             } else {
                 hContainer.style.visibility = 'hidden';
-                if(btnAll) btnAll.style.visibility = 'hidden';
+                hContainer.style.pointerEvents = 'none';
+                if(btnAll) {
+                    btnAll.style.visibility = 'hidden';
+                    btnAll.style.pointerEvents = 'none';
+                }
             }
 
             clipBox.style.clipPath = `inset(${clipY}% ${clipX}% round ${radius}px)`;
@@ -868,14 +870,14 @@
             if(bgText) bgText.style.transform = `translate(-50%, -50%) translateX(${currentP * 20}vw)`;
             if(fgText) fgText.style.transform = `translate(-50%, -50%) translateX(-${currentP * 40}vw)`;
 
-            // --- L'EFFET CONCAVE 3D CORRIGÉ ---
+            // --- L'EFFET LENTILLE 3D CONCAVE BOOSTE ---
             if (contentOp > 0.1) {
                 const screenCenter = window.innerWidth / 2;
 
-                // On réduit la profondeur du translateZ pour éviter que la carte passe "à travers" le body plane
-                let maxRot = window.innerWidth > 768 ? -35 : -20;
-                let pushBack = window.innerWidth > 768 ? -150 : -30;
-                let divider = window.innerWidth > 768 ? window.innerWidth / 1.8 : window.innerWidth / 1.2;
+                // Nouveaux paramètres agressifs pour accentuer l'effet
+                let maxRot = window.innerWidth > 768 ? 60 : 45; // Degrés de rotation max
+                let pushBack = window.innerWidth > 768 ? 600 : 250; // Recul max en px des cartes sur les côtés
+                let divider = window.innerWidth > 768 ? window.innerWidth / 1.5 : window.innerWidth / 1.2;
 
                 cards.forEach((card) => {
                     const cardRect = card.getBoundingClientRect();
@@ -884,21 +886,29 @@
                     
                     let normalizedDist = distanceFromCenter / divider;
                     normalizedDist = Math.max(-1, Math.min(1, normalizedDist));
-                    let easeDist = Math.pow(Math.abs(normalizedDist), 2);
-
-                    let rotateY = normalizedDist * maxRot; 
                     
-                    let translateZ = (1 - easeDist) * pushBack; 
+                    // Lissage pour avoir une courbe élégante
+                    let easeDist = Math.pow(Math.abs(normalizedDist), 1.5);
+
+                    // La carte tourne vers le centre
+                    let rotateY = normalizedDist * -maxRot; 
+                    
+                    // La carte AU CENTRE est à 0 (devant, cliquable à 100%). Les cartes aux extrémités sont repoussées.
+                    let translateZ = -(easeDist * pushBack); 
+                    
                     let yBase = getComputedStyle(card).getPropertyValue('--y-base').trim() || '0px';
 
                     card.style.opacity = Math.max(0, contentOp);
                     card.style.transform = `translateY(${yBase}) translateZ(${translateZ}px) rotateY(${rotateY}deg)`;
+                    
+                    // On s'assure que la carte centrale domine toujours en Z-index
+                    card.style.zIndex = Math.round(100 - (easeDist * 50));
 
-                    // Parallax interne
+                    // Parallaxe interne sur l'image un poil plus dynamique
                     const img = card.querySelector('img');
                     if (img) {
-                        let parallaxX = normalizedDist * -15; 
-                        img.style.transform = `scale(1.25) translateX(${parallaxX}%)`;
+                        let parallaxX = normalizedDist * -25; 
+                        img.style.transform = `scale(1.3) translateX(${parallaxX}%)`;
                     }
                 });
             }
