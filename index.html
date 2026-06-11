@@ -4,8 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Julien Arsena | Data Scientist & Arts</title>
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22 fill=%22white%22>+</text></svg>">
+    
     <meta name="description" content="Portfolio de Julien Arsena, étudiant en Sciences des Données et Arts à l'Université PSL.">
+    
+    <meta property="og:title" content="Julien Arsena | Data Scientist & Arts">
+    <meta property="og:description" content="Portfolio hybride combinant la rigueur des algorithmes et la sensibilité de l'analyse culturelle.">
+    <meta property="og:image" content="https://julien-ars.github.io/portefolio/og-image.jpg">
+    <meta property="og:url" content="https://julien-ars.github.io/portefolio/">
+    <meta property="og:type" content="website">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Julien Arsena | Data Scientist & Arts">
+    <meta name="twitter:description" content="Portfolio hybride combinant la rigueur des algorithmes et la sensibilité de l'analyse culturelle.">
+    <meta name="twitter:image" content="https://julien-ars.github.io/portefolio/og-image.jpg">
+
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
         /* =============================================
            RESET & VARIABLES
@@ -160,7 +176,8 @@
         
         .intro-grid-editorial {
             display: flex; flex-direction: column; align-items: center; text-align: center;
-            max-width: 850px; margin: 0 auto 5rem auto; gap: 2.5rem;
+            max-width: 720px; /* TEXTE RESSERRÉ ICI */
+            margin: 0 auto 5rem auto; gap: 2.5rem;
         }
         
         .huge-text { 
@@ -170,6 +187,7 @@
         
         .intro-paragraphs {
             display: flex; flex-direction: column; gap: 1.5rem; width: 100%; font-family: 'Inter', sans-serif;
+            text-align: center; /* FORCÉ AU CENTRE POUR TOUS LES APPAREILS */
         }
         
         .intro-desc { 
@@ -178,7 +196,7 @@
         }
         
         .link-editorial { 
-            display: inline-block; font-family: 'Anton', sans-serif; font-size: 1.3rem; 
+            display: inline-flex; align-items: center; justify-content: center; font-family: 'Anton', sans-serif; font-size: 1.3rem; 
             text-transform: uppercase; color: var(--text-color); text-decoration: none; 
             border-bottom: 3px solid var(--text-color); padding-bottom: 0.3rem; margin-top: 1rem;
             transition: transform 0.3s ease, color 0.3s ease, border-color 0.3s ease; 
@@ -260,7 +278,7 @@
         .cta-socials a { color: #b366ff; transition: all 0.3s ease; }
         .cta-socials a:hover { transform: translateY(-3px); color: #fff; }
         .cta-socials svg { width: 35px; height: 35px; fill: currentColor; }
-        .btn-contact-violet { font-family: 'Anton', sans-serif; font-size: 1.5rem; text-transform: uppercase; text-decoration: none; color: #b366ff; border: 3px solid #b366ff; padding: 0.8rem 1.5rem; transition: all 0.3s ease; background-color: transparent; display: inline-block; cursor: pointer; }
+        .btn-contact-violet { display: inline-flex; align-items: center; justify-content: center; font-family: 'Anton', sans-serif; font-size: 1.5rem; text-transform: uppercase; text-decoration: none; color: #b366ff; border: 3px solid #b366ff; padding: 0.8rem 1.5rem; transition: all 0.3s ease; background-color: transparent; cursor: pointer; }
         .btn-contact-violet:hover { transform: translate(-5px,-5px); box-shadow: 8px 8px 0px #b366ff; background-color: #b366ff; color: #050505; }
         
         .back-to-top-wrapper { background-color: #050505; text-align: center; padding-bottom: 3rem; position: relative; z-index: 50; width: 100%; }
@@ -284,15 +302,15 @@
             .hero h1 { font-size: 15vw; } .clip-box { perspective: 1500px; }
             .content-wrapper { padding: 5rem 2rem 4rem 2rem; }
         }
+        
+        /* Tablette et moyen écran */
         @media (max-width: 768px) {
-            #site-header { padding: 1.2rem 1.5rem; }
-            .main-nav a { font-size: 0.72rem; padding: 0.4rem 0.7rem; }
+            #site-header { padding: 1.2rem; justify-content: flex-start; }
             #lang-corner { top: 1.2rem; right: 1.2rem; }
             
             .hero h1 { font-size: 20vw; } .marquee-text { font-size: 2rem; }
             
             .intro-grid-editorial { gap: 1.5rem; margin-bottom: 3rem; }
-            .intro-paragraphs { text-align: left; } /* Meilleure lisibilité du long texte sur mobile */
             .link-editorial { font-size: 1.1rem; }
             
             .clip-box { clip-path: inset(20% 5% round 10px); perspective: 1000px; }
@@ -301,16 +319,29 @@
             .h-card { width: 75vw; min-width: unset; max-width: unset; } .h-card-spacer { width: 10vw; }
             .h-btn-all { white-space: nowrap; font-size: 0.75rem; padding: 0.6rem 1rem; bottom: 2rem; }
         }
-        @media (max-width: 480px) {
-            .nav-sep { display: none; } .main-nav { gap: 0.05rem; }
+
+        /* Mobile (Smartphones) - HEADER STACKÉ PARFAITEMENT */
+        @media (max-width: 550px) {
+            /* On centre FR/EN tout en haut */
+            #lang-corner { 
+                top: 1rem; right: auto; left: 50%; transform: translateX(-50%); 
+                justify-content: center; width: 100%; pointer-events: none; 
+            }
+            #lang-corner span { pointer-events: auto; }
+            
+            /* On place la navigation juste en dessous, centrée elle aussi */
+            #site-header { 
+                top: 3.2rem; padding: 0; justify-content: center; 
+            }
+            .main-nav { gap: 0.1rem; }
+            .main-nav a { font-size: 0.72rem; padding: 0.4rem 0.6rem; }
+            
             .content-wrapper { padding: 4rem 1.5rem; }
-            .intro-paragraphs { text-align: left; }
         }
     </style>
 </head>
 <body id="top">
 
-    <!-- HEADER (Absolute) -->
     <header id="site-header">
         <nav class="main-nav" id="main-nav">
             <a href="about.html" data-i18n="nav-about" id="nav-a-about">À Propos</a>
@@ -321,14 +352,12 @@
         </nav>
     </header>
 
-    <!-- COIN LANGUE -->
     <div id="lang-corner">
         <span class="lang-btn active" id="btn-fr" onclick="setLanguage('fr')">FR</span>
         <span class="lsep">/</span>
         <span class="lang-btn" id="btn-en" onclick="setLanguage('en')">EN</span>
     </div>
 
-    <!-- HERO SECTION -->
     <section class="hero fade-in-section" id="hero-section">
         <div class="global-grid-hover" id="global-grid-hover"></div>
         <canvas id="topo-canvas"></canvas>
@@ -354,14 +383,12 @@
         </div>
     </section>
 
-    <!-- MARQUEE -->
     <div class="marquee-container" id="marquee-banner">
         <div class="marquee-text" id="marquee-text" data-i18n="marquee-main">
             SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • MACHINE LEARNING • SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • MACHINE LEARNING •
         </div>
     </div>
 
-    <!-- CONTENU INTRO (Centré & Éditorial) -->
     <div class="content-wrapper">
         <section class="intro-section fade-in-section">
             <div class="intro-grid-editorial">
@@ -376,7 +403,9 @@
                     </p>
                 </div>
                 
-                <a href="about.html" class="link-editorial" data-i18n="btn-about">Découvrir mon parcours ↗</a>
+                <a href="about.html" class="link-editorial" data-i18n="btn-about">Découvrir mon parcours 
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:5px;"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                </a>
             </div>
 
             <div class="skills-editorial">
@@ -398,7 +427,6 @@
         </section>
     </div>
 
-    <!-- SÉQUENCE PROJETS (Portail 3D Concave sur fond carrelé) -->
     <div class="scroll-sequence" id="scroll-sequence">
         <div class="scroll-sticky">
             <div class="gate-crosshair cross-tl"></div>
@@ -523,12 +551,13 @@
         </div>
     </div>
 
-    <!-- CONTACT -->
     <section class="cta-section">
         <h2 data-i18n="h-contact">Prêt à échanger ?</h2>
         <p class="cta-text" data-i18n="p-contact">Toujours curieux de relever de nouveaux défis, je suis ouvert aux opportunités d'études en Master, ainsi qu'aux collaborations stimulantes avec des entreprises ou laboratoires de recherche.</p>
         <div class="btn-container" style="justify-content:center">
-            <a href="contact.html" class="btn-contact-violet" data-i18n="btn-contact">Me contacter ↗</a>
+            <a href="contact.html" class="btn-contact-violet" data-i18n="btn-contact">Me contacter 
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:6px;"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+            </a>
         </div>
         <div class="cta-socials">
             <a href="https://www.linkedin.com/in/julien-arsena/" target="_blank">
@@ -550,7 +579,7 @@
 
     <script>
     /* =====================================================
-       FOND TOPOGRAPHIQUE HERO — Canvas avec interpolation lisse (Lerp)
+       FOND TOPOGRAPHIQUE HERO — Canvas
        ===================================================== */
     (function () {
         const canvas = document.getElementById('topo-canvas');
@@ -669,7 +698,7 @@
     })();
 
     /* =====================================================
-       ANIMATION HIRAGANA → LATIN (Cascade plus lente et douce)
+       ANIMATION HIRAGANA → LATIN 
        ===================================================== */
     window.addEventListener('load', () => {
         setTimeout(() => {
@@ -688,7 +717,7 @@
     });
 
     /* =====================================================
-       ANIMATION DE SURVOL SUR LES LETTRES (Japonais Dynamique)
+       ANIMATION DE SURVOL SUR LES LETTRES 
        ===================================================== */
     document.querySelectorAll('.hero h1 .letter').forEach(letter => {
         const fi = letter.querySelector('.fi');
@@ -735,14 +764,16 @@
         
         function startDrag(e) {
             e.preventDefault(); isDragging = true; hasDropped = true; cancelAnimationFrame(animFrameId);
-            const cx = e.clientX || e.touches[0].clientX, cy = e.clientY || e.touches[0].clientY;
+            const cx = e.clientX || (e.touches && e.touches[0].clientX);
+            const cy = e.clientY || (e.touches && e.touches[0].clientY);
             startPosX = cx - currentX; startPosY = cy - currentY; lastMouseX = cx; lastMouseY = cy;
             document.addEventListener('mousemove', drag); document.addEventListener('touchmove', drag, { passive: false });
             document.addEventListener('mouseup', endDrag); document.addEventListener('touchend', endDrag);
         }
         function drag(e) {
             if (!isDragging) return; e.preventDefault();
-            const cx = e.clientX || e.touches[0].clientX, cy = e.clientY || e.touches[0].clientY;
+            const cx = e.clientX || (e.touches && e.touches[0].clientX);
+            const cy = e.clientY || (e.touches && e.touches[0].clientY);
             velocityX = cx - lastMouseX; velocityY = cy - lastMouseY; lastMouseX = cx; lastMouseY = cy;
             currentX = cx - startPosX; currentY = cy - startPosY;
             dotPlus.style.transform = `translate(calc(-50% + ${currentX}px), ${currentY}px) rotate(${velocityX * 2}deg)`;
@@ -768,7 +799,7 @@
     }
 
     /* =====================================================
-       EFFETS SOURIS (Aimants & Grille Globale Fluide)
+       EFFETS SOURIS
        ===================================================== */
     const textLetters = document.querySelectorAll('.hero h1 .letter');
     const heroEl2 = document.getElementById('hero-section');
@@ -937,8 +968,10 @@
     document.getElementById('btn-back-top').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
     /* =====================================================
-       TRADUCTIONS
+       TRADUCTIONS & FLÈCHES VECTORIELLES SVG
        ===================================================== */
+    const arrowIcon = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:5px;"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>`;
+    
     const translations = {
         fr: { 
             "nav-home": "Accueil", "nav-projects": "Projets", "nav-about": "À Propos", "nav-contact": "Contact", 
@@ -947,14 +980,14 @@
             "p-intro1": "Étudiant en Sciences des Données, Arts et Culture (Université PSL & Lycée Louis-le-Grand), je combine la rigueur implacable des mathématiques et de l'algorithmique avec une sensibilité prononcée pour les humanités numériques et l'analyse culturelle.",
             "p-intro2": "J'aborde cette interdisciplinarité non pas comme un simple croisement de matières, mais comme une clé essentielle pour observer, analyser et donner du sens aux grandes dynamiques de notre monde. En faisant dialoguer l'objectivité froide des données avec la subtilité et la profondeur des sciences humaines, je cherche à révéler les structures invisibles qui façonnent nos sociétés contemporaines.",
             "tag-ml": "Machine Learning", "tag-nlp": "NLP", "tag-dataviz": "Data Visualization", "tag-cult": "Analyse Culturelle", "tag-stat": "Statistiques",
-            "btn-about": "Découvrir mon parcours ↗",
+            "btn-about": `Découvrir mon parcours ${arrowIcon}`,
             "gate-title": "Mes Projets", "bg-projects": "PROJETS PROJETS PROJETS PROJETS PROJETS PROJETS",
             "proj-duree": "Prédiction de Durée", "proj-couleur": "Colorimétrie du Cinéma", "proj-anime": "Violence & Animation",
             "proj-voyage": "Générations & Voyages", "proj-ens": "Analyse Littéraire (ENS)", "proj-lang": "Évolution Linguistique",
             "proj-geo": "Régimes Politiques", "proj-hunt": "Hunt-It : Chasse au Trésor", "proj-fractal": "Le Paradoxe du Littoral",
             "btn-all-tiny": "Voir tous les projets", "h-contact": "Prêt à échanger ?", 
             "p-contact": "Toujours curieux de relever de nouveaux défis, je suis ouvert aux opportunités d'études en Master, ainsi qu'aux collaborations stimulantes avec des entreprises ou laboratoires de recherche.",
-            "btn-contact": "Me contacter ↗", "btn-back-top": "Remonter en haut",
+            "btn-contact": `Me contacter ${arrowIcon}`, "btn-back-top": "Remonter en haut",
             "footer-text": "© 2026 Julien Arsena. Tout le contenu est mis à disposition pour consultation." 
         },
         en: { 
@@ -964,14 +997,14 @@
             "p-intro1": "As a student in Data Science, Arts, and Culture (PSL University & Lycée Louis-le-Grand), I combine the rigorous precision of mathematics and algorithms with a strong sensitivity for digital humanities and cultural analysis.",
             "p-intro2": "I approach this interdisciplinarity not merely as a mix of subjects, but as an essential key to observing, analyzing, and making sense of the major dynamics of our world. By bringing the cold objectivity of data into dialogue with the subtlety and depth of the humanities, I seek to reveal the invisible structures that shape our contemporary societies.",
             "tag-ml": "Machine Learning", "tag-nlp": "NLP", "tag-dataviz": "Dataviz", "tag-cult": "Cultural Analysis", "tag-stat": "Statistics",
-            "btn-about": "Discover my background ↗", 
+            "btn-about": `Discover my background ${arrowIcon}`, 
             "gate-title": "My Projects", "bg-projects": "PROJECTS PROJECTS PROJECTS PROJECTS PROJECTS",
             "proj-duree": "Runtime Prediction", "proj-couleur": "Cinema Colorimetry", "proj-anime": "Violence & Animation",
             "proj-voyage": "Generations & Travel", "proj-ens": "Literary Analysis (ENS)", "proj-lang": "Linguistic Evolution",
             "proj-geo": "Political Regimes", "proj-hunt": "Hunt-It: Treasure Hunt", "proj-fractal": "The Coastline Paradox",
             "btn-all-tiny": "View all projects", "h-contact": "Let's connect", 
             "p-contact": "Always eager to take on new challenges, I am open to Master's degree opportunities and stimulating collaborations with companies or research labs.",
-            "btn-contact": "Get in touch ↗", "btn-back-top": "Back to top", 
+            "btn-contact": `Get in touch ${arrowIcon}`, "btn-back-top": "Back to top", 
             "footer-text": "© 2026 Julien Arsena. All content is provided for review purposes." 
         }
     };
