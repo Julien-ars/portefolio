@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projets | Julien Arsena</title>
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="apple-touch-icon" href="icone_finale.png">
+    <!-- Favicon personnalisé -->
+    <link rel="icon" type="image/png" href="icone_principale.png">
+    <link rel="apple-touch-icon" href="icone_principale.png">
     
     <meta name="description" content="Découvrez les projets de Julien Arsena en Data Analysis, Machine Learning, NLP et Web Créatif.">
     
-    <!-- Open Graph / Réseaux Sociaux -->
+    <!-- Open Graph / Réseaux Sociaux (Miniature) -->
     <meta property="og:title" content="Julien Arsena | Projets">
     <meta property="og:description" content="Portfolio hybride combinant la rigueur des algorithmes et la créativité du web design.">
     <meta property="og:image" content="https://julien-ars.github.io/portefolio/og-image.png">
@@ -145,7 +145,7 @@
         .fi.flip-in  { animation: fiIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
 
         /* =============================================
-           SYSTÈME DE FILTRES AVEC LISTE DÉTACHÉE
+           SYSTÈME DE FILTRES AVEC DROPDOWN DÉTACHÉ
            ============================================= */
         .filter-wrapper {
             width: 100%; position: sticky; top: 1rem; z-index: 8000;
@@ -191,7 +191,7 @@
             box-shadow: 0 15px 35px rgba(0,0,0,0.1); z-index: 8001;
         }
 
-        /* Le pont invisible qui empêche la fermeture accidentelle de la souris */
+        /* Pont invisible */
         .dropdown-list::before {
             content: ''; position: absolute; top: -16px; left: 0; width: 100%; height: 20px; background: transparent;
         }
@@ -286,7 +286,7 @@
         @keyframes scaleIn { 0% { opacity: 0; transform: scale(0.95); } 100% { opacity: 1; transform: scale(1); } }
         .card-wrapper.show { animation: scaleIn 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
 
-        /* --- BOUTON RETOUR EN HAUT --- */
+        /* --- BOUTON RETOUR EN HAUT (SURBRILLANCE) --- */
         .back-to-top-wrapper { text-align: center; padding-bottom: 4rem; position: relative; z-index: 50; width: 100%; }
         .btn-back-top {
             display: inline-block; color: #fff; background: rgba(179,102,255,0.1); border: 2px solid rgba(179,102,255,0.6); 
@@ -340,7 +340,7 @@
     <!-- HEADER (Navigation Centrée & Logo Gauche) -->
     <header id="site-header">
         <a href="index.html" class="logo-link">
-            <img src="favicon.png" alt="Icone Site" class="site-icon">
+            <img src="icone_principale.png" alt="Icone Site" class="site-icon">
             <span class="site-logo">/// Julien Arsena</span>
         </a>
         
@@ -367,15 +367,8 @@
     <!-- HERO SECTION -->
     <div class="page-hero fade-in-section" id="hero-section">
         <div class="hero-subtitle" data-i18n="subtitle-projects">Archives & Réalisations</div>
-        <h1 id="hero-text">
-            <span class="letter"><span class="fi" data-l="P" data-j="ぷ">ぷ</span></span>
-            <span class="letter"><span class="fi" data-l="R" data-j="ろ">ろ</span></span>
-            <span class="letter"><span class="fi" data-l="O" data-j="お">お</span></span>
-            <span class="letter"><span class="fi" data-l="J" data-j="じ">じ</span></span>
-            <span class="letter"><span class="fi" data-l="E" data-j="え">え</span></span>
-            <span class="letter"><span class="fi" data-l="T" data-j="と">と</span></span>
-            <span class="letter"><span class="fi" data-l="S" data-j="す">す</span></span>
-        </h1>
+        <!-- Le titre est généré en JS via setLanguage() pour gérer la traduction PROJETS / PROJECTS -->
+        <h1 id="hero-text"></h1>
     </div>
 
     <!-- FILTRES AVEC DROPDOWN DÉTACHÉ -->
@@ -392,7 +385,7 @@
                     <svg class="dropdown-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
                 </button>
                 
-                <!-- Liste déroulante sans bulle -->
+                <!-- Liste déroulante -->
                 <div class="dropdown-list" id="data-dropdown-list">
                     <button class="dropdown-item sub-filter active" data-filter="data-all" data-i18n="filter-data-all">Voir tout</button>
                     <button class="dropdown-item sub-filter" data-filter="ml" data-i18n="filter-ml">Machine Learning</button>
@@ -468,7 +461,7 @@
             <div class="card-wrapper fade-in-section" data-category="web">
                 <a href="index.html" class="project-card">
                     <div class="img-container">
-                        <img src="og-image.jpg" alt="Portfolio Interactif" class="project-card-img">
+                        <img src="miniature_portfolio.jpg" alt="Portfolio Interactif" class="project-card-img">
                     </div>
                     <div class="project-card-content">
                         <div class="card-header-flex">
@@ -656,12 +649,12 @@
         </div>
     </div>
 
-    <!-- BOUTON RETOUR EN HAUT -->
+    <!-- BOUTON RETOUR EN HAUT (EN SURBRILLANCE) -->
     <div class="back-to-top-wrapper">
         <button id="btn-back-top" class="btn-back-top" data-i18n="btn-back-top">Remonter en haut</button>
     </div>
 
-    <!-- FOOTER LÉGAL -->
+    <!-- FOOTER LÉGAL (VIOLET SUR NOIR TRANSPARENT) -->
     <footer class="site-footer">
         <span data-i18n="footer-text">© 2026 Julien Arsena. Tout le contenu (code, données, rapports) est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite.</span>
     </footer>
@@ -670,6 +663,103 @@
         // --- GESTION DE LA LANGUE ---
         let currentLang = localStorage.getItem('lang') || 'fr';
         
+        // --- RECONSTRUCTION DYNAMIQUE DU TITRE H1 ---
+        function updateHeroTitle(lang) {
+            const heroText = document.getElementById('hero-text');
+            // FR : P R O J E T S
+            const dataFr = [
+                {l: 'P', j: 'ぷ'}, {l: 'R', j: 'ろ'}, {l: 'O', j: 'お'}, {l: 'J', j: 'じ'},
+                {l: 'E', j: 'え'}, {l: 'T', j: 'と'}, {l: 'S', j: 'す'}
+            ];
+            // EN : P R O J E C T S
+            const dataEn = [
+                {l: 'P', j: 'ぷ'}, {l: 'R', j: 'ろ'}, {l: 'O', j: 'お'}, {l: 'J', j: 'じ'},
+                {l: 'E', j: 'え'}, {l: 'C', j: 'く'}, {l: 'T', j: 'と'}, {l: 'S', j: 'す'}
+            ];
+            
+            const currentData = lang === 'fr' ? dataFr : dataEn;
+            
+            // Construit le HTML initialement avec les lettres japonaises (j) pour préparer la cascade
+            heroText.innerHTML = currentData.map(item => 
+                `<span class="letter"><span class="fi" data-l="${item.l}" data-j="${item.j}">${item.j}</span></span>`
+            ).join('');
+            
+            // On relance les événements souris sur ces nouvelles lettres
+            bindLettersHover();
+            
+            // Déclenche l'animation de cascade
+            setTimeout(() => {
+                const fis = heroText.querySelectorAll('.fi');
+                fis.forEach((el, i) => {
+                    setTimeout(() => {
+                        el.classList.add('flip-out');
+                        setTimeout(() => {
+                            el.textContent = el.dataset.l;
+                            el.classList.remove('flip-out'); el.classList.add('flip-in');
+                            setTimeout(() => el.classList.remove('flip-in'), 500);
+                        }, 350);
+                    }, i * 100); // 100ms de décalage par lettre pour un effet cascade rapide
+                });
+            }, 100);
+        }
+
+        // --- GESTION DES AIMANTS ET SURVOLS DU H1 ---
+        const heroSection = document.getElementById('hero-section');
+        
+        // Listener global pour l'effet aimant
+        heroSection.addEventListener('mousemove', (e) => {
+            const letters = document.querySelectorAll('.letter');
+            letters.forEach(letter => {
+                const r = letter.getBoundingClientRect();
+                const centerX = r.left + r.width / 2;
+                const centerY = r.top + r.height / 2;
+                
+                const dx = e.clientX - centerX;
+                const dy = e.clientY - centerY;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                
+                if (dist < 150) {
+                    const force = (1 - dist / 150) * 20;
+                    letter.style.transform = `translate(${-(dx / dist) * force}px, ${-(dy / dist) * force}px)`;
+                } else {
+                    letter.style.transform = `translate(0, 0)`;
+                }
+            });
+        });
+
+        heroSection.addEventListener('mouseleave', () => {
+            const letters = document.querySelectorAll('.letter');
+            letters.forEach(letter => letter.style.transform = `translate(0, 0)`);
+        });
+
+        // Animation des lettres japonaises au survol
+        function bindLettersHover() {
+            const letters = document.querySelectorAll('.hero h1 .letter');
+            letters.forEach(letter => {
+                const fi = letter.querySelector('.fi');
+                if(!fi) return;
+                letter.addEventListener('mouseenter', () => {
+                    if (fi.classList.contains('is-animating') || fi.textContent === fi.dataset.j) return;
+                    fi.classList.add('is-animating', 'flip-out');
+                    setTimeout(() => {
+                        fi.textContent = fi.dataset.j; 
+                        fi.classList.remove('flip-out'); fi.classList.add('flip-in');
+                        setTimeout(() => {
+                            fi.classList.remove('flip-in');
+                            setTimeout(() => {
+                                fi.classList.add('flip-out');
+                                setTimeout(() => {
+                                    fi.textContent = fi.dataset.l; 
+                                    fi.classList.remove('flip-out'); fi.classList.add('flip-in');
+                                    setTimeout(() => { fi.classList.remove('flip-in', 'is-animating'); }, 500);
+                                }, 350);
+                            }, 800); 
+                        }, 500);
+                    }, 350);
+                });
+            });
+        }
+
         // --- SYSTÈME DE FILTRAGE AVEC DROPDOWN DÉTACHÉ ---
         const mainFilterBtns = document.querySelectorAll('.main-filter');
         const subFilterBtns = document.querySelectorAll('.sub-filter');
@@ -764,14 +854,10 @@
 
             document.querySelectorAll('.fade-in-section').forEach(section => { observer.observe(section); });
             setLanguage(currentLang);
-            initMagneticLetters();
         });
 
-        // --- EFFET SOURIS (GRILLE + LETTRES) ---
-        const heroSection = document.getElementById('hero-section');
+        // --- EFFET SOURIS (GRILLE LUMINEUSE) ---
         const globalGridHover = document.getElementById('global-grid-hover');
-        let letters = document.querySelectorAll('.letter');
-        
         let gridMouseX = -100, gridMouseY = -100;
         let targetGridMouseX = -100, targetGridMouseY = -100;
 
@@ -790,74 +876,6 @@
         }
         updateGridHover();
 
-        function initMagneticLetters() {
-            letters = document.querySelectorAll('.letter');
-            
-            heroSection.addEventListener('mousemove', (e) => {
-                letters.forEach(letter => {
-                    const r = letter.getBoundingClientRect();
-                    const centerX = r.left + r.width / 2;
-                    const centerY = r.top + r.height / 2;
-                    
-                    const dx = e.clientX - centerX;
-                    const dy = e.clientY - centerY;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    
-                    if (dist < 150) {
-                        const force = (1 - dist / 150) * 20;
-                        letter.style.transform = `translate(${-(dx / dist) * force}px, ${-(dy / dist) * force}px)`;
-                    } else {
-                        letter.style.transform = `translate(0, 0)`;
-                    }
-                });
-            });
-
-            heroSection.addEventListener('mouseleave', () => {
-                letters.forEach(letter => letter.style.transform = `translate(0, 0)`);
-            });
-            
-            letters.forEach(letter => {
-                const fi = letter.querySelector('.fi');
-                if(!fi) return;
-                letter.addEventListener('mouseenter', () => {
-                    if (fi.classList.contains('is-animating') || fi.textContent === fi.dataset.j) return;
-                    fi.classList.add('is-animating', 'flip-out');
-                    setTimeout(() => {
-                        fi.textContent = fi.dataset.j; 
-                        fi.classList.remove('flip-out'); fi.classList.add('flip-in');
-                        setTimeout(() => {
-                            fi.classList.remove('flip-in');
-                            setTimeout(() => {
-                                fi.classList.add('flip-out');
-                                setTimeout(() => {
-                                    fi.textContent = fi.dataset.l; 
-                                    fi.classList.remove('flip-out'); fi.classList.add('flip-in');
-                                    setTimeout(() => { fi.classList.remove('flip-in', 'is-animating'); }, 500);
-                                }, 350);
-                            }, 800); 
-                        }, 500);
-                    }, 350);
-                });
-            });
-        }
-        
-        // --- CASCADE INITIALE JAPONAISE ---
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                const fis = document.querySelectorAll('.fi');
-                fis.forEach((el, i) => {
-                    setTimeout(() => {
-                        el.classList.add('flip-out');
-                        setTimeout(() => {
-                            el.textContent = el.dataset.l;
-                            el.classList.remove('flip-out'); el.classList.add('flip-in');
-                            setTimeout(() => el.classList.remove('flip-in'), 500);
-                        }, 350);
-                    }, i * 150); 
-                });
-            }, 400);
-        });
-
         // --- RETOUR EN HAUT ---
         document.getElementById('btn-back-top').addEventListener('click', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -867,9 +885,8 @@
         const translations = {
             "fr": {
                 "nav-home": "Accueil", "nav-projects": "Projets", "nav-about": "À Propos", "nav-contact": "Contact",
-                "title-project": "PROJETS"
                 "subtitle-projects": "Archives & Réalisations",
-                "filter-all": "Tout", "filter-data-main": "Data Analyse", "filter-data-all": "Voir Tout", "filter-ml": "Machine Learning", "filter-nlp": "NLP & Humanités", "filter-web": "Projets Web",
+                "filter-all": "Tout", "filter-data-main": "Data Analyse", "filter-data-all": "Voir Tout", "filter-ml": "Machine Learning", "filter-nlp": "NLP & Humanités", "filter-web": "Web Créatif",
                 "wip-banner": "En Cours",
                 
                 "ds4-title": "Prédiction de Durée", "ds4-catch": "\"Une machine peut-elle deviner quand le générique va défiler ?\"", "ds4-desc": "Analyse des données cinématographiques pour développer un modèle de régression capable d'estimer la durée d'un long-métrage à l'aide d'algorithmes d'apprentissage automatique.",
@@ -889,7 +906,6 @@
             },
             "en": {
                 "nav-home": "Home", "nav-projects": "Projects", "nav-about": "About", "nav-contact": "Contact",
-                "title-project": "PROJECTS"
                 "subtitle-projects": "Archives & Works",
                 "filter-all": "All", "filter-data-main": "Data Analysis", "filter-data-all": "View All", "filter-ml": "Machine Learning", "filter-nlp": "NLP & Humanities", "filter-web": "Creative Web",
                 "wip-banner": "In Progress",
@@ -929,6 +945,8 @@
                 document.getElementById('btn-en').classList.add('active');
                 document.getElementById('btn-fr').classList.remove('active');
             }
+            
+            updateHeroTitle(lang);
         }
     </script>
 </body>
