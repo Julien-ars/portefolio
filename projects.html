@@ -6,12 +6,12 @@
     <title>Projets | Julien Arsena</title>
     
     <!-- Favicon personnalisé -->
-    <link rel="icon" type="image/png" href="icone_finale.png">
-    <link rel="apple-touch-icon" href="icone_finale.png">
+    <link rel="icon" type="image/png" href="icone_principale.png">
+    <link rel="apple-touch-icon" href="icone_principale.png">
     
     <meta name="description" content="Découvrez les projets de Julien Arsena en Data Analysis, Machine Learning, NLP et Web Créatif.">
     
-    <!-- Open Graph / Réseaux Sociaux (Miniature) -->
+    <!-- Open Graph / Réseaux Sociaux -->
     <meta property="og:title" content="Julien Arsena | Projets">
     <meta property="og:description" content="Portfolio hybride combinant la rigueur des algorithmes et la créativité du web design.">
     <meta property="og:image" content="https://julien-ars.github.io/portefolio/og-image.png">
@@ -55,7 +55,6 @@
             background-size: 40px 40px;
         }
 
-        /* Lueur interactive de la souris */
         .global-grid-hover {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-image: linear-gradient(rgba(0,0,0,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.15) 1px, transparent 1px);
@@ -141,11 +140,11 @@
         .fi { display: inline-block; transform-origin: center top; will-change: transform, opacity; }
         @keyframes fiOut { 0% { transform: rotateX(0deg); opacity: 1; } 100% { transform: rotateX(-90deg); opacity: 0; } }
         @keyframes fiIn { 0% { transform: rotateX(90deg); opacity: 0; } 100% { transform: rotateX(0deg); opacity: 1; } }
-        .fi.flip-out { animation: fiOut 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards; }
-        .fi.flip-in  { animation: fiIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        .fi.flip-out { animation: fiOut 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards; }
+        .fi.flip-in  { animation: fiIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
 
         /* =============================================
-           SYSTÈME DE FILTRES AVEC DROPDOWN DÉTACHÉ
+           SYSTÈME DE FILTRES AVEC COMPTEURS
            ============================================= */
         .filter-wrapper {
             width: 100%; position: sticky; top: 1rem; z-index: 8000;
@@ -175,10 +174,7 @@
 
         .filter-divider { width: 1px; height: 18px; background-color: rgba(26,26,26,0.15); margin: 0 0.2rem; }
         
-        .filter-dropdown-container {
-            position: relative; display: inline-block;
-        }
-
+        .filter-dropdown-container { position: relative; display: inline-block; }
         .dropdown-icon { transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1); }
         .filter-dropdown-container.open .dropdown-icon { transform: rotate(180deg); }
 
@@ -191,7 +187,6 @@
             box-shadow: 0 15px 35px rgba(0,0,0,0.1); z-index: 8001;
         }
 
-        /* Pont invisible */
         .dropdown-list::before {
             content: ''; position: absolute; top: -16px; left: 0; width: 100%; height: 20px; background: transparent;
         }
@@ -204,12 +199,15 @@
             background: transparent; border: none; padding: 0.6rem 1rem; border-radius: 8px;
             font-family: 'Inter', sans-serif; font-size: 0.8rem; font-weight: 600; text-transform: uppercase;
             color: rgba(26,26,26,0.6); cursor: pointer; text-align: left; transition: all 0.2s;
-            position: relative; z-index: 2; white-space: nowrap;
+            position: relative; z-index: 2; white-space: nowrap; display: flex; align-items: center; justify-content: space-between;
         }
         .dropdown-item:hover { background: rgba(26,26,26,0.05); color: var(--text-color); }
-        
-        .dropdown-item.active { 
-            background: rgba(26,26,26,0.15); color: var(--text-color); 
+        .dropdown-item.active { background: rgba(26,26,26,0.15); color: var(--text-color); }
+
+        /* Le compteur dans les filtres */
+        .count {
+            font-size: 0.85em; opacity: 0.5; margin-left: 6px; 
+            font-family: 'Inter', sans-serif; font-weight: 500;
         }
 
         /* =============================================
@@ -263,7 +261,7 @@
         .project-link-btn { font-family: 'Inter', sans-serif; font-weight: 700; text-transform: uppercase; font-size: 0.85rem; display: inline-flex; align-items: center; transition: color 0.3s ease; }
         .svg-arrow { transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), color 0.3s ease; }
 
-        /* --- BADGE EN COURS (WIP) --- */
+        /* Badge WIP */
         .wip-card { cursor: default; }
         .wip-card:hover { transform: none; box-shadow: none; border-color: rgba(26, 26, 26, 0.12); }
         .wip-card:hover .project-card-img { transform: scale(1); }
@@ -285,6 +283,10 @@
         .card-wrapper.hide { display: none; }
         @keyframes scaleIn { 0% { opacity: 0; transform: scale(0.95); } 100% { opacity: 1; transform: scale(1); } }
         .card-wrapper.show { animation: scaleIn 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+
+        /* --- TRANSITIONS DE PAGE LISSES --- */
+        .page-transition-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: var(--bg-color); z-index: 99998; opacity: 0; pointer-events: none; transition: opacity 0.6s ease; }
+        .page-transition-clone { position: fixed; z-index: 99999; pointer-events: none; background-size: cover; background-position: center; border-radius: 8px; transition: transform 0.6s cubic-bezier(0.25,1,0.5,1), opacity 0.4s ease 0.2s; margin: 0; padding: 0; box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
 
         /* --- BOUTON RETOUR EN HAUT (SURBRILLANCE) --- */
         .back-to-top-wrapper { text-align: center; padding-bottom: 4rem; position: relative; z-index: 50; width: 100%; }
@@ -309,7 +311,7 @@
             font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; margin-top: auto; 
         }
 
-        /* --- RESPONSIVE DESIGN --- */
+        /* --- RESPONSIVE DESIGN (OPTIMISATION MOBILE) --- */
         @media (max-width: 1024px) {
             .projects-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
             #site-header { padding: 1.5rem 2rem; }
@@ -324,23 +326,33 @@
             .page-hero { padding: 10rem 1rem 2rem 1rem; }
             .page-hero h1 { font-size: 18vw; }
             
-            .projects-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .projects-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; }
             .container { padding: 0 1.5rem 4rem 1.5rem; }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 550px) {
             .nav-sep { display: none; } .main-nav { gap: 0.05rem; }
             .filter-scroller { border-radius: 20px; flex-wrap: wrap; justify-content: center; padding: 0.8rem; }
             .dropdown-list { min-width: 160px; }
+            
+            /* Compactage des cartes sur mobile (1 par ligne) */
+            .projects-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .project-card { padding: 1rem; border-radius: 12px; }
+            .img-container { margin-bottom: 1rem; aspect-ratio: 16 / 9; } /* Plus panoramique sur mobile */
+            .project-card h3 { font-size: 1.6rem; }
+            .project-card p { font-size: 0.9rem; margin-bottom: 1rem; }
         }
     </style>
 </head>
 <body id="top">
 
+    <!-- TRANSITION OVERLAY -->
+    <div class="page-transition-overlay"></div>
+
     <!-- HEADER (Navigation Centrée & Logo Gauche) -->
     <header id="site-header">
         <a href="index.html" class="logo-link">
-            <img src="icone_finale.png" alt="Icone Site" class="site-icon">
+            <img src="icone_principale.png" alt="Icone Site" class="site-icon">
             <span class="site-logo">/// Julien Arsena</span>
         </a>
         
@@ -367,7 +379,7 @@
     <!-- HERO SECTION -->
     <div class="page-hero fade-in-section" id="hero-section">
         <div class="hero-subtitle" data-i18n="subtitle-projects">Archives & Réalisations</div>
-        <!-- Le titre est généré en JS via setLanguage() pour gérer la traduction PROJETS / PROJECTS -->
+        <!-- Le titre est généré en JS pour gérer PROJETS / PROJECTS fluidement -->
         <h1 id="hero-text"></h1>
     </div>
 
@@ -380,9 +392,8 @@
             
             <!-- CONTENEUR DROPDOWN (Data Analyse) -->
             <div class="filter-dropdown-container" id="data-dropdown-container">
-                <button class="filter-btn main-filter" id="btn-data-analyse" data-filter="data-all">
-                    <span data-i18n="filter-data-main">Data Analyse</span>
-                    <svg class="dropdown-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                <button class="filter-btn main-filter" id="btn-data-analyse" data-filter="data-all" data-i18n="filter-data-main">
+                    Data Analyse
                 </button>
                 
                 <!-- Liste déroulante -->
@@ -399,38 +410,13 @@
         </div>
     </div>
 
-    <!-- GRILLE DE PROJETS -->
+    <!-- GRILLE DE PROJETS (Ordre exact: 3 colonnes) -->
     <div class="container">
         <div class="projects-grid" id="projects-grid">
             
-            <!-- PROJET 1 : PRÉDICTION DURÉE -->
-            <div class="card-wrapper fade-in-section" data-category="ml">
-                <a href="projet_duree.html" class="project-card">
-                    <div class="img-container">
-                        <img src="miniature_duree.jpg" alt="Prédiction de Durée" class="project-card-img">
-                    </div>
-                    <div class="project-card-content">
-                        <div class="card-header-flex">
-                            <h3 data-i18n="ds4-title">Prédiction de Durée</h3>
-                            <span class="project-date" data-i18n="date-dec25">Déc. 2025</span>
-                        </div>
-                        <div class="project-catchphrase" data-i18n="ds4-catch">"Une machine peut-elle deviner quand le générique va défiler ?"</div>
-                        <p data-i18n="ds4-desc">Analyse des données cinématographiques pour développer un modèle de régression capable d'estimer la durée d'un long-métrage à l'aide d'algorithmes d'apprentissage automatique.</p>
-                        <div class="project-tags">
-                            <span class="tag">Machine Learning</span>
-                            <span class="tag">Régression L1</span>
-                        </div>
-                        <div class="project-footer">
-                            <span class="project-link-btn">
-                                <span data-i18n="btn-details">Voir l'étude</span>
-                                <svg class="svg-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:6px;"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-                            </span>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <!-- PROJET 2 : COLORIMÉTRIE -->
+            <!-- LIGNE 1 ========================== -->
+            
+            <!-- 1. Colorimétrie -->
             <div class="card-wrapper fade-in-section" data-category="ml">
                 <a href="projet_couleur.html" class="project-card">
                     <div class="img-container">
@@ -457,61 +443,7 @@
                 </a>
             </div>
 
-            <!-- PROJET 3 : PORTFOLIO INTERACTIF -->
-            <div class="card-wrapper fade-in-section" data-category="web">
-                <a href="index.html" class="project-card">
-                    <div class="img-container">
-                        <img src="og-image.jpg" alt="Portfolio Interactif" class="project-card-img">
-                    </div>
-                    <div class="project-card-content">
-                        <div class="card-header-flex">
-                            <h3 data-i18n="web3-title">Portfolio Interactif</h3>
-                            <span class="project-date" data-i18n="date-juin26">Juin 2026</span>
-                        </div>
-                        <div class="project-catchphrase" data-i18n="web3-catch">"L'art de coder sa propre identité numérique."</div>
-                        <p data-i18n="web3-desc">Conception, UI/UX design et développement front-end de cet espace personnel. Intégration d'un moteur topographique fluide sur Canvas, typographie magnétique et transitions organiques.</p>
-                        <div class="project-tags">
-                            <span class="tag">UI/UX Design</span>
-                            <span class="tag">JavaScript</span>
-                        </div>
-                        <div class="project-footer">
-                            <span class="project-link-btn">
-                                <span data-i18n="btn-home">Visiter l'accueil</span>
-                                <svg class="svg-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:6px;"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-                            </span>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <!-- PROJET 4 : ANIMES -->
-            <div class="card-wrapper fade-in-section" data-category="nlp">
-                <a href="projet_animes.html" class="project-card">
-                    <div class="img-container">
-                        <img src="miniature_anime.jpg" alt="Violence & Animation" class="project-card-img">
-                    </div>
-                    <div class="project-card-content">
-                        <div class="card-header-flex">
-                            <h3 data-i18n="ds2-title">Violence & Animation</h3>
-                            <span class="project-date" data-i18n="date-mai25">Mai 2025</span>
-                        </div>
-                        <div class="project-catchphrase" data-i18n="ds2-catch">"Les animés les mieux notés sont-ils les plus violents ?"</div>
-                        <p data-i18n="ds2-desc">Analyse statistique poussée : les animés japonais les mieux notés par le public sont-ils statistiquement les plus violents ? Web scraping, nettoyage et visualisation de données.</p>
-                        <div class="project-tags">
-                            <span class="tag">Web Scraping</span>
-                            <span class="tag">Data Viz</span>
-                        </div>
-                        <div class="project-footer">
-                            <span class="project-link-btn">
-                                <span data-i18n="btn-details">Voir l'étude</span>
-                                <svg class="svg-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:6px;"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
-                            </span>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
-            <!-- PROJET 5 : HUNT-IT -->
+            <!-- 2. Hunt-It -->
             <div class="card-wrapper fade-in-section" data-category="web">
                 <a href="https://hunt-it.github.io/Accueil/?" target="_blank" class="project-card">
                     <div class="img-container">
@@ -538,7 +470,119 @@
                 </a>
             </div>
 
-            <!-- PROJET 6 : PARADOXE LITTORAL -->
+            <!-- 3. Portefolio -->
+            <div class="card-wrapper fade-in-section" data-category="web">
+                <a href="index.html" class="project-card">
+                    <div class="img-container">
+                        <img src="miniature_portfolio.jpg" alt="Portfolio Interactif" class="project-card-img">
+                    </div>
+                    <div class="project-card-content">
+                        <div class="card-header-flex">
+                            <h3 data-i18n="web3-title">Portfolio Interactif</h3>
+                            <span class="project-date" data-i18n="date-juin26">Juin 2026</span>
+                        </div>
+                        <div class="project-catchphrase" data-i18n="web3-catch">"L'art de coder sa propre identité numérique."</div>
+                        <p data-i18n="web3-desc">Conception, UI/UX design et développement front-end de cet espace personnel. Intégration d'un moteur topographique fluide sur Canvas, typographie magnétique et transitions organiques.</p>
+                        <div class="project-tags">
+                            <span class="tag">UI/UX Design</span>
+                            <span class="tag">JavaScript</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-link-btn">
+                                <span data-i18n="btn-home">Visiter l'accueil</span>
+                                <svg class="svg-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:6px;"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- LIGNE 2 ========================== -->
+
+            <!-- 4. Prédiction de Durée -->
+            <div class="card-wrapper fade-in-section" data-category="ml">
+                <a href="projet_duree.html" class="project-card">
+                    <div class="img-container">
+                        <img src="miniature_duree.jpg" alt="Prédiction de Durée" class="project-card-img">
+                    </div>
+                    <div class="project-card-content">
+                        <div class="card-header-flex">
+                            <h3 data-i18n="ds4-title">Prédiction de Durée</h3>
+                            <span class="project-date" data-i18n="date-dec25">Déc. 2025</span>
+                        </div>
+                        <div class="project-catchphrase" data-i18n="ds4-catch">"Une machine peut-elle deviner quand le générique va défiler ?"</div>
+                        <p data-i18n="ds4-desc">Analyse des données cinématographiques pour développer un modèle de régression capable d'estimer la durée d'un long-métrage à l'aide d'algorithmes d'apprentissage automatique.</p>
+                        <div class="project-tags">
+                            <span class="tag">Machine Learning</span>
+                            <span class="tag">Régression L1</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-link-btn">
+                                <span data-i18n="btn-details">Voir l'étude</span>
+                                <svg class="svg-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:6px;"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- 5. Violence & Animation -->
+            <div class="card-wrapper fade-in-section" data-category="ml">
+                <a href="projet_animes.html" class="project-card">
+                    <div class="img-container">
+                        <img src="miniature_anime.jpg" alt="Violence & Animation" class="project-card-img">
+                    </div>
+                    <div class="project-card-content">
+                        <div class="card-header-flex">
+                            <h3 data-i18n="ds2-title">Violence & Animation</h3>
+                            <span class="project-date" data-i18n="date-mai25">Mai 2025</span>
+                        </div>
+                        <div class="project-catchphrase" data-i18n="ds2-catch">"Les animés les mieux notés sont-ils les plus violents ?"</div>
+                        <p data-i18n="ds2-desc">Analyse statistique poussée : les animés japonais les mieux notés par le public sont-ils statistiquement les plus violents ? Web scraping, nettoyage et visualisation de données.</p>
+                        <div class="project-tags">
+                            <span class="tag">Web Scraping</span>
+                            <span class="tag">Data Viz</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-link-btn">
+                                <span data-i18n="btn-details">Voir l'étude</span>
+                                <svg class="svg-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:6px;"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- 6. Linguistique -->
+            <div class="card-wrapper fade-in-section" data-category="nlp">
+                <div class="project-card wip-card">
+                    <div class="img-container">
+                        <div class="wip-badge" data-i18n="wip-banner">En Cours</div>
+                        <img src="miniature_linguistique.jpg" alt="Évolution Linguistique" class="project-card-img">
+                    </div>
+                    <div class="project-card-content">
+                        <div class="card-header-flex">
+                            <h3 data-i18n="ds7-title">Linguistique Quantitative</h3>
+                            <span class="project-date" data-i18n="date-tba-2">À venir</span>
+                        </div>
+                        <div class="project-catchphrase" data-i18n="ds7-catch">"Le climat influence-t-il la fréquence des voyelles ?"</div>
+                        <p data-i18n="ds7-desc">Analyse phonétique et acoustique approfondie. Étude de la corrélation statistique entre les données climatiques mondiales et les formants vocaliques (F1) lors de la phonation.</p>
+                        <div class="project-tags">
+                            <span class="tag">NLP</span>
+                            <span class="tag">Phonétique</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-link-btn" style="opacity:0.5;">
+                                <span data-i18n="btn-tba">Bientôt disponible</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LIGNE 3 ========================== -->
+
+            <!-- 7. Paradoxe du Littoral -->
             <div class="card-wrapper fade-in-section" data-category="web">
                 <a href="https://julien-ars.github.io/article-paradoxe-littoral/" target="_blank" class="project-card">
                     <div class="img-container">
@@ -565,7 +609,7 @@
                 </a>
             </div>
 
-            <!-- PROJET 7 : ENS (WIP) -->
+            <!-- 8. ENS -->
             <div class="card-wrapper fade-in-section" data-category="nlp">
                 <div class="project-card wip-card">
                     <div class="img-container">
@@ -592,7 +636,36 @@
                 </div>
             </div>
 
-            <!-- PROJET 8 : SONDAGE (WIP) -->
+            <!-- 9. TAL (Nouveau) -->
+            <div class="card-wrapper fade-in-section" data-category="nlp">
+                <div class="project-card wip-card">
+                    <div class="img-container">
+                        <div class="wip-badge" data-i18n="wip-banner">En Cours</div>
+                        <img src="miniature_tal.jpg" alt="Place des Femmes TAL" class="project-card-img">
+                    </div>
+                    <div class="project-card-content">
+                        <div class="card-header-flex">
+                            <h3 data-i18n="ds8-title">Place des Femmes (TAL)</h3>
+                            <span class="project-date" data-i18n="date-tba">À venir</span>
+                        </div>
+                        <div class="project-catchphrase" data-i18n="ds8-catch">"Les algorithmes révèlent-ils nos stéréotypes ?"</div>
+                        <p data-i18n="ds8-desc">Analyse textuelle (NLP) d'un corpus de littérature classique française pour quantifier et visualiser la représentation des personnages féminins.</p>
+                        <div class="project-tags">
+                            <span class="tag">NLP</span>
+                            <span class="tag">Littérature</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-link-btn" style="opacity:0.5;">
+                                <span data-i18n="btn-tba">Bientôt disponible</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LIGNE 4 ========================== -->
+
+            <!-- 10. Génération et voyage -->
             <div class="card-wrapper fade-in-section" data-category="nlp">
                 <div class="project-card wip-card">
                     <div class="img-container">
@@ -619,23 +692,50 @@
                 </div>
             </div>
 
-            <!-- PROJET 9 : LINGUISTIQUE (WIP) -->
+            <!-- 11. CinéMonde (Projet Final) -->
+            <div class="card-wrapper fade-in-section" data-category="web">
+                <div class="project-card wip-card">
+                    <div class="img-container">
+                        <div class="wip-badge" data-i18n="wip-banner">En Cours</div>
+                        <img src="miniature_cinemonde.jpg" alt="CinéMonde" class="project-card-img">
+                    </div>
+                    <div class="project-card-content">
+                        <div class="card-header-flex">
+                            <h3 data-i18n="web4-title">CinéMonde</h3>
+                            <span class="project-date" data-i18n="date-tba">À venir</span>
+                        </div>
+                        <div class="project-catchphrase" data-i18n="web4-catch">"La carte interactive du cinéma mondial."</div>
+                        <p data-i18n="web4-desc">Développement d'une plateforme web interactive en 3D proposant une exploration géographique et par affinités de recommandations cinématographiques.</p>
+                        <div class="project-tags">
+                            <span class="tag">Web 3D</span>
+                            <span class="tag">UI/UX</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-link-btn" style="opacity:0.5;">
+                                <span data-i18n="btn-tba">Bientôt disponible</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 12. Régimes politiques (LLM) -->
             <div class="card-wrapper fade-in-section" data-category="nlp">
                 <div class="project-card wip-card">
                     <div class="img-container">
                         <div class="wip-badge" data-i18n="wip-banner">En Cours</div>
-                        <img src="miniature_linguistique.jpg" alt="Évolution Linguistique" class="project-card-img">
+                        <img src="miniature_geopolitique.jpg" alt="Régimes Politiques" class="project-card-img">
                     </div>
                     <div class="project-card-content">
                         <div class="card-header-flex">
-                            <h3 data-i18n="ds7-title">Linguistique Quantitative</h3>
-                            <span class="project-date" data-i18n="date-tba-2">À venir</span>
+                            <h3 data-i18n="ds5-title">Régimes Politiques & LLM</h3>
+                            <span class="project-date" data-i18n="date-avr26">Avr. 2026</span>
                         </div>
-                        <div class="project-catchphrase" data-i18n="ds7-catch">"Le climat influence-t-il la fréquence des voyelles ?"</div>
-                        <p data-i18n="ds7-desc">Analyse phonétique et acoustique approfondie. Étude de la corrélation statistique entre les données climatiques mondiales et les formants vocaliques (F1) lors de la phonation.</p>
+                        <div class="project-catchphrase" data-i18n="ds5-catch">"Les IA comprennent-elles l'autoritarisme ?"</div>
+                        <p data-i18n="ds5-desc">Projet d'analyse politique utilisant des modèles de langage (LLM) pour annoter, classifier et comparer les discours et budgets selon le degré d'autoritarisme des États.</p>
                         <div class="project-tags">
-                            <span class="tag">NLP</span>
-                            <span class="tag">Phonétique</span>
+                            <span class="tag">LLM</span>
+                            <span class="tag">Géopolitique</span>
                         </div>
                         <div class="project-footer">
                             <span class="project-link-btn" style="opacity:0.5;">
@@ -679,15 +779,14 @@
             
             const currentData = lang === 'fr' ? dataFr : dataEn;
             
-            // Construit le HTML initialement avec les lettres japonaises (j) pour préparer la cascade
+            // Construit le HTML initialement avec les lettres japonaises
             heroText.innerHTML = currentData.map(item => 
                 `<span class="letter"><span class="fi" data-l="${item.l}" data-j="${item.j}">${item.j}</span></span>`
             ).join('');
             
-            // On relance les événements souris sur ces nouvelles lettres
             bindLettersHover();
             
-            // Déclenche l'animation de cascade
+            // Déclenche l'animation de cascade ralentie
             setTimeout(() => {
                 const fis = heroText.querySelectorAll('.fi');
                 fis.forEach((el, i) => {
@@ -697,8 +796,8 @@
                             el.textContent = el.dataset.l;
                             el.classList.remove('flip-out'); el.classList.add('flip-in');
                             setTimeout(() => el.classList.remove('flip-in'), 500);
-                        }, 350);
-                    }, i * 100); // 100ms de décalage par lettre pour un effet cascade rapide
+                        }, 400); // Rallongé
+                    }, i * 250); // Cascade plus lente (250ms par lettre)
                 });
             }, 100);
         }
@@ -706,7 +805,6 @@
         // --- GESTION DES AIMANTS ET SURVOLS DU H1 ---
         const heroSection = document.getElementById('hero-section');
         
-        // Listener global pour l'effet aimant
         heroSection.addEventListener('mousemove', (e) => {
             const letters = document.querySelectorAll('.letter');
             letters.forEach(letter => {
@@ -732,7 +830,6 @@
             letters.forEach(letter => letter.style.transform = `translate(0, 0)`);
         });
 
-        // Animation des lettres japonaises au survol
         function bindLettersHover() {
             const letters = document.querySelectorAll('.hero h1 .letter');
             letters.forEach(letter => {
@@ -856,6 +953,54 @@
             setLanguage(currentLang);
         });
 
+        // --- TRANSITIONS DE PAGE AU CLIC SUR UN PROJET ---
+        const projectLinks = document.querySelectorAll('a.project-card');
+        projectLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                const targetUrl = this.getAttribute('href');
+                if (!targetUrl || targetUrl === '#' || this.getAttribute('target') === '_blank') return;
+                
+                e.preventDefault(); 
+                
+                const imgContainer = this.querySelector('.img-container');
+                const img = this.querySelector('.project-card-img');
+                if (!imgContainer || !img) { window.location.href = targetUrl; return; }
+                
+                const rect = imgContainer.getBoundingClientRect();
+                const overlay = document.createElement('div');
+                overlay.className = 'page-transition-overlay'; 
+                document.body.appendChild(overlay);
+                
+                const clone = document.createElement('div'); 
+                clone.className = 'page-transition-clone';
+                clone.style.top = rect.top + 'px'; 
+                clone.style.left = rect.left + 'px'; 
+                clone.style.width = rect.width + 'px'; 
+                clone.style.height = rect.height + 'px'; 
+                clone.style.backgroundImage = `url(${img.src})`;
+                document.body.appendChild(clone);
+                
+                requestAnimationFrame(() => { 
+                    requestAnimationFrame(() => {
+                        overlay.style.opacity = '1'; 
+                        const centerX = (window.innerWidth / 2) - (rect.left + rect.width / 2);
+                        const centerY = (window.innerHeight / 2) - (rect.top + rect.height / 2);
+                        clone.style.transform = `translate(${centerX}px, ${centerY}px) scale(1.6)`;
+                        clone.style.opacity = '0';
+                    });
+                });
+                
+                setTimeout(() => { window.location.href = targetUrl; }, 600); 
+            });
+        });
+
+        // Nettoyage au retour sur la page (Bouton Back du navigateur)
+        window.addEventListener('pageshow', (event) => {
+            if (event.persisted) {
+                document.querySelectorAll('.page-transition-overlay, .page-transition-clone').forEach(el => el.remove());
+            }
+        });
+
         // --- EFFET SOURIS (GRILLE LUMINEUSE) ---
         const globalGridHover = document.getElementById('global-grid-hover');
         let gridMouseX = -100, gridMouseY = -100;
@@ -870,6 +1015,7 @@
         function updateGridHover() {
             gridMouseX += (targetGridMouseX - gridMouseX) * 0.15;
             gridMouseY += (targetGridMouseY - gridMouseY) * 0.15;
+            globalGridHover.style.setProperty('--grid-overlay-op', '1');
             globalGridHover.style.setProperty('--mouse-x', `${gridMouseX}px`);
             globalGridHover.style.setProperty('--mouse-y', `${gridMouseY}px`);
             requestAnimationFrame(updateGridHover);
@@ -886,42 +1032,58 @@
             "fr": {
                 "nav-home": "Accueil", "nav-projects": "Projets", "nav-about": "À Propos", "nav-contact": "Contact",
                 "subtitle-projects": "Archives & Réalisations",
-                "filter-all": "Tout", "filter-data-main": "Data Analyse", "filter-data-all": "Voir Tout", "filter-ml": "Machine Learning", "filter-nlp": "NLP & Humanités", "filter-web": "Web Créatif",
+                "filter-all": "Tout <span class='count'>(12)</span>", 
+                "filter-data-main": "Data Analyse <span class='count'>(8)</span>", 
+                "filter-data-all": "Voir Tout <span class='count'>(8)</span>", 
+                "filter-ml": "Machine Learning <span class='count'>(3)</span>", 
+                "filter-nlp": "NLP & Humanités <span class='count'>(5)</span>", 
+                "filter-web": "Web Créatif <span class='count'>(4)</span>",
                 "wip-banner": "En Cours",
                 
                 "ds4-title": "Prédiction de Durée", "ds4-catch": "\"Une machine peut-elle deviner quand le générique va défiler ?\"", "ds4-desc": "Analyse des données cinématographiques pour développer un modèle de régression capable d'estimer la durée d'un long-métrage à l'aide d'algorithmes d'apprentissage automatique.",
                 "ds1-title": "Colorimétrie du Cinéma", "ds1-catch": "\"Un ordinateur peut-il ressentir la couleur d'un film ?\"", "ds1-desc": "Modélisation et prédiction de la palette de couleurs d'une affiche de film en fonction de ses caractéristiques (genre, année, réalisateur) via des méthodes de Machine Learning.",
                 "ds2-title": "Violence & Animation", "ds2-catch": "\"Les animés les mieux notés sont-ils les plus violents ?\"", "ds2-desc": "Analyse statistique poussée : les animés japonais les mieux notés par le public sont-ils statistiquement les plus violents ? Web scraping, nettoyage et visualisation de données.",
                 "ds3-title": "Générations & Voyages", "ds3-catch": "\"Les jeunes ont-ils un plus grand désir d'explorer le monde ?\"", "ds3-desc": "Étude sociologique appuyée par la donnée : analyse du désir de voyager selon les tranches d'âge. Récolte manuelle, régressions et modélisations des résultats.",
+                "ds5-title": "Régimes Politiques & LLM", "ds5-catch": "\"Les IA comprennent-elles l'autoritarisme ?\"", "ds5-desc": "Projet d'analyse politique utilisant des modèles de langage (LLM) pour annoter, classifier et comparer les discours et budgets selon le degré d'autoritarisme des États.",
                 "ds6-title": "Analyse Littéraire (ENS)", "ds6-catch": "\"Les mathématiques pour décoder les œuvres japonaises ?\"", "ds6-desc": "Collecte de données et analyse statistique sur la littérature japonaise classique de l'ère Edo. Extraction de modèles historiques via les Humanités Numériques.",
                 "ds7-title": "Linguistique Quantitative", "ds7-catch": "\"Le climat influence-t-il la fréquence des voyelles ?\"", "ds7-desc": "Analyse phonétique et acoustique approfondie. Étude de la corrélation statistique entre les données climatiques mondiales et les formants vocaliques (F1) lors de la phonation.",
+                "ds8-title": "Place des Femmes (TAL)", "ds8-catch": "\"Les algorithmes révèlent-ils nos stéréotypes ?\"", "ds8-desc": "Analyse textuelle (NLP) d'un corpus de littérature classique française pour quantifier et visualiser la représentation des personnages féminins.",
                 
                 "web1-title": "Hunt-It", "web1-catch": "\"Transformer la ville en un immense terrain de jeu virtuel.\"", "web1-desc": "Création d'un site web simulant une chasse au trésor dans Paris. Conception des énigmes, développement de mini-jeux interactifs en code natif pour un projet interdisciplinaire.",
                 "web2-title": "Paradoxe du Littoral", "web2-catch": "\"Comment vulgariser la complexité infinie des fractales ?\"", "web2-desc": "Site web réalisé pour illustrer un article scientifique sur les paradoxes mathématiques (fractales de Mandelbrot). Mise en forme vulgarisée et conception UI/UX pour la médiation.",
                 "web3-title": "Portfolio Interactif", "web3-catch": "\"L'art de coder sa propre identité numérique.\"", "web3-desc": "Conception, UI/UX design et développement front-end de cet espace personnel. Intégration d'un moteur topographique fluide sur Canvas, typographie magnétique et transitions organiques.",
+                "web4-title": "CinéMonde", "web4-catch": "\"La carte interactive du cinéma mondial.\"", "web4-desc": "Développement d'une plateforme web interactive en 3D proposant une exploration géographique et par affinités de recommandations cinématographiques.",
                 
-                "date-oct25": "Oct. 2025", "date-mai25": "Mai 2025", "date-fev25": "Fév. 2025", "date-dec25": "Déc. 2025", "date-juin25": "Juin 2025", "date-jan25": "Janv. 2025", "date-juin26": "Juin 2026", "date-ens": "2026", "date-tba": "À venir", "date-tba-2": "À venir",
+                "date-oct25": "Oct. 2025", "date-mai25": "Mai 2025", "date-fev25": "Fév. 2025", "date-dec25": "Déc. 2025", "date-juin25": "Juin 2025", "date-jan25": "Janv. 2025", "date-juin26": "Juin 2026", "date-ens": "2026", "date-tba": "À venir", "date-avr26": "Avr. 2026", "date-tba-2": "À venir",
                 "btn-details": "Voir l'étude", "btn-tba": "Bientôt disponible", "btn-visit": "Visiter le site", "btn-home": "Visiter l'accueil", "btn-back-top": "Remonter en haut",
                 "footer-text": "© 2026 Julien Arsena. Tout le contenu (code, données, rapports) est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite."
             },
             "en": {
                 "nav-home": "Home", "nav-projects": "Projects", "nav-about": "About", "nav-contact": "Contact",
                 "subtitle-projects": "Archives & Works",
-                "filter-all": "All", "filter-data-main": "Data Analysis", "filter-data-all": "View All", "filter-ml": "Machine Learning", "filter-nlp": "NLP & Humanities", "filter-web": "Creative Web",
+                "filter-all": "All <span class='count'>(12)</span>", 
+                "filter-data-main": "Data Analysis <span class='count'>(8)</span>", 
+                "filter-data-all": "View All <span class='count'>(8)</span>", 
+                "filter-ml": "Machine Learning <span class='count'>(3)</span>", 
+                "filter-nlp": "NLP & Humanities <span class='count'>(5)</span>", 
+                "filter-web": "Creative Web <span class='count'>(4)</span>",
                 "wip-banner": "In Progress",
                 
                 "ds4-title": "Runtime Prediction", "ds4-catch": "\"Can a computer guess when the credits will roll?\"", "ds4-desc": "Analysis of cinematic data to develop a regression model capable of estimating a feature film's runtime using machine learning algorithms.",
                 "ds1-title": "Cinema Colorimetry", "ds1-catch": "\"Can a Computer Feel the Color of a Movie?\"", "ds1-desc": "Modeling and predicting the color palette of a movie poster based on its characteristics (genre, year, director) using Machine Learning methods.",
                 "ds2-title": "Violence & Animation", "ds2-catch": "\"Are the highest rated anime the most violent?\"", "ds2-desc": "Advanced statistical analysis: are the highest-rated Japanese anime statistically the most violent? Web scraping, cleaning and data visualization.",
                 "ds3-title": "Generations & Travel", "ds3-catch": "\"Do younger people have a greater desire to travel?\"", "ds3-desc": "Data-driven sociological study: analyzing the desire to travel across age groups. Manual data collection, regressions, and results modeling.",
+                "ds5-title": "Political Regimes & LLM", "ds5-catch": "\"Do AIs understand authoritarianism?\"", "ds5-desc": "Political analysis project using Large Language Models (LLM) to annotate, classify, and compare speeches and budgets based on states' levels of authoritarianism.",
                 "ds6-title": "Literary Analysis (ENS)", "ds6-catch": "\"Can mathematics decode Japanese artworks?\"", "ds6-desc": "Data collection and statistical analysis on classical Japanese literature from the Edo period. Extracting historical patterns using Digital Humanities.",
                 "ds7-title": "Quantitative Linguistics", "ds7-catch": "\"Does climate influence vowel frequency?\"", "ds7-desc": "In-depth phonetic and acoustic analysis. Studying the statistical correlation between global climate data and vowel formants (F1) during phonation.",
+                "ds8-title": "Women in Literature (NLP)", "ds8-catch": "\"Do algorithms reveal our stereotypes?\"", "ds8-desc": "Textual analysis (NLP) of a classical French literature corpus to quantify and visualize the representation of female characters.",
                 
                 "web1-title": "Hunt-It", "web1-catch": "\"Transforming the city into a massive virtual playground.\"", "web1-desc": "Creation of a website simulating a treasure hunt in Paris. Riddle design, interactive mini-games development in native code for an interdisciplinary project.",
                 "web2-title": "The Coastline Paradox", "web2-catch": "\"How do we popularize the infinite complexity of fractals?\"", "web2-desc": "Website created to illustrate a scientific article on mathematical paradoxes (Mandelbrot fractals). Simplified formatting and UI/UX design for scientific outreach.",
                 "web3-title": "Interactive Portfolio", "web3-catch": "\"The art of coding your own digital identity.\"", "web3-desc": "Conception, UI/UX design and front-end development of this personal space. Integration of a fluid topographic Canvas engine, magnetic typography and organic transitions.",
+                "web4-title": "CinéMonde", "web4-catch": "\"The interactive map of world cinema.\"", "web4-desc": "Development of an interactive 3D web platform offering geographical and affinity-based exploration of cinematic recommendations.",
                 
-                "date-oct25": "Oct. 2025", "date-mai25": "May 2025", "date-fev25": "Feb. 2025", "date-dec25": "Dec. 2025", "date-juin25": "June 2025", "date-jan25": "Jan. 2025", "date-juin26": "June 2026", "date-ens": "2026", "date-tba": "Upcoming", "date-tba-2": "Upcoming",
+                "date-oct25": "Oct. 2025", "date-mai25": "May 2025", "date-fev25": "Feb. 2025", "date-dec25": "Dec. 2025", "date-juin25": "June 2025", "date-jan25": "Jan. 2025", "date-juin26": "June 2026", "date-ens": "2026", "date-tba": "Upcoming", "date-avr26": "Apr. 2026", "date-tba-2": "Upcoming",
                 "btn-details": "View study", "btn-tba": "Coming soon", "btn-visit": "Visit website", "btn-home": "Visit home", "btn-back-top": "Back to top",
                 "footer-text": "© 2026 Julien Arsena. All content (code, data, reports) is provided for review purposes. Any reuse requires explicit attribution."
             }
