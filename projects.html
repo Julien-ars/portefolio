@@ -4,672 +4,755 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projets | Julien Arsena</title>
-    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
+    
+    <meta name="description" content="Découvrez les projets de Julien Arsena en Data Analysis, Machine Learning, NLP et Web Créatif.">
+    
+    <!-- Open Graph / Réseaux Sociaux -->
+    <meta property="og:title" content="Julien Arsena | Projets">
+    <meta property="og:description" content="Portfolio hybride combinant la rigueur des algorithmes et la créativité du web design.">
+    <meta property="og:image" content="https://julien-ars.github.io/portefolio/og-image.png">
+    <meta property="og:url" content="https://julien-ars.github.io/portefolio/projects.html">
+    <meta property="og:type" content="website">
+
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        /* --- VARIABLES DE BASE --- */
+        /* =============================================
+           RESET & VARIABLES
+           ============================================= */
         :root {
-            --bg-color: #e60023; 
-            --text-color: #0a0a0a; 
-            --accent-bg: #0a0a0a; 
-            --accent-text: #e60023; 
-            --grid-opacity: 0.05; 
-        }
-
-        /* --- THEME CLAIR --- */
-        body.theme-light {
             --bg-color: #F2EFE9; 
             --text-color: #1A1A1A; 
-            --accent-bg: #1A1A1A; 
-            --accent-text: #F2EFE9; 
             --grid-opacity: 0.09; 
+            --purple: #b366ff;
+            --dark-purple: #8b3dff;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         html { background-color: #050505; scroll-behavior: smooth; }
+        ::selection { background-color: var(--purple); color: #fff; }
+        ::-moz-selection { background-color: var(--purple); color: #fff; }
 
-        /* --- SELECTION DE TEXTE PERSONNALISÉE --- */
-        ::selection { background-color: #0a0a0a; color: #e60023; }
-        ::-moz-selection { background-color: #0a0a0a; color: #e60023; }
-        
-        body.theme-light ::selection { background-color: #b366ff; color: #fff; }
-        body.theme-light ::-moz-selection { background-color: #b366ff; color: #fff; }
-
+        /* =============================================
+           BODY — Fond quadrillé global
+           ============================================= */
         body {
-            position: relative;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            position: relative; 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
             font-family: 'Inter', sans-serif; 
-            overflow-x: hidden;
-            
+            overflow-x: hidden; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh;
             background-image: 
                 linear-gradient(rgba(0, 0, 0, var(--grid-opacity)) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 0, 0, var(--grid-opacity)) 1px, transparent 1px);
             background-size: 40px 40px;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            transition: background-color 0.5s ease, color 0.5s ease;
         }
 
-        /* --- QUADRILLAGE FONCÉ INTERACTIF --- */
+        /* Lueur interactive de la souris */
         .global-grid-hover {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
-                linear-gradient(rgba(0, 0, 0, 0.5) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 0, 0, 0.5) 1px, transparent 1px);
-            background-size: 40px 40px;
-            pointer-events: none; z-index: 1; 
+            background-image: linear-gradient(rgba(0,0,0,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.15) 1px, transparent 1px);
+            background-size: 40px 40px; pointer-events: none; z-index: 1; 
             opacity: var(--grid-overlay-op, 0);
-            -webkit-mask-image: radial-gradient(circle 180px at var(--mouse-x, -100px) var(--mouse-y, -100px), black, transparent);
-            mask-image: radial-gradient(circle 180px at var(--mouse-x, -100px) var(--mouse-y, -100px), black, transparent);
+            -webkit-mask-image: radial-gradient(circle 200px at var(--mouse-x, -100px) var(--mouse-y, -100px), black, transparent);
+            mask-image: radial-gradient(circle 200px at var(--mouse-x, -100px) var(--mouse-y, -100px), black, transparent);
             transition: opacity 0.3s ease;
         }
-        body.theme-light .global-grid-hover {
-            background-image: 
-                linear-gradient(rgba(0, 0, 0, 0.7) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 0, 0, 0.7) 1px, transparent 1px);
-        }
 
-        /* --- HEADER --- */
-        header {
+        /* =============================================
+           HEADER & NAVIGATION
+           ============================================= */
+        #site-header {
+            position: absolute; top: 0; left: 0; right: 0; width: 100%;
             display: flex; justify-content: space-between; align-items: center;
-            padding: 1.5rem 2rem; border-bottom: 2px solid var(--text-color);
-            font-family: 'Anton', sans-serif; position: relative; z-index: 100;
+            padding: 1.5rem 3rem; z-index: 9000;
         }
 
-        .header-left { display: flex; align-items: center; gap: 3rem; }
-
-        .logo { 
-            font-size: 1.5rem; text-transform: uppercase; letter-spacing: 1px; 
-            text-decoration: none; color: var(--text-color); transition: opacity 0.3s ease;
+        .logo-link {
+            display: flex; align-items: center; gap: 0.8rem; text-decoration: none;
+            transition: opacity 0.3s ease; z-index: 9001;
         }
-        .logo:hover { opacity: 0.7; }
+        .logo-link:hover { opacity: 0.6; }
+        .site-icon { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
+        .site-logo {
+            font-family: 'Anton', sans-serif; font-size: 1.2rem; color: var(--text-color);
+            text-transform: uppercase; letter-spacing: 1px;
+        }
 
-        .main-nav { display: flex; gap: 0.5rem; }
-
+        .nav-wrapper {
+            position: absolute; left: 50%; transform: translateX(-50%);
+            display: flex; justify-content: center; width: 100%; pointer-events: none;
+        }
+        .main-nav { display: flex; gap: 0.15rem; pointer-events: auto; }
         .main-nav a {
-            font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem;
-            text-transform: uppercase; text-decoration: none; color: var(--text-color);
-            padding: 0.5rem 1rem; border: 2px solid transparent; transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.82rem; text-transform: uppercase;
+            letter-spacing: 0.12em; text-decoration: none; color: rgba(26,26,26,0.6);
+            padding: 0.45rem 0.95rem; border: 1.5px solid transparent; border-radius: 5px;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
         }
-
-        .main-nav a.active, .main-nav a:hover {
-            background-color: var(--text-color); color: var(--bg-color); border: 2px solid var(--text-color);
+        .main-nav a:hover, .main-nav a.active {
+            color: var(--text-color); border-color: rgba(26,26,26,0.25); 
+            background: rgba(26,26,26,0.05); transform: translateY(-2px);
         }
+        .nav-sep { display: flex; align-items: center; color: rgba(26,26,26,0.2); font-size: 0.7rem; padding: 0 0.1rem; pointer-events: none; }
 
-        .header-right { display: flex; align-items: center; gap: 1.5rem; }
-
-        .lang-switch {
-            display: flex; gap: 0.5rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 1rem;
+        #lang-corner {
+            display: flex; align-items: center; gap: 0.05rem; z-index: 9001;
+            font-family: 'Inter', sans-serif; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.1em;
+            text-transform: uppercase;
         }
-
-        .lang-switch span { opacity: 0.4; transition: opacity 0.3s; cursor: pointer; }
-        .lang-switch span.active, .lang-switch span:hover { opacity: 1; text-decoration: underline; }
-
-        .theme-btn { 
-            background: none; border: none; cursor: pointer; display: flex; align-items: center; 
-            justify-content: center; padding: 0.5rem; outline: none;
+        #lang-corner span.lang-btn {
+            color: rgba(26,26,26,0.4); cursor: pointer; padding: 0.3rem 0.45rem; border-radius: 4px; 
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
         }
-        .theme-indicator {
-            width: 24px; height: 24px; border-radius: 50%;
-            background: linear-gradient(to right, #F2EFE9 50%, #0a0a0a 50%); 
-            border: 2px solid #0a0a0a; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        #lang-corner span.lang-btn:hover, #lang-corner span.lang-btn.active {
+            color: var(--text-color); background: rgba(26,26,26,0.08); transform: translateY(-2px);
         }
-        body.theme-light .theme-indicator {
-            background: linear-gradient(to right, #e60023 50%, #0a0a0a 50%); 
-            border-color: #1A1A1A; transform: rotate(180deg);
+        #lang-corner .lsep { color: rgba(26,26,26,0.2); font-size: 0.7rem; pointer-events: none; margin: 0 0.2rem; }
+
+        /* =============================================
+           HERO SECTION
+           ============================================= */
+        .page-hero {
+            padding: 10rem 2rem 3rem 2rem; text-align: center;
+            display: flex; flex-direction: column; align-items: center;
+            position: relative; z-index: 10;
         }
-
-        /* --- CONTENU --- */
-        .container {
-            max-width: 1200px; margin: 0 auto; padding: 4rem 2rem; flex-grow: 1; width: 100%; position: relative; z-index: 5;
+        
+        .hero-subtitle {
+            font-family: 'Inter', sans-serif; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.25em; font-size: 0.85rem; margin-bottom: 1.5rem; color: var(--purple);
         }
-
-        /* --- HEADER DE LA PAGE --- */
-        .page-header {
-            margin-bottom: 3rem; display: flex; flex-direction: column; align-items: center; position: relative; 
+        
+        .page-hero h1 { 
+            font-family: 'Anton', sans-serif; font-size: clamp(3.5rem, 10vw, 7.5rem); line-height: 0.9; 
+            text-transform: uppercase; letter-spacing: -2px; color: var(--text-color);
+            display: flex; justify-content: center; flex-wrap: wrap; perspective: 800px; margin-bottom: 2rem;
         }
+        .page-hero h1 .letter { display: inline-block; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); will-change: transform; perspective: 600px; padding: 0 0.2vw; }
+        
+        .fi { display: inline-block; transform-origin: center top; will-change: transform, opacity; }
+        @keyframes fiOut { 0% { transform: rotateX(0deg); opacity: 1; } 100% { transform: rotateX(-90deg); opacity: 0; } }
+        @keyframes fiIn { 0% { transform: rotateX(90deg); opacity: 0; } 100% { transform: rotateX(0deg); opacity: 1; } }
+        .fi.flip-out { animation: fiOut 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards; }
+        .fi.flip-in  { animation: fiIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
 
-        .subtitle {
-            font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
-            letter-spacing: 2px; font-size: 1rem; margin-bottom: 0.5rem;
+        /* =============================================
+           SYSTÈME DE FILTRES AVEC LISTE DÉTACHÉE
+           ============================================= */
+        .filter-wrapper {
+            width: 100%; position: sticky; top: 1rem; z-index: 8000;
+            padding: 0 1rem; margin-bottom: 4rem; display: flex; justify-content: center;
         }
-
-        .main-title {
-            font-family: 'Anton', sans-serif; font-size: 5.5rem; line-height: 1;
-            text-transform: uppercase; letter-spacing: -1px; pointer-events: none; 
-        }
-
-        .main-title span.letter {
-            display: inline-block; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); will-change: transform;
-        }
-
-        /* --- SYSTÈME DE FILTRES RE-CLASSIFIÉ ET ÉPURÉ --- */
-        .filter-container {
-            display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 1rem;
-            margin-bottom: 4rem; padding: 1.5rem 0; border-bottom: 2px solid rgba(10, 10, 10, 0.1);
-        }
-
-        .filter-group { display: flex; align-items: center; gap: 1rem; }
-
-        .group-label {
-            font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
-            font-size: 0.9rem; letter-spacing: 1px; opacity: 0.8; margin-right: 0.5rem;
+        
+        .filter-scroller {
+            display: inline-flex; align-items: center; gap: 0.8rem;
+            background: rgba(242, 239, 233, 0.85); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            padding: 0.5rem 0.8rem; border-radius: 50px; border: 1px solid rgba(26,26,26,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
 
         .filter-btn {
-            background: transparent; border: none; color: var(--text-color); font-family: 'Inter', sans-serif;
-            font-weight: 600; font-size: 0.95rem; text-transform: uppercase; cursor: pointer;
-            opacity: 0.4; transition: all 0.3s ease; padding: 0.2rem 0; position: relative;
+            background: transparent; border: 1px solid transparent; 
+            color: rgba(26,26,26,0.6); font-family: 'Inter', sans-serif;
+            font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em;
+            cursor: pointer; transition: all 0.3s ease; padding: 0.45rem 1rem; border-radius: 50px;
+            display: flex; align-items: center; gap: 0.4rem; white-space: nowrap;
+        }
+        
+        .filter-btn:hover { color: var(--text-color); background: rgba(26,26,26,0.05); }
+        .filter-btn.active {
+            background: var(--text-color); color: var(--bg-color); border-color: var(--text-color);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
         }
 
-        .filter-btn:hover { opacity: 0.7; }
-        .filter-btn.active { opacity: 1; }
-
-        .filter-btn.active::after {
-            content: ''; position: absolute; bottom: -4px; left: 0; width: 100%; height: 2px; background-color: var(--text-color);
+        .filter-divider { width: 1px; height: 18px; background-color: rgba(26,26,26,0.15); margin: 0 0.2rem; }
+        
+        .filter-dropdown-container {
+            position: relative; display: inline-block;
         }
 
-        .filter-separator { opacity: 0.15; font-weight: 400; font-size: 1.1rem; }
-        .group-separator { opacity: 0.3; font-weight: 400; font-size: 1.5rem; margin: 0 1rem; }
+        .dropdown-icon { transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1); }
+        .filter-dropdown-container.open .dropdown-icon { transform: rotate(180deg); }
 
-        @keyframes popIn {
-            0% { opacity: 0; transform: scale(0.95); }
-            100% { opacity: 1; transform: scale(1); }
+        .dropdown-list {
+            position: absolute; top: calc(100% + 12px); left: 50%; transform: translateX(-50%) translateY(-10px);
+            background: rgba(242, 239, 233, 0.95); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(26,26,26,0.1); border-radius: 12px; padding: 0.5rem;
+            display: flex; flex-direction: column; gap: 0.3rem; min-width: 190px;
+            opacity: 0; visibility: hidden; transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); z-index: 8001;
         }
 
-        /* --- ANIMATION SCROLL FLUIDE (1.5s) --- */
-        .fade-in-section {
-            opacity: 0; transform: translateY(40px); transition: opacity 1.5s ease-out, transform 1.5s ease-out; 
-            will-change: opacity, visibility;
-        }
-        .fade-in-section.is-visible { opacity: 1; transform: none; }
-
-        /* --- SECTIONS PROJETS --- */
-        .section-group { margin-bottom: 4rem; }
-
-        .section-title {
-            font-family: 'Anton', sans-serif; font-size: 3rem; margin-bottom: 2rem;
-            text-transform: uppercase; border-bottom: 4px solid var(--text-color); padding-bottom: 0.5rem;
+        /* Le pont invisible qui empêche la fermeture accidentelle de la souris */
+        .dropdown-list::before {
+            content: ''; position: absolute; top: -16px; left: 0; width: 100%; height: 20px; background: transparent;
         }
 
-        .ds-grid, .web-grid { display: grid; gap: 2rem; }
-        .ds-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
-        .web-grid { grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); }
+        .filter-dropdown-container.open .dropdown-list {
+            opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0);
+        }
 
-        .card-wrapper { display: flex; flex-direction: column; height: 100%; }
+        .dropdown-item {
+            background: transparent; border: none; padding: 0.6rem 1rem; border-radius: 8px;
+            font-family: 'Inter', sans-serif; font-size: 0.8rem; font-weight: 600; text-transform: uppercase;
+            color: rgba(26,26,26,0.6); cursor: pointer; text-align: left; transition: all 0.2s;
+            position: relative; z-index: 2; white-space: nowrap;
+        }
+        .dropdown-item:hover { background: rgba(26,26,26,0.05); color: var(--text-color); }
+        
+        .dropdown-item.active { 
+            background: rgba(26,26,26,0.15); color: var(--text-color); 
+        }
 
-        /* --- CARTES : TOUJOURS SUR FOND NOIR --- */
+        /* =============================================
+           GRILLE DE PROJETS
+           ============================================= */
+        .container { max-width: 1300px; margin: 0 auto; padding: 0 2rem 5rem 2rem; position: relative; z-index: 5; }
+
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 2.5rem; }
+
+        .card-wrapper { display: flex; flex-direction: column; opacity: 1; transition: opacity 0.4s ease, transform 0.4s ease; }
+        
         .project-card {
-            border: 3px solid var(--text-color); display: flex; flex-direction: column;
-            background-color: var(--text-color); color: var(--bg-color); overflow: hidden;
-            text-decoration: none; flex-grow: 1;
-            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex; flex-direction: column; text-decoration: none; color: var(--text-color);
+            flex-grow: 1; cursor: pointer; position: relative;
+            background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(26, 26, 26, 0.12); padding: 1.2rem; border-radius: 16px;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease, border-color 0.4s ease;
         }
-
-        .project-card * { transition: color 0.4s ease, border-color 0.4s ease; }
-
-        .project-card:hover {
-            transform: translate(-8px, -8px); box-shadow: 12px 12px 0px var(--text-color);
+        
+        .project-card:hover { 
+            transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.06); border-color: rgba(179,102,255,0.4); 
         }
+        .project-card:hover .project-card-img { transform: scale(1.04); }
+        .project-card:hover h3 { color: var(--purple); }
+        .project-card:hover .svg-arrow { transform: translateX(5px) translateY(-5px); color: var(--purple); }
 
         .img-container {
-            position: relative; overflow: hidden; border-bottom: 3px solid var(--text-color); 
+            width: 100%; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 8px;
+            margin-bottom: 1.5rem; position: relative; background: #e0ddd5;
+            border: 1px solid rgba(0,0,0,0.05);
+            mask-image: -webkit-radial-gradient(white, black); -webkit-mask-image: -webkit-radial-gradient(white, black);
         }
 
-        .project-card-img {
-            width: 100%; height: 180px; object-fit: cover; display: block;
-            filter: grayscale(0%) contrast(100%); transition: filter 0.4s ease;
+        .project-card-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); will-change: transform; }
+
+        .project-card-content { display: flex; flex-direction: column; flex-grow: 1; padding: 0 0.5rem; }
+
+        .card-header-flex { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.8rem; gap: 1rem; }
+        
+        .project-card h3 { font-family: 'Anton', sans-serif; font-size: 2rem; line-height: 1.1; letter-spacing: 0.5px; text-transform: uppercase; margin: 0; transition: color 0.3s ease; }
+        .project-date { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 0.8rem; color: rgba(26,26,26,0.4); text-transform: uppercase; letter-spacing: 0.05em; padding-top: 0.4rem; white-space: nowrap; }
+
+        .project-catchphrase { font-family: 'Inter', sans-serif; font-style: italic; font-weight: 600; font-size: 1rem; margin-bottom: 1rem; color: rgba(26,26,26,0.8); }
+
+        .project-card p { font-family: 'Inter', sans-serif; font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6; font-weight: 400; color: rgba(26,26,26,0.65); }
+
+        .project-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; margin-top: auto; }
+        .tag { background: rgba(26,26,26,0.05); padding: 0.3rem 0.8rem; font-size: 0.7rem; border-radius: 50px; text-transform: uppercase; font-weight: 700; color: rgba(26,26,26,0.7); }
+
+        .project-footer { border-top: 1px solid rgba(26,26,26,0.1); padding-top: 1rem; display: flex; align-items: center; }
+        .project-link-btn { font-family: 'Inter', sans-serif; font-weight: 700; text-transform: uppercase; font-size: 0.85rem; display: inline-flex; align-items: center; transition: color 0.3s ease; }
+        .svg-arrow { transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), color 0.3s ease; }
+
+        /* --- BADGE EN COURS (WIP) --- */
+        .wip-card { cursor: default; }
+        .wip-card:hover { transform: none; box-shadow: none; border-color: rgba(26, 26, 26, 0.12); }
+        .wip-card:hover .project-card-img { transform: scale(1); }
+        .wip-card:hover h3 { color: var(--text-color); }
+        .wip-card .project-card-img { filter: grayscale(100%) opacity(0.8); }
+        .wip-card .project-link-btn { opacity: 0.3; }
+
+        .wip-badge {
+            position: absolute; top: 1rem; right: 1rem; z-index: 10;
+            background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            color: #1A1A1A; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 0.75rem;
+            text-transform: uppercase; letter-spacing: 0.1em; padding: 0.4rem 0.8rem; border-radius: 50px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        .project-card-content {
-            padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1;
-        }
+        /* --- FADE IN & ANIMATION FILTRES --- */
+        .fade-in-section { opacity: 0; transform: translateY(40px); transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1); will-change: opacity, visibility; }
+        .fade-in-section.is-visible { opacity: 1; transform: none; }
+        .card-wrapper.hide { display: none; }
+        @keyframes scaleIn { 0% { opacity: 0; transform: scale(0.95); } 100% { opacity: 1; transform: scale(1); } }
+        .card-wrapper.show { animation: scaleIn 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
 
-        .project-card h3 {
-            font-family: 'Anton', sans-serif; font-size: 2rem; line-height: 1.2; 
-            letter-spacing: 0.5px; margin-bottom: 0.8rem; text-transform: uppercase;
-        }
-
-        .project-catchphrase {
-            font-family: 'Inter', sans-serif; font-style: italic; font-weight: 800;
-            font-size: 1.05rem; margin-bottom: 1rem; padding-left: 1rem; border-left: 4px solid currentColor; 
-        }
-
-        .project-card p {
-            font-family: 'Inter', sans-serif; font-size: 1rem; margin-bottom: 1.5rem;
-            line-height: 1.5; font-weight: 500; opacity: 0.75; 
-        }
-
-        .project-tags {
-            display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;
-        }
-
-        .tag {
-            border: 2px solid currentColor; padding: 0.2rem 0.6rem; font-size: 0.8rem;
-            border-radius: 50px; text-transform: uppercase; font-weight: 800;
-        }
-
-        .project-footer {
-            display: flex; justify-content: space-between; align-items: center; margin-top: auto;
-            border-top: 3px solid currentColor; padding-top: 1rem; flex-wrap: wrap; gap: 1rem;
-        }
-
-        .project-date { font-family: 'Anton', sans-serif; font-size: 1.2rem; }
-
-        .action-buttons { display: flex; gap: 0.8rem; flex-wrap: wrap; }
-
-        .project-link-btn {
-            font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
-            font-size: 0.85rem; border: 2px solid currentColor; padding: 0.4rem 0.8rem;
-            text-decoration: none; color: inherit; display: inline-block; cursor: pointer;
-            background-color: transparent; transition: all 0.3s ease;
-        }
-
-        .project-card:not(.wip-card):hover .project-link-btn:hover {
-            background-color: currentColor; color: var(--text-color) !important;
-        }
-
-        /* --- DESIGN DES PROJETS "EN COURS" (WIP) --- */
-        .wip-card { cursor: not-allowed; opacity: 0.9; }
-        .wip-card .project-card-img { filter: grayscale(100%) contrast(120%) !important; }
-
-        .wip-banner {
-            position: absolute; top: 50%; left: -15%; width: 130%; background-color: var(--text-color);
-            color: var(--bg-color); font-family: 'Anton', sans-serif; font-size: 1.8rem;
-            text-align: center; padding: 0.5rem 0; transform: translateY(-50%) rotate(-12deg);
-            border-top: 4px solid var(--bg-color); border-bottom: 4px solid var(--bg-color);
-            z-index: 10; text-transform: uppercase; letter-spacing: 2px; box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-        }
-
-        /* --- BOUTON RETOUR EN HAUT CENTRÉ --- */
-        .back-to-top-wrapper {
-            text-align: center; padding-bottom: 3rem; position: relative; z-index: 50; width: 100%;
-        }
+        /* --- BOUTON RETOUR EN HAUT --- */
+        .back-to-top-wrapper { text-align: center; padding-bottom: 4rem; position: relative; z-index: 50; width: 100%; }
         .btn-back-top {
-            display: inline-block; color: var(--text-color); border: 2px solid var(--text-color); 
-            padding: 0.7rem 1.8rem; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 0.85rem; 
+            display: inline-block; color: #fff; background: rgba(179,102,255,0.1); border: 2px solid rgba(179,102,255,0.6); 
+            padding: 0.8rem 2.5rem; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 0.85rem; 
             text-transform: uppercase; text-decoration: none; border-radius: 50px; 
-            transition: all 0.3s ease; cursor: pointer;
+            backdrop-filter: blur(10px); color: var(--purple);
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1); cursor: pointer;
         }
-        .btn-back-top:hover { background: var(--text-color); color: var(--bg-color); transform: translateY(-3px); }
+        .btn-back-top:hover { 
+            background: var(--purple); color: #fff; transform: translateY(-4px) scale(1.05); 
+            box-shadow: 0 10px 25px rgba(179,102,255,0.4); 
+        }
 
-        /* --- FOOTER --- */
+        /* --- FOOTER ORIGINAL TRANSPARENT --- */
         .site-footer {
-            padding: 1.5rem 2rem; text-align: center; font-family: 'Inter', sans-serif;
-            font-weight: 600; font-size: 0.85rem; opacity: 0.8; margin-top: auto; 
-            border-top: 2px solid var(--text-color); background-color: #050505; color: rgba(179, 102, 255, 0.4);
+            background-color: rgba(5, 5, 5, 0.85); 
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            color: var(--dark-purple);
+            padding: 1.5rem 2rem 2rem 2rem; text-align: center;
+            font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; margin-top: auto; 
         }
 
         /* --- RESPONSIVE DESIGN --- */
         @media (max-width: 1024px) {
-            .filter-container { flex-direction: column; gap: 1.5rem; padding: 1.5rem; }
-            .filter-group { flex-wrap: wrap; justify-content: center; }
-            .group-separator { display: none; }
-        }
-
-        @media (max-width: 900px) {
-            .web-grid { grid-template-columns: 1fr; }
+            .projects-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; }
+            #site-header { padding: 1.5rem 2rem; }
         }
 
         @media (max-width: 768px) {
-            header { flex-direction: column; gap: 1.5rem; padding: 1.5rem 1rem; }
-            .header-left { flex-direction: column; gap: 1rem; text-align: center; }
-            .main-nav { flex-wrap: wrap; justify-content: center; }
+            #site-header { flex-direction: column; gap: 1rem; padding: 1.5rem; justify-content: center; position: relative; }
+            #lang-corner { position: absolute; top: 1.5rem; right: 1.5rem; }
+            .nav-wrapper { position: relative; left: 0; transform: none; width: 100%; display: flex; justify-content: center; }
+            .logo-link { align-self: flex-start; }
             
-            .container { padding: 2rem 1rem; }
-            .main-title { font-size: 3.5rem; }
-            .section-title { font-size: 2.5rem; }
-            .filter-btn { font-size: 0.9rem; }
+            .page-hero { padding: 10rem 1rem 2rem 1rem; }
+            .page-hero h1 { font-size: 18vw; }
             
-            .project-footer { flex-direction: column; align-items: flex-start; }
-            .action-buttons { width: 100%; }
-            .project-link-btn { flex-grow: 1; text-align: center; }
+            .projects-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .container { padding: 0 1.5rem 4rem 1.5rem; }
+        }
+
+        @media (max-width: 480px) {
+            .nav-sep { display: none; } .main-nav { gap: 0.05rem; }
+            .filter-scroller { border-radius: 20px; flex-wrap: wrap; justify-content: center; padding: 0.8rem; }
+            .dropdown-list { min-width: 160px; }
         }
     </style>
 </head>
-<body>
+<body id="top">
 
-    <div class="global-grid-hover" id="global-grid-hover"></div>
-
-    <header>
-        <div class="header-left">
-            <a href="index.html" class="logo">/// Julien Arsena</a>
-            <nav class="main-nav">
-                <a href="index.html" data-i18n="nav-home">Accueil</a>
-                <a href="projects.html" class="active" data-i18n="nav-projects">Projets</a>
+    <!-- HEADER (Navigation Centrée & Logo Gauche) -->
+    <header id="site-header">
+        <a href="index.html" class="logo-link">
+            <img src="favicon.png" alt="Icone Site" class="site-icon">
+            <span class="site-logo">/// Julien Arsena</span>
+        </a>
+        
+        <div class="nav-wrapper">
+            <nav class="main-nav" id="main-nav">
                 <a href="about.html" data-i18n="nav-about">À Propos</a>
+                <span class="nav-sep">·</span>
+                <a href="projects.html" class="active" data-i18n="nav-projects">Projets</a>
+                <span class="nav-sep">·</span>
                 <a href="contact.html" data-i18n="nav-contact">Contact</a>
             </nav>
         </div>
-        <div class="header-right">
-            <div class="lang-switch">
-                <span id="btn-fr" class="active" onclick="setLanguage('fr')">FR</span> / 
-                <span id="btn-en" onclick="setLanguage('en')">EN</span>
-            </div>
-            <button id="theme-toggle" class="theme-btn" aria-label="Changer le thème">
-                <div class="theme-indicator"></div>
-            </button>
+
+        <div id="lang-corner">
+            <span class="lang-btn active" id="btn-fr" onclick="setLanguage('fr')">FR</span>
+            <span class="lsep">/</span>
+            <span class="lang-btn" id="btn-en" onclick="setLanguage('en')">EN</span>
         </div>
     </header>
 
+    <!-- LUEUR SOURIS -->
+    <div class="global-grid-hover" id="global-grid-hover"></div>
+
+    <!-- HERO SECTION -->
+    <div class="page-hero fade-in-section" id="hero-section">
+        <div class="hero-subtitle" data-i18n="subtitle-projects">Archives & Réalisations</div>
+        <h1 id="hero-text">
+            <span class="letter"><span class="fi" data-l="P" data-j="ぷ">ぷ</span></span>
+            <span class="letter"><span class="fi" data-l="R" data-j="ろ">ろ</span></span>
+            <span class="letter"><span class="fi" data-l="O" data-j="お">お</span></span>
+            <span class="letter"><span class="fi" data-l="J" data-j="じ">じ</span></span>
+            <span class="letter"><span class="fi" data-l="E" data-j="え">え</span></span>
+            <span class="letter"><span class="fi" data-l="T" data-j="と">と</span></span>
+            <span class="letter"><span class="fi" data-l="S" data-j="す">す</span></span>
+        </h1>
+    </div>
+
+    <!-- FILTRES AVEC DROPDOWN DÉTACHÉ -->
+    <div class="filter-wrapper fade-in-section">
+        <div class="filter-scroller">
+            <button class="filter-btn main-filter active" data-filter="all" data-i18n="filter-all">Tout</button>
+            
+            <div class="filter-divider"></div>
+            
+            <!-- CONTENEUR DROPDOWN (Data Analyse) -->
+            <div class="filter-dropdown-container" id="data-dropdown-container">
+                <button class="filter-btn main-filter" id="btn-data-analyse" data-filter="data-all">
+                    <span data-i18n="filter-data-main">Data Analyse</span>
+                    <svg class="dropdown-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+                
+                <!-- Liste déroulante sans bulle -->
+                <div class="dropdown-list" id="data-dropdown-list">
+                    <button class="dropdown-item sub-filter active" data-filter="data-all" data-i18n="filter-data-all">Voir tout</button>
+                    <button class="dropdown-item sub-filter" data-filter="ml" data-i18n="filter-ml">Machine Learning</button>
+                    <button class="dropdown-item sub-filter" data-filter="nlp" data-i18n="filter-nlp">NLP & Humanités</button>
+                </div>
+            </div>
+            
+            <div class="filter-divider"></div>
+            
+            <button class="filter-btn main-filter" data-filter="web" data-i18n="filter-web">Web Créatif</button>
+        </div>
+    </div>
+
+    <!-- GRILLE DE PROJETS -->
     <div class="container">
-        
-        <div class="page-header fade-in-section" id="hero-section">
-            <div class="subtitle" data-i18n="subtitle-projects">Portfolio</div>
-            <h1 class="main-title" id="hero-text" data-i18n="title-projects">
-                <span class="letter">M</span><span class="letter">E</span><span class="letter">S</span><span class="letter">&nbsp;</span><span class="letter">T</span><span class="letter">R</span><span class="letter">A</span><span class="letter">V</span><span class="letter">A</span><span class="letter">U</span><span class="letter">X</span>
-            </h1>
-        </div>
-
-        <div class="filter-container fade-in-section">
-            <button class="filter-btn active" data-filter="all" data-i18n="filter-all">Voir Tout</button>
+        <div class="projects-grid" id="projects-grid">
             
-            <span class="group-separator">|</span>
-
-            <div class="filter-group">
-                <span class="group-label">Data & Stats</span>
-                <button class="filter-btn" data-filter="ml" data-i18n="filter-ml">Machine Learning</button>
-                <span class="filter-separator">/</span>
-                <button class="filter-btn" data-filter="nlp" data-i18n="filter-nlp">NLP</button>
-                <span class="filter-separator">/</span>
-                <button class="filter-btn" data-filter="sondage" data-i18n="filter-sondage">Sondages</button>
+            <!-- PROJET 1 : PRÉDICTION DURÉE -->
+            <div class="card-wrapper fade-in-section" data-category="ml">
+                <a href="projet_duree.html" class="project-card">
+                    <div class="img-container">
+                        <img src="miniature_duree.jpg" alt="Prédiction de Durée" class="project-card-img">
+                    </div>
+                    <div class="project-card-content">
+                        <div class="card-header-flex">
+                            <h3 data-i18n="ds4-title">Prédiction de Durée</h3>
+                            <span class="project-date" data-i18n="date-dec25">Déc. 2025</span>
+                        </div>
+                        <div class="project-catchphrase" data-i18n="ds4-catch">"Une machine peut-elle deviner quand le générique va défiler ?"</div>
+                        <p data-i18n="ds4-desc">Analyse des données cinématographiques pour développer un modèle de régression capable d'estimer la durée d'un long-métrage à l'aide d'algorithmes d'apprentissage automatique.</p>
+                        <div class="project-tags">
+                            <span class="tag">Machine Learning</span>
+                            <span class="tag">Régression L1</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-link-btn">
+                                <span data-i18n="btn-details">Voir l'étude</span>
+                                <svg class="svg-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:6px;"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                            </span>
+                        </div>
+                    </div>
+                </a>
             </div>
 
-            <span class="group-separator">|</span>
-
-            <div class="filter-group">
-                <span class="group-label" data-i18n="filter-label-crea">Créatif</span>
-                <button class="filter-btn" data-filter="web" data-i18n="filter-web">Web</button>
+            <!-- PROJET 2 : COLORIMÉTRIE -->
+            <div class="card-wrapper fade-in-section" data-category="ml">
+                <a href="projet_couleur.html" class="project-card">
+                    <div class="img-container">
+                        <img src="miniature_couleur.jpg" alt="Colorimétrie du Cinéma" class="project-card-img">
+                    </div>
+                    <div class="project-card-content">
+                        <div class="card-header-flex">
+                            <h3 data-i18n="ds1-title">Colorimétrie du Cinéma</h3>
+                            <span class="project-date" data-i18n="date-oct25">Oct. 2025</span>
+                        </div>
+                        <div class="project-catchphrase" data-i18n="ds1-catch">"Un ordinateur peut-il ressentir la couleur d'un film ?"</div>
+                        <p data-i18n="ds1-desc">Modélisation et prédiction de la palette de couleurs d'une affiche de film en fonction de ses caractéristiques (genre, année, réalisateur) via des méthodes de Machine Learning.</p>
+                        <div class="project-tags">
+                            <span class="tag">Classification</span>
+                            <span class="tag">Scikit-Learn</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-link-btn">
+                                <span data-i18n="btn-details">Voir l'étude</span>
+                                <svg class="svg-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:6px;"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                            </span>
+                        </div>
+                    </div>
+                </a>
             </div>
+
+            <!-- PROJET 3 : PORTFOLIO INTERACTIF -->
+            <div class="card-wrapper fade-in-section" data-category="web">
+                <a href="index.html" class="project-card">
+                    <div class="img-container">
+                        <img src="miniature_portfolio.jpg" alt="Portfolio Interactif" class="project-card-img">
+                    </div>
+                    <div class="project-card-content">
+                        <div class="card-header-flex">
+                            <h3 data-i18n="web3-title">Portfolio Interactif</h3>
+                            <span class="project-date" data-i18n="date-juin26">Juin 2026</span>
+                        </div>
+                        <div class="project-catchphrase" data-i18n="web3-catch">"L'art de coder sa propre identité numérique."</div>
+                        <p data-i18n="web3-desc">Conception, UI/UX design et développement front-end de cet espace personnel. Intégration d'un moteur topographique fluide sur Canvas, typographie magnétique et transitions organiques.</p>
+                        <div class="project-tags">
+                            <span class="tag">UI/UX Design</span>
+                            <span class="tag">JavaScript</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-link-btn">
+                                <span data-i18n="btn-home">Visiter l'accueil</span>
+                                <svg class="svg-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:6px;"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- PROJET 4 : ANIMES -->
+            <div class="card-wrapper fade-in-section" data-category="nlp">
+                <a href="projet_animes.html" class="project-card">
+                    <div class="img-container">
+                        <img src="miniature_anime.jpg" alt="Violence & Animation" class="project-card-img">
+                    </div>
+                    <div class="project-card-content">
+                        <div class="card-header-flex">
+                            <h3 data-i18n="ds2-title">Violence & Animation</h3>
+                            <span class="project-date" data-i18n="date-mai25">Mai 2025</span>
+                        </div>
+                        <div class="project-catchphrase" data-i18n="ds2-catch">"Les animés les mieux notés sont-ils les plus violents ?"</div>
+                        <p data-i18n="ds2-desc">Analyse statistique poussée : les animés japonais les mieux notés par le public sont-ils statistiquement les plus violents ? Web scraping, nettoyage et visualisation de données.</p>
+                        <div class="project-tags">
+                            <span class="tag">Web Scraping</span>
+                            <span class="tag">Data Viz</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-link-btn">
+                                <span data-i18n="btn-details">Voir l'étude</span>
+                                <svg class="svg-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:6px;"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- PROJET 5 : HUNT-IT -->
+            <div class="card-wrapper fade-in-section" data-category="web">
+                <a href="https://hunt-it.github.io/Accueil/?" target="_blank" class="project-card">
+                    <div class="img-container">
+                        <img src="miniature_huntit.jpg" alt="Hunt-It Chasse au trésor" class="project-card-img">
+                    </div>
+                    <div class="project-card-content">
+                        <div class="card-header-flex">
+                            <h3 data-i18n="web1-title">Hunt-It</h3>
+                            <span class="project-date" data-i18n="date-juin25">Juin 2025</span>
+                        </div>
+                        <div class="project-catchphrase" data-i18n="web1-catch">"Transformer la ville en un immense terrain de jeu virtuel."</div>
+                        <p data-i18n="web1-desc">Création d'un site web simulant une chasse au trésor dans Paris. Conception des énigmes, développement de mini-jeux interactifs en code natif pour un projet interdisciplinaire.</p>
+                        <div class="project-tags">
+                            <span class="tag">Game Design</span>
+                            <span class="tag">HTML/JS</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-link-btn">
+                                <span data-i18n="btn-visit">Visiter le site</span>
+                                <svg class="svg-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:6px;"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- PROJET 6 : PARADOXE LITTORAL -->
+            <div class="card-wrapper fade-in-section" data-category="web">
+                <a href="https://julien-ars.github.io/article-paradoxe-littoral/" target="_blank" class="project-card">
+                    <div class="img-container">
+                        <img src="miniature_paradoxe.jpg" alt="Le Paradoxe du Littoral" class="project-card-img">
+                    </div>
+                    <div class="project-card-content">
+                        <div class="card-header-flex">
+                            <h3 data-i18n="web2-title">Paradoxe du Littoral</h3>
+                            <span class="project-date" data-i18n="date-jan25">Janv. 2025</span>
+                        </div>
+                        <div class="project-catchphrase" data-i18n="web2-catch">"Comment vulgariser la complexité infinie des fractales ?"</div>
+                        <p data-i18n="web2-desc">Site web réalisé pour illustrer un article scientifique sur les paradoxes mathématiques (fractales de Mandelbrot). Mise en forme vulgarisée et conception UI/UX pour la médiation.</p>
+                        <div class="project-tags">
+                            <span class="tag">Mathématiques</span>
+                            <span class="tag">Web Design</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-link-btn">
+                                <span data-i18n="btn-visit">Visiter le site</span>
+                                <svg class="svg-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-left:6px;"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- PROJET 7 : ENS (WIP) -->
+            <div class="card-wrapper fade-in-section" data-category="nlp">
+                <div class="project-card wip-card">
+                    <div class="img-container">
+                        <div class="wip-badge" data-i18n="wip-banner">En Cours</div>
+                        <img src="miniature_ens.jpg" alt="Analyse Littéraire ENS" class="project-card-img">
+                    </div>
+                    <div class="project-card-content">
+                        <div class="card-header-flex">
+                            <h3 data-i18n="ds6-title">Analyse Littéraire (ENS)</h3>
+                            <span class="project-date" data-i18n="date-ens">2026</span>
+                        </div>
+                        <div class="project-catchphrase" data-i18n="ds6-catch">"Les mathématiques pour décoder les œuvres japonaises ?"</div>
+                        <p data-i18n="ds6-desc">Collecte de données et analyse statistique sur la littérature japonaise classique de l'ère Edo. Extraction de modèles historiques via les Humanités Numériques.</p>
+                        <div class="project-tags">
+                            <span class="tag">Humanités</span>
+                            <span class="tag">Recherche</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-link-btn" style="opacity:0.5;">
+                                <span data-i18n="btn-tba">Bientôt disponible</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROJET 8 : SONDAGE (WIP) -->
+            <div class="card-wrapper fade-in-section" data-category="nlp">
+                <div class="project-card wip-card">
+                    <div class="img-container">
+                        <div class="wip-badge" data-i18n="wip-banner">En Cours</div>
+                        <img src="miniature_voyage.jpg" alt="Générations & Voyages" class="project-card-img">
+                    </div>
+                    <div class="project-card-content">
+                        <div class="card-header-flex">
+                            <h3 data-i18n="ds3-title">Générations & Voyages</h3>
+                            <span class="project-date" data-i18n="date-fev25">Fév. 2025</span>
+                        </div>
+                        <div class="project-catchphrase" data-i18n="ds3-catch">"Les jeunes ont-ils un plus grand désir d'explorer le monde ?"</div>
+                        <p data-i18n="ds3-desc">Étude sociologique appuyée par la donnée : analyse du désir de voyager selon les tranches d'âge. Récolte manuelle, régressions et modélisations des résultats.</p>
+                        <div class="project-tags">
+                            <span class="tag">Statistiques</span>
+                            <span class="tag">Sondage</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-link-btn" style="opacity:0.5;">
+                                <span data-i18n="btn-tba">Bientôt disponible</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROJET 9 : LINGUISTIQUE (WIP) -->
+            <div class="card-wrapper fade-in-section" data-category="nlp">
+                <div class="project-card wip-card">
+                    <div class="img-container">
+                        <div class="wip-badge" data-i18n="wip-banner">En Cours</div>
+                        <img src="miniature_linguistique.jpg" alt="Évolution Linguistique" class="project-card-img">
+                    </div>
+                    <div class="project-card-content">
+                        <div class="card-header-flex">
+                            <h3 data-i18n="ds7-title">Linguistique Quantitative</h3>
+                            <span class="project-date" data-i18n="date-tba-2">À venir</span>
+                        </div>
+                        <div class="project-catchphrase" data-i18n="ds7-catch">"Le climat influence-t-il la fréquence des voyelles ?"</div>
+                        <p data-i18n="ds7-desc">Analyse phonétique et acoustique approfondie. Étude de la corrélation statistique entre les données climatiques mondiales et les formants vocaliques (F1) lors de la phonation.</p>
+                        <div class="project-tags">
+                            <span class="tag">NLP</span>
+                            <span class="tag">Phonétique</span>
+                        </div>
+                        <div class="project-footer">
+                            <span class="project-link-btn" style="opacity:0.5;">
+                                <span data-i18n="btn-tba">Bientôt disponible</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
-
-        <div class="section-group" id="group-ds">
-            <h2 class="section-title fade-in-section" data-i18n="section-ds">01. Sciences des Données & Analyse</h2>
-            
-            <div class="ds-grid">
-                
-                <div class="card-wrapper fade-in-section" data-category="ml">
-                    <a href="projet_duree.html" class="project-card">
-                        <div class="img-container">
-                            <img src="miniature_duree.jpg" alt="Prédiction de Durée" class="project-card-img">
-                        </div>
-                        <div class="project-card-content">
-                            <div>
-                                <h3 data-i18n="ds4-title">Prédiction de Durée</h3>
-                                <div class="project-catchphrase" data-i18n="ds4-catch">"Une machine peut-elle deviner quand le générique va défiler ?"</div>
-                                <p data-i18n="ds4-desc">Analyse des données cinématographiques pour développer un modèle de régression capable d'estimer la durée d'un long-métrage à l'aide d'algorithmes d'apprentissage automatique.</p>
-                                <div class="project-tags">
-                                    <span class="tag">Machine Learning</span>
-                                    <span class="tag">Régression</span>
-                                    <span class="tag">Python</span>
-                                </div>
-                            </div>
-                            <div class="project-footer">
-                                <span class="project-date" data-i18n="date-dec25">Déc. 2025</span>
-                                <div class="action-buttons">
-                                    <span class="project-link-btn" data-i18n="btn-details">Voir la page</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="card-wrapper fade-in-section" data-category="ml">
-                    <a href="projet_couleur.html" class="project-card">
-                        <div class="img-container">
-                            <img src="miniature_couleur.jpg" alt="Colorimétrie du Cinéma" class="project-card-img">
-                        </div>
-                        <div class="project-card-content">
-                            <div>
-                                <h3 data-i18n="ds1-title">Colorimétrie du Cinéma</h3>
-                                <div class="project-catchphrase" data-i18n="ds1-catch">"Un ordinateur peut-il ressentir la couleur d'un film ?"</div>
-                                <p data-i18n="ds1-desc">Modélisation et prédiction de la palette de couleurs d'une affiche de film en fonction de ses caractéristiques (genre, année, réalisateur) via des méthodes de Machine Learning.</p>
-                                <div class="project-tags">
-                                    <span class="tag">Machine Learning</span>
-                                    <span class="tag">Python</span>
-                                    <span class="tag">Scikit-Learn</span>
-                                </div>
-                            </div>
-                            <div class="project-footer">
-                                <span class="project-date" data-i18n="date-oct25">Oct. 2025</span>
-                                <div class="action-buttons">
-                                    <span class="project-link-btn" data-i18n="btn-details">Voir la page</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="card-wrapper fade-in-section" data-category="data">
-                    <a href="projet_animes.html" class="project-card">
-                        <div class="img-container">
-                            <img src="miniature_anime.jpg" alt="Violence & Animation" class="project-card-img">
-                        </div>
-                        <div class="project-card-content">
-                            <div>
-                                <h3 data-i18n="ds2-title">Violence & Animation</h3>
-                                <div class="project-catchphrase" data-i18n="ds2-catch">"Les animés les mieux notés sont-ils les plus violents ?"</div>
-                                <p data-i18n="ds2-desc">Analyse statistique poussée : les animés (Japonais) les mieux notés par le public sont-ils statistiquement les plus violents ? Web scraping et visualisation de données.</p>
-                                <div class="project-tags">
-                                    <span class="tag">Web Scraping</span>
-                                    <span class="tag">Pandas</span>
-                                    <span class="tag">Data Viz</span>
-                                </div>
-                            </div>
-                            <div class="project-footer">
-                                <span class="project-date" data-i18n="date-mai25">Mai 2025</span>
-                                <div class="action-buttons">
-                                    <span class="project-link-btn" data-i18n="btn-details">Voir la page</span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="card-wrapper fade-in-section" data-category="sondage data">
-                    <div class="project-card wip-card">
-                        <div class="img-container">
-                            <img src="miniature_voyage.jpg" alt="Générations & Voyages" class="project-card-img">
-                            <div class="wip-banner" data-i18n="wip-banner">EN COURS</div>
-                        </div>
-                        <div class="project-card-content">
-                            <div>
-                                <h3 data-i18n="ds3-title">Générations & Voyages</h3>
-                                <div class="project-catchphrase" data-i18n="ds3-catch">"Les jeunes ont-ils un plus grand désir d'explorer le monde ?"</div>
-                                <p data-i18n="ds3-desc">Étude sociologique appuyée par la donnée : analyse du désir de voyager selon les tranches d'âge. Récolte manuelle, régressions et modélisations des résultats.</p>
-                                <div class="project-tags">
-                                    <span class="tag">Sondage</span>
-                                    <span class="tag">Statistiques</span>
-                                    <span class="tag">Enquêtes</span>
-                                </div>
-                            </div>
-                            <div class="project-footer">
-                                <span class="project-date" data-i18n="date-fev25">Fév. 2025</span>
-                                <div class="action-buttons">
-                                    <span class="project-link-btn" data-i18n="btn-tba" style="opacity: 0.5;">Bientôt disponible</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-wrapper fade-in-section" data-category="nlp">
-                    <div class="project-card wip-card">
-                        <div class="img-container">
-                            <img src="miniature_ens.jpg" alt="Analyse Littéraire ENS" class="project-card-img">
-                            <div class="wip-banner" data-i18n="wip-banner">EN COURS</div>
-                        </div>
-                        <div class="project-card-content">
-                            <div>
-                                <h3 data-i18n="ds6-title">Analyse Littéraire (ENS)</h3>
-                                <div class="project-catchphrase" data-i18n="ds6-catch">"Les mathématiques pour décoder les œuvres japonaises ?"</div>
-                                <p data-i18n="ds6-desc">Collecte de données et analyse statistique sur la littérature japonaise classique (jusqu'à 1850). Extraction de modèles historiques via les Humanités Numériques.</p>
-                                <div class="project-tags">
-                                    <span class="tag">NLP</span>
-                                    <span class="tag">Recherche</span>
-                                    <span class="tag">Humanités</span>
-                                </div>
-                            </div>
-                            <div class="project-footer">
-                                <span class="project-date" data-i18n="date-ens">Stage ENS</span>
-                                <div class="action-buttons">
-                                    <span class="project-link-btn" data-i18n="btn-tba" style="opacity: 0.5;">Bientôt disponible</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-wrapper fade-in-section" data-category="nlp">
-                    <div class="project-card wip-card">
-                        <div class="img-container">
-                            <img src="miniature_linguistique.jpg" alt="Évolution Linguistique" class="project-card-img">
-                            <div class="wip-banner" data-i18n="wip-banner">EN COURS</div>
-                        </div>
-                        <div class="project-card-content">
-                            <div>
-                                <h3 data-i18n="ds7-title">Évolution Linguistique</h3>
-                                <div class="project-catchphrase" data-i18n="ds7-catch">"Comment les langues se structurent-elles à l'ère numérique ?"</div>
-                                <p data-i18n="ds7-desc">Analyse de vastes corpus textuels pour modéliser l'évolution d'une langue et de ses structures syntaxiques au fil du temps à l'aide d'algorithmes de traitement du langage naturel (NLP).</p>
-                                <div class="project-tags">
-                                    <span class="tag">NLP</span>
-                                    <span class="tag">Data Science</span>
-                                </div>
-                            </div>
-                            <div class="project-footer">
-                                <span class="project-date" data-i18n="date-tba-2">À venir</span>
-                                <div class="action-buttons">
-                                    <span class="project-link-btn" data-i18n="btn-tba" style="opacity: 0.5;">Bientôt disponible</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-wrapper fade-in-section" data-category="data">
-                    <div class="project-card wip-card">
-                        <div class="img-container">
-                            <img src="miniature_geopolitique.jpg" alt="Régimes Politiques" class="project-card-img">
-                            <div class="wip-banner" data-i18n="wip-banner">EN COURS</div>
-                        </div>
-                        <div class="project-card-content">
-                            <div>
-                                <h3 data-i18n="ds5-title">Régimes Politiques</h3>
-                                <div class="project-catchphrase" data-i18n="ds5-catch">"Les autocraties investissent-elles plus dans la santé ?"</div>
-                                <p data-i18n="ds5-desc">Étude statistique comparative mondiale (2023) analysant le poids des budgets et de l'importance accordée à l'armée et à la santé selon le degré d'autoritarisme des États.</p>
-                                <div class="project-tags">
-                                    <span class="tag">Géopolitique</span>
-                                    <span class="tag">Statistiques</span>
-                                </div>
-                            </div>
-                            <div class="project-footer">
-                                <span class="project-date" data-i18n="date-avr26">Avr. 2026</span>
-                                <div class="action-buttons">
-                                    <span class="project-link-btn" data-i18n="btn-tba" style="opacity: 0.5;">Bientôt disponible</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div> 
-
-        <div class="section-group" id="group-web">
-            <h2 class="section-title fade-in-section" data-i18n="section-web">02. Projets Web & Créatifs</h2>
-
-            <div class="web-grid">
-                
-                <div class="card-wrapper fade-in-section" data-category="web">
-                    <a href="https://hunt-it.github.io/Accueil/?" target="_blank" class="project-card">
-                        <div class="img-container">
-                            <img src="miniature_huntit.jpg" alt="Hunt-It Chasse au trésor" class="project-card-img">
-                        </div>
-                        <div class="project-card-content">
-                            <div>
-                                <h3 data-i18n="web1-title">Hunt-It : Chasse au Trésor</h3>
-                                <div class="project-catchphrase" data-i18n="web1-catch">"Transformer la ville en un immense terrain de jeu virtuel."</div>
-                                <p data-i18n="web1-desc">Création d'un site web interactif simulant une "chasse au trésor" dans Paris. Conception des énigmes, développement de mini-jeux interactifs en code natif et hébergement sur GitHub Pages dans le cadre d'un projet interdisciplinaire.</p>
-                                <div class="project-tags">
-                                    <span class="tag">HTML/CSS</span>
-                                    <span class="tag">JavaScript</span>
-                                    <span class="tag">Game Design</span>
-                                </div>
-                            </div>
-                            <div class="project-footer">
-                                <span class="project-date" data-i18n="date-juin25">Juin 2025</span>
-                                <div class="action-buttons">
-                                    <span class="project-link-btn" data-i18n="btn-visit">Visiter le site -></span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="card-wrapper fade-in-section" data-category="web">
-                    <div class="project-card" style="cursor: default;">
-                        <div class="img-container">
-                            <img src="miniature_paradoxe.jpg" alt="Le Paradoxe du Littoral" class="project-card-img">
-                        </div>
-                        <div class="project-card-content">
-                            <div>
-                                <h3 data-i18n="web2-title">Le Paradoxe du Littoral</h3>
-                                <div class="project-catchphrase" data-i18n="web2-catch">"Comment vulgariser la complexité infinie des fractales ?"</div>
-                                <p data-i18n="web2-desc">Site web réalisé pour illustrer un article scientifique sur les paradoxes mathématiques, et plus particulièrement le paradoxe du littoral (fractales de Mandelbrot). Mise en forme vulgarisée et conception UI/UX pour la médiation scientifique.</p>
-                                <div class="project-tags">
-                                    <span class="tag">Mathématiques</span>
-                                    <span class="tag">Web Design</span>
-                                </div>
-                            </div>
-                            <div class="project-footer">
-                                <span class="project-date" data-i18n="date-jan25">Janv. 2025</span>
-                                <div class="action-buttons">
-                                    <a href="Article_Paradoxe_Littoral.pdf" target="_blank" class="project-link-btn" data-i18n="btn-article">Lire l'article</a>
-                                    <a href="https://julien-ars.github.io/article-paradoxe-littoral/" target="_blank" class="project-link-btn" data-i18n="btn-visit">Visiter le site -></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div> 
-
     </div>
 
+    <!-- BOUTON RETOUR EN HAUT -->
     <div class="back-to-top-wrapper">
-        <a id="btn-back-top" class="btn-back-top" data-i18n="btn-back-top">Remonter en haut</a>
+        <button id="btn-back-top" class="btn-back-top" data-i18n="btn-back-top">Remonter en haut</button>
     </div>
 
+    <!-- FOOTER LÉGAL -->
     <footer class="site-footer">
         <span data-i18n="footer-text">© 2026 Julien Arsena. Tout le contenu (code, données, rapports) est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite.</span>
     </footer>
 
     <script>
-        // --- MÉMOIRE GLOBALE : THÈME ET LANGUE ---
-        
-        // GESTION DU THÈME
-        const themeToggleBtn = document.getElementById('theme-toggle');
-        const body = document.body;
-        
-        if (localStorage.getItem('theme') === 'light') {
-            body.classList.add('theme-light');
-        }
-        
-        themeToggleBtn.addEventListener('click', () => {
-            body.classList.toggle('theme-light');
-            localStorage.setItem('theme', body.classList.contains('theme-light') ? 'light' : '');
-        });
-
-        // GESTION DE LA LANGUE
+        // --- GESTION DE LA LANGUE ---
         let currentLang = localStorage.getItem('lang') || 'fr';
         
-        // --- ANIMATION SCROLL (FLUIDE 1.5s) ---
+        // --- SYSTÈME DE FILTRAGE AVEC DROPDOWN DÉTACHÉ ---
+        const mainFilterBtns = document.querySelectorAll('.main-filter');
+        const subFilterBtns = document.querySelectorAll('.sub-filter');
+        const cardWrappers = document.querySelectorAll('.card-wrapper');
+        const dropdownContainer = document.getElementById('data-dropdown-container');
+        const btnDataAnalyse = document.getElementById('btn-data-analyse');
+
+        function applyFilter(filterValue) {
+            cardWrappers.forEach(wrapper => {
+                const categories = wrapper.getAttribute('data-category').split(' ');
+                
+                if (filterValue === 'all' || 
+                    categories.includes(filterValue) || 
+                    (filterValue === 'data-all' && (categories.includes('ml') || categories.includes('nlp')))) {
+                    wrapper.classList.remove('hide');
+                    wrapper.classList.add('show');
+                } else {
+                    wrapper.classList.remove('show');
+                    wrapper.classList.add('hide');
+                }
+            });
+        }
+
+        // Ouverture/Fermeture du menu au clic
+        btnDataAnalyse.addEventListener('click', (e) => {
+            e.stopPropagation(); 
+            
+            if (!dropdownContainer.classList.contains('open')) {
+                dropdownContainer.classList.add('open');
+                
+                mainFilterBtns.forEach(b => b.classList.remove('active'));
+                btnDataAnalyse.classList.add('active');
+                
+                const activeSub = document.querySelector('.sub-filter.active');
+                if(activeSub) applyFilter(activeSub.getAttribute('data-filter'));
+            } else {
+                dropdownContainer.classList.remove('open');
+            }
+        });
+
+        // Fermeture automatique au départ de la souris
+        dropdownContainer.addEventListener('mouseleave', () => {
+            dropdownContainer.classList.remove('open');
+        });
+
+        // Fermeture si on clique ailleurs sur la page
+        document.addEventListener('click', (e) => {
+            if (!dropdownContainer.contains(e.target)) {
+                dropdownContainer.classList.remove('open');
+            }
+        });
+
+        // Clics sur les sous-boutons
+        subFilterBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation(); 
+                
+                mainFilterBtns.forEach(b => b.classList.remove('active'));
+                subFilterBtns.forEach(b => b.classList.remove('active'));
+                
+                btn.classList.add('active');
+                btnDataAnalyse.classList.add('active'); 
+                dropdownContainer.classList.remove('open'); 
+                
+                applyFilter(btn.getAttribute('data-filter'));
+            });
+        });
+
+        // Clics sur les autres boutons principaux
+        document.querySelectorAll('.main-filter:not(#btn-data-analyse)').forEach(btn => {
+            btn.addEventListener('click', () => {
+                mainFilterBtns.forEach(b => b.classList.remove('active'));
+                btnDataAnalyse.classList.remove('active');
+                dropdownContainer.classList.remove('open');
+                
+                btn.classList.add('active');
+                applyFilter(btn.getAttribute('data-filter'));
+            });
+        });
+
+        // --- ANIMATION SCROLL (FADE-IN) ---
         document.addEventListener("DOMContentLoaded", function() {
-            const options = { root: null, rootMargin: '0px', threshold: 0.15 };
+            const options = { root: null, rootMargin: '0px', threshold: 0.1 };
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -679,93 +762,50 @@
                 });
             }, options);
 
-            document.querySelectorAll('.fade-in-section').forEach(section => {
-                observer.observe(section);
-            });
-
-            // On applique la langue au chargement
+            document.querySelectorAll('.fade-in-section').forEach(section => { observer.observe(section); });
             setLanguage(currentLang);
+            initMagneticLetters();
         });
 
-        // EFFET LAMPE TORCHE GLOBAL
-        const globalGridHover = document.getElementById('global-grid-hover');
-        document.addEventListener('mousemove', (e) => {
-            globalGridHover.style.setProperty('--grid-overlay-op', '1');
-            globalGridHover.style.setProperty('--mouse-x', `${e.pageX}px`);
-            globalGridHover.style.setProperty('--mouse-y', `${e.pageY}px`);
-        });
-
-        // RETOUR EN HAUT (Scroll doux)
-        document.getElementById('btn-back-top').addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-
-        // --- SYSTÈME DE FILTRES ---
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const cardWrappers = document.querySelectorAll('.card-wrapper');
-        const sectionGroups = document.querySelectorAll('.section-group');
-
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                
-                const filter = btn.getAttribute('data-filter');
-
-                cardWrappers.forEach(wrapper => {
-                    const categories = wrapper.getAttribute('data-category');
-                    const categoryArray = categories.split(' ');
-
-                    if (filter === 'all' || categoryArray.includes(filter)) {
-                        wrapper.style.display = 'flex';
-                        wrapper.style.animation = 'none';
-                        wrapper.offsetHeight; 
-                        wrapper.style.animation = 'popIn 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) forwards';
-                    } else {
-                        wrapper.style.display = 'none';
-                    }
-                });
-
-                sectionGroups.forEach(group => {
-                    const visibleCards = Array.from(group.querySelectorAll('.card-wrapper')).filter(card => card.style.display !== 'none');
-                    const title = group.querySelector('.section-title');
-                    
-                    if (visibleCards.length === 0) {
-                        title.style.display = 'none';
-                        group.style.display = 'none';
-                    } else {
-                        title.style.display = 'block';
-                        group.style.display = 'block';
-                    }
-                });
-            });
-        });
-
-        // --- JAVASCRIPT : RÉPULSION DOUCE DES LETTRES ---
+        // --- EFFET SOURIS (GRILLE + LETTRES) ---
         const heroSection = document.getElementById('hero-section');
+        const globalGridHover = document.getElementById('global-grid-hover');
         let letters = document.querySelectorAll('.letter');
+        
+        let gridMouseX = -100, gridMouseY = -100;
+        let targetGridMouseX = -100, targetGridMouseY = -100;
+
+        document.addEventListener('mousemove', (e) => {
+            targetGridMouseX = e.pageX;
+            targetGridMouseY = e.pageY;
+            globalGridHover.style.setProperty('--grid-overlay-op', '1');
+        });
+
+        function updateGridHover() {
+            gridMouseX += (targetGridMouseX - gridMouseX) * 0.15;
+            gridMouseY += (targetGridMouseY - gridMouseY) * 0.15;
+            globalGridHover.style.setProperty('--mouse-x', `${gridMouseX}px`);
+            globalGridHover.style.setProperty('--mouse-y', `${gridMouseY}px`);
+            requestAnimationFrame(updateGridHover);
+        }
+        updateGridHover();
 
         function initMagneticLetters() {
             letters = document.querySelectorAll('.letter');
             
             heroSection.addEventListener('mousemove', (e) => {
                 letters.forEach(letter => {
-                    const letterRect = letter.getBoundingClientRect();
-                    const centerX = letterRect.left + letterRect.width / 2;
-                    const centerY = letterRect.top + letterRect.height / 2;
+                    const r = letter.getBoundingClientRect();
+                    const centerX = r.left + r.width / 2;
+                    const centerY = r.top + r.height / 2;
                     
                     const dx = e.clientX - centerX;
                     const dy = e.clientY - centerY;
-                    const distToLetter = Math.sqrt(dx * dx + dy * dy);
+                    const dist = Math.sqrt(dx * dx + dy * dy);
                     
-                    const maxDist = 120; 
-                    
-                    if (distToLetter < maxDist) {
-                        const force = (maxDist - distToLetter) / maxDist;
-                        const pushX = -(dx / distToLetter) * force * 20; 
-                        const pushY = -(dy / distToLetter) * force * 20;
-                        
-                        letter.style.transform = `translate(${pushX}px, ${pushY}px)`;
+                    if (dist < 150) {
+                        const force = (1 - dist / 150) * 20;
+                        letter.style.transform = `translate(${-(dx / dist) * force}px, ${-(dy / dist) * force}px)`;
                     } else {
                         letter.style.transform = `translate(0, 0)`;
                     }
@@ -773,56 +813,98 @@
             });
 
             heroSection.addEventListener('mouseleave', () => {
-                letters.forEach(letter => {
-                    letter.style.transform = `translate(0, 0)`;
+                letters.forEach(letter => letter.style.transform = `translate(0, 0)`);
+            });
+            
+            letters.forEach(letter => {
+                const fi = letter.querySelector('.fi');
+                if(!fi) return;
+                letter.addEventListener('mouseenter', () => {
+                    if (fi.classList.contains('is-animating') || fi.textContent === fi.dataset.j) return;
+                    fi.classList.add('is-animating', 'flip-out');
+                    setTimeout(() => {
+                        fi.textContent = fi.dataset.j; 
+                        fi.classList.remove('flip-out'); fi.classList.add('flip-in');
+                        setTimeout(() => {
+                            fi.classList.remove('flip-in');
+                            setTimeout(() => {
+                                fi.classList.add('flip-out');
+                                setTimeout(() => {
+                                    fi.textContent = fi.dataset.l; 
+                                    fi.classList.remove('flip-out'); fi.classList.add('flip-in');
+                                    setTimeout(() => { fi.classList.remove('flip-in', 'is-animating'); }, 500);
+                                }, 350);
+                            }, 800); 
+                        }, 500);
+                    }, 350);
                 });
             });
         }
+        
+        // --- CASCADE INITIALE JAPONAISE ---
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const fis = document.querySelectorAll('.fi');
+                fis.forEach((el, i) => {
+                    setTimeout(() => {
+                        el.classList.add('flip-out');
+                        setTimeout(() => {
+                            el.textContent = el.dataset.l;
+                            el.classList.remove('flip-out'); el.classList.add('flip-in');
+                            setTimeout(() => el.classList.remove('flip-in'), 500);
+                        }, 350);
+                    }, i * 150); 
+                });
+            }, 400);
+        });
 
-        // --- SYSTÈME DE TRADUCTION ---
+        // --- RETOUR EN HAUT ---
+        document.getElementById('btn-back-top').addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // --- TRADUCTIONS ---
         const translations = {
             "fr": {
                 "nav-home": "Accueil", "nav-projects": "Projets", "nav-about": "À Propos", "nav-contact": "Contact",
-                "subtitle-projects": "Portfolio",
-                "title-projects": "<span class='letter'>M</span><span class='letter'>E</span><span class='letter'>S</span><span class='letter'>&nbsp;</span><span class='letter'>T</span><span class='letter'>R</span><span class='letter'>A</span><span class='letter'>V</span><span class='letter'>A</span><span class='letter'>U</span><span class='letter'>X</span>",
-                "filter-all": "Voir Tout", "filter-ml": "Machine Learning", "filter-nlp": "NLP", "filter-sondage": "Sondages", "filter-label-crea": "Créatif", "filter-web": "Web",
-                "wip-banner": "EN COURS",
-                "section-ds": "01. Sciences des Données & Analyse",
-                "ds1-title": "Colorimétrie du Cinéma", "ds1-catch": "\"Un ordinateur peut-il ressentir la couleur d'un film ?\"", "ds1-desc": "Modélisation et prédiction de la palette de couleurs d'une affiche de film en fonction de ses caractéristiques (genre, année, réalisateur) via des méthodes de Machine Learning.",
-                "ds2-title": "Violence & Animation", "ds2-catch": "\"Les animés les mieux notés sont-ils les plus violents ?\"", "ds2-desc": "Analyse statistique poussée : les animés (Japonais) les mieux notés par le public sont-ils statistiquement les plus violents ? Web scraping et visualisation de données.",
-                "ds3-title": "Générations & Voyages", "ds3-catch": "\"Les jeunes ont-ils un plus grand désir d'explorer le monde ?\"", "ds3-desc": "Étude sociologique appuyée par la donnée : analyse du désir de voyager selon les tranches d'âge. Récolte manuelle, régressions et modélisations des résultats.",
+                "subtitle-projects": "Archives & Réalisations",
+                "filter-all": "Tout", "filter-data-main": "Data Analyse", "filter-data-all": "Voir Tout", "filter-ml": "Machine Learning", "filter-nlp": "NLP & Humanités", "filter-web": "Projets Web",
+                "wip-banner": "En Cours",
+                
                 "ds4-title": "Prédiction de Durée", "ds4-catch": "\"Une machine peut-elle deviner quand le générique va défiler ?\"", "ds4-desc": "Analyse des données cinématographiques pour développer un modèle de régression capable d'estimer la durée d'un long-métrage à l'aide d'algorithmes d'apprentissage automatique.",
-                "ds5-title": "Régimes Politiques", "ds5-catch": "\"Les autocraties investissent-elles plus dans la santé ?\"", "ds5-desc": "Étude statistique comparative mondiale (2023) analysant le poids des budgets et de l'importance accordée à l'armée et à la santé selon le degré d'autoritarisme des États.",
-                "ds6-title": "Analyse Littéraire (ENS)", "ds6-catch": "\"Les mathématiques pour décoder les œuvres japonaises ?\"", "ds6-desc": "Collecte de données et analyse statistique sur la littérature japonaise classique (jusqu'à 1850). Extraction de modèles historiques via les Humanités Numériques.",
-                "ds7-title": "Évolution Linguistique", "ds7-catch": "\"Comment les langues se structurent-elles à l'ère numérique ?\"", "ds7-desc": "Analyse de vastes corpus textuels pour modéliser l'évolution d'une langue et de ses structures syntaxiques au fil du temps à l'aide d'algorithmes de traitement du langage naturel (NLP).",
-                "section-web": "02. Projets Web & Créatifs",
-                "web1-title": "Hunt-It : Chasse au Trésor", "web1-catch": "\"Transformer la ville en un immense terrain de jeu virtuel.\"", "web1-desc": "Création d'un site web interactif simulant une \"chasse au trésor\" dans Paris. Conception des énigmes, développement de mini-jeux interactifs en code natif et hébergement sur GitHub Pages dans le cadre d'un projet interdisciplinaire.",
-                "web2-title": "Le Paradoxe du Littoral", "web2-catch": "\"Comment vulgariser la complexité infinie des fractales ?\"", "web2-desc": "Site web réalisé pour illustrer un article scientifique sur les paradoxes mathématiques, et plus particulièrement le paradoxe du littoral (fractales de Mandelbrot). Mise en forme vulgarisée et conception UI/UX pour la médiation scientifique.",
-                "date-oct25": "Oct. 2025", "date-mai25": "Mai 2025", "date-fev25": "Fév. 2025", "date-dec25": "Déc. 2025", "date-avr26": "Avr. 2026", "date-juin25": "Juin 2025", "date-jan25": "Janv. 2025", "date-ens": "Stage ENS", "date-tba": "À venir", "date-tba-2": "À venir",
-                "btn-details": "Voir la page", "btn-tba": "Bientôt disponible", "btn-visit": "Visiter le site ->", "btn-article": "Lire l'article",
-                "btn-back-top": "Remonter en haut",
+                "ds1-title": "Colorimétrie du Cinéma", "ds1-catch": "\"Un ordinateur peut-il ressentir la couleur d'un film ?\"", "ds1-desc": "Modélisation et prédiction de la palette de couleurs d'une affiche de film en fonction de ses caractéristiques (genre, année, réalisateur) via des méthodes de Machine Learning.",
+                "ds2-title": "Violence & Animation", "ds2-catch": "\"Les animés les mieux notés sont-ils les plus violents ?\"", "ds2-desc": "Analyse statistique poussée : les animés japonais les mieux notés par le public sont-ils statistiquement les plus violents ? Web scraping, nettoyage et visualisation de données.",
+                "ds3-title": "Générations & Voyages", "ds3-catch": "\"Les jeunes ont-ils un plus grand désir d'explorer le monde ?\"", "ds3-desc": "Étude sociologique appuyée par la donnée : analyse du désir de voyager selon les tranches d'âge. Récolte manuelle, régressions et modélisations des résultats.",
+                "ds6-title": "Analyse Littéraire (ENS)", "ds6-catch": "\"Les mathématiques pour décoder les œuvres japonaises ?\"", "ds6-desc": "Collecte de données et analyse statistique sur la littérature japonaise classique de l'ère Edo. Extraction de modèles historiques via les Humanités Numériques.",
+                "ds7-title": "Linguistique Quantitative", "ds7-catch": "\"Le climat influence-t-il la fréquence des voyelles ?\"", "ds7-desc": "Analyse phonétique et acoustique approfondie. Étude de la corrélation statistique entre les données climatiques mondiales et les formants vocaliques (F1) lors de la phonation.",
+                
+                "web1-title": "Hunt-It", "web1-catch": "\"Transformer la ville en un immense terrain de jeu virtuel.\"", "web1-desc": "Création d'un site web simulant une chasse au trésor dans Paris. Conception des énigmes, développement de mini-jeux interactifs en code natif pour un projet interdisciplinaire.",
+                "web2-title": "Paradoxe du Littoral", "web2-catch": "\"Comment vulgariser la complexité infinie des fractales ?\"", "web2-desc": "Site web réalisé pour illustrer un article scientifique sur les paradoxes mathématiques (fractales de Mandelbrot). Mise en forme vulgarisée et conception UI/UX pour la médiation.",
+                "web3-title": "Portfolio Interactif", "web3-catch": "\"L'art de coder sa propre identité numérique.\"", "web3-desc": "Conception, UI/UX design et développement front-end de cet espace personnel. Intégration d'un moteur topographique fluide sur Canvas, typographie magnétique et transitions organiques.",
+                
+                "date-oct25": "Oct. 2025", "date-mai25": "Mai 2025", "date-fev25": "Fév. 2025", "date-dec25": "Déc. 2025", "date-juin25": "Juin 2025", "date-jan25": "Janv. 2025", "date-juin26": "Juin 2026", "date-ens": "2026", "date-tba": "À venir", "date-tba-2": "À venir",
+                "btn-details": "Voir l'étude", "btn-tba": "Bientôt disponible", "btn-visit": "Visiter le site", "btn-home": "Visiter l'accueil", "btn-back-top": "Remonter en haut",
                 "footer-text": "© 2026 Julien Arsena. Tout le contenu (code, données, rapports) est mis à disposition pour consultation. Toute réutilisation nécessite une citation explicite."
             },
             "en": {
                 "nav-home": "Home", "nav-projects": "Projects", "nav-about": "About", "nav-contact": "Contact",
-                "subtitle-projects": "Portfolio",
-                "title-projects": "<span class='letter'>M</span><span class='letter'>Y</span><span class='letter'>&nbsp;</span><span class='letter'>W</span><span class='letter'>O</span><span class='letter'>R</span><span class='letter'>K</span>",
-                "filter-all": "View All", "filter-ml": "Machine Learning", "filter-nlp": "NLP", "filter-sondage": "Surveys", "filter-label-crea": "Creative", "filter-web": "Web",
-                "wip-banner": "WORK IN PROGRESS",
-                "section-ds": "01. Data Science & Analysis",
-                "ds1-title": "Cinema Colorimetry", "ds1-catch": "\"Can a Computer Feel the Color of a Movie?\"", "ds1-desc": "Modeling and predicting the color palette of a movie poster based on its characteristics (genre, year, director) using Machine Learning methods.",
-                "ds2-title": "Violence & Animation", "ds2-catch": "\"Are the highest rated anime the most violent?\"", "ds2-desc": "Advanced statistical analysis: are the highest-rated (Japanese) anime statistically the most violent? Web scraping and data visualization.",
-                "ds3-title": "Generations & Travel", "ds3-catch": "\"Do younger people have a greater desire to travel?\"", "ds3-desc": "Data-driven sociological study: analyzing the desire to travel across age groups. Manual data collection, regressions, and results modeling.",
+                "subtitle-projects": "Archives & Works",
+                "filter-all": "All", "filter-data-main": "Data Analysis", "filter-data-all": "View All", "filter-ml": "Machine Learning", "filter-nlp": "NLP & Humanities", "filter-web": "Creative Web",
+                "wip-banner": "In Progress",
+                
                 "ds4-title": "Runtime Prediction", "ds4-catch": "\"Can a computer guess when the credits will roll?\"", "ds4-desc": "Analysis of cinematic data to develop a regression model capable of estimating a feature film's runtime using machine learning algorithms.",
-                "ds5-title": "Political Regimes", "ds5-catch": "\"Do autocracies invest more in healthcare?\"", "ds5-desc": "Global comparative statistical study (2023) analyzing the weight of budgets and importance given to the military and healthcare based on the states' level of authoritarianism.",
-                "ds6-title": "Literary Analysis (ENS)", "ds6-catch": "\"Can mathematics decode Japanese artworks?\"", "ds6-desc": "Data collection and statistical analysis on classical Japanese literature (up to 1850). Extracting historical patterns using Digital Humanities.",
-                "ds7-title": "Linguistic Evolution", "ds7-catch": "\"How do languages structure themselves in the digital age?\"", "ds7-desc": "Analysis of large text corpora to model the evolution of a language and its syntactic structures over time using Natural Language Processing (NLP) algorithms.",
-                "section-web": "02. Web & Creative Projects",
-                "web1-title": "Hunt-It: Treasure Hunt", "web1-catch": "\"Transforming the city into a massive virtual playground.\"", "web1-desc": "Creation of an interactive website simulating a \"treasure hunt\" in Paris. Riddle design, interactive mini-games development in native code, hosted on GitHub Pages for an interdisciplinary project.",
-                "web2-title": "The Coastline Paradox", "web2-catch": "\"How do we popularize the infinite complexity of fractals?\"", "web2-desc": "Website created to illustrate a scientific article on mathematical paradoxes, specifically the coastline paradox (Mandelbrot fractals). Simplified formatting and UI/UX design for scientific outreach.",
-                "date-oct25": "Oct. 2025", "date-mai25": "May 2025", "date-fev25": "Feb. 2025", "date-dec25": "Dec. 2025", "date-avr26": "Apr. 2026", "date-juin25": "June 2025", "date-jan25": "Jan. 2025", "date-ens": "ENS Intern", "date-tba": "Upcoming", "date-tba-2": "Upcoming",
-                "btn-details": "View page", "btn-tba": "Coming soon", "btn-visit": "Visit website ->", "btn-article": "Read Article",
-                "btn-back-top": "Back to top",
+                "ds1-title": "Cinema Colorimetry", "ds1-catch": "\"Can a Computer Feel the Color of a Movie?\"", "ds1-desc": "Modeling and predicting the color palette of a movie poster based on its characteristics (genre, year, director) using Machine Learning methods.",
+                "ds2-title": "Violence & Animation", "ds2-catch": "\"Are the highest rated anime the most violent?\"", "ds2-desc": "Advanced statistical analysis: are the highest-rated Japanese anime statistically the most violent? Web scraping, cleaning and data visualization.",
+                "ds3-title": "Generations & Travel", "ds3-catch": "\"Do younger people have a greater desire to travel?\"", "ds3-desc": "Data-driven sociological study: analyzing the desire to travel across age groups. Manual data collection, regressions, and results modeling.",
+                "ds6-title": "Literary Analysis (ENS)", "ds6-catch": "\"Can mathematics decode Japanese artworks?\"", "ds6-desc": "Data collection and statistical analysis on classical Japanese literature from the Edo period. Extracting historical patterns using Digital Humanities.",
+                "ds7-title": "Quantitative Linguistics", "ds7-catch": "\"Does climate influence vowel frequency?\"", "ds7-desc": "In-depth phonetic and acoustic analysis. Studying the statistical correlation between global climate data and vowel formants (F1) during phonation.",
+                
+                "web1-title": "Hunt-It", "web1-catch": "\"Transforming the city into a massive virtual playground.\"", "web1-desc": "Creation of a website simulating a treasure hunt in Paris. Riddle design, interactive mini-games development in native code for an interdisciplinary project.",
+                "web2-title": "The Coastline Paradox", "web2-catch": "\"How do we popularize the infinite complexity of fractals?\"", "web2-desc": "Website created to illustrate a scientific article on mathematical paradoxes (Mandelbrot fractals). Simplified formatting and UI/UX design for scientific outreach.",
+                "web3-title": "Interactive Portfolio", "web3-catch": "\"The art of coding your own digital identity.\"", "web3-desc": "Conception, UI/UX design and front-end development of this personal space. Integration of a fluid topographic Canvas engine, magnetic typography and organic transitions.",
+                
+                "date-oct25": "Oct. 2025", "date-mai25": "May 2025", "date-fev25": "Feb. 2025", "date-dec25": "Dec. 2025", "date-juin25": "June 2025", "date-jan25": "Jan. 2025", "date-juin26": "June 2026", "date-ens": "2026", "date-tba": "Upcoming", "date-tba-2": "Upcoming",
+                "btn-details": "View study", "btn-tba": "Coming soon", "btn-visit": "Visit website", "btn-home": "Visit home", "btn-back-top": "Back to top",
                 "footer-text": "© 2026 Julien Arsena. All content (code, data, reports) is provided for review purposes. Any reuse requires explicit attribution."
             }
         };
@@ -845,8 +927,6 @@
                 document.getElementById('btn-en').classList.add('active');
                 document.getElementById('btn-fr').classList.remove('active');
             }
-
-            initMagneticLetters();
         }
     </script>
 </body>
