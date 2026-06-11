@@ -4,658 +4,401 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Julien Arsena | Data Scientist & Arts</title>
+    <meta name="description" content="Portfolio de Julien Arsena, étudiant en Sciences des Données et Arts à l'Université PSL.">
     <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        /* PAS de background sur html pour éviter la barre blanche */
-        html { scroll-behavior: smooth; }
-        ::selection { background-color: #b366ff; color: #fff; }
-        ::-moz-selection { background-color: #b366ff; color: #fff; }
         /* =============================================
-           VARIABLES
+           RESET & VARIABLES
            ============================================= */
         :root {
-            --bg-color: #F2EFE9;
-            --text-color: #1A1A1A;
-            --accent-bg: #1A1A1A;
-            --accent-text: #F2EFE9;
-            --grid-opacity: 0.09;
+            --bg-color: #F2EFE9; 
+            --text-color: #1A1A1A; 
+            --accent-bg: #1A1A1A; 
+            --accent-text: #F2EFE9; 
+            --grid-opacity: 0.09; 
         }
-        body.theme-dark {
-            --bg-color: #e60023;
-            --text-color: #0a0a0a;
-            --accent-bg: #0a0a0a;
-            --accent-text: #e60023;
-            --grid-opacity: 0.05;
-        }
-        body.theme-dark ::selection { background-color: #0a0a0a; color: #e60023; }
-        body.theme-dark ::-moz-selection { background-color: #0a0a0a; color: #e60023; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { background-color: #050505; scroll-behavior: smooth; }
+        ::selection { background-color: #b366ff; color: #fff; }
+        ::-moz-selection { background-color: #b366ff; color: #fff; }
+
         /* =============================================
-           BODY
+           BODY — Fond quadrillé global
            ============================================= */
         body {
-            position: relative;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Anton', sans-serif;
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
+            position: relative; 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            font-family: 'Anton', sans-serif; 
+            overflow-x: hidden; 
+            display: flex; 
+            flex-direction: column; 
             min-height: 100vh;
-            /* Grille de fond */
-            background-image:
-                linear-gradient(rgba(0,0,0,var(--grid-opacity)) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0,0,0,var(--grid-opacity)) 1px, transparent 1px);
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, var(--grid-opacity)) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, var(--grid-opacity)) 1px, transparent 1px);
             background-size: 40px 40px;
-            transition: background-color 0.5s ease, color 0.5s ease;
         }
+
         /* =============================================
-           HEADER — nav centrée + FR/EN à droite
+           HEADER & NAVIGATION
            ============================================= */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 1.5rem 2rem;
-            z-index: 9000;
-            /* fond transparent sur le hero sombre, on applique la couleur via JS */
-            background: transparent;
-        }
-        /* Pill nav */
-        .header-inner {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            width: 100%;
-            max-width: 900px;
-            justify-content: center;
-            position: relative;
+        #site-header {
+            position: absolute; 
+            top: 0; left: 0; right: 0;
+            display: flex; justify-content: center; align-items: center;
+            padding: 1.6rem 2rem; z-index: 9000; pointer-events: none;
         }
         .main-nav {
-            display: flex;
-            gap: 0.2rem;
-            background: rgba(255,255,255,0.07);
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 50px;
-            padding: 0.3rem 0.4rem;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            display: flex; gap: 0.15rem; pointer-events: auto;
         }
         .main-nav a {
-            font-family: 'Inter', sans-serif;
-            font-weight: 600;
-            font-size: 0.82rem;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            text-decoration: none;
-            color: rgba(255,255,255,0.75);
-            padding: 0.5rem 1.1rem;
-            border-radius: 50px;
-            transition: all 0.25s ease;
-            position: relative;
-            white-space: nowrap;
+            font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.82rem; text-transform: uppercase;
+            letter-spacing: 0.12em; text-decoration: none; color: rgba(255,255,255,0.7);
+            padding: 0.45rem 0.95rem; border: 1.5px solid transparent; border-radius: 5px;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
         }
-        .main-nav a:hover {
-            color: #fff;
-            background: rgba(255,255,255,0.15);
+        .main-nav a:hover, .main-nav a.active {
+            color: #fff; 
+            border-color: rgba(179,102,255,0.5); 
+            background: rgba(179,102,255,0.15);
+            box-shadow: 0 4px 15px rgba(179,102,255,0.25);
+            transform: translateY(-2px);
         }
-        .main-nav a.active {
-            color: #fff;
-            background: rgba(255,255,255,0.22);
-            box-shadow: 0 2px 12px rgba(255,255,255,0.1);
-        }
-        /* Séparateurs */
         .nav-sep {
-            color: rgba(255,255,255,0.2);
-            font-size: 0.9rem;
-            user-select: none;
-            padding: 0;
+            display: flex; align-items: center; color: rgba(255,255,255,0.2); font-size: 0.7rem; padding: 0 0.1rem; pointer-events: none;
         }
-        /* FR / EN à droite */
-        .lang-switch {
-            position: absolute;
-            right: 0;
-            display: flex;
-            gap: 0.1rem;
-            font-family: 'Inter', sans-serif;
-            font-weight: 700;
-            font-size: 0.78rem;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
+
+        #lang-corner {
+            position: absolute; 
+            top: 1.55rem; right: 2rem; z-index: 9001;
+            display: flex; align-items: center; gap: 0.05rem;
+            font-family: 'Inter', sans-serif; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.1em;
+            text-transform: uppercase; pointer-events: auto;
         }
-        .lang-switch span {
-            color: rgba(255,255,255,0.4);
-            cursor: pointer;
-            padding: 0.4rem 0.6rem;
-            border-radius: 50px;
-            transition: all 0.25s ease;
+        #lang-corner span.lang-btn {
+            color: rgba(255,255,255,0.4); cursor: pointer; padding: 0.3rem 0.45rem; border-radius: 4px; 
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
         }
-        .lang-switch span.active,
-        .lang-switch span:hover {
-            color: #fff;
-            background: rgba(255,255,255,0.12);
+        #lang-corner span.lang-btn:hover, #lang-corner span.lang-btn.active {
+            color: #fff; 
+            background: rgba(179,102,255,0.2);
+            box-shadow: 0 4px 10px rgba(179,102,255,0.25);
+            transform: translateY(-2px);
         }
-        .lang-sep {
-            color: rgba(255,255,255,0.2);
-            display: flex;
-            align-items: center;
-            font-size: 0.75rem;
-        }
-        /* Header adapte sa couleur hors hero (sur fond clair) */
-        body:not(.hero-mode) header {
-            /* reste transparent — les sections ont leur propre fond */
-        }
+        #lang-corner .lsep { color: rgba(255,255,255,0.2); font-size: 0.7rem; pointer-events: none; margin: 0 0.2rem; }
+
         /* =============================================
-           HERO — fond topographique full canvas
+           HERO SECTION (Canvas, Topo & Aimants)
            ============================================= */
         .hero {
-            width: 100%;
-            height: 100vh;
-            min-height: 600px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            background-color: #07090e;
-            /* Pas de margin-top : le header est fixed et transparent */
+            width: 100%; height: 100vh; min-height: 580px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; position: relative; overflow: hidden; background-color: #06080d; z-index: 20;
         }
-        /* Canvas topo */
-        #topo-canvas {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            display: block;
-            pointer-events: none;
-        }
-        /* Dégradé de fondu bas */
+        #topo-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; }
+        
         .hero::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            height: 220px;
-            background: linear-gradient(to bottom, transparent, #07090e 90%);
-            z-index: 2;
-            pointer-events: none;
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 250px;
+            background: linear-gradient(to bottom, transparent, var(--accent-bg) 95%); z-index: 2; pointer-events: none;
         }
-        /* Texte H1 */
-        .hero h1 {
-            font-size: 11vw;
-            line-height: 0.9;
-            text-transform: uppercase;
-            letter-spacing: -2px;
-            position: relative;
-            z-index: 30;
-            pointer-events: none;
-            display: flex;
-            justify-content: center;
-            width: 100%;
-            color: #fff;
-        }
-        .hero h1 span.letter {
-            display: inline-block;
-            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
-            will-change: transform;
-        }
+        
+        .hero h1 { font-size: 11vw; line-height: 0.9; text-transform: uppercase; letter-spacing: -2px; position: relative; z-index: 30; pointer-events: auto; display: flex; justify-content: center; width: 100%; color: #fff; perspective: 800px; }
+        .hero h1 .letter { display: inline-block; transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); will-change: transform; perspective: 600px; padding: 0 0.2vw; }
+        
+        .fi { display: inline-block; transform-origin: center top; will-change: transform, opacity; }
+        
+        @keyframes fiOut { 0% { transform: rotateX(0deg); opacity: 1; } 100% { transform: rotateX(-90deg); opacity: 0; } }
+        @keyframes fiIn { 0% { transform: rotateX(90deg); opacity: 0; } 100% { transform: rotateX(0deg); opacity: 1; } }
+        .fi.flip-out { animation: fiOut 0.4s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards; }
+        .fi.flip-in  { animation: fiIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        
         .i-wrapper { position: relative; display: inline-block; pointer-events: none; }
-        .dot-plus {
-            position: absolute; top: -1.3em; left: 50%; transform: translateX(-50%);
-            font-size: 0.55em; color: #fff; will-change: transform;
-            pointer-events: auto; cursor: grab; z-index: 40;
-            user-select: none; -webkit-user-select: none; display: inline-block;
-            transition: color 0.3s ease;
-        }
+        .dot-plus { position: absolute; top: -1.3em; left: 50%; transform: translateX(-50%); font-size: 0.55em; color: #fff; will-change: transform; pointer-events: auto; cursor: grab; z-index: 40; user-select: none; -webkit-user-select: none; display: inline-block; transition: color 0.3s ease; }
         .dot-plus:active { cursor: grabbing; }
         .dot-plus::after { content: ''; position: absolute; top: -20px; left: -20px; right: -20px; bottom: -20px; }
-        /* Sous-titre */
-        .hero-subtitle {
-            position: relative;
-            z-index: 30;
-            font-family: 'Inter', sans-serif;
-            font-weight: 400;
-            font-size: 1rem;
-            letter-spacing: 0.18em;
-            color: rgba(255,255,255,0.38);
-            margin-top: 1.8rem;
+        
+        .hero-subtitle { position: relative; z-index: 30; font-family: 'Inter', sans-serif; font-weight: 400; font-size: 1rem; letter-spacing: 0.22em; color: rgba(255,255,255,0.32); margin-top: 1.6rem; pointer-events: none; }
+        
+        .scroll-hint { position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%); z-index: 30; display: flex; flex-direction: column; align-items: center; gap: 0.55rem; color: rgba(255,255,255,0.25); font-family: 'Inter', sans-serif; font-size: 0.62rem; letter-spacing: 0.25em; text-transform: uppercase; transition: opacity 0.4s ease; pointer-events: none; }
+        .scroll-line { width: 1px; height: 48px; position: relative; overflow: hidden; background: rgba(255,255,255,0.1); }
+        .scroll-line::after { content: ''; position: absolute; top: -12px; left: 0; width: 1px; height: 14px; background: rgba(255,255,255,0.75); animation: scrollDrop 1.6s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes scrollDrop { 0% { top: -14px; opacity: 1; } 70% { opacity: 1; } 100% { top: 50px; opacity: 0; } }
+
+        .global-grid-hover {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; z-index: 10; opacity: var(--grid-overlay-op, 0); -webkit-mask-image: radial-gradient(circle 180px at var(--mouse-x, -100px) var(--mouse-y, -100px), black, transparent); mask-image: radial-gradient(circle 180px at var(--mouse-x, -100px) var(--mouse-y, -100px), black, transparent); transition: opacity 0.3s ease;
         }
-        /* Scroll hint */
-        .scroll-hint {
-            position: absolute;
-            bottom: 2.8rem;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 30;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-            color: rgba(255,255,255,0.28);
-            font-family: 'Inter', sans-serif;
-            font-size: 0.68rem;
-            letter-spacing: 0.22em;
-            text-transform: uppercase;
-        }
-        .scroll-hint-line {
-            width: 1px;
-            height: 40px;
-            background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent);
-            animation: scrollPulse 2s ease-in-out infinite;
-        }
-        @keyframes scrollPulse {
-            0%, 100% { opacity: 0.3; transform: scaleY(1); }
-            50% { opacity: 1; transform: scaleY(1.2); }
-        }
+
         /* =============================================
-           MARQUEE
+           BANDEAU DÉFILANT
            ============================================= */
-        .marquee-container {
-            background-color: var(--accent-bg); color: var(--accent-text);
-            padding: 1rem 0; overflow: hidden; white-space: nowrap;
-            display: flex; border-bottom: 2px solid var(--text-color);
-            position: relative; z-index: 10;
-            transition: background-color 0.5s ease, color 0.5s ease;
+        .marquee-container { 
+            background-color: var(--accent-bg); 
+            color: var(--accent-text); 
+            padding: 1.2rem 0; 
+            overflow: hidden; 
+            white-space: nowrap; 
+            display: flex; 
+            border-bottom: 2px solid var(--text-color); 
+            position: relative; 
+            z-index: 30; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.06); 
+            transition: background-color 0.5s ease, color 0.5s ease; 
         }
         .marquee-text { font-size: 3rem; animation: scroll-left 15s linear infinite; }
         @keyframes scroll-left { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
         /* =============================================
-           CONTENU INTRO
+           CONTENU INTRO (Centré & Éditorial)
            ============================================= */
-        .content-wrapper {
-            max-width: 1200px; margin: 0 auto;
-            padding: 4rem 2rem 2rem 2rem; width: 100%;
-            position: relative; z-index: 5;
+        .content-wrapper { 
+            max-width: 1200px; margin: 0 auto; padding: 7rem 2rem 6rem 2rem; width: 100%; position: relative; z-index: 5; 
         }
-        .section-heading {
-            font-size: 3rem; margin-bottom: 2rem;
-            border-bottom: 4px solid var(--text-color);
-            padding-bottom: 0.5rem; text-transform: uppercase;
-            transition: border-color 0.5s ease;
+        .intro-section { position: relative; z-index: 5; }
+        
+        .intro-grid-editorial {
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+            max-width: 850px; margin: 0 auto 5rem auto; gap: 2.5rem;
         }
-        .intro-grid {
-            display: grid; grid-template-columns: 1fr 1fr;
-            gap: 4rem; align-items: stretch; margin-bottom: 2rem;
+        
+        .huge-text { 
+            font-size: clamp(3.5rem, 8vw, 5.5rem); line-height: 1.1; text-transform: uppercase; 
+            color: var(--text-color); letter-spacing: -2px; margin: 0;
         }
-        .intro-col { display: flex; flex-direction: column; }
-        .intro-box {
-            border: 4px solid var(--text-color); padding: 2.5rem 3rem;
-            transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.5s ease;
-            text-align: center; display: flex; flex-direction: column;
-            align-items: center; background-color: var(--bg-color); height: 100%;
+        
+        .intro-paragraphs {
+            display: flex; flex-direction: column; gap: 1.5rem; width: 100%; font-family: 'Inter', sans-serif;
         }
-        .intro-box:hover { transform: translate(-5px, -5px); box-shadow: 12px 12px 0px var(--text-color); }
-        .intro-text {
-            font-family: 'Inter', sans-serif; font-size: 1.2rem;
-            line-height: 1.6; font-weight: 600; margin-bottom: 1rem;
+        
+        .intro-desc { 
+            font-size: clamp(1rem, 2.5vw, 1.2rem); line-height: 1.7; font-weight: 500; 
+            color: var(--text-color); margin: 0;
         }
-        .btn-container { display: flex; margin-top: auto; padding-top: 2rem; width: 100%; justify-content: center; }
-        .btn-primary {
-            font-family: 'Anton', sans-serif; font-size: 1.5rem; text-transform: uppercase;
-            text-decoration: none; color: var(--text-color); border: 3px solid var(--text-color);
-            padding: 0.8rem 1.5rem;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease;
-            background-color: transparent; display: inline-block; cursor: pointer;
+        
+        .link-editorial { 
+            display: inline-block; font-family: 'Anton', sans-serif; font-size: 1.3rem; 
+            text-transform: uppercase; color: var(--text-color); text-decoration: none; 
+            border-bottom: 3px solid var(--text-color); padding-bottom: 0.3rem; margin-top: 1rem;
+            transition: transform 0.3s ease, color 0.3s ease, border-color 0.3s ease; 
         }
-        .btn-primary:hover {
-            transform: translate(-5px, -5px); box-shadow: 8px 8px 0px var(--text-color);
-            background-color: var(--text-color); color: var(--bg-color);
+        .link-editorial:hover { 
+            transform: translateY(-5px); color: #b366ff; border-color: #b366ff; 
         }
-        .skills-tags {
-            display: flex; flex-wrap: wrap; gap: 0.8rem;
-            justify-content: center; align-items: center;
-            margin-bottom: auto; margin-top: auto; width: 100%;
+        
+        .skills-editorial { 
+            border-top: 2px solid rgba(26, 26, 26, 0.1); padding-top: 3.5rem; 
+            display: flex; flex-direction: column; align-items: center; text-align: center; 
+            max-width: 1000px; margin: 0 auto;
         }
-        .skill-tag {
-            border: 2px solid var(--text-color); padding: 0.5rem 1.2rem;
-            font-family: 'Anton', sans-serif; font-size: 1.2rem; text-transform: uppercase;
-            border-radius: 50px; transition: all 0.3s ease;
-            background-color: transparent; color: var(--text-color); cursor: default;
+        .skills-editorial h3 { 
+            font-size: 1rem; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 2rem; color: rgba(26, 26, 26, 0.5); 
         }
-        .skill-tag:hover {
-            background-color: var(--text-color); color: var(--bg-color);
-            transform: translate(-3px, -3px); box-shadow: 4px 4px 0px var(--text-color);
+        .skills-list { 
+            display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 1rem 1.5rem; 
+            font-family: 'Inter', sans-serif; font-weight: 700; font-size: clamp(0.9rem, 2vw, 1.15rem); 
+            text-transform: uppercase; letter-spacing: 0.05em; 
         }
+        .skills-list span.item { transition: color 0.3s ease; cursor: default; }
+        .skills-list span.item:hover { color: #b366ff; }
+        .skills-list .sep { color: #b366ff; font-size: 1.5rem; line-height: 1; margin-top: -2px;}
+
         /* =============================================
            SÉQUENCE PROJETS — LENTILLE CONCAVE
            ============================================= */
-        .scroll-sequence {
-            height: 650vh; position: relative;
-            background-color: transparent; margin-bottom: 0; z-index: 5;
-        }
-        .scroll-sticky {
-            position: sticky; top: 0; height: 100vh; width: 100vw;
-            display: flex; align-items: center; justify-content: center;
-            overflow: hidden; background-color: transparent;
-        }
-        .gate-crosshair {
-            position: absolute; width: 30px; height: 30px;
-            z-index: 40; pointer-events: none; transition: opacity 0.3s ease; opacity: 0.7;
-        }
-        .gate-crosshair::before, .gate-crosshair::after {
-            content: ''; position: absolute; background-color: var(--text-color);
-        }
+        .scroll-sequence { height: 650vh; position: relative; background-color: transparent; margin-bottom: 0; z-index: 5; }
+        .scroll-sticky { position: sticky; top: 0; height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center; overflow: hidden; background-color: transparent; }
+        
+        .gate-crosshair { position: absolute; width: 30px; height: 30px; z-index: 40; pointer-events: none; transition: opacity 0.3s ease; opacity: 0.7; }
+        .gate-crosshair::before, .gate-crosshair::after { content: ''; position: absolute; background-color: var(--text-color); }
         .gate-crosshair::before { width: 100%; height: 2px; top: 50%; transform: translateY(-50%); }
-        .gate-crosshair::after { height: 100%; width: 2px; left: 50%; transform: translateX(-50%); }
-        .cross-tl { top: 15%; left: 15%; } .cross-tr { top: 15%; right: 15%; }
-        .cross-bl { bottom: 15%; left: 15%; } .cross-br { bottom: 15%; right: 15%; }
+        .gate-crosshair::after  { height: 100%; width: 2px; left: 50%; transform: translateX(-50%); }
+        .cross-tl { top: 15%; left: 15%; } .cross-tr { top: 15%; right: 15%; } .cross-bl { bottom: 15%; left: 15%; } .cross-br { bottom: 15%; right: 15%; }
+        
         .clip-box {
-            position: absolute; width: 100%; height: 100%;
-            background-color: #050505;
-            display: flex; align-items: center; justify-content: center; overflow: hidden;
-            clip-path: inset(25% 25% round 15px); will-change: clip-path; z-index: 20;
-            /* PAS de background-image grille ici pour éviter les lignes parasites */
-            perspective: 2000px;
+            position: absolute; width: 100%; height: 100%; background-color: #050505; display: flex; align-items: center; justify-content: center; overflow: hidden; clip-path: inset(25% 25% round 15px); will-change: clip-path; z-index: 20; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; perspective: 2000px;
         }
-        .topo-bg {
-            position: absolute; width: 110%; height: 110%; top: -5%; left: -5%;
-            z-index: 10; pointer-events: none; opacity: 0;
-            transform: translate(var(--mouse-x-topo, 0px), var(--mouse-y-topo, 0px));
-            transition: opacity 0.2s cubic-bezier(0.25, 1, 0.5, 1), transform 0.15s ease-out;
-        }
-        .topo-bg svg { width: 100%; height: 100%; }
-        .topo-bg path { stroke: rgba(255,255,255,0.4); stroke-width: 1.5px; fill: none; }
-        .layer-1 { animation: layerFloat1 8s ease-in-out infinite alternate; transform-origin: center; }
-        .layer-2 { animation: layerFloat2 12s ease-in-out infinite alternate-reverse; transform-origin: center; }
-        .layer-3 { animation: layerFloat3 10s ease-in-out infinite alternate; transform-origin: center; }
-        @keyframes layerFloat1 { 0% { transform: translate(0,0) scale(1) rotate(0deg); } 100% { transform: translate(2%,-1%) scale(1.02) rotate(1deg); } }
-        @keyframes layerFloat2 { 0% { transform: translate(0,0) scale(1) rotate(0deg); } 100% { transform: translate(-2%,2%) scale(1.03) rotate(-1deg); } }
-        @keyframes layerFloat3 { 0% { transform: translate(0,0) scale(1) rotate(0deg); } 100% { transform: translate(1%,2%) scale(1.01) rotate(0.5deg); } }
-        .gate-text {
-            position: absolute; font-size: 6vw; text-transform: uppercase;
-            z-index: 50; pointer-events: none;
-            transition: opacity 0.2s ease, color 0.5s ease;
-            letter-spacing: 2px; color: #b366ff;
-        }
-        /* Opacité initiale : container et textes cachés, BOUTON VISIBLE dès le début */
-        .h-scroll-bg-text, .h-scroll-fg-text, .h-scroll-container { opacity: 0; }
-        /* Bouton visible dès l'ouverture du portail */
-        .h-btn-all { opacity: 0; }
-        .h-scroll-bg-text {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
-            width: 300vw; text-align: center; font-size: 25vw; line-height: 0.8;
-            color: #2E004F; z-index: 1; pointer-events: none; white-space: nowrap;
-            will-change: transform, opacity;
-        }
-        .h-scroll-fg-text {
-            position: absolute; top: 70%; left: 50%; transform: translate(-50%,-50%);
-            width: 300vw; text-align: center; font-size: 10vw;
-            color: transparent; -webkit-text-stroke: 2px rgba(255,255,255,0.15);
-            z-index: 20; pointer-events: none; white-space: nowrap;
-            will-change: transform, opacity;
-        }
-        .h-scroll-container {
-            display: flex; align-items: center; gap: 5vw;
-            padding: 0 45vw; position: absolute; left: 0; top: 0; height: 100vh;
-            width: max-content; will-change: transform; z-index: 15;
-            transform-style: preserve-3d;
-        }
-        /* -----------------------------------------------
-           CARTES — lentille CONCAVE (JS gère rotateY)
-           Les cartes LOIN du centre pivotent vers l'arrière
-           ----------------------------------------------- */
-        .h-card {
-            flex: 0 0 auto; background-color: transparent; text-decoration: none;
-            display: flex; flex-direction: column;
-            width: 38vw; min-width: 300px; max-width: 650px;
-            position: relative; cursor: pointer;
-            pointer-events: auto !important;
-            transform-style: preserve-3d;
-            /* La transform est gérée par JS — pas de CSS 3D ici */
-        }
-        .h-card-inner {
-            display: flex; flex-direction: column; width: 100%;
-            transform-style: preserve-3d;
-            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-        .h-card-img-wrapper {
-            width: 100%; aspect-ratio: 16 / 10; overflow: hidden; position: relative;
-            background: #111; border-radius: 8px; border: 2px solid rgba(255,255,255,0.15);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-            transition: box-shadow 0.4s ease, border-color 0.4s ease;
-        }
-        .h-card img {
-            width: 100%; height: 100%; object-fit: cover;
-            filter: grayscale(20%) brightness(0.9);
-            transition: filter 0.4s ease, transform 0.4s ease;
-        }
+        .topo-bg { position: absolute; width: 110%; height: 110%; top: -5%; left: -5%; z-index: 10; pointer-events: none; opacity: 0; transform: translate(var(--mouse-x-topo, 0px), var(--mouse-y-topo, 0px)); transition: opacity 0.2s cubic-bezier(0.25,1,0.5,1), transform 0.15s ease-out; }
+        .topo-bg svg { width: 100%; height: 100%; } .topo-bg path { stroke: rgba(255,255,255,0.4); stroke-width: 1.5px; fill: none; }
+        .layer-1 { animation: layerFloat1 8s ease-in-out infinite alternate; transform-origin: center; } .layer-2 { animation: layerFloat2 12s ease-in-out infinite alternate-reverse; transform-origin: center; } .layer-3 { animation: layerFloat3 10s ease-in-out infinite alternate; transform-origin: center; }
+        @keyframes layerFloat1 { 0% { transform: translate(0,0) scale(1) rotate(0deg); } 100% { transform: translate(2%,-1%) scale(1.02) rotate(1deg); } } @keyframes layerFloat2 { 0% { transform: translate(0,0) scale(1) rotate(0deg); } 100% { transform: translate(-2%,2%) scale(1.03) rotate(-1deg); } } @keyframes layerFloat3 { 0% { transform: translate(0,0) scale(1) rotate(0deg); } 100% { transform: translate(1%,2%) scale(1.01) rotate(0.5deg); } }
+        
+        .gate-text { position: absolute; font-size: 6vw; text-transform: uppercase; z-index: 50; pointer-events: none; transition: opacity 0.2s ease, color 0.5s ease; letter-spacing: 2px; color: #b366ff; }
+        .h-scroll-bg-text, .h-scroll-fg-text, .h-scroll-container, .h-btn-all { opacity: 0; }
+        .h-scroll-bg-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 300vw; text-align: center; font-size: 25vw; line-height: 0.8; color: #2E004F; z-index: 1; pointer-events: none; white-space: nowrap; will-change: transform, opacity; }
+        .h-scroll-fg-text { position: absolute; top: 70%; left: 50%; transform: translate(-50%,-50%); width: 300vw; text-align: center; font-size: 10vw; color: transparent; -webkit-text-stroke: 2px rgba(255,255,255,0.15); z-index: 20; pointer-events: none; white-space: nowrap; will-change: transform, opacity; }
+        .h-scroll-container { display: flex; align-items: center; gap: 5vw; padding: 0 45vw; position: absolute; left: 0; top: 0; height: 100vh; width: max-content; will-change: transform; z-index: 15; transform-style: preserve-3d; }
+        
+        /* CARTES — Lentille CONCAVE */
+        .h-card { flex: 0 0 auto; background-color: transparent; text-decoration: none; display: flex; flex-direction: column; width: 38vw; min-width: 300px; max-width: 650px; position: relative; cursor: pointer; pointer-events: auto !important; transform-style: preserve-3d; }
+        .h-card-inner { display: flex; flex-direction: column; width: 100%; transform-style: preserve-3d; transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        .h-card-img-wrapper { width: 100%; aspect-ratio: 16 / 10; overflow: hidden; position: relative; background: #111; border-radius: 8px; border: 2px solid rgba(255,255,255,0.15); box-shadow: 0 15px 40px rgba(0,0,0,0.6); transition: box-shadow 0.4s ease, border-color 0.4s ease, transform 0.4s ease; }
+        .h-card img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%) brightness(0.9); transition: filter 0.4s ease, transform 0.4s ease; }
         .h-card-info { padding-top: 1.2rem; text-align: left; }
-        .h-card h3 {
-            font-size: 1.5rem; margin-bottom: 0.5rem; line-height: 1.2;
-            font-family: 'Inter', sans-serif; font-weight: 700; letter-spacing: -0.5px;
-            text-transform: uppercase; color: #fff; transition: color 0.3s ease;
-        }
+        .h-card h3 { font-size: 1.5rem; margin-bottom: 0.5rem; line-height: 1.2; font-family: 'Inter', sans-serif; font-weight: 700; letter-spacing: -0.5px; text-transform: uppercase; color: #fff; transition: color 0.3s ease; }
         .h-card-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; font-family: 'Inter', sans-serif; }
-        .h-card-tags .tag {
-            border: 1px solid rgba(255,255,255,0.3); padding: 0.2rem 0.5rem;
-            font-size: 0.7rem; border-radius: 50px; text-transform: uppercase;
-            font-weight: 600; color: rgba(255,255,255,0.8);
-            transition: border-color 0.3s ease, color 0.3s ease;
-        }
-        /* HOVER EFFECTS — surbrillance violet */
+        .h-card-tags .tag { border: 1px solid rgba(255,255,255,0.3); padding: 0.2rem 0.5rem; font-size: 0.7rem; border-radius: 50px; text-transform: uppercase; font-weight: 600; color: rgba(255,255,255,0.8); transition: border-color 0.3s ease, color 0.3s ease; }
+        
         .h-card:hover .h-card-inner { transform: scale(1.05) translateZ(30px); }
-        .h-card:hover .h-card-img-wrapper {
-            box-shadow: 0 30px 60px rgba(179,102,255,0.45);
-            border-color: rgba(179,102,255,0.85);
-        }
+        .h-card:hover .h-card-img-wrapper { box-shadow: 0 30px 60px rgba(179,102,255,0.4); border-color: rgba(179,102,255,0.8); }
         .h-card:hover img { filter: grayscale(0%) brightness(1.1); transform: scale(1.18) !important; }
         .h-card:hover h3 { color: #b366ff; }
-        .h-card:hover .h-card-tags .tag { border-color: rgba(179,102,255,0.6); color: #b366ff; }
+        .h-card:hover .h-card-tags .tag { border-color: rgba(179,102,255,0.6); color: rgba(179,102,255,1); }
         .h-card-spacer { flex: 0 0 auto; width: 35vw; pointer-events: none; }
-        /* Bouton "Voir tous" — toujours visible avec hover */
-        .h-btn-all {
-            position: absolute; bottom: 3.5rem; left: 50%; transform: translateX(-50%);
-            z-index: 30;
-            color: #b366ff !important;
-            background: rgba(179,102,255,0.08);
-            border: 2px solid rgba(179,102,255,0.6);
-            padding: 0.7rem 1.8rem;
-            font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem;
-            text-transform: uppercase; text-decoration: none; border-radius: 50px;
-            backdrop-filter: blur(10px);
-            /* Transition pour opacity uniquement */
-            transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, opacity 0.4s ease;
-            will-change: opacity;
-            pointer-events: auto;
-        }
-        .h-btn-all:hover {
-            background: #b366ff;
-            color: #fff !important;
-            transform: translateX(-50%) scale(1.05);
-            box-shadow: 0 10px 25px rgba(179,102,255,0.55);
-        }
+        
+        .h-btn-all { position: absolute; bottom: 3.5rem; left: 50%; transform: translateX(-50%); z-index: 30; color: #b366ff !important; background: rgba(179,102,255,0.08); border: 2px solid rgba(179,102,255,0.6); padding: 0.7rem 1.8rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; text-decoration: none; border-radius: 50px; backdrop-filter: blur(10px); transition: all 0.3s ease; will-change: opacity, transform; }
+        .h-btn-all:hover { background: #b366ff; color: #fff !important; transform: translateX(-50%) scale(1.05); box-shadow: 0 10px 25px rgba(179,102,255,0.5); }
+
         /* =============================================
-           SECTION CONTACT
+           SECTION CONTACT & FOOTER
            ============================================= */
-        .cta-section {
-            background-color: #050505;
-            padding: 8rem 2rem 3rem 2rem; text-align: center;
-            width: 100%; position: relative; z-index: 50;
-        }
-        .cta-section h2 { font-size: 4rem; margin-bottom: 1rem; color: #b366ff; }
-        .cta-text {
-            font-family: 'Inter', sans-serif; font-size: 1.1rem; font-weight: 600;
-            max-width: 750px; margin: 0 auto 2rem auto; color: rgba(179,102,255,0.8);
-        }
+        .cta-section { background-color: #050505; padding: 8rem 2rem 3rem 2rem; text-align: center; width: 100%; position: relative; z-index: 50; margin-top: -2px; }
+        .cta-section h2 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; color: #b366ff; }
+        .cta-text { font-family: 'Inter', sans-serif; font-size: clamp(1rem, 2vw, 1.1rem); font-weight: 600; max-width: 750px; margin: 0 auto 2rem auto; color: rgba(179,102,255,0.8); }
         .cta-socials { display: flex; justify-content: center; gap: 1.5rem; margin-top: 2rem; margin-bottom: 3rem; }
         .cta-socials a { color: #b366ff; transition: all 0.3s ease; }
         .cta-socials a:hover { transform: translateY(-3px); color: #fff; }
         .cta-socials svg { width: 35px; height: 35px; fill: currentColor; }
-        .btn-contact-violet {
-            font-family: 'Anton', sans-serif; font-size: 1.5rem; text-transform: uppercase;
-            text-decoration: none; color: #b366ff; border: 3px solid #b366ff;
-            padding: 0.8rem 1.5rem; transition: all 0.3s ease;
-            background-color: transparent; display: inline-block; cursor: pointer;
-        }
-        .btn-contact-violet:hover {
-            transform: translate(-5px,-5px); box-shadow: 8px 8px 0px #b366ff;
-            background-color: #b366ff; color: #050505;
-        }
-        .back-to-top-wrapper {
-            background-color: #050505; text-align: center;
-            padding-bottom: 3rem; position: relative; z-index: 50; width: 100%;
-        }
-        .btn-back-top {
-            display: inline-block; color: #b366ff;
-            background: rgba(179,102,255,0.05); border: 2px solid rgba(179,102,255,0.6);
-            padding: 0.7rem 1.8rem; font-family: 'Inter', sans-serif; font-weight: 600;
-            font-size: 0.85rem; text-transform: uppercase; text-decoration: none;
-            border-radius: 50px; backdrop-filter: blur(10px); transition: all 0.3s ease; cursor: pointer;
-        }
-        .btn-back-top:hover {
-            background: #b366ff; color: #fff;
-            transform: translateY(-3px) scale(1.05); box-shadow: 0 10px 20px rgba(179,102,255,0.4);
-        }
-        .site-footer {
-            background-color: #050505; color: rgba(179,102,255,0.4);
-            padding: 1.5rem 2rem 2rem 2rem; text-align: center;
-            font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem;
-        }
+        .btn-contact-violet { font-family: 'Anton', sans-serif; font-size: 1.5rem; text-transform: uppercase; text-decoration: none; color: #b366ff; border: 3px solid #b366ff; padding: 0.8rem 1.5rem; transition: all 0.3s ease; background-color: transparent; display: inline-block; cursor: pointer; }
+        .btn-contact-violet:hover { transform: translate(-5px,-5px); box-shadow: 8px 8px 0px #b366ff; background-color: #b366ff; color: #050505; }
+        
+        .back-to-top-wrapper { background-color: #050505; text-align: center; padding-bottom: 3rem; position: relative; z-index: 50; width: 100%; }
+        .btn-back-top { display: inline-block; color: #b366ff; background: rgba(179,102,255,0.05); border: 2px solid rgba(179,102,255,0.6); padding: 0.7rem 1.8rem; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; text-transform: uppercase; text-decoration: none; border-radius: 50px; backdrop-filter: blur(10px); transition: all 0.3s ease; cursor: pointer; }
+        .btn-back-top:hover { background: #b366ff; color: #fff; transform: translateY(-3px) scale(1.05); box-shadow: 0 10px 20px rgba(179,102,255,0.4); }
+        .site-footer { background-color: #050505; color: rgba(179,102,255,0.4); padding: 1.5rem 2rem 2rem 2rem; text-align: center; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 0.85rem; position: relative;}
+
         /* =============================================
-           TRANSITIONS DE PAGE
+           TRANSITIONS DE PAGE & FADE IN
            ============================================= */
-        .page-transition-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: var(--bg-color);
-            z-index: 99998; opacity: 0; pointer-events: none;
-            transition: opacity 0.6s ease;
-        }
-        .page-transition-clone {
-            position: fixed; z-index: 99999; pointer-events: none;
-            background-size: cover; background-position: center; border-radius: 8px;
-            transition: transform 0.6s cubic-bezier(0.25,1,0.5,1), opacity 0.4s ease 0.2s;
-            margin: 0; padding: 0; box-shadow: 0 30px 60px rgba(0,0,0,0.4);
-        }
-        /* =============================================
-           FADE IN
-           ============================================= */
-        .fade-in-section {
-            opacity: 0; transform: translateY(40px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
+        .page-transition-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: var(--bg-color); z-index: 99998; opacity: 0; pointer-events: none; transition: opacity 0.6s ease; }
+        .page-transition-clone { position: fixed; z-index: 99999; pointer-events: none; background-size: cover; background-position: center; border-radius: 8px; transition: transform 0.6s cubic-bezier(0.25,1,0.5,1), opacity 0.4s ease 0.2s; margin: 0; padding: 0; box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
+        .fade-in-section { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; will-change: opacity, visibility; }
         .fade-in-section.is-visible { opacity: 1; transform: none; }
+
         /* =============================================
-           RESPONSIVE
+           RESPONSIVE (Mobile & Tablet)
            ============================================= */
         @media (max-width: 1024px) {
-            .intro-grid { grid-template-columns: 1fr; gap: 2rem; }
-            .h-card { width: 45vw; }
-            .h-scroll-container { gap: 6vw; }
-            .hero h1 { font-size: 15vw; }
-            .clip-box { perspective: 1500px; }
+            .h-card { width: 45vw; } .h-scroll-container { gap: 6vw; }
+            .hero h1 { font-size: 15vw; } .clip-box { perspective: 1500px; }
+            .content-wrapper { padding: 5rem 2rem 4rem 2rem; }
         }
         @media (max-width: 768px) {
-            header { padding: 1rem 1.5rem; }
-            .main-nav a { font-size: 0.75rem; padding: 0.4rem 0.8rem; }
-            .lang-switch { position: static; margin-left: auto; }
-            .hero h1 { font-size: 22vw; }
-            .marquee-text { font-size: 2rem; }
-            .section-heading { font-size: 2rem; margin-bottom: 1.2rem; }
-            .intro-box { padding: 1.5rem 1.2rem; }
-            .intro-text { font-size: 1.05rem; margin-bottom: 1.2rem; }
-            .skill-tag { font-size: 1rem; padding: 0.4rem 0.8rem; }
-            .btn-primary { font-size: 1.2rem; padding: 0.6rem 1rem; }
+            #site-header { padding: 1.2rem 1.5rem; }
+            .main-nav a { font-size: 0.72rem; padding: 0.4rem 0.7rem; }
+            #lang-corner { top: 1.2rem; right: 1.2rem; }
+            
+            .hero h1 { font-size: 20vw; } .marquee-text { font-size: 2rem; }
+            
+            .intro-grid-editorial { gap: 1.5rem; margin-bottom: 3rem; }
+            .intro-paragraphs { text-align: left; } /* Meilleure lisibilité du long texte sur mobile */
+            .link-editorial { font-size: 1.1rem; }
+            
             .clip-box { clip-path: inset(20% 5% round 10px); perspective: 1000px; }
-            .gate-text { font-size: 12vw; }
-            .gate-crosshair { display: none; }
+            .gate-text { font-size: 12vw; } .gate-crosshair { display: none; }
             .h-scroll-container { padding: 0 10vw; gap: 8vw; }
-            .h-card { width: 75vw; min-width: unset; max-width: unset; }
-            .h-card-spacer { width: 10vw; }
+            .h-card { width: 75vw; min-width: unset; max-width: unset; } .h-card-spacer { width: 10vw; }
             .h-btn-all { white-space: nowrap; font-size: 0.75rem; padding: 0.6rem 1rem; bottom: 2rem; }
-            .cta-section h2 { font-size: 2.2rem; }
-            .cta-text { font-size: 1rem; padding: 0 1rem; }
+        }
+        @media (max-width: 480px) {
+            .nav-sep { display: none; } .main-nav { gap: 0.05rem; }
+            .content-wrapper { padding: 4rem 1.5rem; }
+            .intro-paragraphs { text-align: left; }
         }
     </style>
 </head>
 <body id="top">
-    <!-- HEADER fixe transparent -->
+
+    <!-- HEADER (Absolute) -->
     <header id="site-header">
-        <div class="header-inner">
-            <nav class="main-nav" id="main-nav">
-                <a href="about.html" data-i18n="nav-about">À Propos</a>
-                <span class="nav-sep">·</span>
-                <a href="projects.html" data-i18n="nav-projects">Projets</a>
-                <span class="nav-sep">·</span>
-                <a href="contact.html" data-i18n="nav-contact">Contact</a>
-            </nav>
-            <div class="lang-switch">
-                <span id="btn-fr" class="active" onclick="setLanguage('fr')">FR</span>
-                <span class="lang-sep">/</span>
-                <span id="btn-en" onclick="setLanguage('en')">EN</span>
-            </div>
-        </div>
+        <nav class="main-nav" id="main-nav">
+            <a href="about.html" data-i18n="nav-about" id="nav-a-about">À Propos</a>
+            <span class="nav-sep">·</span>
+            <a href="projects.html" data-i18n="nav-projects" id="nav-a-projects">Projets</a>
+            <span class="nav-sep">·</span>
+            <a href="contact.html" data-i18n="nav-contact" id="nav-a-contact">Contact</a>
+        </nav>
     </header>
-    <!-- HERO -->
-    <section class="hero" id="hero-section">
+
+    <!-- COIN LANGUE -->
+    <div id="lang-corner">
+        <span class="lang-btn active" id="btn-fr" onclick="setLanguage('fr')">FR</span>
+        <span class="lsep">/</span>
+        <span class="lang-btn" id="btn-en" onclick="setLanguage('en')">EN</span>
+    </div>
+
+    <!-- HERO SECTION -->
+    <section class="hero fade-in-section" id="hero-section">
+        <div class="global-grid-hover" id="global-grid-hover"></div>
         <canvas id="topo-canvas"></canvas>
         <h1 id="hero-text">
-            <span class="letter">P</span>
-            <span class="letter">O</span>
-            <span class="letter">R</span>
-            <span class="letter">T</span>
-            <span class="letter" id="letter-e">E</span>
-            <span class="letter">F</span>
-            <span class="letter">O</span>
-            <span class="letter">L</span>
+            <span class="letter"><span class="fi" data-l="P" data-j="ぽ">ぽ</span></span>
+            <span class="letter"><span class="fi" data-l="O" data-j="お">お</span></span>
+            <span class="letter"><span class="fi" data-l="R" data-j="ら">ら</span></span>
+            <span class="letter"><span class="fi" data-l="T" data-j="て">て</span></span>
+            <span class="letter" id="letter-e"><span class="fi" data-l="E" data-j="え">え</span></span>
+            <span class="letter"><span class="fi" data-l="F" data-j="ふ">ふ</span></span>
+            <span class="letter"><span class="fi" data-l="O" data-j="お">お</span></span>
+            <span class="letter"><span class="fi" data-l="L" data-j="る">る</span></span>
             <span class="i-wrapper">
-                <span class="letter">I</span>
+                <span class="letter"><span class="fi" data-l="I" data-j="い">い</span></span>
                 <span class="dot-plus">+</span>
             </span>
-            <span class="letter">O</span>
+            <span class="letter"><span class="fi" data-l="O" data-j="お">お</span></span>
         </h1>
         <p class="hero-subtitle">Julien Arsena</p>
-        <div class="scroll-hint">
-            <div class="scroll-hint-line"></div>
+        <div class="scroll-hint" id="scroll-hint">
+            <div class="scroll-line"></div>
             <span>Scroll</span>
         </div>
     </section>
+
     <!-- MARQUEE -->
     <div class="marquee-container" id="marquee-banner">
-        <div class="marquee-text" data-i18n="marquee-main">
-            SCIENCES DES DONNÉES &amp; ARTS • HUMANITÉS NUMÉRIQUES • MACHINE LEARNING • SCIENCES DES DONNÉES &amp; ARTS • HUMANITÉS NUMÉRIQUES • MACHINE LEARNING •
+        <div class="marquee-text" id="marquee-text" data-i18n="marquee-main">
+            SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • MACHINE LEARNING • SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • MACHINE LEARNING •
         </div>
     </div>
-    <!-- INTRO -->
+
+    <!-- CONTENU INTRO (Centré & Éditorial) -->
     <div class="content-wrapper">
         <section class="intro-section fade-in-section">
-            <div class="intro-grid">
-                <div class="intro-col">
-                    <h2 class="section-heading" data-i18n="h-intro1">01. Profil Hybride</h2>
-                    <div class="intro-box">
-                        <p class="intro-text" data-i18n="p-intro">
-                            Étudiant en Sciences des Données et Arts (Université PSL &amp; Lycée Louis Le Grand), je combine la grande rigueur des mathématiques et de l'algorithmique avec une solide sensibilité aux humanités numériques et à l'analyse culturelle.
-                        </p>
-                        <div class="btn-container">
-                            <a href="about.html" class="btn-primary" data-i18n="btn-about">Découvrir mon parcours -&gt;</a>
-                        </div>
-                    </div>
+            <div class="intro-grid-editorial">
+                <h2 class="huge-text" data-i18n="h-intro1">Profil Hybride</h2>
+                
+                <div class="intro-paragraphs">
+                    <p class="intro-desc" data-i18n="p-intro1">
+                        Étudiant en Sciences des Données, Arts et Culture (Université PSL & Lycée Louis-le-Grand), je combine la rigueur implacable des mathématiques et de l'algorithmique avec une sensibilité prononcée pour les humanités numériques et l'analyse culturelle.
+                    </p>
+                    <p class="intro-desc" data-i18n="p-intro2">
+                        J'aborde cette interdisciplinarité non pas comme un simple croisement de matières, mais comme une clé essentielle pour observer, analyser et donner du sens aux grandes dynamiques de notre monde. En faisant dialoguer l'objectivité froide des données avec la subtilité et la profondeur des sciences humaines, je cherche à révéler les structures invisibles qui façonnent nos sociétés contemporaines.
+                    </p>
                 </div>
-                <div class="intro-col">
-                    <h2 class="section-heading" data-i18n="h-intro2">02. Outils &amp; Démarche</h2>
-                    <div class="intro-box">
-                        <div class="skills-tags">
-                            <span class="skill-tag">Python / R</span>
-                            <span class="skill-tag" data-i18n="tag-ml">Machine Learning</span>
-                            <span class="skill-tag" data-i18n="tag-nlp">NLP</span>
-                            <span class="skill-tag" data-i18n="tag-dataviz">Data Visualization</span>
-                            <span class="skill-tag" data-i18n="tag-cult">Analyse Culturelle</span>
-                            <span class="skill-tag" data-i18n="tag-stat">Statistiques</span>
-                        </div>
-                        <div class="btn-container">
-                            <a href="#scroll-sequence" class="btn-primary" data-i18n="btn-skills">Voir les cas d'études -&gt;</a>
-                        </div>
-                    </div>
+                
+                <a href="about.html" class="link-editorial" data-i18n="btn-about">Découvrir mon parcours ↗</a>
+            </div>
+
+            <div class="skills-editorial">
+                <h3 data-i18n="h-intro2">Outils & Démarche</h3>
+                <div class="skills-list">
+                    <span class="item">Python / R</span>
+                    <span class="sep">•</span>
+                    <span class="item" data-i18n="tag-ml">Machine Learning</span>
+                    <span class="sep">•</span>
+                    <span class="item" data-i18n="tag-nlp">NLP</span>
+                    <span class="sep">•</span>
+                    <span class="item" data-i18n="tag-dataviz">Data Visualization</span>
+                    <span class="sep">•</span>
+                    <span class="item" data-i18n="tag-cult">Analyse Culturelle</span>
+                    <span class="sep">•</span>
+                    <span class="item" data-i18n="tag-stat">Statistiques</span>
                 </div>
             </div>
         </section>
     </div>
-    <!-- SÉQUENCE PROJETS -->
+
+    <!-- SÉQUENCE PROJETS (Portail 3D Concave sur fond carrelé) -->
     <div class="scroll-sequence" id="scroll-sequence">
         <div class="scroll-sticky">
             <div class="gate-crosshair cross-tl"></div>
@@ -697,7 +440,7 @@
                             <div class="h-card-img-wrapper"><img src="miniature_duree.jpg" alt="Prédiction de Durée"></div>
                             <div class="h-card-info">
                                 <h3 data-i18n="proj-duree">Prédiction de Durée</h3>
-                                <div class="h-card-tags"><span class="tag">Régression L1</span><span class="tag">Machine Learning</span></div>
+                                <div class="h-card-tags"><span class="tag">Régression L1</span> <span class="tag">Machine Learning</span></div>
                             </div>
                         </div>
                     </a>
@@ -706,25 +449,25 @@
                             <div class="h-card-img-wrapper"><img src="miniature_couleur.jpg" alt="Colorimétrie du Cinéma"></div>
                             <div class="h-card-info">
                                 <h3 data-i18n="proj-couleur">Colorimétrie du Cinéma</h3>
-                                <div class="h-card-tags"><span class="tag">Classification</span><span class="tag">Python</span></div>
+                                <div class="h-card-tags"><span class="tag">Classification</span> <span class="tag">Python</span></div>
                             </div>
                         </div>
                     </a>
                     <a href="projet_animes.html" class="h-card">
                         <div class="h-card-inner">
-                            <div class="h-card-img-wrapper"><img src="miniature_anime.jpg" alt="Violence &amp; Animation"></div>
+                            <div class="h-card-img-wrapper"><img src="miniature_anime.jpg" alt="Violence & Animation"></div>
                             <div class="h-card-info">
-                                <h3 data-i18n="proj-anime">Violence &amp; Animation</h3>
-                                <div class="h-card-tags"><span class="tag">Statistiques</span><span class="tag">Pandas</span></div>
+                                <h3 data-i18n="proj-anime">Violence & Animation</h3>
+                                <div class="h-card-tags"><span class="tag">Statistiques</span> <span class="tag">Pandas</span></div>
                             </div>
                         </div>
                     </a>
                     <a href="#" class="h-card">
                         <div class="h-card-inner">
-                            <div class="h-card-img-wrapper"><img src="miniature_voyage.jpg" alt="Générations &amp; Voyages"></div>
+                            <div class="h-card-img-wrapper"><img src="miniature_voyage.jpg" alt="Générations & Voyages"></div>
                             <div class="h-card-info">
-                                <h3 data-i18n="proj-voyage">Générations &amp; Voyages</h3>
-                                <div class="h-card-tags"><span class="tag">Sondages</span><span class="tag">Statistiques</span></div>
+                                <h3 data-i18n="proj-voyage">Générations & Voyages</h3>
+                                <div class="h-card-tags"><span class="tag">Sondages</span> <span class="tag">Statistiques</span></div>
                             </div>
                         </div>
                     </a>
@@ -733,7 +476,7 @@
                             <div class="h-card-img-wrapper"><img src="miniature_ens.jpg" alt="Analyse Littéraire ENS"></div>
                             <div class="h-card-info">
                                 <h3 data-i18n="proj-ens">Analyse Littéraire (ENS)</h3>
-                                <div class="h-card-tags"><span class="tag">NLP</span><span class="tag">Humanités</span></div>
+                                <div class="h-card-tags"><span class="tag">NLP</span> <span class="tag">Humanités</span></div>
                             </div>
                         </div>
                     </a>
@@ -742,7 +485,7 @@
                             <div class="h-card-img-wrapper"><img src="miniature_linguistique.jpg" alt="Évolution Linguistique"></div>
                             <div class="h-card-info">
                                 <h3 data-i18n="proj-lang">Évolution Linguistique</h3>
-                                <div class="h-card-tags"><span class="tag">NLP</span><span class="tag">Data Science</span></div>
+                                <div class="h-card-tags"><span class="tag">NLP</span> <span class="tag">Data Science</span></div>
                             </div>
                         </div>
                     </a>
@@ -751,7 +494,7 @@
                             <div class="h-card-img-wrapper"><img src="miniature_geopolitique.jpg" alt="Régimes Politiques"></div>
                             <div class="h-card-info">
                                 <h3 data-i18n="proj-geo">Régimes Politiques</h3>
-                                <div class="h-card-tags"><span class="tag">Géopolitique</span><span class="tag">Statistiques</span></div>
+                                <div class="h-card-tags"><span class="tag">Géopolitique</span> <span class="tag">Statistiques</span></div>
                             </div>
                         </div>
                     </a>
@@ -760,7 +503,7 @@
                             <div class="h-card-img-wrapper"><img src="miniature_huntit.jpg" alt="Hunt-It Chasse au trésor"></div>
                             <div class="h-card-info">
                                 <h3 data-i18n="proj-hunt">Hunt-It : Chasse au Trésor</h3>
-                                <div class="h-card-tags"><span class="tag">JS</span><span class="tag">Game Design</span></div>
+                                <div class="h-card-tags"><span class="tag">JS</span> <span class="tag">Game Design</span></div>
                             </div>
                         </div>
                     </a>
@@ -769,7 +512,7 @@
                             <div class="h-card-img-wrapper"><img src="miniature_paradoxe.jpg" alt="Le Paradoxe du Littoral"></div>
                             <div class="h-card-info">
                                 <h3 data-i18n="proj-fractal">Le Paradoxe du Littoral</h3>
-                                <div class="h-card-tags"><span class="tag">Mathématiques</span><span class="tag">Web Design</span></div>
+                                <div class="h-card-tags"><span class="tag">Mathématiques</span> <span class="tag">Web Design</span></div>
                             </div>
                         </div>
                     </a>
@@ -779,12 +522,13 @@
             </div>
         </div>
     </div>
+
     <!-- CONTACT -->
     <section class="cta-section">
         <h2 data-i18n="h-contact">Prêt à échanger ?</h2>
         <p class="cta-text" data-i18n="p-contact">Toujours curieux de relever de nouveaux défis, je suis ouvert aux opportunités d'études en Master, ainsi qu'aux collaborations stimulantes avec des entreprises ou laboratoires de recherche.</p>
         <div class="btn-container" style="justify-content:center">
-            <a href="contact.html" class="btn-contact-violet" data-i18n="btn-contact">Me contacter -&gt;</a>
+            <a href="contact.html" class="btn-contact-violet" data-i18n="btn-contact">Me contacter ↗</a>
         </div>
         <div class="cta-socials">
             <a href="https://www.linkedin.com/in/julien-arsena/" target="_blank">
@@ -795,483 +539,449 @@
             </a>
         </div>
     </section>
+
     <div class="back-to-top-wrapper">
         <a id="btn-back-top" class="btn-back-top" data-i18n="btn-back-top">Remonter en haut</a>
     </div>
+
     <footer class="site-footer">
         <span data-i18n="footer-text">© 2026 Julien Arsena. Tout le contenu est mis à disposition pour consultation.</span>
     </footer>
+
     <script>
     /* =====================================================
-       FOND TOPOGRAPHIQUE HERO — Canvas avec couleurs chaudes
+       FOND TOPOGRAPHIQUE HERO — Canvas avec interpolation lisse (Lerp)
        ===================================================== */
-    (function() {
+    (function () {
         const canvas = document.getElementById('topo-canvas');
         const ctx    = canvas.getContext('2d');
-        const NUM_LAYERS      = 6;
-        const CURVES_PER_LAYER = 12;
-        const BASE_SPEED      = 0.00012;
-        const MOUSE_INFLUENCE = 0.16;
-        const HOT_RADIUS      = 300;
-        // Palette : blanc, orange chaud, rouge-violet
-        const LINE_PALETTES = [
-            // couche 0 : blanc classique
-            ['rgba(255,255,255,0.60)', 'rgba(255,255,255,0.40)', 'rgba(255,255,255,0.25)'],
-            // couche 1 : orange chaud
-            ['rgba(255,140,30,0.50)',  'rgba(255,100,10,0.30)',  'rgba(255,160,60,0.20)'],
-            // couche 2 : rouge
-            ['rgba(230,40,40,0.40)',   'rgba(255,60,60,0.25)',   'rgba(200,20,20,0.18)'],
-            // couche 3 : violet
-            ['rgba(180,80,255,0.40)',  'rgba(140,40,220,0.25)',  'rgba(200,120,255,0.18)'],
-            // couche 4 : cyan léger
-            ['rgba(80,200,255,0.22)',  'rgba(60,180,240,0.14)',  'rgba(100,210,255,0.10)'],
-            // couche 5 : blanc subtil
-            ['rgba(255,255,255,0.30)', 'rgba(230,230,255,0.18)', 'rgba(255,255,255,0.10)'],
-        ];
-        let W, H;
-        let mouseX = -9999, mouseY = -9999;
-        let targetMouseX = -9999, targetMouseY = -9999;
-        let time = 0;
-        function makeCurves() {
-            const layers = [];
-            for (let l = 0; l < NUM_LAYERS; l++) {
-                const layer = [];
-                for (let i = 0; i < CURVES_PER_LAYER; i++) {
-                    layer.push({
-                        baseY:      (i + 0.5) / CURVES_PER_LAYER,
-                        freq:       0.5 + Math.random() * 1.4,
-                        amp:        0.035 + Math.random() * 0.065,
-                        phaseShift: Math.random() * Math.PI * 2,
-                        layerPhase: (l / NUM_LAYERS) * Math.PI * 2,
-                        speedMult:  0.4 + Math.random() * 1.2,
-                        warpX:      Math.random() * Math.PI * 2,
-                        warpAmp:    0.004 + Math.random() * 0.012,
-                        colorIdx:   Math.floor(Math.random() * 3),
-                    });
+        const GW = 150, GH = 96;
+        const heights = new Float32Array(GW * GH);
+        const off    = document.createElement('canvas');
+        const offCtx = off.getContext('2d');
+        off.width  = 400; off.height = 256;
+        
+        let W = 0, H = 0, time = 0;
+        let targetMouseNX = 0.5, targetMouseNY = 0.5;
+        let mouseNX = 0.5, mouseNY = 0.5;
+        let mouseOp = 0, targetMouseOp = 0;
+        
+        function resize() { W = canvas.width = canvas.offsetWidth; H = canvas.height = canvas.offsetHeight; }
+        function computeHeights() {
+            const t = time * 0.0018; 
+            for (let gy = 0; gy < GH; gy++) {
+                for (let gx = 0; gx < GW; gx++) {
+                    const nx = (gx / GW) * 5.5, ny = (gy / GH) * 5.5;
+                    let h = 0;
+                    h += Math.sin(nx * 1.10 + t * 1.1) * 0.19; h += Math.sin(ny * 1.55 - t * 0.75) * 0.17;
+                    h += Math.sin(nx * 0.75 + ny * 1.20 + t * 0.55) * 0.15; h += Math.sin(nx * 2.20 - ny * 0.80 + t * 0.90) * 0.13;
+                    h += Math.sin(nx * 0.50 + ny * 2.15 + t * 0.40) * 0.11; h += Math.sin(nx * 1.85 + ny * 2.30 - t * 0.85) * 0.09;
+                    h += Math.sin(nx * 3.10 - ny * 1.40 + t * 0.65) * 0.07; h += Math.sin(nx * 2.65 + ny * 0.70 + t * 1.10) * 0.05;
+                    h += Math.sin(nx * 0.30 + ny * 3.20 - t * 0.45) * 0.04; h += Math.sin(nx * 4.00 + ny * 1.80 + t * 0.75) * 0.03;
+                    
+                    if (mouseOp > 0.01) {
+                        const mgx = mouseNX * GW, mgy = mouseNY * GH, dx = gx - mgx, dy = gy - mgy;
+                        h += Math.exp(-(dx * dx + dy * dy) / (2 * 18 * 18)) * 1.0 * mouseOp;
+                    }
+                    heights[gy * GW + gx] = Math.min(1, Math.max(0, (h + 1.05) / 2.1));
                 }
-                layers.push(layer);
             }
-            return layers;
         }
-        const layers = makeCurves();
-        function resize() {
-            W = canvas.width  = canvas.offsetWidth;
-            H = canvas.height = canvas.offsetHeight;
+        function hToRgb(h) {
+            if (h < 0.18) return [2, 4, 9];
+            if (h < 0.32) { const t = (h - 0.18) / 0.14; return [Math.floor(2 + t * 22), Math.floor(4 + t * 9), Math.floor(9 + t * 12)]; }
+            if (h < 0.47) { const t = (h - 0.32) / 0.15; return [Math.floor(24 + t * 105), Math.floor(13 + t * 18), 21]; }
+            if (h < 0.63) { const t = (h - 0.47) / 0.16; return [Math.floor(129 + t * 108), Math.floor(31 + t * 30), 21]; }
+            if (h < 0.80) { const t = (h - 0.63) / 0.17; return [Math.floor(237 + t * 15), Math.floor(61 + t * 52), Math.floor(21 + t * 5)]; }
+            const t = (h - 0.80) / 0.20; return [252, Math.floor(113 + t * 55), Math.floor(26 + t * 18)];
         }
-        function easeMouse() {
-            mouseX += (targetMouseX - mouseX) * 0.055;
-            mouseY += (targetMouseY - mouseY) * 0.055;
-        }
-        function drawCurve(curve, layerIdx) {
-            const segs = 140;
-            const dx   = W / segs;
-            const mY   = (mouseY / H - 0.5) * MOUSE_INFLUENCE * (1 - layerIdx / NUM_LAYERS * 0.6);
-            const mX   = (mouseX / W - 0.5) * MOUSE_INFLUENCE * 0.4;
-            ctx.beginPath();
-            for (let s = 0; s <= segs; s++) {
-                const xn = s / segs;
-                const baseY = (curve.baseY + mY) * H;
-                const wave  = Math.sin(
-                    xn * Math.PI * 2 * curve.freq
-                    + time * BASE_SPEED * curve.speedMult * Math.PI * 2
-                    + curve.phaseShift + curve.layerPhase + mX * Math.PI
-                ) * curve.amp * H;
-                const warp  = Math.sin(
-                    xn * Math.PI * 4 + time * BASE_SPEED * 0.5 * Math.PI * 2 + curve.warpX
-                ) * curve.warpAmp * H;
-                const y = baseY + wave + warp;
-                s === 0 ? ctx.moveTo(s * dx, y) : ctx.lineTo(s * dx, y);
+        function drawTerrain() {
+            const OW = off.width, OH = off.height, img = offCtx.createImageData(OW, OH), data = img.data;
+            for (let py = 0; py < OH; py++) {
+                for (let px = 0; px < OW; px++) {
+                    const nx = px / OW, ny = py / OH, gxf = nx * (GW - 1), gyf = ny * (GH - 1);
+                    const gx0 = Math.floor(gxf), gx1 = Math.min(gx0 + 1, GW - 1), gy0 = Math.floor(gyf), gy1 = Math.min(gy0 + 1, GH - 1);
+                    const tx = gxf - gx0, ty = gyf - gy0;
+                    const h = heights[gy0 * GW + gx0] * (1 - tx) * (1 - ty) + heights[gy0 * GW + gx1] * tx * (1 - ty) + heights[gy1 * GW + gx0] * (1 - tx) * ty + heights[gy1 * GW + gx1] * tx * ty;
+                    const [r, g, b] = hToRgb(h), i = (py * OW + px) * 4;
+                    data[i] = r; data[i+1] = g; data[i+2] = b; data[i+3] = 255;
+                }
             }
-            // Couleur de la courbe selon palette de la couche
-            const palette = LINE_PALETTES[layerIdx % LINE_PALETTES.length];
-            ctx.strokeStyle = palette[curve.colorIdx];
-            ctx.lineWidth   = 1.1;
-            ctx.stroke();
+            offCtx.putImageData(img, 0, 0); ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high'; ctx.drawImage(off, 0, 0, W, H);
         }
-        // Halo chaud multi-couleur
-        function drawHotSpot() {
-            if (mouseX < -100) return;
-            // Centre orange/ambre
-            const g1 = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, HOT_RADIUS);
-            g1.addColorStop(0,   'rgba(255,130,20,0.28)');
-            g1.addColorStop(0.3, 'rgba(220,60,10,0.14)');
-            g1.addColorStop(1,   'rgba(0,0,0,0)');
-            ctx.fillStyle = g1;
-            ctx.fillRect(0, 0, W, H);
-            // Anneau violet
-            const g2 = ctx.createRadialGradient(mouseX, mouseY, HOT_RADIUS * 0.5, mouseX, mouseY, HOT_RADIUS * 1.6);
-            g2.addColorStop(0,   'rgba(0,0,0,0)');
-            g2.addColorStop(0.4, 'rgba(160,60,255,0.12)');
-            g2.addColorStop(1,   'rgba(0,0,0,0)');
-            ctx.fillStyle = g2;
-            ctx.fillRect(0, 0, W, H);
-            // Anneau cyan extérieur
-            const g3 = ctx.createRadialGradient(mouseX, mouseY, HOT_RADIUS * 1.0, mouseX, mouseY, HOT_RADIUS * 2.2);
-            g3.addColorStop(0,   'rgba(0,0,0,0)');
-            g3.addColorStop(0.5, 'rgba(30,170,255,0.08)');
-            g3.addColorStop(1,   'rgba(0,0,0,0)');
-            ctx.fillStyle = g3;
-            ctx.fillRect(0, 0, W, H);
-            // Lueur centrale intense
-            const g4 = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 90);
-            g4.addColorStop(0, 'rgba(255,180,60,0.22)');
-            g4.addColorStop(1, 'rgba(0,0,0,0)');
-            ctx.fillStyle = g4;
-            ctx.fillRect(0, 0, W, H);
+        function contourStyle(level) {
+            if (level > 0.72) { const a = (0.45 + (level - 0.72) / 0.28 * 0.45).toFixed(2); return [`rgba(255,255,255,${a})`, level > 0.85 ? 1.6 : 1.2]; }
+            if (level > 0.52) { const t = (level - 0.52) / 0.20; const a = (0.25 + t * 0.25).toFixed(2); return [`rgba(255,235,190,${a})`, 1.0]; }
+            if (level > 0.32) { const t = (level - 0.32) / 0.20; const a = (0.22 + t * 0.22).toFixed(2); return [`rgba(10,210,255,${a})`, 0.9]; }
+            const a = (0.08 + (level / 0.32) * 0.14).toFixed(2); return [`rgba(0,170,240,${a})`, 0.65];
         }
-        // Halos de couleur ambiants (indépendants de la souris, bougent lentement)
+        function drawContours() {
+            const cellW = W / (GW - 1), cellH = H / (GH - 1), NUM = 38;
+            for (let li = 1; li < NUM; li++) {
+                const level = li / NUM, [color, lw] = contourStyle(level);
+                ctx.beginPath(); ctx.strokeStyle = color; ctx.lineWidth = lw;
+                for (let gy = 0; gy < GH - 1; gy++) {
+                    for (let gx = 0; gx < GW - 1; gx++) {
+                        const h00 = heights[gy * GW + gx], h10 = heights[gy * GW + gx + 1], h01 = heights[(gy + 1) * GW + gx], h11 = heights[(gy + 1) * GW + gx + 1];
+                        const x = gx * cellW, y = gy * cellH, pts = [];
+                        if ((h00 < level) !== (h10 < level)) pts.push([x + ((level - h00) / (h10 - h00)) * cellW, y]);
+                        if ((h10 < level) !== (h11 < level)) pts.push([x + cellW, y + ((level - h10) / (h11 - h10)) * cellH]);
+                        if ((h01 < level) !== (h11 < level)) pts.push([x + ((level - h01) / (h11 - h01)) * cellW, y + cellH]);
+                        if ((h00 < level) !== (h01 < level)) pts.push([x, y + ((level - h00) / (h01 - h00)) * cellH]);
+                        if (pts.length === 2) { ctx.moveTo(pts[0][0], pts[0][1]); ctx.lineTo(pts[1][0], pts[1][1]); }
+                    }
+                }
+                ctx.stroke();
+            }
+        }
+        function drawMouseGlow() {
+            if (mouseOp < 0.01) return;
+            const mx = mouseNX * W, my = mouseNY * H, g1 = ctx.createRadialGradient(mx, my, 0, mx, my, 90);
+            g1.addColorStop(0, `rgba(255,180,60,${0.28 * mouseOp})`); g1.addColorStop(1, 'rgba(0,0,0,0)');
+            ctx.fillStyle = g1; ctx.fillRect(0, 0, W, H);
+            const g2 = ctx.createRadialGradient(mx, my, 120, mx, my, W * 0.28);
+            g2.addColorStop(0, 'rgba(0,0,0,0)'); g2.addColorStop(0.4, `rgba(150,50,255,${0.10 * mouseOp})`); g2.addColorStop(1, 'rgba(0,0,0,0)');
+            ctx.fillStyle = g2; ctx.fillRect(0, 0, W, H);
+        }
         function drawAmbientGlows() {
-            const t = time * 0.0008;
-            // Halo orange en bas-gauche
-            const ax = W * (0.2 + 0.1 * Math.sin(t * 0.7));
-            const ay = H * (0.7 + 0.1 * Math.cos(t * 0.5));
-            const ga = ctx.createRadialGradient(ax, ay, 0, ax, ay, W * 0.4);
-            ga.addColorStop(0,   'rgba(255,80,0,0.12)');
-            ga.addColorStop(1,   'rgba(0,0,0,0)');
-            ctx.fillStyle = ga; ctx.fillRect(0, 0, W, H);
-            // Halo violet en haut-droite
-            const bx = W * (0.75 + 0.08 * Math.cos(t * 0.6));
-            const by = H * (0.25 + 0.08 * Math.sin(t * 0.8));
-            const gb = ctx.createRadialGradient(bx, by, 0, bx, by, W * 0.45);
-            gb.addColorStop(0,   'rgba(140,30,255,0.14)');
-            gb.addColorStop(1,   'rgba(0,0,0,0)');
-            ctx.fillStyle = gb; ctx.fillRect(0, 0, W, H);
-            // Halo rouge en bas-droite
-            const cx2 = W * (0.8 + 0.06 * Math.sin(t * 0.4));
-            const cy2 = H * (0.75 + 0.06 * Math.cos(t * 0.9));
-            const gc = ctx.createRadialGradient(cx2, cy2, 0, cx2, cy2, W * 0.35);
-            gc.addColorStop(0,   'rgba(220,20,60,0.10)');
-            gc.addColorStop(1,   'rgba(0,0,0,0)');
-            ctx.fillStyle = gc; ctx.fillRect(0, 0, W, H);
+            const t = time * 0.0007, glows = [ [0.22 + 0.09 * Math.sin(t * 0.6), 0.68 + 0.07 * Math.cos(t * 0.5), 'rgba(255,70,0,0.12)', W * 0.38], [0.74 + 0.07 * Math.cos(t * 0.7), 0.30 + 0.09 * Math.sin(t * 0.8), 'rgba(130,30,255,0.12)', W * 0.38], [0.50 + 0.12 * Math.sin(t * 0.4), 0.55 + 0.10 * Math.cos(t * 0.6), 'rgba(220,50,0,0.08)', W * 0.32] ];
+            glows.forEach(([nx, ny, color, r]) => { const g = ctx.createRadialGradient(nx * W, ny * H, 0, nx * W, ny * H, r); g.addColorStop(0, color); g.addColorStop(1, 'rgba(0,0,0,0)'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); });
         }
-        function render() {
-            time++;
-            easeMouse();
-            ctx.clearRect(0, 0, W, H);
-            // Fond sombre
-            ctx.fillStyle = '#07090e';
-            ctx.fillRect(0, 0, W, H);
-            // Halos ambiants couleurs (sous les courbes)
-            drawAmbientGlows();
-            // Halo souris
-            drawHotSpot();
-            // Courbes par couche avec globaAlpha dépendant de la couche
-            for (let l = 0; l < NUM_LAYERS; l++) {
-                ctx.save();
-                ctx.globalAlpha = 0.65 + (l / NUM_LAYERS) * 0.35;
-                for (const curve of layers[l]) drawCurve(curve, l);
-                ctx.restore();
-            }
-            // Halo souris au premier plan (renforce l'effet)
-            if (mouseX > -100) {
-                const gTop = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 70);
-                gTop.addColorStop(0, 'rgba(255,160,50,0.22)');
-                gTop.addColorStop(1, 'rgba(0,0,0,0)');
-                ctx.fillStyle = gTop;
-                ctx.fillRect(0, 0, W, H);
-            }
-            requestAnimationFrame(render);
+        function drawGrid() {
+            ctx.save(); ctx.strokeStyle = 'rgba(255,255,255,0.04)'; ctx.lineWidth = 0.5; const gs = 60;
+            for (let x = 0; x < W; x += gs) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+            for (let y = 0; y < H; y += gs) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+            ctx.restore();
         }
+        function render() { 
+            time++; 
+            mouseNX += (targetMouseNX - mouseNX) * 0.08;
+            mouseNY += (targetMouseNY - mouseNY) * 0.08;
+            mouseOp += (targetMouseOp - mouseOp) * 0.08;
+            
+            computeHeights(); ctx.clearRect(0, 0, W, H); drawTerrain(); drawGrid(); drawAmbientGlows(); drawContours(); drawMouseGlow(); requestAnimationFrame(render); 
+        }
+        
         const heroEl = document.getElementById('hero-section');
-        heroEl.addEventListener('mousemove', e => {
-            const r = heroEl.getBoundingClientRect();
-            targetMouseX = e.clientX - r.left;
-            targetMouseY = e.clientY - r.top;
-        });
-        heroEl.addEventListener('mouseleave', () => {
-            targetMouseX = -9999;
-            targetMouseY = -9999;
-        });
-        window.addEventListener('resize', resize);
-        resize();
-        render();
+        heroEl.addEventListener('mousemove', e => { const r = heroEl.getBoundingClientRect(); targetMouseNX = (e.clientX - r.left) / r.width; targetMouseNY = (e.clientY - r.top) / r.height; targetMouseOp = 1; });
+        heroEl.addEventListener('mouseleave', () => { targetMouseOp = 0; });
+        window.addEventListener('resize', resize); resize(); render();
     })();
+
+    /* =====================================================
+       ANIMATION HIRAGANA → LATIN (Cascade plus lente et douce)
+       ===================================================== */
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            const fis = document.querySelectorAll('.fi');
+            fis.forEach((el, i) => {
+                setTimeout(() => {
+                    el.classList.add('flip-out');
+                    setTimeout(() => {
+                        el.textContent = el.dataset.l;
+                        el.classList.remove('flip-out'); el.classList.add('flip-in');
+                        setTimeout(() => el.classList.remove('flip-in'), 500);
+                    }, 350);
+                }, i * 150); 
+            });
+        }, 600);
+    });
+
+    /* =====================================================
+       ANIMATION DE SURVOL SUR LES LETTRES (Japonais Dynamique)
+       ===================================================== */
+    document.querySelectorAll('.hero h1 .letter').forEach(letter => {
+        const fi = letter.querySelector('.fi');
+        if(!fi) return;
+        letter.addEventListener('mouseenter', () => {
+            if (fi.classList.contains('is-animating') || fi.textContent === fi.dataset.j) return;
+            fi.classList.add('is-animating');
+            fi.classList.add('flip-out');
+            setTimeout(() => {
+                fi.textContent = fi.dataset.j; 
+                fi.classList.remove('flip-out');
+                fi.classList.add('flip-in');
+                setTimeout(() => {
+                    fi.classList.remove('flip-in');
+                    setTimeout(() => {
+                        fi.classList.add('flip-out');
+                        setTimeout(() => {
+                            fi.textContent = fi.dataset.l; 
+                            fi.classList.remove('flip-out');
+                            fi.classList.add('flip-in');
+                            setTimeout(() => {
+                                fi.classList.remove('flip-in');
+                                fi.classList.remove('is-animating');
+                            }, 500);
+                        }, 350);
+                    }, 800); 
+                }, 500);
+            }, 350);
+        });
+    });
+
     /* =====================================================
        MOTEUR PHYSIQUE DU "+"
        ===================================================== */
-    const dotPlus      = document.querySelector('.dot-plus');
+    const dotPlus = document.querySelector('.dot-plus');
     const marqueeBanner = document.getElementById('marquee-banner');
-    let isDragging = false, hasDropped = false;
-    let startPosX, startPosY, currentX = 0, currentY = 0;
-    let velocityY = 0, velocityX = 0;
+    let isDragging = false, hasDropped = false, startPosX, startPosY, currentX = 0, currentY = 0, velocityX = 0, velocityY = 0;
     const gravity = 0.8, bounceFactor = -0.5, friction = 0.95;
     let lastMouseX, lastMouseY, animFrameId;
+
     if (dotPlus && marqueeBanner) {
-        setTimeout(() => {
-            if (!isDragging && currentY === 0 && !hasDropped) { hasDropped = true; physicsLoop(); }
-        }, 1000);
-        dotPlus.addEventListener('mousedown',  startDrag);
-        dotPlus.addEventListener('touchstart', startDrag, { passive: false });
+        setTimeout(() => { if (!isDragging && currentY === 0 && !hasDropped) { hasDropped = true; physicsLoop(); } }, 1000);
+        dotPlus.addEventListener('mousedown', startDrag); dotPlus.addEventListener('touchstart', startDrag, { passive: false });
+        
         function startDrag(e) {
-            e.preventDefault();
-            isDragging = true; hasDropped = true;
-            cancelAnimationFrame(animFrameId);
-            const cx = e.clientX || e.touches[0].clientX;
-            const cy = e.clientY || e.touches[0].clientY;
-            startPosX = cx - currentX; startPosY = cy - currentY;
-            lastMouseX = cx; lastMouseY = cy;
-            document.addEventListener('mousemove', drag);
-            document.addEventListener('touchmove', drag, { passive: false });
-            document.addEventListener('mouseup', endDrag);
-            document.addEventListener('touchend', endDrag);
+            e.preventDefault(); isDragging = true; hasDropped = true; cancelAnimationFrame(animFrameId);
+            const cx = e.clientX || e.touches[0].clientX, cy = e.clientY || e.touches[0].clientY;
+            startPosX = cx - currentX; startPosY = cy - currentY; lastMouseX = cx; lastMouseY = cy;
+            document.addEventListener('mousemove', drag); document.addEventListener('touchmove', drag, { passive: false });
+            document.addEventListener('mouseup', endDrag); document.addEventListener('touchend', endDrag);
         }
         function drag(e) {
-            if (!isDragging) return;
-            e.preventDefault();
-            const cx = e.clientX || e.touches[0].clientX;
-            const cy = e.clientY || e.touches[0].clientY;
-            velocityX = cx - lastMouseX; velocityY = cy - lastMouseY;
-            lastMouseX = cx; lastMouseY = cy;
+            if (!isDragging) return; e.preventDefault();
+            const cx = e.clientX || e.touches[0].clientX, cy = e.clientY || e.touches[0].clientY;
+            velocityX = cx - lastMouseX; velocityY = cy - lastMouseY; lastMouseX = cx; lastMouseY = cy;
             currentX = cx - startPosX; currentY = cy - startPosY;
-            dotPlus.style.transform = `translate(calc(-50% + ${currentX}px), ${currentY}px) rotate(${velocityX*2}deg)`;
+            dotPlus.style.transform = `translate(calc(-50% + ${currentX}px), ${currentY}px) rotate(${velocityX * 2}deg)`;
         }
         function endDrag() {
-            isDragging = false;
-            document.removeEventListener('mousemove', drag);
-            document.removeEventListener('touchmove', drag);
-            document.removeEventListener('mouseup', endDrag);
-            document.removeEventListener('touchend', endDrag);
-            physicsLoop();
+            isDragging = false; document.removeEventListener('mousemove', drag); document.removeEventListener('touchmove', drag);
+            document.removeEventListener('mouseup', endDrag); document.removeEventListener('touchend', endDrag); physicsLoop();
         }
         function physicsLoop() {
             if (isDragging) return;
-            velocityY += gravity; currentX += velocityX; currentY += velocityY;
-            velocityX *= friction;
-            let rect  = dotPlus.getBoundingClientRect();
-            const mRect = marqueeBanner.getBoundingClientRect();
-            if (rect.bottom >= mRect.top && velocityY > 0) {
-                currentY -= rect.bottom - mRect.top;
-                velocityY *= bounceFactor; velocityX *= 0.8;
-                if (Math.abs(velocityY) < 1.5) {
-                    velocityY = 0;
-                    rect = dotPlus.getBoundingClientRect();
-                    currentY -= rect.bottom - mRect.top;
-                }
+            velocityY += gravity; currentX += velocityX; currentY += velocityY; velocityX *= friction;
+            let rect = dotPlus.getBoundingClientRect(), mr = marqueeBanner.getBoundingClientRect();
+            if (rect.bottom >= mr.top && velocityY > 0) {
+                currentY -= rect.bottom - mr.top; velocityY *= bounceFactor; velocityX *= 0.8;
+                if (Math.abs(velocityY) < 1.5) { velocityY = 0; rect = dotPlus.getBoundingClientRect(); currentY -= rect.bottom - mr.top; }
             }
             const gx = rect.left + rect.width / 2;
-            if (gx > window.innerWidth + 30) currentX -= window.innerWidth + 60;
-            else if (gx < -30) currentX += window.innerWidth + 60;
-            let rot = Math.max(-90, Math.min(90, velocityX * 2));
-            if (velocityY === 0 && Math.abs(velocityX) < 0.5) rot = 0;
+            if (gx > window.innerWidth + 30) currentX -= window.innerWidth + 60; else if (gx < -30) currentX += window.innerWidth + 60;
+            let rot = Math.max(-90, Math.min(90, velocityX * 2)); if (velocityY === 0 && Math.abs(velocityX) < 0.5) rot = 0;
             dotPlus.style.transform = `translate(calc(-50% + ${currentX}px), ${currentY}px) rotate(${rot}deg)`;
             if (Math.abs(velocityY) > 0 || Math.abs(velocityX) > 0.5) animFrameId = requestAnimationFrame(physicsLoop);
         }
     }
+
     /* =====================================================
-       LETTRES HERO — répulsion magnétique
+       EFFETS SOURIS (Aimants & Grille Globale Fluide)
        ===================================================== */
-    const letters  = document.querySelectorAll('.hero h1 .letter');
-    const heroEl2  = document.getElementById('hero-section');
-    heroEl2.addEventListener('mousemove', e => {
-        letters.forEach(l => {
-            const r  = l.getBoundingClientRect();
-            const lx = r.left + r.width  / 2;
-            const ly = r.top  + r.height / 2;
-            const dx = e.clientX - lx, dy = e.clientY - ly;
-            const d  = Math.sqrt(dx*dx + dy*dy);
-            if (d < 180) {
-                const f = (1 - d / 180) * 22;
-                l.style.transform = `translate(${(dx/d)*f*-0.6}px, ${(dy/d)*f*-0.6}px)`;
-            } else { l.style.transform = ''; }
-        });
-    });
-    heroEl2.addEventListener('mouseleave', () => letters.forEach(l => l.style.transform = ''));
-    /* =====================================================
-       FADE-IN SECTIONS
-       ===================================================== */
-    document.querySelectorAll('.fade-in-section').forEach(s => {
-        new IntersectionObserver(entries => {
-            entries.forEach(e => { if (e.isIntersecting) { s.classList.add('is-visible'); } });
-        }, { threshold: 0.1 }).observe(s);
-    });
-    document.getElementById('btn-back-top').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-    /* =====================================================
-       MOTEUR SCROLL 3D — LENTILLE CONCAVE
-       Les cartes PROCHES du centre sont au premier plan (scale max)
-       Les cartes LOIN s'inclinent ET reculent (translateZ négatif)
-       ===================================================== */
-    const clipBox         = document.getElementById('clip-box');
-    const hScrollCont     = document.getElementById('h-scroll-container');
-    const hScrollBg       = document.getElementById('h-scroll-bg');
-    const hScrollFg       = document.getElementById('h-scroll-fg');
-    const gateText        = document.getElementById('gate-text');
-    const topoBgEl        = document.getElementById('topo-bg');
-    const hBtnAll         = document.getElementById('h-btn-all');
-    const scrollSeq       = document.getElementById('scroll-sequence');
-    const hCards          = document.querySelectorAll('.h-card');
-    if (scrollSeq && clipBox) {
-        function lerp(a, b, t)  { return a + (b - a) * t; }
-        function clamp(v, a, b) { return Math.min(b, Math.max(a, v)); }
-        function easeInOut(t)   { return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2; }
-        let lerpClipTop   = 25, lerpClipSide = 25;
-        let lerpBgX = 0, lerpFgX = 0, lerpScrollX = 0;
-        let lerpGate = 1, lerpHScroll = 0, lerpBtn = 0, lerpTopo = 0;
-        function tick() {
-            const rect      = scrollSeq.getBoundingClientRect();
-            const seqTop    = rect.top + window.scrollY;
-            const seqH      = scrollSeq.offsetHeight;
-            const rawP      = (window.scrollY - seqTop) / (seqH - window.innerHeight);
-            const progress  = clamp(rawP, 0, 1);
-            // --- Phase 1 : ouverture portail 0→20% ---
-            const openP  = clamp(progress / 0.20, 0, 1);
-            const openE  = easeInOut(openP);
-            lerpClipTop  = lerp(lerpClipTop,  lerp(25, 0, openE), 0.08);
-            lerpClipSide = lerp(lerpClipSide, lerp(25, 0, openE), 0.08);
-            const radius = lerp(15, 0, openE);
-            clipBox.style.clipPath = `inset(${Math.max(0,lerpClipTop)}% ${Math.max(0,lerpClipSide)}% round ${radius}px)`;
-            // Gate text fade
-            const gateTarget = openP < 0.5 ? 1 : lerp(1, 0, (openP - 0.5) / 0.5);
-            lerpGate = lerp(lerpGate, gateTarget, 0.1);
-            gateText.style.opacity = lerpGate;
-            // Topo SVG dans clip-box
-            const topoTarget = openP > 0.3 ? lerp(0, 1, (openP - 0.3) / 0.7) : 0;
-            lerpTopo = lerp(lerpTopo, topoTarget, 0.06);
-            topoBgEl.style.opacity = lerpTopo;
-            // --- Phase 2 : scroll horizontal 20→90% ---
-            const scrollP = clamp((progress - 0.20) / 0.70, 0, 1);
-            // Apparition des cartes
-            const hScrollTarget = openP > 0.5 ? 1 : 0;
-            lerpHScroll = lerp(lerpHScroll, hScrollTarget, 0.1);
-            hScrollCont.style.opacity = lerpHScroll;
-            hScrollBg.style.opacity   = lerpHScroll;
-            hScrollFg.style.opacity   = lerpHScroll;
-            // Translation horizontale
-            const totalW     = hScrollCont.scrollWidth - window.innerWidth;
-            const targetX    = -scrollP * totalW;
-            lerpScrollX      = lerp(lerpScrollX, targetX, 0.07);
-            hScrollCont.style.transform = `translateX(${lerpScrollX}px)`;
-            // Parallaxe textes
-            lerpBgX = lerp(lerpBgX, lerpScrollX * 0.3, 0.07);
-            lerpFgX = lerp(lerpFgX, lerpScrollX * 0.6, 0.07);
-            hScrollBg.style.transform = `translate(calc(-50% + ${lerpBgX}px), -50%)`;
-            hScrollFg.style.transform = `translate(calc(-50% + ${lerpFgX}px), -50%)`;
-            // --- EFFET LENTILLE CONCAVE ---
-            // La carte AU CENTRE a scale 1, Z = 0, rotY = 0
-            // Les cartes ÉLOIGNÉES ont scale réduit, Z négatif, rotY vers l'extérieur
-            // => Creusement vers l'intérieur = lentille concave
-            const cx = window.innerWidth / 2;
-            hCards.forEach(card => {
-                const cr     = card.getBoundingClientRect();
-                const cardCX = cr.left + cr.width / 2;
-                const dist   = cardCX - cx;
-                const maxD   = window.innerWidth * 0.75;
-                const norm   = clamp(dist / maxD, -1, 1);
-                // Rotation : s'incline vers l'extérieur (concave)
-                const rotY   = norm * 22;
-                // Scale : diminue en s'éloignant
-                const scale  = 1 - Math.abs(norm) * 0.14;
-                // Z négatif = recule → concavité
-                const transZ = -Math.abs(norm) * 100;
-                // Opacité
-                const alpha  = 1 - Math.abs(norm) * 0.45;
-                card.style.transform = `perspective(1400px) rotateY(${rotY}deg) scale(${scale}) translateZ(${transZ}px)`;
-                card.style.opacity   = alpha;
+    const textLetters = document.querySelectorAll('.hero h1 .letter');
+    const heroEl2 = document.getElementById('hero-section');
+    const globalGridHover = document.getElementById('global-grid-hover');
+    
+    let gridMouseX = -100, gridMouseY = -100;
+    let targetGridMouseX = -100, targetGridMouseY = -100;
+
+    document.addEventListener('mousemove', e => {
+        if(heroEl2.matches(':hover')){
+            globalGridHover.style.setProperty('--grid-overlay-op', '1');
+            targetGridMouseX = e.pageX;
+            targetGridMouseY = e.pageY;
+            
+            textLetters.forEach(l => {
+                const r = l.getBoundingClientRect(), lx = r.left + r.width / 2, ly = r.top + r.height / 2;
+                const dx = e.clientX - lx, dy = e.clientY - ly, d = Math.sqrt(dx * dx + dy * dy);
+                if (d < 180) { const f = (1 - d / 180) * 22; l.style.transform = `translate(${(dx / d) * f * -0.6}px, ${(dy / d) * f * -0.6}px)`; } 
+                else { l.style.transform = ''; }
             });
-            // Bouton "Voir tous" : visible dès que le portail est ouvert à 60%
-            const btnTarget = openP > 0.6 ? 1 : lerp(0, 1, (openP - 0.6) / 0.4);
-            lerpBtn = lerp(lerpBtn, clamp(btnTarget, 0, 1), 0.08);
-            hBtnAll.style.opacity = lerpBtn;
-            requestAnimationFrame(tick);
+        } else {
+            globalGridHover.style.setProperty('--grid-overlay-op', '0');
         }
-        requestAnimationFrame(tick);
-        // Souris sur topo-bg interne
-        document.addEventListener('mousemove', e => {
-            if (topoBgEl && parseFloat(topoBgEl.style.opacity) > 0) {
-                const x = (e.clientX / window.innerWidth  - 0.5) * 40;
-                const y = (e.clientY / window.innerHeight - 0.5) * 40;
-                topoBgEl.style.setProperty('--mouse-x-topo', `${x}px`);
-                topoBgEl.style.setProperty('--mouse-y-topo', `${y}px`);
-            }
-        });
+    });
+    heroEl2.addEventListener('mouseleave', () => textLetters.forEach(l => l.style.transform = ''));
+
+    function updateGridHover() {
+        gridMouseX += (targetGridMouseX - gridMouseX) * 0.15;
+        gridMouseY += (targetGridMouseY - gridMouseY) * 0.15;
+        globalGridHover.style.setProperty('--mouse-x', `${gridMouseX}px`);
+        globalGridHover.style.setProperty('--mouse-y', `${gridMouseY}px`);
+        requestAnimationFrame(updateGridHover);
     }
+    updateGridHover();
+
     /* =====================================================
-       TRANSITIONS DE PAGE
+       SCROLL HINT
        ===================================================== */
-    document.querySelectorAll('a[href]').forEach(link => {
-        const href = link.getAttribute('href');
-        if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto') || link.target === '_blank') return;
-        link.addEventListener('click', e => {
-            const imgWrapper = link.querySelector('.h-card-img-wrapper');
-            if (!imgWrapper) return;
-            e.preventDefault();
-            const rect = imgWrapper.getBoundingClientRect();
-            let overlay = document.querySelector('.page-transition-overlay');
-            if (!overlay) { overlay = document.createElement('div'); overlay.className = 'page-transition-overlay'; document.body.appendChild(overlay); }
-            const clone = document.createElement('div');
-            clone.className = 'page-transition-clone';
-            clone.style.cssText = `left:${rect.left}px;top:${rect.top}px;width:${rect.width}px;height:${rect.height}px;`;
-            const img = imgWrapper.querySelector('img');
-            if (img) clone.style.backgroundImage = `url(${img.src})`;
-            document.body.appendChild(clone);
-            requestAnimationFrame(() => {
-                overlay.style.opacity = '1'; overlay.style.pointerEvents = 'all';
-                clone.style.transform = `translate(${-rect.left+(window.innerWidth-rect.width)/2}px,${-rect.top+(window.innerHeight-rect.height)/2}px) scale(${window.innerWidth/rect.width})`;
-                clone.style.opacity = '0';
+    const scrollHint = document.getElementById('scroll-hint');
+    window.addEventListener('scroll', () => {
+        if (scrollHint) scrollHint.style.opacity = Math.max(0, 1 - window.scrollY / 180);
+    }, { passive: true });
+
+    /* =====================================================
+       MOTEUR 3D CONCAVE PROJETS
+       ===================================================== */
+    const seq = document.getElementById('scroll-sequence');
+    const clipBox = document.getElementById('clip-box');
+    const gateText = document.getElementById('gate-text');
+    const crosshairs = document.querySelectorAll('.gate-crosshair');
+    const hContainer = document.getElementById('h-scroll-container');
+    const bgText = document.getElementById('h-scroll-bg');
+    const fgText = document.getElementById('h-scroll-fg');
+    const btnAll = document.getElementById('h-btn-all');
+    const cards = document.querySelectorAll('.h-card');
+    const topoBgEl = document.getElementById('topo-bg');
+    let targetP = 0, currentP = 0, isInitialized = false, prevSY = window.scrollY;
+
+    function updateTargetP() {
+        if(!seq) return;
+        const rect = seq.getBoundingClientRect();
+        const scrollable = rect.height - window.innerHeight;
+        let pRaw = -rect.top / scrollable;
+        targetP = Math.max(0, Math.min(1, pRaw));
+        if(!isInitialized) { currentP = targetP; isInitialized = true; }
+    }
+    
+    window.addEventListener('scroll', updateTargetP); window.addEventListener('resize', updateTargetP); updateTargetP();
+
+    function renderAnimation() {
+        currentP += (targetP - currentP) * 0.07; 
+        let clipY = 25, clipX = 25, radius = 15, gateOp = 1, hTrans = 0, currentTopoOp = 0.8, contentOp = 0; 
+        const maxScroll = hContainer.scrollWidth - window.innerWidth; 
+
+        if (currentP < 0.15) {
+            let ease = (currentP / 0.15); clipY = 25 * (1 - ease); 
+            clipX = window.innerWidth > 768 ? 25 * (1 - ease) : 10 * (1 - ease);
+            radius = 15 * (1 - ease); gateOp = 1 - (ease * 1.5); currentTopoOp = 0.8 * (1 - ease); 
+            if (currentP > 0.01) contentOp = (currentP - 0.01) / 0.14; 
+        } else {
+            clipY = 0; clipX = 0; radius = 0; gateOp = 0; contentOp = 1; currentTopoOp = 0;
+            let scrollProgress = Math.min(1, (currentP - 0.15) / 0.85); hTrans = scrollProgress * maxScroll;
+        }
+
+        if (contentOp > 0) {
+            hContainer.style.visibility = 'visible'; hContainer.style.pointerEvents = 'auto';
+            if(btnAll) { btnAll.style.visibility = 'visible'; btnAll.style.pointerEvents = 'auto'; }
+        } else {
+            hContainer.style.visibility = 'hidden'; hContainer.style.pointerEvents = 'none';
+            if(btnAll) { btnAll.style.visibility = 'hidden'; btnAll.style.pointerEvents = 'none'; }
+        }
+
+        clipBox.style.clipPath = `inset(${clipY}% ${clipX}% round ${radius}px)`;
+        if(gateText) gateText.style.opacity = Math.max(0, gateOp);
+        if(topoBgEl) topoBgEl.style.opacity = Math.max(0, currentTopoOp);
+        crosshairs.forEach(c => c.style.opacity = Math.max(0, gateOp));
+        
+        hContainer.style.opacity = Math.max(0, contentOp);
+        if(bgText) bgText.style.opacity = Math.max(0, contentOp * 0.5); 
+        if(fgText) fgText.style.opacity = Math.max(0, contentOp);
+        
+        let btnOp = contentOp; if (currentP > 0.95) btnOp = 1 - ((currentP - 0.95) / 0.05);
+        if(btnAll) btnAll.style.opacity = Math.max(0, btnOp);
+        
+        hContainer.style.transform = `translateX(-${hTrans}px)`;
+        if(bgText) bgText.style.transform = `translate(-50%, -50%) translateX(${currentP * 20}vw)`;
+        if(fgText) fgText.style.transform = `translate(-50%, -50%) translateX(-${currentP * 40}vw)`;
+
+        if (contentOp > 0) {
+            const screenCenter = window.innerWidth / 2, isMobile = window.innerWidth <= 768;
+            const maxRotation = isMobile ? 35 : 45, depthCurve = isMobile ? 200 : 350, divider = isMobile ? window.innerWidth / 1.2 : window.innerWidth / 2;
+            cards.forEach((card) => {
+                const cardCenter = card.getBoundingClientRect().left + (card.getBoundingClientRect().width / 2);
+                let normalizedDist = Math.max(-1.5, Math.min(1.5, (cardCenter - screenCenter) / divider));
+                const easedDist = Math.pow(Math.abs(normalizedDist), 1.5); 
+                card.style.opacity = Math.max(0.3, 1 - (easedDist * 0.6)) * contentOp;
+                card.style.transform = `translateZ(${easedDist * depthCurve}px) rotateY(${-normalizedDist * maxRotation}deg) scale(${1 - (easedDist * 0.1)})`;
+                card.style.zIndex = Math.round(100 + (easedDist * depthCurve));
             });
-            setTimeout(() => { window.location.href = href; }, 700);
+        }
+        
+        const dSY = window.scrollY - prevSY; prevSY = window.scrollY;
+        if (currentTopoOp > 0 && topoBgEl) {
+            topoBgEl.style.setProperty('--mouse-x-topo', `${(window.innerWidth / 2 / window.innerWidth - 0.5) * 40}px`);
+            topoBgEl.style.setProperty('--mouse-y-topo', `${(window.innerHeight / 2 / window.innerHeight - 0.5) * 40 - dSY * 0.5}px`);
+        }
+        requestAnimationFrame(renderAnimation);
+    }
+    renderAnimation();
+
+    /* =====================================================
+       TRANSITIONS DOUCES & FADE-IN
+       ===================================================== */
+    const projectLinks = document.querySelectorAll('.h-card');
+    projectLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            const targetUrl = this.getAttribute('href');
+            if (!targetUrl || targetUrl === '#' || this.getAttribute('target') === '_blank') return;
+            e.preventDefault(); 
+            const imgContainer = this.querySelector('.h-card-img-wrapper'), img = this.querySelector('img');
+            if (!imgContainer || !img) { window.location.href = targetUrl; return; }
+            
+            const rect = imgContainer.getBoundingClientRect(), overlay = document.createElement('div');
+            overlay.className = 'page-transition-overlay'; document.body.appendChild(overlay);
+            
+            const clone = document.createElement('div'); clone.className = 'page-transition-clone';
+            clone.style.top = rect.top + 'px'; clone.style.left = rect.left + 'px'; clone.style.width = rect.width + 'px'; clone.style.height = rect.height + 'px'; clone.style.backgroundImage = `url(${img.src})`;
+            document.body.appendChild(clone);
+            
+            requestAnimationFrame(() => { requestAnimationFrame(() => {
+                overlay.style.opacity = '1'; 
+                clone.style.transform = `translate(${(window.innerWidth / 2) - (rect.left + rect.width / 2)}px, ${(window.innerHeight / 2) - (rect.top + rect.height / 2)}px) scale(1.6)`;
+                clone.style.opacity = '0';
+            });});
+            setTimeout(() => { window.location.href = targetUrl; }, 600); 
         });
     });
+
+    window.addEventListener('pageshow', (event) => { if (event.persisted) document.querySelectorAll('.page-transition-overlay, .page-transition-clone').forEach(el => el.remove()); });
+    
+    document.addEventListener("DOMContentLoaded", function() {
+        const obs = new IntersectionObserver((entries, obs) => { entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); obs.unobserve(e.target); } }); }, { threshold: 0.15 });
+        document.querySelectorAll('.fade-in-section').forEach(s => obs.observe(s));
+    });
+    
+    document.getElementById('btn-back-top').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
     /* =====================================================
        TRADUCTIONS
        ===================================================== */
     const translations = {
-        fr: {
-            'nav-about':'À Propos','nav-projects':'Projets','nav-contact':'Contact',
-            'marquee-main':'SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • MACHINE LEARNING • SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • MACHINE LEARNING •',
-            'h-intro1':'01. Profil Hybride',
-            'p-intro':"Étudiant en Sciences des Données et Arts (Université PSL & Lycée Louis Le Grand), je combine la grande rigueur des mathématiques et de l'algorithmique avec une solide sensibilité aux humanités numériques et à l'analyse culturelle.",
-            'btn-about':'Découvrir mon parcours ->',
-            'h-intro2':'02. Outils & Démarche',
-            'tag-ml':'Machine Learning','tag-nlp':'NLP','tag-dataviz':'Data Visualization',
-            'tag-cult':'Analyse Culturelle','tag-stat':'Statistiques',
-            'btn-skills':"Voir les cas d'études ->",
-            'gate-title':'Mes Projets',
-            'bg-projects':'PROJETS PROJETS PROJETS PROJETS PROJETS PROJETS',
-            'proj-duree':'Prédiction de Durée','proj-couleur':'Colorimétrie du Cinéma',
-            'proj-anime':'Violence & Animation','proj-voyage':'Générations & Voyages',
-            'proj-ens':'Analyse Littéraire (ENS)','proj-lang':'Évolution Linguistique',
-            'proj-geo':'Régimes Politiques','proj-hunt':'Hunt-It : Chasse au Trésor',
-            'proj-fractal':'Le Paradoxe du Littoral','btn-all-tiny':'Voir tous les projets',
-            'h-contact':'Prêt à échanger ?',
-            'p-contact':"Toujours curieux de relever de nouveaux défis, je suis ouvert aux opportunités d'études en Master, ainsi qu'aux collaborations stimulantes avec des entreprises ou laboratoires de recherche.",
-            'btn-contact':'Me contacter ->','btn-back-top':'Remonter en haut',
-            'footer-text':'© 2026 Julien Arsena. Tout le contenu est mis à disposition pour consultation.',
+        fr: { 
+            "nav-home": "Accueil", "nav-projects": "Projets", "nav-about": "À Propos", "nav-contact": "Contact", 
+            "marquee-main": "SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • MACHINE LEARNING • SCIENCES DES DONNÉES & ARTS • HUMANITÉS NUMÉRIQUES • MACHINE LEARNING •",
+            "h-intro1": "Profil Hybride", "h-intro2": "Outils & Démarche", 
+            "p-intro1": "Étudiant en Sciences des Données, Arts et Culture (Université PSL & Lycée Louis-le-Grand), je combine la rigueur implacable des mathématiques et de l'algorithmique avec une sensibilité prononcée pour les humanités numériques et l'analyse culturelle.",
+            "p-intro2": "J'aborde cette interdisciplinarité non pas comme un simple croisement de matières, mais comme une clé essentielle pour observer, analyser et donner du sens aux grandes dynamiques de notre monde. En faisant dialoguer l'objectivité froide des données avec la subtilité et la profondeur des sciences humaines, je cherche à révéler les structures invisibles qui façonnent nos sociétés contemporaines.",
+            "tag-ml": "Machine Learning", "tag-nlp": "NLP", "tag-dataviz": "Data Visualization", "tag-cult": "Analyse Culturelle", "tag-stat": "Statistiques",
+            "btn-about": "Découvrir mon parcours ↗",
+            "gate-title": "Mes Projets", "bg-projects": "PROJETS PROJETS PROJETS PROJETS PROJETS PROJETS",
+            "proj-duree": "Prédiction de Durée", "proj-couleur": "Colorimétrie du Cinéma", "proj-anime": "Violence & Animation",
+            "proj-voyage": "Générations & Voyages", "proj-ens": "Analyse Littéraire (ENS)", "proj-lang": "Évolution Linguistique",
+            "proj-geo": "Régimes Politiques", "proj-hunt": "Hunt-It : Chasse au Trésor", "proj-fractal": "Le Paradoxe du Littoral",
+            "btn-all-tiny": "Voir tous les projets", "h-contact": "Prêt à échanger ?", 
+            "p-contact": "Toujours curieux de relever de nouveaux défis, je suis ouvert aux opportunités d'études en Master, ainsi qu'aux collaborations stimulantes avec des entreprises ou laboratoires de recherche.",
+            "btn-contact": "Me contacter ↗", "btn-back-top": "Remonter en haut",
+            "footer-text": "© 2026 Julien Arsena. Tout le contenu est mis à disposition pour consultation." 
         },
-        en: {
-            'nav-about':'About','nav-projects':'Projects','nav-contact':'Contact',
-            'marquee-main':'DATA SCIENCE & ARTS • DIGITAL HUMANITIES • MACHINE LEARNING • DATA SCIENCE & ARTS • DIGITAL HUMANITIES • MACHINE LEARNING •',
-            'h-intro1':'01. Hybrid Profile',
-            'p-intro':'Student in Data Science and Arts (PSL University & Lycée Louis Le Grand), I combine mathematical rigour with a strong sensitivity to digital humanities and cultural analysis.',
-            'btn-about':'Discover my background ->',
-            'h-intro2':'02. Tools & Approach',
-            'tag-ml':'Machine Learning','tag-nlp':'NLP','tag-dataviz':'Data Visualization',
-            'tag-cult':'Cultural Analysis','tag-stat':'Statistics',
-            'btn-skills':'See case studies ->',
-            'gate-title':'My Projects',
-            'bg-projects':'PROJECTS PROJECTS PROJECTS PROJECTS PROJECTS PROJECTS',
-            'proj-duree':'Duration Prediction','proj-couleur':'Cinema Colorimetry',
-            'proj-anime':'Violence & Animation','proj-voyage':'Generations & Travel',
-            'proj-ens':'Literary Analysis (ENS)','proj-lang':'Linguistic Evolution',
-            'proj-geo':'Political Regimes','proj-hunt':'Hunt-It: Treasure Hunt',
-            'proj-fractal':'The Coastline Paradox','btn-all-tiny':'See all projects',
-            'h-contact':'Ready to connect?',
-            'p-contact':"Always eager for new challenges, I am open to Master's degree opportunities and stimulating collaborations with companies or research labs.",
-            'btn-contact':'Contact me ->','btn-back-top':'Back to top',
-            'footer-text':'© 2026 Julien Arsena. All content is made available for consultation.',
+        en: { 
+            "nav-home": "Home", "nav-projects": "Projects", "nav-about": "About", "nav-contact": "Contact", 
+            "marquee-main": "DATA SCIENCE & ARTS • DIGITAL HUMANITIES • MACHINE LEARNING • DATA SCIENCE & ARTS • DIGITAL HUMANITIES • MACHINE LEARNING •",
+            "h-intro1": "Hybrid Profile", "h-intro2": "Tools & Approach", 
+            "p-intro1": "As a student in Data Science, Arts, and Culture (PSL University & Lycée Louis-le-Grand), I combine the rigorous precision of mathematics and algorithms with a strong sensitivity for digital humanities and cultural analysis.",
+            "p-intro2": "I approach this interdisciplinarity not merely as a mix of subjects, but as an essential key to observing, analyzing, and making sense of the major dynamics of our world. By bringing the cold objectivity of data into dialogue with the subtlety and depth of the humanities, I seek to reveal the invisible structures that shape our contemporary societies.",
+            "tag-ml": "Machine Learning", "tag-nlp": "NLP", "tag-dataviz": "Dataviz", "tag-cult": "Cultural Analysis", "tag-stat": "Statistics",
+            "btn-about": "Discover my background ↗", 
+            "gate-title": "My Projects", "bg-projects": "PROJECTS PROJECTS PROJECTS PROJECTS PROJECTS",
+            "proj-duree": "Runtime Prediction", "proj-couleur": "Cinema Colorimetry", "proj-anime": "Violence & Animation",
+            "proj-voyage": "Generations & Travel", "proj-ens": "Literary Analysis (ENS)", "proj-lang": "Linguistic Evolution",
+            "proj-geo": "Political Regimes", "proj-hunt": "Hunt-It: Treasure Hunt", "proj-fractal": "The Coastline Paradox",
+            "btn-all-tiny": "View all projects", "h-contact": "Let's connect", 
+            "p-contact": "Always eager to take on new challenges, I am open to Master's degree opportunities and stimulating collaborations with companies or research labs.",
+            "btn-contact": "Get in touch ↗", "btn-back-top": "Back to top", 
+            "footer-text": "© 2026 Julien Arsena. All content is provided for review purposes." 
         }
     };
     let currentLang = localStorage.getItem('lang') || 'fr';
     function setLanguage(lang) {
-        currentLang = lang;
-        localStorage.setItem('lang', lang);
-        document.querySelectorAll('[data-i18n]').forEach(el => {
-            const k = el.getAttribute('data-i18n');
-            if (translations[lang] && translations[lang][k]) el.innerHTML = translations[lang][k];
-        });
+        currentLang = lang; localStorage.setItem('lang', lang); 
+        document.querySelectorAll('[data-i18n]').forEach(el => { const k = el.getAttribute('data-i18n'); if (translations[lang] && translations[lang][k]) { el.innerHTML = translations[lang][k]; } });
         document.getElementById('btn-fr').classList.toggle('active', lang === 'fr');
         document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-        const eL = document.getElementById('letter-e');
-        if (eL) eL.style.display = lang === 'en' ? 'none' : 'inline-block';
+        const eLetter = document.getElementById('letter-e'); if (eLetter) eLetter.style.display = lang === 'en' ? 'none' : 'inline-block';
     }
     setLanguage(currentLang);
     </script>
